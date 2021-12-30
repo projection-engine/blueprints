@@ -1,9 +1,9 @@
 .wrapper {
     border-radius: 5px;
-    background-color: var(--fabric-background-secondary);
+    background-color: var(--fabric-background-primary);
 
     border: var(--fabric-border-primary) 1px solid;
-    box-shadow: var(--fabric-box-shadow-primary) 2px 2px 4px 2px;
+    box-shadow: rgba(0,0,0,.3) 2px 2px 4px 2px;
     transition: outline 150ms linear;
     outline: transparent 2px solid;
 }
@@ -26,14 +26,18 @@
     height: 15px;
     background-color: var(--fabric-background-primary);
     border-radius: 50%;
+    cursor: grab;
+    border: var(--fabric-border-secondary) 1px solid;
 }
-
+.connection:hover{
+    border-color: #0095FF;
+}
 .label {
     cursor: grab;
     height: 30px;
     display: flex;
     align-items: center;
-    background-color: var(--fabric-background-tertiary);
+    background-color: var(--fabric-background-secondary);
     padding: 0 22px;
     font-weight: 600;
     color: var(--fabric-color-secondary);

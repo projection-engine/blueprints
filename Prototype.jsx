@@ -4,7 +4,9 @@ import useBoard from "./hooks/useBoard";
 import AlgebraOperation from "./templates/operations/AlgebraOperation";
 import {useLayoutEffect} from "react";
 import Material from "./templates/Material";
-
+import Controller from "./components/Controller";
+import Available from "./components/Available";
+import styles from './styles/Board.module.css'
 
 export default function Prototype() {
     const n = [
@@ -18,6 +20,10 @@ export default function Prototype() {
         hook.setNodes(n)
     }, [])
     return (
-        <Board hook={hook}/>
+        <div className={styles.prototypeWrapper}>
+            <Controller/>
+            <Board hook={hook}/>
+            <Available/>
+        </div>
     )
 }

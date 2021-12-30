@@ -11,7 +11,8 @@ export default function Board(props) {
     let resizeObs
 
     const callback = () => {
-        setWidth(ref.current?.parentNode.offsetWidth)
+        const p = ref.current?.parentNode
+        setWidth(p.offsetWidth - p.firstChild.offsetWidth - p.lastChild.offsetWidth)
         setHeight(ref.current?.parentNode.offsetHeight)
     }
     useEffect(() => {
@@ -20,6 +21,8 @@ export default function Board(props) {
         resizeObs.observe(ref.current?.parentNode)
         callback()
     }, [])
+
+
     const [scale, setScale] = useState(1)
     const handleLink = (src, target) => {
         props.hook.setLinks(prev => {
@@ -51,12 +54,12 @@ export default function Board(props) {
             if (target && source && linkPath)
                 linkPath.setAttribute('d', getBezierCurve(
                     {
-                        x: source.x - bounding.x+ 7.5,
-                        y: source.y - bounding.y+ 7.5
+                        x: source.x + bounding.x+ 7.5,
+                        y: source.y + bounding.y+ 7.5
                     },
                     {
-                        x1: target.x - bounding.x+ 7.5,
-                        y1: target.y - bounding.y+ 7.5
+                        x1: target.x + bounding.x+ 7.5,
+                        y1: target.y + bounding.y+ 7.5
                     },))
         })
         currentFrame = requestAnimationFrame(updateLinks)

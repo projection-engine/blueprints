@@ -27,17 +27,17 @@ export default function Node(props) {
 
         const curve = getBezierCurve(
             {
-                x: bBox.x - bounding.x + 7.5,
-                y: bBox.y - bounding.y + 7.5
+                x: bBox.x + bounding.x + 7.5,
+                y: bBox.y + bounding.y + 7.5
             },
-            {x1: event.clientX + 7.5, y1: event.clientY + 7.5})
+            {x1: event.clientX + bounding.x + 7.5, y1: event.clientY + bounding.y + 7.5})
 
         pathRef.current?.setAttribute('d', curve)
     }
     const handleDragStart = (event) => {
         const t = event.currentTarget
-        t.style.cursor ='grabbing'
-        ref.current.firstChild.style.outline =  '#0095ff 2px solid'
+        t.style.cursor = 'grabbing'
+        ref.current.firstChild.style.outline = '#0095ff 2px solid'
         const parent = ref.current?.parentNode.parentNode
         let parentBBox = parent.getBoundingClientRect()
         let bounding = {
@@ -74,8 +74,8 @@ export default function Node(props) {
             ref.current?.setAttribute('transform', `translate(${current.x} ${current.y})`)
         }
         const handleMouseUp = () => {
-            ref.current.firstChild.style.outline =  'transparent 2px solid'
-            t.style.cursor ='grab'
+            ref.current.firstChild.style.outline = 'transparent 2px solid'
+            t.style.cursor = 'grab'
 
             document.body.removeEventListener('mousemove', handleMouseMove)
         }
