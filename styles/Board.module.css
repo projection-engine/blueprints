@@ -8,11 +8,19 @@
 
 }
 
-.prototypeWrapper {
+.prototypeWrapperBoard {
     height: 100%;
     width: 100%;
     overflow: hidden;
-    display: flex;
-    align-items: flex-start;
+    display: grid;
+    align-content: flex-start;
     /*background-color: red;*/
+}
+
+.prototypeWrapper{
+    display: flex;
+
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
 }

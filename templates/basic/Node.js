@@ -1,4 +1,4 @@
-import randomID from "../utils/randomID";
+import randomID from "../../utils/randomID";
 
 export default class Node{
     constructor(inputs, outputs) {

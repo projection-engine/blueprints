@@ -1,0 +1,20 @@
+.wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background-color: var(--fabric-background-primary);
+    border: var(--fabric-border-primary) 1px solid;
+    height: 35px;
+    width: 100%;
+}
+.content{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.button{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}

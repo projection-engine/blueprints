@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import styles from '../styles/Node.module.css'
-import {useEffect, useMemo, useRef} from "react";
+import {useMemo, useRef} from "react";
 import getBezierCurve from "../utils/bezierCurve";
 import {ToolTip} from "@f-ui/core";
+import checkType from "../utils/checkType";
 
 export default function Node(props) {
     const ref = useRef()
@@ -11,10 +12,6 @@ export default function Node(props) {
     const height = useMemo(() => {
         return (props.node.inputs.length > props.node.outputs.length ? props.node.inputs.length + 1 : props.node.outputs.length + 1) * 25 + 35
     }, [])
-    let lastPlacement = {
-        x: 0,
-        y: 0
-    }
 
     const handleLinkDrag = (event) => {
         const parent = ref.current?.parentNode.parentNode
@@ -33,6 +30,10 @@ export default function Node(props) {
             {x1: event.clientX + bounding.x + 7.5, y1: event.clientY + bounding.y + 7.5})
 
         pathRef.current?.setAttribute('d', curve)
+    }
+    let lastPlacement = {
+        x: 0,
+        y: 0
     }
     const handleDragStart = (event) => {
         const t = event.currentTarget
@@ -92,9 +93,19 @@ export default function Node(props) {
                 <foreignObject
                     id={props.node.id}
                     className={styles.wrapper}
-                    style={{width: '200px', height: height + 'px'}}>
+                    onDoubleClick={() => {
+                        props.setSelected(props.node.id)
+                    }}
+                    style={{
+                        width: '250px',
+                        height: height + 'px',
+                        outlineColor: props.selected === props.node.id ? '#0095ff' : undefined
+                    }}>
                     <div className={styles.label}
                          onMouseDown={ev => handleDragStart(ev, props.node, props.handleChange)}>
+                        <div className={'material-icons-round'}
+                             style={{fontSize: '1.2rem'}}>drag_indicator
+                        </div>
                         {props.node.name}
                     </div>
                     <div className={styles.content}>
@@ -112,11 +123,24 @@ export default function Node(props) {
                                         }}
                                         onDrop={e => {
                                             e.preventDefault()
+                                            const data = JSON.parse(e.dataTransfer.getData('text'))
                                             e.currentTarget.style.background = 'var(--fabric-background-primary)'
-                                            props.handleLink(JSON.parse(e.dataTransfer.getData('text')), {
-                                                attribute: a,
-                                                id: props.node.id
-                                            })
+                                            const isValidType = checkType(data.instanceOf, props.node.inputs)
+                                            if (data.type === 'output' && isValidType)
+                                                props.handleLink(data, {
+                                                    attribute: a,
+                                                    id: props.node.id
+                                                })
+                                            else if (data.type !== 'output')
+                                                props.setAlert({
+                                                    type: 'error',
+                                                    message: 'Can\'t link input with input.'
+                                                })
+                                            else
+                                                props.setAlert({
+                                                    type: 'error',
+                                                    message: 'Invalid type'
+                                                })
                                         }}
                                         onDragEnd={() => {
                                             pathRef.current.setAttribute('d', undefined)
@@ -131,8 +155,8 @@ export default function Node(props) {
                                             type: 'input',
                                             attribute: a
                                         }))}/>
-                                    <div className={styles.overflow}>
-                                        {a.label}
+                                    <div className={styles.overflow} style={{fontWeight: 'normal'}}>
+                                        {props.node[a.key] !== undefined ? props.node[a.key] : a.label}
                                     </div>
                                 </div>
                             ))}
@@ -140,14 +164,20 @@ export default function Node(props) {
                         <div className={styles.column} style={{justifyContent: 'flex-end'}}>
                             {props.node.outputs.map(a => (
                                 <div className={styles.attribute} key={a.key}>
-                                    <ToolTip content={'Output: ' + a.label} align={'middle'} justify={'start'}/>
+                                    <ToolTip content={JSON.stringify(props.node.constructor.name === 'Constant' ? props.node.value : props.node.response)} align={'middle'} justify={'start'}/>
                                     <div className={styles.overflow}>
-                                        {a.label}
+                                        {props.node.constructor.name === 'Constant' ? props.node.value : a.label}
                                     </div>
                                     <div
                                         id={props.node.id + a.key}
                                         className={styles.connection}
                                         draggable={true}
+                                        onDrop={() => {
+                                            props.setAlert({
+                                                type: 'error',
+                                                message: 'Can\'t link with output.'
+                                            })
+                                        }}
                                         onDragLeave={e => {
                                             e.preventDefault()
                                             e.currentTarget.style.background = 'var(--fabric-background-primary)'
@@ -159,7 +189,8 @@ export default function Node(props) {
                                         onDragStart={e => e.dataTransfer.setData('text', JSON.stringify({
                                             id: props.node.id,
                                             type: 'output',
-                                            attribute: a
+                                            attribute: a,
+                                            instanceOf: props.node.constructor.name
                                         }))}/>
                                 </div>
                             ))}
@@ -177,8 +208,10 @@ export default function Node(props) {
     )
 }
 Node.propTypes = {
+    setAlert: PropTypes.func,
     node: PropTypes.object.isRequired,
-    handleChange: PropTypes.func,
     scale: PropTypes.number,
-    handleLink: PropTypes.func
+    handleLink: PropTypes.func,
+    selected: PropTypes.string,
+    setSelected: PropTypes.func,
 }
