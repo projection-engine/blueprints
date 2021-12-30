@@ -13,6 +13,8 @@ export default class Operation extends Node {
         this.valueB = valueB
         this.response()
         this.type = type
+
+        this.name = 'Number  ' + type
     }
 
     get type() {

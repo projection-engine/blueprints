@@ -4,8 +4,8 @@ export default class Vector extends Node {
     length = 0
     normalized = []
 
-    constructor(values = []) {
-        super();
+    constructor(values = [], inputs, outputs) {
+        super(inputs, outputs);
         this.length = values
         this.values = values
         this.normalized = this.values

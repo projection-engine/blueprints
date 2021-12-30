@@ -1,6 +1,4 @@
 export default function getBezierCurve({x, y}, {x1, y1}) {
-    let pivots = {
-        x1:
-    }
-    return `M${x},${y} C${pivots.x1},${pivots.y1} ${pivots.x2},${pivots.y2} ${x1},${y1}`
+    let p = x < x1 ? x + (x1 - x)/2 :x1 + (x - x1)/2
+    return `M${x},${y} C${p},${y} ${p},${y1} ${x1},${y1}`
 }
