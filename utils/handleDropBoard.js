@@ -14,9 +14,10 @@ import Add from "../templates/basic/functions/basic/Add";
 import Multiply from "../templates/basic/functions/basic/Multiply";
 import Divide from "../templates/basic/functions/basic/Divide";
 import DotProduct from "../templates/basic/functions/algebra/DotProduct";
-import Rgba from "../templates/basic/objects/Rgba";
-import Rgb from "../templates/basic/objects/Rgb";
+import Rgba from "../templates/engine/Rgba";
+import Rgb from "../templates/engine/Rgb";
 import Power from "../templates/basic/functions/basic/Power";
+import BasicMaterial from "../templates/engine/BasicMaterial";
 
 export default function handleDropBoard(data){
     let newNode
@@ -74,6 +75,9 @@ export default function handleDropBoard(data){
             break
         case Types.POW:
             newNode = new Power()
+            break
+        case Types.BASIC_MAT:
+            newNode = new BasicMaterial()
             break
         default:
             break

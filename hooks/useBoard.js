@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import Function from '../templates/basic/functions/Function'
+
 export default function useBoard(initialNodes = [], initialLinks = []) {
     const [nodes, setNodes] = useState(initialNodes)
     const [links, setLinks] = useState(initialLinks)
@@ -38,21 +39,34 @@ export default function useBoard(initialNodes = [], initialLinks = []) {
         updateLinks()
     }, [links, selected])
     const compile = () => {
-        updateLinks()
-        setNodes(prev => {
-            let c = [...prev]
-            c = c.map(n => {
-                let allValid = checkFields(n)
-                if(n instanceof Function && allValid) {
-                    let targetClone = cloneObj(n)
-                    targetClone.execute()
-                    return targetClone
-                }
+        let changed
+        let copy = [...nodes]
+        do {
+            updateLinks()
+            changed = 0
 
-                return n
+            copy = copy.map(c => {
+                let allValid = checkFields(c)
+                const docNode = document.getElementById(c.id).parentNode
+                const transformation = docNode.getAttribute('transform').replace('translate(', '').replace(')', '').split(' ')
+                c.x = parseFloat(transformation[0])
+                c.y = parseFloat(transformation[1])
+
+                if (c instanceof Function && allValid) {
+                    let oldResponse = c.response
+                    c.execute()
+                    if (c.response !== oldResponse)
+                        changed += 1
+                    return c
+                }
+                return c
             })
-            return c
-        })
+
+            console.log(changed)
+        }
+        while (changed > 0 || changed === undefined)
+
+        setNodes(copy)
     }
     const [alert, setAlert] = useState({
         type: undefined,

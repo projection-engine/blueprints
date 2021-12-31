@@ -31,6 +31,13 @@ export default function Available() {
                                 Constant
                             </div>
                             <div className={styles.option} draggable={true}
+                                 onDragStart={e => e.dataTransfer.setData('text', Types.BASIC_MAT)}>
+                                <div className={'material-icons-round'}
+                                     style={{fontSize: '1.1rem'}}>drag_indicator
+                                </div>
+                                Basic Material
+                            </div>
+                            <div className={styles.option} draggable={true}
                                  onDragStart={e => e.dataTransfer.setData('text', Types.PBR)}>
                                 <div className={'material-icons-round'}
                                      style={{fontSize: '1.1rem'}}>drag_indicator

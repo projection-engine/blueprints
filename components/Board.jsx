@@ -4,16 +4,35 @@ import Node from "./Node";
 import styles from '../styles/Board.module.css'
 import getBezierCurve from "../utils/bezierCurve";
 import handleDropBoard from "../utils/handleDropBoard";
+import ContextMenu from "./ContextMenu";
+import handleBoardScroll from "../utils/handleBoardScroll";
+
 
 export default function Board(props) {
     const [width, setWidth] = useState(500)
     const [height, setHeight] = useState(500)
+    const [scale, setScale] = useState(1)
+
     const ref = useRef()
     let resizeObs
+    const handleWheel = (e) => {
+        e.preventDefault()
+        console.log()
+        if (e.wheelDelta < 0)
+            setScale(scale + scale * .1)
+        else
+            setScale(scale - scale * .1)
 
+        console.log(scale)
+    }
+    useEffect(() => {
+        ref.current.parentNode.addEventListener('wheel', handleWheel, {passive: false})
+        return () => {
+            ref.current.parentNode.removeEventListener('wheel', handleWheel, {passive: false})
+        }
+    }, [scale])
     const callback = () => {
         const p = props.parentRef.current
-
 
         setWidth(p.offsetWidth - p.lastChild.offsetWidth)
         setHeight(ref.current?.parentNode.offsetHeight - 35)
@@ -23,10 +42,11 @@ export default function Board(props) {
             resizeObs = new ResizeObserver(callback)
         resizeObs.observe(ref.current?.parentNode)
         callback()
+
+
     }, [])
 
 
-    const [scale, setScale] = useState(1)
     const handleLink = (src, target) => {
 
         props.hook.setLinks(prev => {
@@ -84,7 +104,7 @@ export default function Board(props) {
                     {
                         x1: target.x + bounding.x + 7.5,
                         y1: target.y + bounding.y + 7.5
-                    },))
+                    }))
         })
         currentFrame = requestAnimationFrame(updateLinks)
     }
@@ -98,14 +118,34 @@ export default function Board(props) {
 
 
     return (
-        <div style={{overflow: 'auto', width: '100%', height: '100%'}}>
+        <ContextMenu
+            handleChange={e => {
+                props.hook.setNodes(prev => {
+                    let n = [...prev]
+                    n.splice(n.findIndex(el => el.id === e.target), 1)
+                    return n
+                })
+                props.hook.setLinks(prev => {
+                    let n = [...prev]
+                    let found
+                    do {
+                        found = n.findIndex(el => el.target.id === e.target || el.source.id === e.target)
+                        if (found > -1)
+                            n.splice(found, 1)
+                    } while (found > -1 || found === undefined)
+                    return n
+                })
+            }}
+
+            styles={{overflow: 'auto', width: '100%', height: '100%'}}>
             <svg
                 onDragOver={e => e.preventDefault()}
+
+                onContextMenu={e => e.preventDefault()}
                 onDrop={e => {
                     e.preventDefault()
                     const n = handleDropBoard(e.dataTransfer.getData('text'))
                     if (n) {
-
                         const bounding = {
                             x: ref.current.scrollLeft - ref.current.getBoundingClientRect().left,
                             y: ref.current.scrollTop - ref.current.getBoundingClientRect().top
@@ -115,11 +155,11 @@ export default function Board(props) {
                             y: e.clientY + bounding.y
                         }
                         const current = {
-                            x: mousePlacement.x / scale,
-                            y: mousePlacement.y / scale
+                            x: mousePlacement.x,
+                            y: mousePlacement.y
                         }
-                        n.x = current.x
-                        n.y = current.y
+                        n.x = current.x - 100
+                        n.y = current.y - 25
                         props.hook.setNodes(prev => {
                             return [...prev, n]
                         })
@@ -130,12 +170,17 @@ export default function Board(props) {
                 ref={ref}
                 className={styles.wrapper}
                 onMouseDown={e => {
+                    if (e.button === 2)
+                        handleBoardScroll(ref.current.parentNode, e)
+
                     if (e.target === ref.current)
                         props.setSelected(undefined)
-                }}>
+                }}
+            >
                 {props.hook.nodes.map(node => (
                     <React.Fragment key={node.id}>
                         <Node
+
                             setAlert={props.hook.setAlert}
                             setSelected={props.setSelected} selected={props.selected} node={node} scale={scale}
                             handleLink={handleLink}/>
@@ -149,7 +194,7 @@ export default function Board(props) {
                         key={l.target + '-' + l.source} id={l.target + '-' + l.source}/>
                 ))}
             </svg>
-        </div>
+        </ContextMenu>
     )
 }
 Board.propTypes = {

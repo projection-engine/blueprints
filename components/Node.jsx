@@ -10,7 +10,7 @@ export default function Node(props) {
     const pathRef = useRef()
 
     const height = useMemo(() => {
-        return (props.node.inputs.length > props.node.outputs.length ? props.node.inputs.length + 1 : props.node.outputs.length + 1) * 25 + 35
+        return (props.node.inputs.length > props.node.outputs.length ? props.node.inputs.length + 1 : props.node.outputs.length + 1) * 25 + 30
     }, [])
 
     const handleLinkDrag = (event) => {
@@ -49,7 +49,11 @@ export default function Node(props) {
             x: event.clientX + bounding.x,
             y: event.clientY + bounding.y
         }
-
+        let nodeBbox = ref.current?.getBoundingClientRect()
+        let current = {
+            x: nodeBbox.left + bounding.x,
+            y: nodeBbox.top + bounding.y
+        }
         const handleMouseMove = (ev) => {
             parentBBox = parent.getBoundingClientRect()
             bounding = {
@@ -66,10 +70,10 @@ export default function Node(props) {
             }
 
             lastPlacement = mousePlacement
-            const nodeBbox = ref.current?.getBoundingClientRect()
-            const current = {
-                x: (nodeBbox.left + bounding.x) - toBeApplied.x / props.scale,
-                y: (nodeBbox.top + bounding.y) - toBeApplied.y / props.scale
+            nodeBbox = ref.current?.getBoundingClientRect()
+            current = {
+                x: (nodeBbox.left + bounding.x) - toBeApplied.x,
+                y: (nodeBbox.top + bounding.y) - toBeApplied.y
             }
 
             ref.current?.setAttribute('transform', `translate(${current.x} ${current.y})`)
@@ -77,11 +81,18 @@ export default function Node(props) {
         const handleMouseUp = () => {
             ref.current.firstChild.style.outline = 'transparent 2px solid'
             t.style.cursor = 'grab'
+            let fixedPlacement = current
+            if(ref.current.getBoundingClientRect().top - parentBBox.top < 0)
+                fixedPlacement.y = 0
+            if(ref.current.getBoundingClientRect().left - parentBBox.left < 0)
+                fixedPlacement.x = 0
 
-            document.body.removeEventListener('mousemove', handleMouseMove)
+            ref.current?.setAttribute('transform', `translate(${fixedPlacement.x} ${fixedPlacement.y})`)
+
+            document.removeEventListener('mousemove', handleMouseMove)
         }
-        document.body.addEventListener('mousemove', handleMouseMove)
-        document.body.addEventListener('mouseup', handleMouseUp, {once: true})
+        document.addEventListener('mousemove', handleMouseMove)
+        document.addEventListener('mouseup', handleMouseUp, {once: true})
     }
 
     return (
@@ -91,12 +102,16 @@ export default function Node(props) {
                 transform={`translate(${props.node.x} ${props.node.y})`}
             >
                 <foreignObject
+                    data-context={'available'}
+                    data-identification={props.node.id}
                     id={props.node.id}
+
                     className={styles.wrapper}
                     onDoubleClick={() => {
                         props.setSelected(props.node.id)
                     }}
                     style={{
+                        transform: `scale(${props.scale})`,
                         width: '250px',
                         height: height + 'px',
                         outlineColor: props.selected === props.node.id ? '#0095ff' : undefined
@@ -125,7 +140,7 @@ export default function Node(props) {
                                             e.preventDefault()
                                             const data = JSON.parse(e.dataTransfer.getData('text'))
                                             e.currentTarget.style.background = 'var(--fabric-background-primary)'
-                                            const isValidType = checkType(data.instanceOf, props.node.inputs)
+                                            const isValidType = checkType(data.instanceOf, a.accept)
                                             if (data.type === 'output' && isValidType)
                                                 props.handleLink(data, {
                                                     attribute: a,
@@ -156,10 +171,11 @@ export default function Node(props) {
                                             attribute: a
                                         }))}/>
                                     <div className={styles.overflow} style={{fontWeight: 'normal'}}>
-                                        {props.node[a.key] !== undefined ? props.node[a.key] : a.label}
+                                        {props.node[a.key] !== undefined && typeof  props.node[a.key] !== "object"? props.node[a.key] : a.label}
                                     </div>
                                 </div>
                             ))}
+                            {props.node.showcase !== undefined ? props.node.showcase : null}
                         </div>
                         <div className={styles.column} style={{justifyContent: 'flex-end'}}>
                             {props.node.outputs.map(a => (
@@ -191,7 +207,8 @@ export default function Node(props) {
                                             type: 'output',
                                             attribute: a,
                                             instanceOf: props.node.constructor.name
-                                        }))}/>
+                                        }))}
+                                    />
                                 </div>
                             ))}
                         </div>

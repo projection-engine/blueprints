@@ -16,5 +16,6 @@ export default {
     RGBA: 'rgba',
     VEC_2D:'vec-2d',
     VEC_3D: 'vec-3d',
-    VEC_4D: 'vec-4d'
+    VEC_4D: 'vec-4d',
+    BASIC_MAT: 'basic_mat'
 }
