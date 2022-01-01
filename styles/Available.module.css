@@ -1,7 +1,7 @@
 .wrapper {
     width: 20%;
     height: 100%;
-    background-color: var(--fabric-background-primary);
+    background-color: var(--background-1);
     border: var(--fabric-border-primary) 1px solid;
     transition: 150ms linear;
 }

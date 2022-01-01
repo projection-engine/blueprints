@@ -139,7 +139,7 @@ export default function Node(props) {
                                         onDrop={e => {
                                             e.preventDefault()
                                             const data = JSON.parse(e.dataTransfer.getData('text'))
-                                            e.currentTarget.style.background = 'var(--fabric-background-primary)'
+                                            e.currentTarget.style.background = 'var(--background-1)'
                                             const isValidType = checkType(data.instanceOf, a.accept)
                                             if (data.type === 'output' && isValidType)
                                                 props.handleLink(data, {
@@ -162,7 +162,7 @@ export default function Node(props) {
                                         }}
                                         onDragLeave={e => {
                                             e.preventDefault()
-                                            e.currentTarget.style.background = 'var(--fabric-background-primary)'
+                                            e.currentTarget.style.background = 'var(--background-1)'
                                         }}
                                         onDrag={handleLinkDrag}
                                         onDragStart={e => e.dataTransfer.setData('text', JSON.stringify({
@@ -196,7 +196,7 @@ export default function Node(props) {
                                         }}
                                         onDragLeave={e => {
                                             e.preventDefault()
-                                            e.currentTarget.style.background = 'var(--fabric-background-primary)'
+                                            e.currentTarget.style.background = 'var(--background-1)'
                                         }}
                                         onDragEnd={() => {
                                             pathRef.current.setAttribute('d', undefined)

@@ -137,7 +137,7 @@ export default function Board(props) {
                 })
             }}
 
-            styles={{overflow: 'auto', width: '100%', height: '100%'}}>
+            styles={{overflow: 'auto', width: '100%', height: '100%', borderRadius: '5px'}}>
             <svg
                 onDragOver={e => e.preventDefault()}
 

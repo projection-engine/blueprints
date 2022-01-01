@@ -1,5 +1,5 @@
 .wrapper {
-    background: var(--fabric-background-tertiary) radial-gradient(var(--fabric-background-primary) 1px, transparent 0);
+    background: var(--background-3) radial-gradient(var(--background-1) 1px, transparent 0);
     background-size: 20px 20px;
     /*position: absolute;*/
     left: 0;
@@ -12,15 +12,18 @@
     height: 100%;
     width: 100%;
     overflow: hidden;
-    display: grid;
-    align-content: flex-start;
-    /*background-color: red;*/
+    display: flex;
+    flex-flow: column;
+    gap: 4px;
+
 }
 
-.prototypeWrapper{
+.prototypeWrapper {
+    padding: 4px;
     display: flex;
-
+    gap: 4px;
     height: 100%;
     width: 100%;
     overflow: hidden;
+
 }

@@ -2,7 +2,7 @@
     width: 500px;
     height: fit-content;
 
-    background-color: var(--fabric-background-primary);
+    background-color: var(--background-1);
     border: var(--fabric-border-primary) 1px solid;
 
     display: grid;
@@ -28,7 +28,7 @@
 
 
 .header {
-    background-color: var(--fabric-background-secondary);
+    background-color: var(--background-2);
     color: var(--fabric-color-secondary);
     font-size: 1rem;
     border-bottom: var(--fabric-border-primary) 1px solid;
