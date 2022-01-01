@@ -26,20 +26,20 @@ export default class Rgba extends Node {
         )
 
     }
-
+    updateShowcase (r = this.r, g = this.g, b = this.b, a = this.a){
+        this.showcase = (
+            <div style={{
+                border: 'var(--fabric-border-primary) 2px solid',
+                backgroundColor: `rgba(${r},${g},${b},${a})`,
+                height: '47.5px',
+                width: '47.5px',
+                borderRadius: '5px'
+            }}/>
+        )
+    }
 
     form(handleChange) {
-        const updateShowcase = (r = this.r, g = this.g, b = this.b, a = this.a) => {
-            this.showcase = (
-                <div style={{
-                    border: 'var(--fabric-border-primary) 2px solid',
-                    backgroundColor: `rgba(${r},${g},${b},${a})`,
-                    height: '47.5px',
-                    width: '47.5px',
-                    borderRadius: '5px'
-                }}/>
-            )
-        }
+
         return (
             <div style={{display: 'flex', justifyContent: 'space-between', padding: '8px'}}>
                 <RgbaColorPicker
@@ -51,13 +51,13 @@ export default class Rgba extends Node {
                         handleChange({key: 'b', value: newColor.b})
                         handleChange({key: 'a', value: newColor.a})
                         handleChange({key: 'rgba', value: {r: newColor.r, g: newColor.g, b: newColor.b,a: newColor.a}})
-                        updateShowcase(newColor.r, newColor.g, newColor.b)
+                        this.updateShowcase(newColor.r, newColor.g, newColor.b, newColor.a)
                     }}/>
 
                 <div style={{width: '50%'}}>
                     <TextField
                         handleChange={e => {
-                            updateShowcase(parseInt(e.target.value))
+                            this.updateShowcase(parseInt(e.target.value))
                             handleChange({key: 'r', value: parseInt(e.target.value)})
                             handleChange({key: 'rgba', value: {r: parseInt(e.target.value), g: this.g, b: this.b, a: this.a}})
 
@@ -70,7 +70,7 @@ export default class Rgba extends Node {
 
                     <TextField
                         handleChange={e => {
-                            updateShowcase(undefined, parseInt(e.target.value))
+                            this.updateShowcase(undefined, parseInt(e.target.value))
                             handleChange({key: 'g', value: parseInt(e.target.value)})
                             handleChange({key: 'rgba', value: {r: this.r, g: parseInt(e.target.value), b: this.b, a: this.a}})
 
@@ -83,7 +83,7 @@ export default class Rgba extends Node {
 
                     <TextField
                         handleChange={e => {
-                            updateShowcase(undefined, undefined, parseInt(e.target.value))
+                            this.updateShowcase(undefined, undefined, parseInt(e.target.value))
                             handleChange({key: 'b', value: parseInt(e.target.value)})
                             handleChange({key: 'rgba', value: {r: this.r, g: this.g, b: parseInt(e.target.value), a: this.a}})
 
@@ -95,7 +95,7 @@ export default class Rgba extends Node {
                     />
                     <TextField
                         handleChange={e => {
-                            updateShowcase(undefined, undefined, undefined, parseFloat(e.target.value))
+                            this.updateShowcase(undefined, undefined, undefined, parseFloat(e.target.value))
                             handleChange({key: 'a', value: parseFloat(e.target.value)})
                             handleChange({
                                 key: 'rgba',

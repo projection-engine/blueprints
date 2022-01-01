@@ -15,7 +15,13 @@ export default function Actions(props) {
             <div className={styles.content}>
                 <Button
                     className={styles.button}
-                    onClick={() => props.submitPackage(makePackage(props.hook))}>
+                    onClick={() => props.submitPackage(makePackage(props.hook), true)}>
+                    <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>
+                    Save & close
+                </Button>
+                <Button
+                    className={styles.button}
+                    onClick={() => props.submitPackage(makePackage(props.hook), false)}>
                     <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>
                     Save
                 </Button>

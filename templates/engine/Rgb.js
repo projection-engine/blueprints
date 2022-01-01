@@ -23,19 +23,19 @@ export default class Rgb extends Node {
         )
 
     }
-
+    updateShowcase (r = this.r, g = this.g, b = this.b){
+        this.showcase = (
+            <div style={{
+                border: 'var(--fabric-border-primary) 2px solid',
+                backgroundColor: `rgb(${r},${g},${b})`,
+                height: '47.5px',
+                width: '47.5px',
+                borderRadius: '5px'
+            }}/>
+        )
+    }
     form(handleChange) {
-        const updateShowcase = (r = this.r, g = this.g, b = this.b) => {
-            this.showcase = (
-                <div style={{
-                    border: 'var(--fabric-border-primary) 2px solid',
-                    backgroundColor: `rgb(${r},${g},${b})`,
-                    height: '47.5px',
-                    width: '47.5px',
-                    borderRadius: '5px'
-                }}/>
-            )
-        }
+
         return (
             <div style={{display: 'flex', justifyContent: 'space-between', padding: '8px'}}>
                 <RgbColorPicker
@@ -46,13 +46,13 @@ export default class Rgb extends Node {
                         handleChange({key: 'g', value: newColor.g})
                         handleChange({key: 'b', value: newColor.b})
                         handleChange({key: 'rgb', value: {r: newColor.r, g: newColor.g, b: newColor.b}})
-                        updateShowcase(newColor.r, newColor.g, newColor.b)
+                        this.updateShowcase(newColor.r, newColor.g, newColor.b)
                     }}/>
 
                 <div style={{width: '50%'}}>
                     <TextField
                         handleChange={e => {
-                            updateShowcase(parseInt(e.target.value))
+                            this.updateShowcase(parseInt(e.target.value))
                             handleChange({key: 'r', value: parseInt(e.target.value)})
                             handleChange({key: 'rgb', value: {r: parseInt(e.target.value), g: this.g, b: this.b}})
 
@@ -65,7 +65,7 @@ export default class Rgb extends Node {
 
                     <TextField
                         handleChange={e => {
-                            updateShowcase(undefined, parseInt(e.target.value))
+                            this.updateShowcase(undefined, parseInt(e.target.value))
                             handleChange({key: 'g', value: parseInt(e.target.value)})
                             handleChange({key: 'rgb', value: {r: this.r, g: parseInt(e.target.value), b: this.b}})
 
@@ -78,7 +78,7 @@ export default class Rgb extends Node {
 
                     <TextField
                         handleChange={e => {
-                            updateShowcase(undefined, undefined, parseInt(e.target.value))
+                            this.updateShowcase(undefined, undefined, parseInt(e.target.value))
                             handleChange({key: 'b', value: parseInt(e.target.value)})
                             handleChange({key: 'rgb', value: {r: this.r, g: this.g, b: parseInt(e.target.value)}})
 

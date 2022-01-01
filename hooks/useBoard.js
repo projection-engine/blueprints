@@ -1,15 +1,22 @@
-import {useEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import Function from '../templates/basic/functions/Function'
 import Response from "../templates/Response";
+import parseNodes from "../utils/parseNodes";
 
-export default function useBoard(files={}) {
+export default function useBoard(file={}) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
     const [selected, setSelected] = useState()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
 
-    }, [files])
+        const parsed = parseNodes(file.nodes)
+
+        if(file.nodes !== undefined)
+            setNodes(parsed)
+        if(file.links !== undefined)
+            setLinks(file.links)
+    }, [file])
     const cloneObj = (obj) => {
         return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj)
     }

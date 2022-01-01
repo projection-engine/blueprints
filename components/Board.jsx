@@ -17,7 +17,7 @@ export default function Board(props) {
     let resizeObs
     const handleWheel = (e) => {
         e.preventDefault()
-        console.log()
+
         if (e.wheelDelta < 0)
             setScale(scale + scale * .1)
         else
@@ -26,16 +26,17 @@ export default function Board(props) {
         console.log(scale)
     }
     useEffect(() => {
-        ref.current.parentNode.addEventListener('wheel', handleWheel, {passive: false})
+        ref.current?.parentNode.addEventListener('wheel', handleWheel, {passive: false})
         return () => {
-            ref.current.parentNode.removeEventListener('wheel', handleWheel, {passive: false})
+            ref.current?.parentNode.removeEventListener('wheel', handleWheel, {passive: false})
         }
     }, [scale])
     const callback = () => {
         const p = props.parentRef.current
-
-        setWidth(p.offsetWidth - p.lastChild.offsetWidth)
-        setHeight(ref.current?.parentNode.offsetHeight - 35)
+        if (p !== null) {
+            setWidth(p.offsetWidth - p.lastChild.offsetWidth)
+            setHeight(ref.current?.parentNode.offsetHeight - 35)
+        }
     }
     useEffect(() => {
         if (!resizeObs)
@@ -85,27 +86,30 @@ export default function Board(props) {
     let currentFrame = 0
 
     const updateLinks = () => {
-        let parentBBox = ref.current.getBoundingClientRect()
-        const bounding = {
-            x: ref.current.scrollLeft - parentBBox.left,
-            y: ref.current.scrollTop - parentBBox.top
-        }
+        try {
+            let parentBBox = ref.current?.getBoundingClientRect()
+            const bounding = {
+                x: ref.current?.scrollLeft - parentBBox.left,
+                y: ref.current?.scrollTop - parentBBox.top
+            }
 
-        links.forEach(l => {
-            const target = document.getElementById(l.target)?.getBoundingClientRect()
-            const source = document.getElementById(l.source)?.getBoundingClientRect()
-            const linkPath = document.getElementById(l.target + '-' + l.source)
-            if (target && source && linkPath)
-                linkPath.setAttribute('d', getBezierCurve(
-                    {
-                        x: source.x + bounding.x + 7.5,
-                        y: source.y + bounding.y + 7.5
-                    },
-                    {
-                        x1: target.x + bounding.x + 7.5,
-                        y1: target.y + bounding.y + 7.5
-                    }))
-        })
+            links.forEach(l => {
+                const target = document.getElementById(l.target)?.getBoundingClientRect()
+                const source = document.getElementById(l.source)?.getBoundingClientRect()
+                const linkPath = document.getElementById(l.target + '-' + l.source)
+                if (target && source && linkPath)
+                    linkPath.setAttribute('d', getBezierCurve(
+                        {
+                            x: source.x + bounding.x + 7.5,
+                            y: source.y + bounding.y + 7.5
+                        },
+                        {
+                            x1: target.x + bounding.x + 7.5,
+                            y1: target.y + bounding.y + 7.5
+                        }))
+            })
+        } catch (error) {
+        }
         currentFrame = requestAnimationFrame(updateLinks)
     }
 

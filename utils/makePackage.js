@@ -4,7 +4,7 @@ export default function makePackage(hook) {
     hook.compile()
     return {
         nodes: hook.nodes.map(n => {
-            return {...n}
+            return {...n, instanceOf: n.constructor.name}
         }),
         links: hook.links.map(l => {
             return {...l}
