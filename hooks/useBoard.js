@@ -1,11 +1,15 @@
 import {useEffect, useState} from "react";
 import Function from '../templates/basic/functions/Function'
+import Response from "../templates/Response";
 
-export default function useBoard(initialNodes = [], initialLinks = []) {
-    const [nodes, setNodes] = useState(initialNodes)
-    const [links, setLinks] = useState(initialLinks)
-
+export default function useBoard(files={}) {
+    const [nodes, setNodes] = useState([])
+    const [links, setLinks] = useState([])
     const [selected, setSelected] = useState()
+
+    useEffect(() => {
+
+    }, [files])
     const cloneObj = (obj) => {
         return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj)
     }
@@ -35,16 +39,17 @@ export default function useBoard(initialNodes = [], initialLinks = []) {
             nodes[parsed.target][parsed.targetKey] = nodes[parsed.source][parsed.sourceKey]
         })
     }
+
     useEffect(() => {
         updateLinks()
     }, [links, selected])
+
     const compile = () => {
         let changed
         let copy = [...nodes]
         do {
             updateLinks()
             changed = 0
-
             copy = copy.map(c => {
                 let allValid = checkFields(c)
                 const docNode = document.getElementById(c.id).parentNode
@@ -61,11 +66,8 @@ export default function useBoard(initialNodes = [], initialLinks = []) {
                 }
                 return c
             })
-
-            console.log(changed)
         }
         while (changed > 0 || changed === undefined)
-
         setNodes(copy)
     }
     const [alert, setAlert] = useState({

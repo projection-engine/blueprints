@@ -1,6 +1,7 @@
 import Node from '../basic/Node'
+import Response from "../Response";
 
-export default class PBRMaterial extends Node {
+export default class PBRMaterial extends Response {
     constructor(baseColor, metallic, specular, roughness, normal, ao) {
         super(
             [
@@ -10,8 +11,7 @@ export default class PBRMaterial extends Node {
                 {label: 'Roughness', key: 'roughness', accept: ['Rgb', 'Rgba']},
                 {label: 'Normal', key: 'normal', accept: ['Rgb', 'Rgba']},
                 {label: 'Ambient occlusion', key: 'ao', accept: ['Rgb', 'Rgba']},
-            ],
-            [{label: 'Material', key: 'material'}]);
+            ]);
 
         this.name = 'PBR Material'
         this.baseColor = baseColor
@@ -21,4 +21,5 @@ export default class PBRMaterial extends Node {
         this.normal = normal
         this.ao = ao
     }
+
 }

@@ -6,9 +6,10 @@ import styles from './styles/Board.module.css'
 import {Alert} from "@f-ui/core";
 import Actions from "./components/Actions";
 import {useRef} from "react";
+import PropTypes from "prop-types";
 
-export default function Prototype() {
-    const hook = useBoard([], [])
+export default function Prototype(props) {
+    const hook = useBoard(props.file)
     const ref=useRef()
 
     return (
@@ -25,7 +26,7 @@ export default function Prototype() {
 
             <Controller hook={hook} selected={hook.selected}/>
             <div className={styles.prototypeWrapperBoard}>
-                <Actions hook={hook}/>
+                <Actions hook={hook} submitPackage={props.submitPackage}/>
                 <Board
                     parentRef={ref}
                     hook={hook}
@@ -35,4 +36,9 @@ export default function Prototype() {
             <Available/>
         </div>
     )
+}
+
+Prototype.propTypes={
+    file: PropTypes.object,
+    submitPackage: PropTypes.func.isRequired
 }
