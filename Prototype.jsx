@@ -14,20 +14,14 @@ export default function Prototype(props) {
 
     return (
         <div className={styles.prototypeWrapper} ref={ref}>
-            <Alert
-                open={hook.alert.type !== undefined}
-                handleClose={() => hook.setAlert({})}
-                variant={hook.alert.type}
-                onClick={() => null} delay={3500}>
-                <div style={{color: 'var(--fabric-color-secondary)'}}>
-                    {hook.alert.message}
-                </div>
-            </Alert>
-
             <Controller hook={hook} selected={hook.selected}/>
             <div className={styles.prototypeWrapperBoard}>
-                <Actions hook={hook} submitPackage={props.submitPackage}/>
+                <Actions
+                    setAlert={props.setAlert}
+                    hook={hook}
+                    submitPackage={props.submitPackage}/>
                 <Board
+                    setAlert={props.setAlert}
                     parentRef={ref}
                     hook={hook}
                     selected={hook.selected}
@@ -39,6 +33,7 @@ export default function Prototype(props) {
 }
 
 Prototype.propTypes={
+    setAlert: PropTypes.func.isRequired,
     file: PropTypes.object,
     submitPackage: PropTypes.func.isRequired
 }

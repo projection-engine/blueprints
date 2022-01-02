@@ -1,10 +1,7 @@
 import styles from '../styles/Actions.module.css'
 import PropTypes from "prop-types";
 import {Button} from "@f-ui/core";
-import Response from "../templates/Response";
 import makePackage from "../utils/makePackage";
-import Dexie from "dexie";
-import {useEffect, useState} from "react";
 
 export default function Actions(props) {
 
@@ -28,12 +25,12 @@ export default function Actions(props) {
                 <Button className={styles.button} onClick={() => {
                     try {
                         props.hook.compile()
-                        props.hook.setAlert({
+                        props.setAlert({
                             type: 'success',
                             message: 'Compile successful'
                         })
                     } catch (e) {
-                        props.hook.setAlert({
+                        props.setAlert({
                             type: 'error',
                             message: 'Compile error'
                         })
@@ -72,6 +69,7 @@ export default function Actions(props) {
 }
 
 Actions.propTypes = {
+    setAlert: PropTypes.func.isRequired,
     hook: PropTypes.object,
     submitPackage: PropTypes.func.isRequired
 }

@@ -1,6 +1,5 @@
 import {useEffect, useLayoutEffect, useState} from "react";
 import Function from '../templates/basic/functions/Function'
-import Response from "../templates/Response";
 import parseNodes from "../utils/parseNodes";
 
 export default function useBoard(file={}) {

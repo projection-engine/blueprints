@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types'
-
 export default function handleBoardScroll(ref, event) {
     let scrolling = true
     let pos = {top: 0, left: 0, x: 0, y: 0};

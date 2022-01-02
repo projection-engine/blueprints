@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import Node from "./Node";
 import styles from '../styles/Board.module.css'
 import getBezierCurve from "../utils/bezierCurve";
@@ -65,12 +65,12 @@ export default function Board(props) {
                     target: target
                 })
             else if (valid)
-                props.hook.setAlert({
+                props.setAlert({
                     type: 'info',
                     message: 'Already linked'
                 })
             else
-                props.hook.setAlert({
+                props.setAlert({
                     type: 'info',
                     message: 'Input doesn\'t support multiple values.'
                 })
@@ -185,7 +185,7 @@ export default function Board(props) {
                     <React.Fragment key={node.id}>
                         <Node
 
-                            setAlert={props.hook.setAlert}
+                            setAlert={props.setAlert}
                             setSelected={props.setSelected} selected={props.selected} node={node} scale={scale}
                             handleLink={handleLink}/>
                     </React.Fragment>
@@ -202,6 +202,7 @@ export default function Board(props) {
     )
 }
 Board.propTypes = {
+    setAlert: PropTypes.func.isRequired,
     parentRef: PropTypes.object,
     hook: PropTypes.object,
     selected: PropTypes.string,

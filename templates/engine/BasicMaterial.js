@@ -1,4 +1,3 @@
-import Node from '../basic/Node'
 import Response from "../Response";
 
 export default class BasicMaterial extends Response {

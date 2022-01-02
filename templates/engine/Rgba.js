@@ -1,5 +1,5 @@
 import Node from '../basic/Node'
-import {RgbaColorPicker, RgbColorPicker} from "react-colorful";
+import {RgbaColorPicker} from "react-colorful";
 import {TextField} from "@f-ui/core";
 
 export default class Rgba extends Node {
