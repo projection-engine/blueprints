@@ -1,0 +1,33 @@
+.background{
+    background: var(--background-3) radial-gradient(var(--background-1) 1px, transparent 0);
+    background-size: 20px 20px;
+}
+.wrapper {
+
+    /*position: absolute;*/
+    left: 0;
+    top: 0;
+    z-index: 0;
+
+}
+
+.prototypeWrapperBoard {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    gap: 4px;
+
+}
+
+.prototypeWrapper {
+    padding: 4px;
+    display: grid;
+    grid-auto-flow: column;
+    gap: 4px;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+}

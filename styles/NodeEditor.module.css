@@ -1,0 +1,48 @@
+.wrapper {
+    width: 300px;
+
+    height: 100%;
+
+    background-color: var(--background-1);
+    border: var(--fabric-border-primary) 1px solid;
+
+    display: grid;
+
+    border-radius: 5px;
+
+    outline: transparent 2px solid;
+    align-content: flex-start;
+}
+.viewportWrapper{
+    width: 100%;
+    overflow: hidden;
+    max-height: 50%;
+    min-height: 20vh;
+}
+
+.form {
+
+    height: 100%;
+    width: 100%;
+    padding: 8px;
+    display: grid;
+    gap: 8px;
+    align-items: flex-start;
+    align-content: flex-start;
+    overflow-y: auto;
+    justify-items: center;
+}
+
+.formFieldWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    width: 100%;
+}
+
+.label {
+    color: var(--fabric-color-secondary);
+    font-weight: 600;
+
+}

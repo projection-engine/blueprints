@@ -1,0 +1,22 @@
+export default {
+    ARRAY: 'array',
+    CONSTANT: 'const',
+    PBR: 'pbr',
+    ADD:'add',
+    SUB: 'sub',
+    MULT: 'mult',
+    DIV: 'div',
+    POW: 'pow',
+    VEC_ADD: 'vec_add',
+    VEC_SUB: 'vec_sub',
+    VEC_SCALAR: 'vec_scalar',
+    CROSS_P: 'cross-p',
+    DOT_P: 'dot-p',
+    RGB: 'rgb',
+    RGBA: 'rgba',
+    VEC_2D:'vec-2d',
+    VEC_3D: 'vec-3d',
+    VEC_4D: 'vec-4d',
+    BASIC_MAT: 'basic_mat',
+    TEXTURE: 'texture'
+}
