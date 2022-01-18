@@ -18,7 +18,11 @@ import useEngine from "../../../core/useEngine";
 export default function NodeEditor(props) {
     const database = useContext(DatabaseProvider)
     const selected = useMemo(() => {
-        return props.hook.nodes.findIndex(n => (props.selected ? n.id === props.selected : n instanceof PBRMaterial))
+        const index =  props.hook.nodes.findIndex(n => (props.selected ? n.id === props.selected : n instanceof PBRMaterial))
+        if(index > -1)
+            return props.hook.nodes[index]
+        else
+            return undefined
     }, [props.selected])
     const [availableTextures, setAvailableTextures] = useState([])
     const [id, setId] = useState()
@@ -39,19 +43,16 @@ export default function NodeEditor(props) {
     }, [])
     const attributes = useMemo(() => {
         let res = []
-        const s = props.hook.nodes[selected]
-
-        if (s) {
-
-            if (!(s instanceof Response) && !(s instanceof Function))
-                res = [...s.inputs, ...s.output.filter(o => !o.notEditable)]
+        if (selected) {
+            if (!(selected instanceof Response) && !(selected instanceof Function))
+                res = [...selected.inputs, ...selected.output.filter(o => !o.notEditable)]
             else
-                res = [...s.inputs]
+                res = [...selected.inputs]
 
 
             res = [{
                 key: 'name',
-                value: s.name,
+                value: selected.name,
                 type: 'String',
                 label: 'Node name'
             }].concat(res)
@@ -59,7 +60,7 @@ export default function NodeEditor(props) {
         }
 
         return res
-    }, [props.selected])
+    }, [selected])
     const parseToRGBA = (str) => {
 
         const m = typeof str === 'string' ? str?.match(/[\d.]+/g) : undefined
@@ -137,15 +138,16 @@ export default function NodeEditor(props) {
                 <ResizableBar direction={"height"}/>
             </div>
             <div className={styles.form}>
-                {attributes.map(attr => (
+                {selected ? attributes.map(attr => (
                     getInput(
                         attr.notEditable,
                         attr.label,
                         attr.type,
-                        props.hook.nodes[selected][attr.key],
+                        selected[attr.key],
                         (event) => props.hook.setNodes(prev => {
                             const n = [...prev]
-                            const clone = cloneClass(n[selected])
+                            const classLocation = n.findIndex(e => e.id === selected.id)
+                            const clone = cloneClass(prev[classLocation])
                             clone[attr.key] = event
 
                             if (attr.type === 'RGBA') {
@@ -166,10 +168,10 @@ export default function NodeEditor(props) {
                                 }
                             }
 
-                            n[selected] = clone
+                            n[classLocation] = clone
                             return n
                         }))
-                ))}
+                )) : null}
             </div>
             <ResizableBar maxDimension={500} minDimension={100} direction={"width"}/>
         </div>

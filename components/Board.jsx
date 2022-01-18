@@ -3,9 +3,12 @@ import React from "react";
 import Node from "./Node";
 import styles from '../styles/Board.module.css'
 import handleDropBoard from "../utils/handleDropBoard";
-import ContextMenu from "./ContextMenu";
+import ContextMenu from "../../context/ContextMenu";
 import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
+import getFolderOptions from "../../files/utils/getFolderOptions";
+import FileObj from "../../files/templates/File";
+import Folder from "../../files/templates/Folder";
 
 
 export default function Board(props) {
@@ -20,24 +23,62 @@ export default function Board(props) {
 
     return (
         <ContextMenu
-            handleChange={e => {
-                props.hook.setSelected(undefined)
-                props.hook.setNodes(prev => {
-                    let n = [...prev]
-                    n.splice(n.findIndex(el => el.id === e.target), 1)
-                    return n
-                })
-                props.hook.setLinks(prev => {
-                    let n = [...prev]
-                    let found
-                    do {
-                        found = n.findIndex(el => el.target.id === e.target || el.source.id === e.target)
-                        if (found > -1)
-                            n.splice(found, 1)
-                    } while (found > -1 || found === undefined)
-                    return n
-                })
-            }}
+            options={[
+                {
+                    requiredTrigger: 'data-node',
+                    label: 'Edit',
+                    icon: <span className={'material-icons-round'}>edit</span>,
+                    onClick: (node) => {
+                     props.setSelected(node.getAttribute('data-node'))
+                    }
+                },
+                {
+                    requiredTrigger: 'data-node',
+                    label: 'Delete',
+                    icon: <span className={'material-icons-round'}>delete</span>,
+                    onClick: (node) => {
+                        const target = node.getAttribute('data-node')
+
+                            props.setSelected(undefined)
+                        props.hook.setNodes(prev => {
+                            let n = [...prev]
+                            n.splice(n.findIndex(el => el.id === target), 1)
+                            return n
+                        })
+                        props.hook.setLinks(prev => {
+                            let n = [...prev]
+                            let found
+                            do {
+                                found = n.findIndex(el => el.target.id === target || el.source.id === target)
+                                if (found > -1)
+                                    n.splice(found, 1)
+                            } while (found > -1 || found === undefined)
+                            return n
+                        })
+                    }
+                },
+                {
+                    requiredTrigger: 'data-link',
+                    label: 'Break link',
+                    icon: <span className={'material-icons-round'}>link_off</span>,
+                    onClick: (node) => {
+
+                    }
+                },
+                // {
+                //     requiredTrigger: 'data-board',
+                //     label: 'Break link',
+                //     icon: <span className={'material-icons-round'}>link_off</span>,
+                //     onClick: (node) => {
+                //
+                //     }
+                // },
+            ]}
+            triggers={[
+                'data-node',
+                'data-board',
+                'data-link'
+            ]}
             styles={{
                 overflow: 'auto',
                 width: '100%',
@@ -46,6 +87,7 @@ export default function Board(props) {
             }} className={styles.background}>
             <svg
                 onDragOver={e => e.preventDefault()}
+                data-board={'self'}
                 style={{
                     transform: `scale(${scale})`,
                     transformOrigin: 'top left',
@@ -90,7 +132,6 @@ export default function Board(props) {
                 {props.hook.nodes.map(node => (
                     <React.Fragment key={node.id}>
                         <Node
-
                             setAlert={props.setAlert}
                             setSelected={props.setSelected} selected={props.selected} node={node} scale={scale}
                             handleLink={handleLink}/>
@@ -98,6 +139,7 @@ export default function Board(props) {
                 ))}
                 {links.map(l => (
                     <path
+                        data-link={l.target + '-' + l.source}
                         fill={'none'}
                         stroke={'#0095ff'}
                         strokeWidth={'2'}

@@ -3,9 +3,11 @@ import usePrototype from "./hooks/usePrototype";
 import NodeEditor from "./components/NodeEditor";
 import Available from "./components/Available";
 import styles from './styles/Board.module.css'
-import Actions from "./components/Actions";
-import {useMemo, useRef} from "react";
+
+import {useContext, useEffect, useMemo, useRef} from "react";
 import PropTypes from "prop-types";
+import ControlProvider from "../tabs/components/ControlProvider";
+import makePackage from "./utils/makePackage";
 
 export default function Prototype(props) {
     const hook = usePrototype(props.file, props.workflow)
@@ -13,15 +15,32 @@ export default function Prototype(props) {
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n.constructor.name === props.workflow)
     }, [hook.nodes])
+    const toolBarContext = useContext(ControlProvider)
+    useEffect(() => {
+        toolBarContext.setOptions([
+            {
+                label: 'Save',
+                icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
+                onClick: () => props.submitPackage(makePackage(hook), false)
+            },
+            {
+                label: 'Save & close',
+                icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
+                onClick: () => props.submitPackage(makePackage(hook), true)
+            },
+            {
+                label: 'Import script',
+                icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>download</span>,
+                onClick: () => null,
+                disabled: true
+            }
+        ])
+    }, [hook.nodes, hook.links, toolBarContext.updated])
 
     return (
         <div className={styles.prototypeWrapper} ref={ref}>
             <NodeEditor hook={hook} selected={!hook.selected && fallbackSelected ? fallbackSelected.id : hook.selected}/>
             <div className={styles.prototypeWrapperBoard}>
-                <Actions
-                    setAlert={props.setAlert}
-                    hook={hook}
-                    submitPackage={props.submitPackage}/>
                 <Board
                     setAlert={props.setAlert}
                     parentRef={ref}

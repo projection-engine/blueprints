@@ -109,8 +109,7 @@ export default function Node(props) {
                 transform={`translate(${props.node.x} ${props.node.y})`}
             >
                 <foreignObject
-                    data-context={'available'}
-                    data-identification={props.node.id}
+                    data-node={props.node.id}
                     id={props.node.id}
 
                     className={styles.wrapper}
