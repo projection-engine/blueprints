@@ -21,6 +21,6 @@ export default function handleDropBoard(data) {
     if (!newNode)
         newNode = find(algebra)
 
-    console.log(newNode)
+
     return newNode
 }

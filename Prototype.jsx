@@ -11,7 +11,7 @@ import makePackage from "./utils/makePackage";
 
 export default function Prototype(props) {
     const hook = usePrototype(props.file, props.workflow)
-    const ref=useRef()
+    const ref = useRef()
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n.constructor.name === props.workflow)
     }, [hook.nodes])
@@ -20,11 +20,16 @@ export default function Prototype(props) {
         toolBarContext.setOptions([
             {
                 label: 'Save',
+                disabled: hook.disabled,
                 icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
-                onClick: () => props.submitPackage(makePackage(hook), false)
+                onClick: () => {
+                    console.log('CLICKED')
+                    props.submitPackage(makePackage(hook), false)
+                }
             },
             {
                 label: 'Save & close',
+                disabled: hook.disabled,
                 icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                 onClick: () => props.submitPackage(makePackage(hook), true)
             },
@@ -35,11 +40,12 @@ export default function Prototype(props) {
                 disabled: true
             }
         ])
-    }, [hook.nodes, hook.links, toolBarContext.updated])
+    }, [hook.nodes, hook.links])
 
     return (
         <div className={styles.prototypeWrapper} ref={ref}>
-            <NodeEditor hook={hook} selected={!hook.selected && fallbackSelected ? fallbackSelected.id : hook.selected}/>
+            <NodeEditor hook={hook}
+                        selected={!hook.selected && fallbackSelected ? fallbackSelected.id : hook.selected}/>
             <div className={styles.prototypeWrapperBoard}>
                 <Board
                     setAlert={props.setAlert}
@@ -53,7 +59,7 @@ export default function Prototype(props) {
     )
 }
 
-Prototype.propTypes={
+Prototype.propTypes = {
     setAlert: PropTypes.func.isRequired,
     file: PropTypes.object,
     submitPackage: PropTypes.func.isRequired,

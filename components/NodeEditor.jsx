@@ -111,7 +111,7 @@ export default function NodeEditor(props) {
                 return <TextureForm
                     availableTextures={availableTextures}
                     handleChange={ev => {
-                        console.log(ev)
+
                         submit({
                             name: ev.name,
                             id: ev.id,

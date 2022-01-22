@@ -18,6 +18,7 @@ import Rgb from "../workflows/material/templates/Rgb";
 import Power from "../workflows/basic/templates/Power";
 import TextureSample from "../workflows/material/templates/TextureSample";
 import {getFetchPromise} from "../../shared/utils/loadMaterial";
+import {colorToImage} from "../../../core/utils/imageManipulation";
 
 export default function parseNodes(database, nodes, responseOBJ, workflow, callback) {
     const updatePlacement = (obj, node) => {
@@ -175,12 +176,13 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
         }
     }
     if (workflow === "PBRMaterial") {
-        let albedo = getFetchPromise(responseOBJ.albedo, database, true),
-            metallic = getFetchPromise(responseOBJ.metallic, database, true),
-            normal = getFetchPromise(responseOBJ.normal, database, true),
-            height = getFetchPromise(responseOBJ.height, database, true),
-            ao = getFetchPromise(responseOBJ.ao, database, true),
-            roughness = getFetchPromise(responseOBJ.roughness, database, true)
+        console.log(responseOBJ)
+        let albedo = responseOBJ.albedo.ref ? getFetchPromise(responseOBJ.albedo, database, true) : colorToImage('rgba(127, 127, 127, 1)'),
+            metallic = responseOBJ.metallic.ref ? getFetchPromise(responseOBJ.metallic, database, true) : colorToImage('rgba(0, 0, 0, 1)'),
+            normal = responseOBJ.normal.ref ? getFetchPromise(responseOBJ.normal, database, true) : colorToImage('rgba(255, 255, 255, 1)'),
+            height = responseOBJ.height.ref ? getFetchPromise(responseOBJ.height, database, true) : colorToImage('rgba(127, 127, 255, 1)'),
+            ao = responseOBJ.ao.ref ? getFetchPromise(responseOBJ.ao, database, true) : colorToImage('rgba(255, 255, 255, 1)'),
+            roughness = responseOBJ.roughness.ref ? getFetchPromise(responseOBJ.roughness, database, true) : colorToImage('rgba(255, 255, 255, 1)')
 
         Promise.all([albedo, metallic, normal, height, ao, roughness]).then(res => {
             const newPBR = new PBRMaterial()
@@ -209,27 +211,25 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
                 roughnessTexture.sample = loadTexture(res[5])
 
             parsedNodes = parsedNodes.map(n => {
-                if(n.id === albedoTexture?.id)
+                if (n.id === albedoTexture?.id)
                     return albedoTexture
-                if(n.id === metallicTexture?.id)
+                if (n.id === metallicTexture?.id)
                     return metallicTexture
-                if(n.id === normalTexture?.id)
+                if (n.id === normalTexture?.id)
                     return normalTexture
-                if(n.id === heightTexture?.id)
+                if (n.id === heightTexture?.id)
                     return heightTexture
-                if(n.id === aoTexture?.id)
+                if (n.id === aoTexture?.id)
                     return aoTexture
-                if(n.id === roughnessTexture?.id)
+                if (n.id === roughnessTexture?.id)
                     return roughnessTexture
 
                 return n
             })
 
-            console.log(albedoTexture)
-
             callback(parsedNodes)
         })
-    }
-
+    } else
+        callback([])
 
 }

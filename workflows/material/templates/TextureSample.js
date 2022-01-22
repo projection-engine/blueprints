@@ -12,18 +12,33 @@ export default class TextureSample extends Node {
     }
 
     showcase() {
-        return (
-            <img
-                src={this.sample?.blob}
-                style={{
-                    border: 'var(--fabric-border-primary) 2px solid',
-                    height: '175px',
-                    width: '175px',
-                    borderRadius: '5px'
-                }}
-                alt={'Texture sample'}
-            />
-        )
+        if(this.sample?.blob)
+            return (
+                <img
+                    src={this.sample?.blob}
+                    style={{
+                        border: 'var(--fabric-border-primary) 2px solid',
+                        height: '175px',
+                        width: '175px',
+                        borderRadius: '5px'
+                    }}
+                    title={this.sample?.name}
+                    alt={'Texture sample'}
+                />
+            )
+        else
+            return (
+                <div
+                    style={{
+                        border: 'var(--fabric-border-primary) 2px solid',
+                        height: '175px',
+                        width: '175px',
+                        borderRadius: '5px',
+                        background: '#e0e0e0'
+                    }}
+                    title={'Empty texture'}
+                />
+            )
     }
 }
 

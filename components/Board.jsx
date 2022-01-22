@@ -6,9 +6,6 @@ import handleDropBoard from "../utils/handleDropBoard";
 import ContextMenu from "../../context/ContextMenu";
 import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
-import getFolderOptions from "../../files/utils/getFolderOptions";
-import FileObj from "../../files/templates/File";
-import Folder from "../../files/templates/Folder";
 
 
 export default function Board(props) {
