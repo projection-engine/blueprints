@@ -23,7 +23,6 @@ export default function Prototype(props) {
                 disabled: hook.disabled,
                 icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                 onClick: () => {
-                    console.log('CLICKED')
                     props.submitPackage(makePackage(hook), false)
                 }
             },

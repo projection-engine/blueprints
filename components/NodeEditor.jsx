@@ -6,13 +6,13 @@ import PBRMaterial from "../workflows/material/templates/PBRMaterial";
 import ResizableBar from "../../../components/resizable/ResizableBar";
 import Response from "../templates/Response";
 import Function from "../templates/Function";
-import cloneClass from "../../../components/shared/utils/cloneClass";
+import cloneClass from "../../../utils/cloneClass";
 import Range from "../../../components/range/Range";
 import {RgbaColorPicker, RgbColorPicker} from "react-colorful";
-import TextureForm from "../../../components/shared/TextureForm";
+import ImageSelector from "../../shared/ImageSelector";
 import {TextField} from "@f-ui/core";
 import Viewport from "../../viewport/Viewport";
-import randomID from "../../../components/shared/utils/randomID";
+import randomID from "../../../utils/randomID";
 import useEngine from "../../../core/useEngine";
 
 export default function NodeEditor(props) {
@@ -108,7 +108,7 @@ export default function NodeEditor(props) {
                 )
 
             case 'Image':
-                return <TextureForm
+                return <ImageSelector
                     availableTextures={availableTextures}
                     handleChange={ev => {
 

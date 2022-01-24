@@ -16,7 +16,7 @@ export default function usePrototype(file = {}, workflow) {
             let n = [...parsed]
             if(parsed.length === 0 && workflow === 'PBRMaterial')
                 n.push(new PBRMaterial())
-            console.log(n)
+
             setNodes(n)
             if (file.links !== undefined)
             setLinks(file.links)

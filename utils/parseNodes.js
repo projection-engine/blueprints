@@ -17,7 +17,7 @@ import Rgba from "../workflows/material/templates/Rgba";
 import Rgb from "../workflows/material/templates/Rgb";
 import Power from "../workflows/basic/templates/Power";
 import TextureSample from "../workflows/material/templates/TextureSample";
-import {getFetchPromise} from "../../shared/utils/loadMaterial";
+import {getFetchPromise} from "../../../utils/loadMaterial";
 import {colorToImage} from "../../../core/utils/imageManipulation";
 
 export default function parseNodes(database, nodes, responseOBJ, workflow, callback) {
@@ -176,7 +176,6 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
         }
     }
     if (workflow === "PBRMaterial") {
-        console.log(responseOBJ)
         let albedo = responseOBJ.albedo.ref ? getFetchPromise(responseOBJ.albedo, database, true) : colorToImage('rgba(127, 127, 127, 1)'),
             metallic = responseOBJ.metallic.ref ? getFetchPromise(responseOBJ.metallic, database, true) : colorToImage('rgba(0, 0, 0, 1)'),
             normal = responseOBJ.normal.ref ? getFetchPromise(responseOBJ.normal, database, true) : colorToImage('rgba(255, 255, 255, 1)'),
