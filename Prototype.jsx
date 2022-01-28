@@ -8,6 +8,7 @@ import {useContext, useEffect, useMemo, useRef} from "react";
 import PropTypes from "prop-types";
 import ControlProvider from "../tabs/components/ControlProvider";
 import makePackage from "./utils/makePackage";
+import ResizableBar from "../resizable/ResizableBar";
 
 export default function Prototype(props) {
     const hook = usePrototype(props.file, props.workflow)
@@ -45,6 +46,7 @@ export default function Prototype(props) {
         <div className={styles.prototypeWrapper} ref={ref}>
             <NodeEditor hook={hook}
                         selected={!hook.selected && fallbackSelected ? fallbackSelected.id : hook.selected}/>
+            <ResizableBar type={"width"}/>
             <div className={styles.prototypeWrapperBoard}>
                 <Board
                     setAlert={props.setAlert}
@@ -53,6 +55,7 @@ export default function Prototype(props) {
                     selected={hook.selected}
                     setSelected={hook.setSelected}/>
             </div>
+
             <Available/>
         </div>
     )

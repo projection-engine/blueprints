@@ -25,13 +25,9 @@ export default function NodeEditor(props) {
             return undefined
     }, [props.selected])
     const [availableTextures, setAvailableTextures] = useState([])
-    const [id, setId] = useState()
 
-    useLayoutEffect(() => {
-        setId(randomID())
-    }, [])
 
-    const engine = useEngine(id, 'showcase')
+
     useEffect(() => {
         database.table('file')
             .where('type').anyOfIgnoreCase('png')
@@ -129,14 +125,7 @@ export default function NodeEditor(props) {
     }
     return (
         <div className={styles.wrapper}>
-            <div className={styles.viewportWrapper}>
-                <Viewport
-                    allowDrop={false}
-                    id={id}
-                    engine={engine}
-                />
-                <ResizableBar direction={"height"}/>
-            </div>
+
             <div className={styles.form}>
                 {selected ? attributes.map(attr => (
                     getInput(
