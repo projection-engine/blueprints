@@ -20,7 +20,7 @@ import TextureSample from "../workflows/material/templates/TextureSample";
 import {getFetchPromise} from "../../../utils/loadMaterial";
 import {colorToImage} from "../../../core/utils/imageManipulation";
 
-export default function parseNodes(database, nodes, responseOBJ, workflow, callback) {
+export default function parseNodes(database, nodes, responseOBJ, workflow, callback, quickAccess) {
     const updatePlacement = (obj, node) => {
         node.x = obj.x
         node.y = obj.y
@@ -156,7 +156,8 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
 
             case 'TextureSample': {
                 const newClass = new TextureSample()
-                newClass.sample = n.sample
+
+                newClass.sample = quickAccess.images.find(e => e.id === n.sample )
                 newClass.name = n.name
 
                 updatePlacement(n, newClass)

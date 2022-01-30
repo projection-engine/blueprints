@@ -1,7 +1,8 @@
 import {useContext, useEffect, useLayoutEffect, useMemo, useState} from "react";
 import parseNodes from "../utils/parseNodes";
-import DatabaseProvider from "../../../hook/DatabaseProvider";
+import DatabaseProvider from "../../db/DatabaseProvider";
 import PBRMaterial from "../workflows/material/templates/PBRMaterial";
+import QuickAccessProvider from "../../db/QuickAccessProvider";
 
 export default function usePrototype(file = {}, workflow) {
     const [nodes, setNodes] = useState([])
@@ -10,6 +11,8 @@ export default function usePrototype(file = {}, workflow) {
     const name = useMemo(() => {
         return file.name
     }, [file])
+    const quickAccess = useContext(QuickAccessProvider)
+
     const database = useContext(DatabaseProvider)
     useLayoutEffect(() => {
         parseNodes(database, file.nodes, file.response, file.workflow, (parsed) => {
@@ -20,7 +23,7 @@ export default function usePrototype(file = {}, workflow) {
             setNodes(n)
             if (file.links !== undefined)
             setLinks(file.links)
-        })
+        }, quickAccess)
     }, [file])
     const cloneObj = (obj) => {
         return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj)
@@ -98,6 +101,7 @@ export default function usePrototype(file = {}, workflow) {
         nodes,
         links,
         setLinks,
-        name
+        name,
+        quickAccess
     }
 }

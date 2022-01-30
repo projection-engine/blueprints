@@ -12,10 +12,11 @@ export default class TextureSample extends Node {
     }
 
     showcase() {
-        if(this.sample?.blob)
+        console.log(this.sample)
+        if(this.sample?.previewImage)
             return (
                 <img
-                    src={this.sample?.blob}
+                    src={this.sample?.previewImage}
                     style={{
                         border: 'var(--fabric-border-primary) 2px solid',
                         height: '175px',

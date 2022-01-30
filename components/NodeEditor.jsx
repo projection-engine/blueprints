@@ -1,7 +1,7 @@
 import {useContext, useEffect, useLayoutEffect, useMemo, useState} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
-import DatabaseProvider from "../../../hook/DatabaseProvider";
+import DatabaseProvider from "../../db/DatabaseProvider";
 import PBRMaterial from "../workflows/material/templates/PBRMaterial";
 import ResizableBar from "../../../components/resizable/ResizableBar";
 import Response from "../templates/Response";
@@ -14,9 +14,10 @@ import {TextField} from "@f-ui/core";
 import Viewport from "../../viewport/Viewport";
 import randomID from "../../../utils/randomID";
 import useEngine from "../../../core/useEngine";
+import QuickAccessProvider from "../../db/QuickAccessProvider";
 
 export default function NodeEditor(props) {
-    const database = useContext(DatabaseProvider)
+
     const selected = useMemo(() => {
         const index =  props.hook.nodes.findIndex(n => (props.selected ? n.id === props.selected : n instanceof PBRMaterial))
         if(index > -1)
@@ -24,19 +25,8 @@ export default function NodeEditor(props) {
         else
             return undefined
     }, [props.selected])
-    const [availableTextures, setAvailableTextures] = useState([])
 
 
-
-    useEffect(() => {
-        database.table('file')
-            .where('type').anyOfIgnoreCase('png')
-            .or('type').startsWithIgnoreCase('jpeg')
-            .or('type').anyOfIgnoreCase('jpg')
-            .toArray().then(res => {
-            setAvailableTextures(res)
-        })
-    }, [])
     const attributes = useMemo(() => {
         let res = []
         if (selected) {
@@ -105,15 +95,16 @@ export default function NodeEditor(props) {
 
             case 'Image':
                 return <ImageSelector
-                    availableTextures={availableTextures}
+                    availableTextures={props.hook.quickAccess.images}
                     handleChange={ev => {
 
                         submit({
                             name: ev.name,
                             id: ev.id,
-                            blob: ev.blob
+                            previewImage: ev.previewImage
                         })
-                    }} classObject={value}/>
+                    }}
+                    classObject={props.hook.quickAccess.images.find(e => e.id === value?.id)}/>
             case 'String':
                 return <TextField value={value} width={'100%'} size={'small'}
                                   handleChange={ev => submit(ev.target.value)} label={label} placeholder={label}/>
@@ -162,7 +153,7 @@ export default function NodeEditor(props) {
                         }))
                 )) : null}
             </div>
-            <ResizableBar maxDimension={500} minDimension={100} direction={"width"}/>
+            <ResizableBar type={'width'}/>
         </div>
     )
 }
