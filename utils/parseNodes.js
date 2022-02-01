@@ -17,7 +17,7 @@ import Rgba from "../workflows/material/templates/Rgba";
 import Rgb from "../workflows/material/templates/Rgb";
 import Power from "../workflows/basic/templates/Power";
 import TextureSample from "../workflows/material/templates/TextureSample";
-import {getFetchPromise} from "../../../utils/loadMaterial";
+import {getFetchPromise} from "../../../utils/parsers/loadMaterial";
 import {colorToImage} from "../../../core/utils/imageManipulation";
 
 export default function parseNodes(database, nodes, responseOBJ, workflow, callback, quickAccess) {

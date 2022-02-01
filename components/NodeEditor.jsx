@@ -6,13 +6,13 @@ import PBRMaterial from "../workflows/material/templates/PBRMaterial";
 import ResizableBar from "../../../components/resizable/ResizableBar";
 import Response from "../templates/Response";
 import Function from "../templates/Function";
-import cloneClass from "../../../utils/cloneClass";
+import cloneClass from "../../../utils/misc/cloneClass";
 import Range from "../../range/Range";
 import {RgbaColorPicker, RgbColorPicker} from "react-colorful";
 import ImageSelector from "../../shared/ImageSelector";
 import {TextField} from "@f-ui/core";
 import Viewport from "../../viewport/Viewport";
-import randomID from "../../../utils/randomID";
+import randomID from "../../../utils/misc/randomID";
 import useEngine from "../../../core/useEngine";
 import QuickAccessProvider from "../../db/QuickAccessProvider";
 
