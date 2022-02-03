@@ -6,13 +6,12 @@
     background-color: var(--background-1);
     border: var(--fabric-border-primary) 1px solid;
 
-    display: flex;
-    flex-direction: column;
+
 
     border-radius: 5px;
 
     outline: transparent 2px solid;
-    align-content: flex-start;
+
 }
 .viewportWrapper{
     width: 100%;

@@ -15,6 +15,7 @@ import Viewport from "../../viewport/Viewport";
 import randomID from "../../../utils/misc/randomID";
 import useEngine from "../../../hook/useEngine";
 import QuickAccessProvider from "../../db/QuickAccessProvider";
+import useVisualizer from "../../mesh_visualizer/hook/useVisualizer";
 
 export default function NodeEditor(props) {
 
@@ -114,9 +115,13 @@ export default function NodeEditor(props) {
         }
 
     }
+    const engine = useVisualizer(true, true)
+
+
     return (
         <div className={styles.wrapper}>
-
+            <div style={{width: '100%', height: '200px', overflow: 'hidden'}}><Viewport allowDrop={false} id={engine.id} engine={engine}/></div>
+            <ResizableBar type={'height'}/>
             <div className={styles.form}>
                 {selected ? attributes.map(attr => (
                     getInput(
