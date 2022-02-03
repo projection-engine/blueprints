@@ -31,7 +31,7 @@
     border: var(--fabric-border-secondary) 1px solid;
 }
 .connection:hover{
-    border-color: #0095FF;
+    border-color: var(--fabric-accent-color);
 }
 .label {
     cursor: grab;
@@ -47,7 +47,7 @@
 
 }
 .label:hover, .label:active{
-    color: #0095FF;
+    color: var(--fabric-accent-color);
 }
 
 .column {

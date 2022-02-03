@@ -138,7 +138,7 @@ export default function Board(props) {
                     <path
                         data-link={l.target + '-' + l.source}
                         fill={'none'}
-                        stroke={'#0095ff'}
+                        stroke={'var(--fabric-accent-color)'}
                         strokeWidth={'2'}
                         key={l.target + '-' + l.source} id={l.target + '-' + l.source}/>
                 ))}

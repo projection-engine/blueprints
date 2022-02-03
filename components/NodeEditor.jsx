@@ -9,11 +9,11 @@ import Function from "../templates/Function";
 import cloneClass from "../../../utils/misc/cloneClass";
 import Range from "../../range/Range";
 import {RgbaColorPicker, RgbColorPicker} from "react-colorful";
-import ImageSelector from "../../shared/ImageSelector";
+import Selector from "../../selector/Selector";
 import {TextField} from "@f-ui/core";
 import Viewport from "../../viewport/Viewport";
 import randomID from "../../../utils/misc/randomID";
-import useEngine from "../../../core/useEngine";
+import useEngine from "../../../hook/useEngine";
 import QuickAccessProvider from "../../db/QuickAccessProvider";
 
 export default function NodeEditor(props) {
@@ -94,7 +94,7 @@ export default function NodeEditor(props) {
                 )
 
             case 'Image':
-                return <ImageSelector
+                return <Selector
                     availableTextures={props.hook.quickAccess.images}
                     handleChange={ev => {
 
@@ -104,7 +104,7 @@ export default function NodeEditor(props) {
                             previewImage: ev.previewImage
                         })
                     }}
-                    classObject={props.hook.quickAccess.images.find(e => e.id === value?.id)}/>
+                    selected={props.hook.quickAccess.images.find(e => e.id === value?.id)}/>
             case 'String':
                 return <TextField value={value} width={'100%'} size={'small'}
                                   handleChange={ev => submit(ev.target.value)} label={label} placeholder={label}/>

@@ -45,7 +45,7 @@
 }
 
 .option:hover {
-    color: #0095FF;
+    color: var(--fabric-accent-color);
 }
 
 .option:active {

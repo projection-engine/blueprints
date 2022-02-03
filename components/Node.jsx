@@ -39,7 +39,7 @@ export default function Node(props) {
     const handleDragStart = (event) => {
         const t = event.currentTarget
         t.style.cursor = 'grabbing'
-        ref.current.firstChild.style.outline = '#0095ff 2px solid'
+        ref.current.firstChild.style.outline = 'var(--fabric-accent-color) 2px solid'
         const parent = ref.current?.parentNode.parentNode
         let parentBBox = parent.getBoundingClientRect()
         let bounding = {
@@ -119,7 +119,7 @@ export default function Node(props) {
                     style={{
                         width: '250px',
                         height: height + 'px',
-                        outlineColor: props.selected === props.node.id ? '#0095ff !important' : undefined
+                        outlineColor: props.selected === props.node.id ? 'var(--fabric-accent-color) !important' : undefined
                     }}>
                     <div className={styles.label}
                          onMouseDown={ev => handleDragStart(ev, props.node, props.handleChange)}>
@@ -139,7 +139,7 @@ export default function Node(props) {
                                         draggable={true}
                                         onDragOver={e => {
                                             e.preventDefault()
-                                            e.currentTarget.style.background = '#0095ff'
+                                            e.currentTarget.style.background = 'var(--fabric-accent-color)'
                                         }}
                                         onDrop={e => {
                                             e.preventDefault()
@@ -225,7 +225,7 @@ export default function Node(props) {
             <path
                 ref={pathRef}
                 fill={'none'}
-                stroke={'#0095ff'}
+                stroke={'var(--fabric-accent-color)'}
                 strokeWidth={'2'}
                 strokeDasharray={'3,3'}/>
         </g>
