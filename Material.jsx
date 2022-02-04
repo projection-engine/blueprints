@@ -6,11 +6,13 @@ import styles from './styles/Board.module.css'
 
 import {useContext, useEffect, useMemo, useRef} from "react";
 import PropTypes from "prop-types";
-import ControlProvider from "../tabs/components/ControlProvider";
-import makePackage from "./utils/makePackage";
-import ResizableBar from "../resizable/ResizableBar";
 
-export default function Prototype(props) {
+import makePackage from "./utils/makePackage";
+import ControlProvider from "../../components/tabs/components/ControlProvider";
+import ResizableBar from "../../components/resizable/ResizableBar";
+
+
+export default function Material(props) {
     const hook = usePrototype(props.file, props.workflow)
     const ref = useRef()
     const fallbackSelected = useMemo(() => {
@@ -61,7 +63,7 @@ export default function Prototype(props) {
     )
 }
 
-Prototype.propTypes = {
+Material.propTypes = {
     setAlert: PropTypes.func.isRequired,
     file: PropTypes.object,
     submitPackage: PropTypes.func.isRequired,

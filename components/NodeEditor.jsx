@@ -1,21 +1,20 @@
-import {useContext, useEffect, useLayoutEffect, useMemo, useState} from "react";
+import {useMemo} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
-import DatabaseProvider from "../../db/DatabaseProvider";
 import PBRMaterial from "../workflows/material/templates/PBRMaterial";
 import ResizableBar from "../../../components/resizable/ResizableBar";
 import Response from "../templates/Response";
 import Function from "../templates/Function";
-import cloneClass from "../../../utils/misc/cloneClass";
-import Range from "../../range/Range";
+
 import {RgbaColorPicker, RgbColorPicker} from "react-colorful";
-import Selector from "../../selector/Selector";
+
 import {TextField} from "@f-ui/core";
-import Viewport from "../../viewport/Viewport";
-import randomID from "../../../utils/misc/randomID";
-import useEngine from "../../../hook/useEngine";
-import QuickAccessProvider from "../../db/QuickAccessProvider";
-import useVisualizer from "../../mesh_visualizer/hook/useVisualizer";
+import Range from "../../../components/range/Range";
+import Selector from "../../../components/selector/Selector";
+import Viewport from "../../../components/viewport/Viewport";
+import useVisualizer from "../../mesh/hook/useVisualizer";
+import cloneClass from "../../editor/utils/misc/cloneClass";
+
 
 export default function NodeEditor(props) {
 

@@ -1,8 +1,10 @@
 import {useContext, useEffect, useLayoutEffect, useMemo, useState} from "react";
 import parseNodes from "../utils/parseNodes";
-import DatabaseProvider from "../../db/DatabaseProvider";
+
 import PBRMaterial from "../workflows/material/templates/PBRMaterial";
-import QuickAccessProvider from "../../db/QuickAccessProvider";
+import QuickAccessProvider from "../../../components/db/QuickAccessProvider";
+import DatabaseProvider from "../../../components/db/DatabaseProvider";
+
 
 export default function usePrototype(file = {}, workflow) {
     const [nodes, setNodes] = useState([])

@@ -3,9 +3,10 @@ import React from "react";
 import Node from "./Node";
 import styles from '../styles/Board.module.css'
 import handleDropBoard from "../utils/handleDropBoard";
-import ContextMenu from "../../context/ContextMenu";
+
 import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
+import ContextMenu from "../../../components/context/ContextMenu";
 
 
 export default function Board(props) {

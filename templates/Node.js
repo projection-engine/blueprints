@@ -1,5 +1,4 @@
-import randomID from "../../../utils/misc/randomID";
-
+import randomID from "../../editor/utils/misc/randomID";
 
 export default class Node{
     constructor(inputs, output=[]) {
