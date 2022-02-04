@@ -114,7 +114,7 @@ export default function NodeEditor(props) {
         }
 
     }
-    const engine = useVisualizer(true, true)
+    const engine = useVisualizer(true, true, true)
 
 
     return (

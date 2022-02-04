@@ -3,8 +3,6 @@
     background-size: 20px 20px;
 }
 .wrapper {
-
-    /*position: absolute;*/
     left: 0;
     top: 0;
     z-index: 0;
@@ -22,7 +20,7 @@
 }
 
 .prototypeWrapper {
-    padding: 4px;
+    padding: 3px 0 0 0 ;
     display: grid;
     grid-auto-flow: column;
 

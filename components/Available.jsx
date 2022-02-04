@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useRef, useState} from "react";
 import styles from '../styles/Available.module.css'
 import {Accordion, AccordionSummary, Button, ToolTip} from "@f-ui/core";
 import {materialAvailable} from "../workflows/material/available/MaterialAvailable";
@@ -7,7 +7,7 @@ import {algebraAvailable} from "../workflows/algebra/available/AlgebraAvailable"
 
 export default function Available() {
     const [hidden, setHidden] = useState(false)
-
+    const ref = useRef()
     const workflowData = [
         {
             data: materialAvailable,
@@ -26,8 +26,11 @@ export default function Available() {
         }
     ]
     return (
-        <div className={styles.wrapper} style={{width: hidden ? '35px' : undefined}}>
-            <Button onClick={() => setHidden(!hidden)} className={styles.button}
+        <div ref={ref} className={styles.wrapper} style={{width: hidden ? '35px' : undefined}}>
+            <Button onClick={() => {
+                ref.current.previousSibling.style.width = '100%'
+                setHidden(!hidden)
+            }} className={styles.button}
                     styles={{justifyContent: hidden ? 'center' : 'flex-start'}}>
                 <div className={'material-icons-round'}
                      style={{transform: hidden ? 'rotate(180deg)' : undefined}}>chevron_right
