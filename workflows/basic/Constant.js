@@ -1,4 +1,4 @@
-import Node from '../../../templates/Node'
+import Node from '../../templates/Node'
 import {TextField} from "@f-ui/core";
 
 export default class Constant extends Node {

@@ -1,6 +1,7 @@
-import Function from "../../../templates/Function";
+import Function from "../../templates/Function";
 
-export default class Add extends Function {
+
+export default class Divide extends Function {
     response
 
     constructor(constA, constB) {
@@ -10,10 +11,10 @@ export default class Add extends Function {
         ]);
         this.constA = constA
         this.constB = constB
-        this.name = 'Add'
+        this.name = 'Divide'
     }
 
     execute() {
-        this.response = this.constA + this.constB
+        this.response = this.constA / this.constB
     }
 }

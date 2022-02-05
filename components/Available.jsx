@@ -1,9 +1,9 @@
 import {useRef, useState} from "react";
 import styles from '../styles/Available.module.css'
 import {Accordion, AccordionSummary, Button, ToolTip} from "@f-ui/core";
-import {materialAvailable} from "../workflows/material/available/MaterialAvailable";
-import {basicAvailable} from "../workflows/basic/available/BasicAvailable";
-import {algebraAvailable} from "../workflows/algebra/available/AlgebraAvailable";
+import {materialAvailable} from "../templates/MaterialAvailable";
+import {basicAvailable} from "../templates/BasicAvailable";
+import {algebraAvailable} from "../templates/AlgebraAvailable";
 
 export default function Available() {
     const [hidden, setHidden] = useState(false)
@@ -11,7 +11,7 @@ export default function Available() {
     const workflowData = [
         {
             data: materialAvailable,
-            label: 'Material workflow',
+            label: 'MaterialInstance workflow',
             icon: <span style={{fontSize: '1.1rem'}} className={'material-icons-round'}>public</span>
         },
         {

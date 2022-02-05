@@ -1,7 +1,7 @@
-import Function from "../../../templates/Function";
+import Function from "../../templates/Function";
 
 
-export default class Multiply extends Function {
+export default class Power extends Function {
     response
 
     constructor(constA, constB) {
@@ -11,10 +11,11 @@ export default class Multiply extends Function {
         ]);
         this.constA = constA
         this.constB = constB
-        this.name = 'Multiply'
+        this.name = 'Power'
     }
 
     execute() {
-        this.response = this.constA * this.constB
+        this.response = this.constA ** this.constB
+
     }
 }

@@ -1,6 +1,6 @@
-import {materialAvailable} from "../workflows/material/available/MaterialAvailable";
-import {basicAvailable} from "../workflows/basic/available/BasicAvailable";
-import {algebraAvailable} from "../workflows/algebra/available/AlgebraAvailable";
+import {materialAvailable} from "../templates/MaterialAvailable";
+import {basicAvailable} from "../templates/BasicAvailable";
+import {algebraAvailable} from "../templates/AlgebraAvailable";
 
 export default function handleDropBoard(data) {
     let newNode

@@ -1,9 +1,9 @@
-import Constant from "../templates/Constant";
-import Add from "../templates/Add";
-import Subtract from "../templates/Subtract";
-import Multiply from "../templates/Multiply";
-import Divide from "../templates/Divide";
-import PBRMaterial from "../../material/templates/PBRMaterial";
+import Constant from "../workflows/basic/Constant";
+import Add from "../workflows/basic/Add";
+import Subtract from "../workflows/basic/Subtract";
+import Multiply from "../workflows/basic/Multiply";
+import Divide from "../workflows/basic/Divide";
+import Material from "../workflows/material/Material";
 
 export const basicAvailable=[
     {
@@ -37,6 +37,6 @@ export const basicAvailable=[
         label: 'Power',
         dataTransfer: 'pow',
         tooltip: 'Node for the numeric function power.',
-        getNewInstance: () => new PBRMaterial()
+        getNewInstance: () => new Material()
     }
 ]

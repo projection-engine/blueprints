@@ -1,4 +1,4 @@
-import Function from "../../../templates/Function";
+import Function from "../../templates/Function";
 import {vec2, vec3, vec4} from "gl-matrix";
 
 

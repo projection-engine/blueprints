@@ -1,28 +1,31 @@
-import Constant from "../workflows/basic/templates/Constant";
-import PBRMaterial from "../workflows/material/templates/PBRMaterial";
-import Vector2D from "../workflows/algebra/templates/Vector2D";
-import VectorScalar from "../workflows/algebra/templates/VectorScalar";
-import AddVector from "../workflows/algebra/templates/AddVector";
-import Vector4D from "../workflows/algebra/templates/Vector4D";
-import Vector3D from "../workflows/algebra/templates/Vector3D";
-import SubtractVector from "../workflows/algebra/templates/SubtractVector";
+import Constant from "../workflows/basic/Constant";
+import Material from "../workflows/material/Material";
+import Vector2D from "../workflows/algebra/Vector2D";
+import VectorScalar from "../workflows/algebra/VectorScalar";
+import AddVector from "../workflows/algebra/AddVector";
+import Vector4D from "../workflows/algebra/Vector4D";
+import Vector3D from "../workflows/algebra/Vector3D";
+import SubtractVector from "../workflows/algebra/SubtractVector";
 import ObjectArray from "../templates/ObjectArray";
-import CrossProduct from "../workflows/algebra/templates/CrossProduct";
-import Subtract from "../workflows/basic/templates/Subtract";
-import Add from "../workflows/basic/templates/Add";
-import Multiply from "../workflows/basic/templates/Multiply";
-import Divide from "../workflows/basic/templates/Divide";
-import DotProduct from "../workflows/algebra/templates/DotProduct";
-import Rgba from "../workflows/material/templates/Rgba";
-import Rgb from "../workflows/material/templates/Rgb";
-import Power from "../workflows/basic/templates/Power";
-import TextureSample from "../workflows/material/templates/TextureSample";
+import CrossProduct from "../workflows/algebra/CrossProduct";
+import Subtract from "../workflows/basic/Subtract";
+import Add from "../workflows/basic/Add";
+import Multiply from "../workflows/basic/Multiply";
+import Divide from "../workflows/basic/Divide";
+import DotProduct from "../workflows/algebra/DotProduct";
+
+import Color from "../workflows/material/Color";
+import Power from "../workflows/basic/Power";
+import TextureSample from "../workflows/material/TextureSample";
 import {getFetchPromise} from "../../editor/utils/parsers/loadMaterial";
 import {colorToImage} from "../../../services/engine/utils/imageManipulation";
+import {instanceOf} from "prop-types";
 
 
 export default function parseNodes(database, nodes, responseOBJ, workflow, callback, quickAccess) {
+
     const updatePlacement = (obj, node) => {
+
         node.x = obj.x
         node.y = obj.y
 
@@ -30,63 +33,64 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
     }
 
     let parsedNodes = nodes === undefined || nodes === null || nodes.length === 0 ? [] : nodes.map(n => {
+
         switch (n.instanceOf) {
-            case 'Constant': {
+            case Constant.constructor.name: {
                 const newClass = new Constant()
                 newClass.value = n.values
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Vector2D': {
+            case Vector2D.constructor.name: {
                 const newClass = new Vector2D()
 // TODO
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'VectorScalar' : {
+            case VectorScalar.constructor.name: {
                 const newClass = new VectorScalar()
 // TODO
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'AddVector': {
+            case AddVector.constructor.name: {
                 const newClass = new AddVector()
 // TODO
 
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Vector4D' : {
+            case Vector4D.constructor.name: {
                 const newClass = new Vector4D()
 // TODO
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Vector3D': {
+            case Vector3D.constructor.name: {
                 const newClass = new Vector3D()
                 updatePlacement(n, newClass)
 // TODO
                 return newClass
             }
-            case 'SubtractVector': {
+            case SubtractVector.constructor.name: {
                 const newClass = new SubtractVector()
 // TODO
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Array': {
+            case ObjectArray.constructor.name: {
                 const newClass = new ObjectArray()
 // TODO
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'CrossProduct': {
+            case CrossProduct.constructor.name: {
                 const newClass = new CrossProduct()
 // TODO
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Subtract': {
+            case Subtract.constructor.name: {
                 const newClass = new Subtract()
                 newClass.response = n.response
                 newClass.constA = n.constA
@@ -94,7 +98,7 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Add': {
+            case Add.constructor.name: {
                 const newClass = new Add()
                 newClass.response = n.response
                 newClass.constA = n.constA
@@ -102,7 +106,7 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Multiply': {
+            case Multiply.constructor.name: {
                 const newClass = new Multiply()
                 newClass.response = n.response
                 newClass.constA = n.constA
@@ -110,7 +114,7 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Divide': {
+            case Divide.constructor.name: {
                 const newClass = new Divide()
                 newClass.response = n.response
                 newClass.constA = n.constA
@@ -118,34 +122,20 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'DotProduct': {
+            case DotProduct.constructor.name: {
                 const newClass = new DotProduct()
 // TODO
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Rgba': {
-                const newClass = new Rgba()
-                newClass.rgba = n.rgba
-                newClass.r = n.r
-                newClass.g = n.g
-                newClass.b = n.b
-                newClass.a = n.a
 
-                updatePlacement(n, newClass)
-                return newClass
-            }
-            case 'Rgb': {
-                const newClass = new Rgb()
+            case Color.constructor.name: {
+                const newClass = new Color()
                 newClass.rgb = n.rgb
-                newClass.r = n.r
-                newClass.g = n.g
-                newClass.b = n.b
-
                 updatePlacement(n, newClass)
                 return newClass
             }
-            case 'Power': {
+            case Power.constructor.name: {
                 const newClass = new Power()
                 newClass.response = n.response
                 newClass.constA = n.constA
@@ -155,82 +145,28 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
 
             }
 
-            case 'TextureSample': {
-                const newClass = new TextureSample()
+            case TextureSample.prototype.constructor.name: {
 
-                newClass.sample = quickAccess.images.find(e => e.id === n.sample )
+                const newClass = new TextureSample()
+                console.log(n)
+                newClass.sample = quickAccess.images.find(e => e.id === n.sample)
                 newClass.name = n.name
 
                 updatePlacement(n, newClass)
                 return newClass
             }
             default:
+
                 return n
         }
     })
-
-    const loadTexture = (file) => {
-
-        return {
-            id: file.id,
-            blob: file.blob,
-            name: file.name
-        }
+    if(responseOBJ) {
+        const newPBR = new Material()
+        newPBR.id = responseOBJ.id
+        newPBR.name = responseOBJ.name
+        newPBR.x = responseOBJ.x
+        newPBR.y = responseOBJ.y
+        parsedNodes.push(newPBR)
     }
-    if (workflow === "PBRMaterial") {
-        let albedo = responseOBJ.albedo.ref ? getFetchPromise(responseOBJ.albedo, database, true) : colorToImage('rgba(127, 127, 127, 1)'),
-            metallic = responseOBJ.metallic.ref ? getFetchPromise(responseOBJ.metallic, database, true) : colorToImage('rgba(0, 0, 0, 1)'),
-            normal = responseOBJ.normal.ref ? getFetchPromise(responseOBJ.normal, database, true) : colorToImage('rgba(255, 255, 255, 1)'),
-            height = responseOBJ.height.ref ? getFetchPromise(responseOBJ.height, database, true) : colorToImage('rgba(127, 127, 255, 1)'),
-            ao = responseOBJ.ao.ref ? getFetchPromise(responseOBJ.ao, database, true) : colorToImage('rgba(255, 255, 255, 1)'),
-            roughness = responseOBJ.roughness.ref ? getFetchPromise(responseOBJ.roughness, database, true) : colorToImage('rgba(255, 255, 255, 1)')
-
-        Promise.all([albedo, metallic, normal, height, ao, roughness]).then(res => {
-            const newPBR = new PBRMaterial()
-            newPBR.id = responseOBJ.id
-            newPBR.name = responseOBJ.name
-            parsedNodes.push(newPBR)
-
-            const albedoTexture = parsedNodes.find(n => n instanceof TextureSample && n.sample === responseOBJ.albedo.ref),
-                metallicTexture = parsedNodes.find(n => n instanceof TextureSample && n.sample === responseOBJ.metallic.ref),
-                normalTexture = parsedNodes.find(n => n instanceof TextureSample && n.sample === responseOBJ.normal.ref),
-                heightTexture = parsedNodes.find(n => n instanceof TextureSample && n.sample === responseOBJ.height.ref),
-                aoTexture = parsedNodes.find(n => n instanceof TextureSample && n.sample === responseOBJ.ao.ref),
-                roughnessTexture = parsedNodes.find(n => n instanceof TextureSample && n.sample === responseOBJ.roughness.ref)
-
-            if (albedoTexture)
-                albedoTexture.sample = loadTexture(res[0])
-            if (metallicTexture)
-                metallicTexture.sample = loadTexture(res[1])
-            if (normalTexture)
-                normalTexture.sample = loadTexture(res[2])
-            if (heightTexture)
-                heightTexture.sample = loadTexture(res[3])
-            if (aoTexture)
-                aoTexture.sample = loadTexture(res[4])
-            if (roughnessTexture)
-                roughnessTexture.sample = loadTexture(res[5])
-
-            parsedNodes = parsedNodes.map(n => {
-                if (n.id === albedoTexture?.id)
-                    return albedoTexture
-                if (n.id === metallicTexture?.id)
-                    return metallicTexture
-                if (n.id === normalTexture?.id)
-                    return normalTexture
-                if (n.id === heightTexture?.id)
-                    return heightTexture
-                if (n.id === aoTexture?.id)
-                    return aoTexture
-                if (n.id === roughnessTexture?.id)
-                    return roughnessTexture
-
-                return n
-            })
-
-            callback(parsedNodes)
-        })
-    } else
-        callback([])
-
+    callback(parsedNodes)
 }

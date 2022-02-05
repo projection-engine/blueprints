@@ -7,6 +7,7 @@ import handleDropBoard from "../utils/handleDropBoard";
 import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
 import ContextMenu from "../../../components/context/ContextMenu";
+import cloneClass from "../../editor/utils/misc/cloneClass";
 
 
 export default function Board(props) {
@@ -18,7 +19,29 @@ export default function Board(props) {
         ref,
         handleLink
     } = useBoard(props.hook, props.setAlert, props.parentRef)
+    const removeLink = (link) => {
+        if(link) {
+            let t = link.targetKey
+            props.hook.setNodes(prev => {
+                const clone = prev
+                const target = clone.findIndex(p =>  link.target.includes(p.id))
+                const cloneC = cloneClass(clone[target])
+                delete cloneC[t]
+                clone[target] = cloneC
+                return clone
+            })
+            props.hook.setLinks(prev => {
+                return prev.filter(l => {
+                    const p = {
+                        target: l.target.id + l.target.attribute.key,
+                        source: l.source.id + l.source.attribute.key
+                    }
 
+                    return !(p.target === link.target && p.source === link.source);
+                })
+            })
+        }
+    }
     return (
         <ContextMenu
             options={[
@@ -27,7 +50,7 @@ export default function Board(props) {
                     label: 'Edit',
                     icon: <span className={'material-icons-round'}>edit</span>,
                     onClick: (node) => {
-                     props.setSelected(node.getAttribute('data-node'))
+                        props.setSelected(node.getAttribute('data-node'))
                     }
                 },
                 {
@@ -37,20 +60,27 @@ export default function Board(props) {
                     onClick: (node) => {
                         const target = node.getAttribute('data-node')
 
-                            props.setSelected(undefined)
+                        props.setSelected(undefined)
+
+                        let found, n = [...props.hook.links]
+                        do {
+                            found = n.findIndex(el => el.target.id === target || el.source.id === target)
+                            if (found > -1) {
+                                removeLink({
+                                    target: n[found].target.id + n[found].target.attribute.key,
+                                    source: n[found].source.id + n[found].source.attribute.key,
+                                    targetKey: n[found].target.attribute.key,
+                                    sourceKey: n[found].source.attribute.key
+                                })
+                                n.splice(found, 1)
+                            }
+                        } while (found > -1 || found === undefined)
+
+                        props.hook.setLinks(n)
+
                         props.hook.setNodes(prev => {
                             let n = [...prev]
                             n.splice(n.findIndex(el => el.id === target), 1)
-                            return n
-                        })
-                        props.hook.setLinks(prev => {
-                            let n = [...prev]
-                            let found
-                            do {
-                                found = n.findIndex(el => el.target.id === target || el.source.id === target)
-                                if (found > -1)
-                                    n.splice(found, 1)
-                            } while (found > -1 || found === undefined)
                             return n
                         })
                     }
@@ -60,17 +90,9 @@ export default function Board(props) {
                     label: 'Break link',
                     icon: <span className={'material-icons-round'}>link_off</span>,
                     onClick: (node) => {
-
+                        removeLink(links.find(l => (l.target + '-' + l.source) === node.getAttribute('data-link')))
                     }
-                },
-                // {
-                //     requiredTrigger: 'data-board',
-                //     label: 'Break link',
-                //     icon: <span className={'material-icons-round'}>link_off</span>,
-                //     onClick: (node) => {
-                //
-                //     }
-                // },
+                }
             ]}
             triggers={[
                 'data-node',
@@ -89,8 +111,8 @@ export default function Board(props) {
                 style={{
                     transform: `scale(${scale})`,
                     transformOrigin: 'top left',
-                    height: height  * 2 + 'px',
-                    width: width  * 2 + 'px',
+                    height: height * 2 + 'px',
+                    width: width * 2 + 'px',
 
                 }}
                 onContextMenu={e => e.preventDefault()}
@@ -110,8 +132,8 @@ export default function Board(props) {
                             x: mousePlacement.x,
                             y: mousePlacement.y
                         }
-                        n.x = (current.x - 100)/scale
-                        n.y = (current.y - 25)/scale
+                        n.x = (current.x - 100) / scale
+                        n.y = (current.y - 25) / scale
                         props.hook.setNodes(prev => {
                             return [...prev, n]
                         })
@@ -130,18 +152,31 @@ export default function Board(props) {
                 {props.hook.nodes.map(node => (
                     <React.Fragment key={node.id}>
                         <Node
+                            links={links}
                             setAlert={props.setAlert}
-                            setSelected={props.setSelected} selected={props.selected} node={node} scale={scale}
+                            setSelected={props.setSelected}
+                            selected={props.selected}
+                            node={node}
+                            scale={scale}
                             handleLink={handleLink}/>
                     </React.Fragment>
                 ))}
-                {links.map(l => (
-                    <path
-                        data-link={l.target + '-' + l.source}
-                        fill={'none'}
-                        stroke={'var(--fabric-accent-color)'}
-                        strokeWidth={'2'}
-                        key={l.target + '-' + l.source} id={l.target + '-' + l.source}/>
+                {links.map((l, i) => (
+                    <g key={l.target + '-' + l.source} className={styles.link}>
+
+                        <path
+                            data-link={l.target + '-' + l.source}
+                            fill={'none'}
+                            stroke={'var(--fabric-accent-color)'}
+                            id={l.target + '-' + l.source}/>
+                        <path
+                            data-link={l.target + '-' + l.source}
+                            fill={'none'}
+                            stroke={'transparent'}
+                            strokeWidth={'10'}
+
+                            id={l.target + '-' + l.source + '-supplementary'}/>
+                    </g>
                 ))}
             </svg>
         </ContextMenu>

@@ -1,4 +1,4 @@
-import Node from "../../../templates/Node";
+import Node from "../../templates/Node";
 
 export default class TextureSample extends Node {
     sample = {}
@@ -6,13 +6,13 @@ export default class TextureSample extends Node {
     constructor() {
         super([
             {label: 'UV scale', key: 'uv', type: 'Constant', accept: ['Constant']},
-            {label: 'Blend color', key: 'blend', accept: ['Rgb', 'Rgba']},
-        ], [{label: 'rgba', type: 'Image', key: 'sample'}]);
+            {label: 'Blend color', key: 'blend', accept: ['Color']},
+        ], [{label: 'Texture', type: 'Image', key: 'sample'}]);
         this.name = 'Texture sample'
     }
 
     showcase() {
-        console.log(this.sample)
+
         if(this.sample?.previewImage)
             return (
                 <img
@@ -21,7 +21,8 @@ export default class TextureSample extends Node {
                         border: 'var(--fabric-border-primary) 2px solid',
                         height: '175px',
                         width: '175px',
-                        borderRadius: '5px'
+                        borderRadius: '5px',
+                        objectFit: 'cover'
                     }}
                     title={this.sample?.name}
                     alt={'Texture sample'}

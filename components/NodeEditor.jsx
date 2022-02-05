@@ -1,39 +1,47 @@
-import {useMemo} from "react";
+import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
-import PBRMaterial from "../workflows/material/templates/PBRMaterial";
+import Material from "../workflows/material/Material";
 import ResizableBar from "../../../components/resizable/ResizableBar";
 import Response from "../templates/Response";
 import Function from "../templates/Function";
 
 import {RgbaColorPicker, RgbColorPicker} from "react-colorful";
 
-import {TextField} from "@f-ui/core";
+import {Accordion, AccordionSummary, Button, TextField, ToolTip} from "@f-ui/core";
 import Range from "../../../components/range/Range";
 import Selector from "../../../components/selector/Selector";
 import Viewport from "../../../components/viewport/Viewport";
-import useVisualizer from "../../mesh/hook/useVisualizer";
+import useVisualizer, {IDS} from "../../mesh/hook/useVisualizer";
 import cloneClass from "../../editor/utils/misc/cloneClass";
+import ColorPicker from "../../../components/color/ColorPicker";
+import updateViewport from "../utils/updateViewport";
+import LoadProvider from "../../editor/hook/LoadProvider";
+import EVENTS from "../../editor/utils/misc/EVENTS";
+import DatabaseProvider from "../../../components/db/DatabaseProvider";
+import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
+import {colorToImage} from "../../../services/engine/utils/imageManipulation";
+import Texture from "../../../services/engine/renderer/elements/Texture";
+import {ENTITY_ACTIONS} from "../../../services/engine/ecs/utils/entityReducer";
+import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
 
-
+const MAT_ID = 'MAT-0'
 export default function NodeEditor(props) {
-
+    const [referenceMaterial, setReferenceMaterial] = useState(undefined)
     const selected = useMemo(() => {
-        const index =  props.hook.nodes.findIndex(n => (props.selected ? n.id === props.selected : n instanceof PBRMaterial))
-        if(index > -1)
+        const index = props.hook.nodes.findIndex(n => (props.selected ? n.id === props.selected : n instanceof Material))
+        if (index > -1)
             return props.hook.nodes[index]
         else
             return undefined
-    }, [props.selected])
+    }, [props.selected, props.hook.nodes])
 
 
     const attributes = useMemo(() => {
         let res = []
         if (selected) {
-            if (!(selected instanceof Response) && !(selected instanceof Function))
-                res = [...selected.inputs, ...selected.output.filter(o => !o.notEditable)]
-            else
-                res = [...selected.inputs]
+
+            res = [...selected.output.filter(o => !o.notEditable)]
 
 
             res = [{
@@ -42,57 +50,19 @@ export default function NodeEditor(props) {
                 type: 'String',
                 label: 'Node name'
             }].concat(res)
-
         }
-
         return res
     }, [selected])
-    const parseToRGBA = (str) => {
 
-        const m = typeof str === 'string' ? str?.match(/[\d.]+/g) : undefined
-        if (m) {
-            const [r, g, b, a] = m.map(v => parseFloat(v))
-            return {r: r, g: g, b: b, a: a}
-        } else
-            return null
-    }
-    const parseToRGB = (str) => {
-        const m = typeof str === 'string' ? str?.match(/[\d.]+/g) : undefined
-        if (m) {
-            const [r, g, b] = m.map(v => parseFloat(v))
-            return {r: r, g: g, b: b}
-        } else
-            return null
-    }
-    const getInput = (notEditable, label, type, value, submit) => {
+
+    const getInput = (label, type, value, submit) => {
         switch (type) {
             case 'Constant':
                 return (
-                    <Range disabled={notEditable} value={value} handleChange={submit} label={label}/>
+                    <Range value={value} handleChange={submit} label={label}/>
                 )
-            case 'RGBA':
-                return (
-                    <div className={styles.formFieldWrapper}>
-                        <div className={styles.label}>
-                            {label}
-                        </div>
-                        <RgbaColorPicker color={parseToRGBA(value)} onChange={e => {
-                            submit(`rgba(${e.r},${e.g},${e.b},${e.a})`)
-                        }}/>
-                    </div>
-                )
-
-            case 'RGB':
-                return (
-                    <div className={styles.formFieldWrapper}>
-                        <div className={styles.label}>
-                            {label}
-                        </div>
-                        <RgbColorPicker color={parseToRGB(value)} onChange={e => submit(`rgb(${e.r},${e.g},${e.b})`)}/>
-                    </div>
-
-                )
-
+            case 'Color':
+                return <ColorPicker submit={submit} value={value} label={'Color'}/>
             case 'Image':
                 return <Selector
                     availableTextures={props.hook.quickAccess.images}
@@ -106,56 +76,139 @@ export default function NodeEditor(props) {
                     }}
                     selected={props.hook.quickAccess.images.find(e => e.id === value?.id)}/>
             case 'String':
-                return <TextField value={value} width={'100%'} size={'small'}
-                                  handleChange={ev => submit(ev.target.value)} label={label} placeholder={label}/>
+                return <TextField
+                    value={value} width={'100%'} size={'small'}
+                    handleChange={ev => submit(ev.target.value)} label={label} placeholder={label}/>
 
             default:
                 return
         }
 
     }
-    const engine = useVisualizer(true, true, true)
+    const load = useContext(LoadProvider)
+    const database = useContext(DatabaseProvider)
+    const [initiated, setInitiated] = useState(false)
+    const updateTexture = () => {
+        const sphere = props.engine.entities.find(e => e.id === IDS.SPHERE)
+        if (sphere) {
+            load.pushEvent(EVENTS.LOADING_MATERIAL)
+            updateViewport(database, props.hook.nodes.find(e => e instanceof Material))
+                .then(res => {
+                    let mat = props.engine.materials.find(m => m.id === MAT_ID)
+                    const gpu = props.engine.gpu
+                    if (!mat) {
+                        mat = new MaterialInstance(
+                            gpu,
+                            MAT_ID,
+                            undefined,
+                            undefined,
+                            undefined,
+                            undefined,
+                            undefined,
+                            undefined
+                        )
+                        props.engine.setMaterials([mat])
+                    }
 
+                    res.forEach(r => {
+                        console.log(referenceMaterial)
+                        if (r.data) {
+                            if (r.type === 'albedo')
+                                mat[r.type] = new Texture(r.data, false, gpu)
+                            else
+                                mat[r.type] = new Texture(r.data, false, gpu, gpu.RGB, gpu.RGB)
+                        } else if (referenceMaterial[r.type]) {
+                            mat[r.type] = referenceMaterial[r.type]
+                        }
+                    })
 
+                    sphere.components.MaterialComponent.materialID = mat.id
+                    props.engine.dispatchEntities({
+                        type: ENTITY_ACTIONS.UPDATE_COMPONENT,
+                        payload: {
+                            entityID: sphere.id,
+                            key: MaterialComponent.prototype.constructor.name,
+                            data: sphere.components.MaterialComponent
+                        }
+                    })
+                    setInitiated(true)
+                    load.finishEvent(EVENTS.LOADING_MATERIAL)
+                })
+        }
+    }
+
+    useEffect(() => {
+        if (props.engine.gpu && !initiated && referenceMaterial) {
+            updateTexture()
+        }
+        if (!referenceMaterial && props.engine.gpu){
+            console.trace(referenceMaterial)
+            setReferenceMaterial(new MaterialInstance(
+                props.engine.gpu,
+            ))
+        }
+    }, [props.engine.gpu, props.engine.entities, referenceMaterial])
+
+    const viewportRef = useRef()
     return (
         <div className={styles.wrapper}>
-            <div style={{width: '100%', height: '200px', overflow: 'hidden'}}><Viewport allowDrop={false} id={engine.id} engine={engine}/></div>
+            <div ref={viewportRef}
+                 style={{width: '100%', height: '200px', overflow: 'hidden', position: 'relative'}}>
+                <Viewport allowDrop={false} id={props.engine.id} engine={props.engine}/>
+                <Button
+                    className={styles.refresh}
+                    styles={{bottom: 'unset', top: '4px', right: 'unset', left: '4px'}}
+                    onClick={() => {
+                        viewportRef.current.requestFullscreen()
+
+                    }}
+                >
+                    <ToolTip content={'Fullscreen'}/>
+                    <span
+                        className={'material-icons-round'}
+                        style={{fontSize: '1.1rem'}}
+                    >fullscreen</span>
+                </Button>
+                <Button
+                    className={styles.refresh}
+                    onClick={() => {
+                        updateTexture()
+                    }}
+                >
+                    <ToolTip content={'Refresh viewport'}/>
+                    <span
+                        className={'material-icons-round'}
+                        style={{fontSize: '1.1rem'}}
+                    >refresh</span>
+                </Button>
+            </div>
             <ResizableBar type={'height'}/>
             <div className={styles.form}>
-                {selected ? attributes.map(attr => (
-                    getInput(
-                        attr.notEditable,
-                        attr.label,
-                        attr.type,
-                        selected[attr.key],
-                        (event) => props.hook.setNodes(prev => {
-                            const n = [...prev]
-                            const classLocation = n.findIndex(e => e.id === selected.id)
-                            const clone = cloneClass(prev[classLocation])
-                            clone[attr.key] = event
+                {attributes.map((attr, i) => (
+                    <React.Fragment key={attr.label + '-attribute-' + i}>
+                        <Accordion>
+                            <AccordionSummary>
+                                {attr.label}
+                            </AccordionSummary>
+                            <div className={styles.content}>
+                                {getInput(
+                                    attr.label,
+                                    attr.type,
+                                    selected[attr.key],
+                                    (event) => props.hook.setNodes(prev => {
+                                        const n = [...prev]
+                                        const classLocation = n.findIndex(e => e.id === selected.id)
+                                        const clone = cloneClass(prev[classLocation])
+                                        clone[attr.key] = event
 
-                            if (attr.type === 'RGBA') {
-                                const parsed = parseToRGBA(event)
-                                if (parsed) {
-                                    clone.r = `rgba(${parsed.r},0,0, 1)`
-                                    clone.g = `rgba(0,${parsed.g},0, 1)`
-                                    clone.b = `rgba(0,0,${parsed.b}, 1)`
-                                    clone.b = `rgba(0,0,0,${parsed.a})`
-                                }
-                            }
-                            if (attr.type === 'RGB') {
-                                const parsed = parseToRGB(event)
-                                if (parsed) {
-                                    clone.r = `rgb(${parsed.r},0,0)`
-                                    clone.g = `rgb(0,${parsed.g},0)`
-                                    clone.b = `rgb(0,0,${parsed.b})`
-                                }
-                            }
+                                        n[classLocation] = clone
+                                        return n
+                                    }))}
+                            </div>
+                        </Accordion>
 
-                            n[classLocation] = clone
-                            return n
-                        }))
-                )) : null}
+                    </React.Fragment>
+                ))}
             </div>
             <ResizableBar type={'width'}/>
         </div>
@@ -163,6 +216,7 @@ export default function NodeEditor(props) {
 }
 
 NodeEditor.propTypes = {
+    engine: PropTypes.object.isRequired,
     workflow: PropTypes.oneOf(['material']),
     selected: PropTypes.string,
     hook: PropTypes.object

@@ -1,23 +1,24 @@
 import Response from "../templates/Response";
-import TextureSample from "../workflows/material/templates/TextureSample";
-import PBRMaterial from "../workflows/material/templates/PBRMaterial";
+import TextureSample from "../workflows/material/TextureSample";
+import Material from "../workflows/material/Material";
+import {instanceOf} from "prop-types";
 
 export default function makePackage(hook) {
-    hook.compile()
-    const responseNode = hook.nodes.find(n => {
+    const nodes = hook.compile()
+    const responseNode = nodes.find(n => {
         return (n instanceof Response)
     })
 
     if (responseNode) {
 
         return {
-            nodes: hook.nodes.filter(n => !(n instanceof Response)).map(n => {
-                if (n instanceof TextureSample)
-                    return {...n, sample: n.sample.id, instanceOf: 'TextureSample'}
+            nodes: nodes.filter(n => !(n instanceof Response)).map(n => {
+                if(n instanceof TextureSample)
+                    return {...n, instanceOf: n.constructor.name, sample: n.sample?.id}
                 return {...n, instanceOf: n.constructor.name}
             }),
             links: hook.links,
-            response: responseNode instanceof PBRMaterial ?
+            response: responseNode instanceof Material ?
                 {
                     albedo: {
                         ref: (typeof responseNode.albedo === "object") ? responseNode.albedo?.id : responseNode.albedo,

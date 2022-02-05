@@ -1,6 +1,6 @@
-import Response from "../../../templates/Response";
+import Response from "../../templates/Response";
 
-export default class PBRMaterial extends Response {
+export default class Material extends Response {
     albedo
     metallic
     height
@@ -10,7 +10,7 @@ export default class PBRMaterial extends Response {
     constructor() {
         super(
             [
-                {label: 'Base color', key: 'albedo', accept: ['Rgb', 'Rgba', 'TextureSample']},
+                {label: 'Albedo', key: 'albedo', accept: ['Rgb', 'Rgba', 'TextureSample']},
                 {label: 'Metallic', key: 'metallic', accept: ['Rgb', 'Rgba', 'TextureSample']},
                 {label: 'Height', key: 'height', accept: ['Rgb', 'Rgba', 'TextureSample']},
                 {label: 'Roughness', key: 'roughness', accept: ['Rgb', 'Rgba', 'TextureSample']},
@@ -18,7 +18,7 @@ export default class PBRMaterial extends Response {
                 {label: 'Ambient occlusion', key: 'ao', accept: ['Rgb', 'Rgba', 'TextureSample']},
             ]);
 
-        this.name = 'PBR Material'
+        this.name = 'Material'
 
     }
 

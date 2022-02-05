@@ -1,7 +1,8 @@
-import Function from "../../../templates/Function";
+import Function from "../../templates/Function";
 
-export default class Subtract extends Function {
+export default class Add extends Function {
     response
+
     constructor(constA, constB) {
         super([
             {label: 'A', key: 'constA', accept: ['Constant', 'Multiply', 'Divide', 'Add', 'Subtract', 'Power']},
@@ -9,10 +10,10 @@ export default class Subtract extends Function {
         ]);
         this.constA = constA
         this.constB = constB
-        this.name = 'Subtract'
+        this.name = 'Add'
     }
 
     execute() {
-        this.response = this.constA - this.constB
+        this.response = this.constA + this.constB
     }
 }

@@ -1,11 +1,11 @@
-import Vector2D from "../templates/Vector2D";
-import Vector3D from "../templates/Vector3D";
-import Vector4D from "../templates/Vector4D";
-import AddVector from "../templates/AddVector";
-import SubtractVector from "../templates/SubtractVector";
-import VectorScalar from "../templates/VectorScalar";
-import CrossProduct from "../templates/CrossProduct";
-import DotProduct from "../templates/DotProduct";
+import Vector2D from "../workflows/algebra/Vector2D";
+import Vector3D from "../workflows/algebra/Vector3D";
+import Vector4D from "../workflows/algebra/Vector4D";
+import AddVector from "../workflows/algebra/AddVector";
+import SubtractVector from "../workflows/algebra/SubtractVector";
+import VectorScalar from "../workflows/algebra/VectorScalar";
+import CrossProduct from "../workflows/algebra/CrossProduct";
+import DotProduct from "../workflows/algebra/DotProduct";
 
 export const algebraAvailable=[
     {

@@ -1,106 +1,22 @@
 import PropTypes from "prop-types";
 import styles from '../styles/Node.module.css'
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import getBezierCurve from "../utils/bezierCurve";
 import {ToolTip} from "@f-ui/core";
 import checkType from "../utils/checkType";
+import useNode from "../hooks/useNode";
 
 export default function Node(props) {
-    const ref = useRef()
-    const pathRef = useRef()
-
-    const [height, setHeight] = useState()
-    useEffect(() => {
-        setHeight(ref.current.firstChild.scrollHeight)
-    }, [])
-
-    const handleLinkDrag = (event) => {
-        const parent = ref.current?.parentNode.parentNode
-        const bBox = event.currentTarget.getBoundingClientRect()
-        let parentBBox = parent.getBoundingClientRect()
-        const bounding = {
-            x: parent.scrollLeft - parentBBox.left,
-            y: parent.scrollTop - parentBBox.top
-        }
-
-        const curve = getBezierCurve(
-            {
-                x: (bBox.x + bounding.x + 7.5)/props.scale,
-                y: (bBox.y + bounding.y + 7.5)/props.scale
-            },
-            {x1: (event.clientX + bounding.x + 7.5)/props.scale, y1: (event.clientY + bounding.y + 7.5)/props.scale})
-
-        pathRef.current?.setAttribute('d', curve)
-    }
-    let lastPlacement = {
-        x: 0,
-        y: 0
-    }
-    const handleDragStart = (event) => {
-        const t = event.currentTarget
-        t.style.cursor = 'grabbing'
-        ref.current.firstChild.style.outline = 'var(--fabric-accent-color) 2px solid'
-        const parent = ref.current?.parentNode.parentNode
-        let parentBBox = parent.getBoundingClientRect()
-        let bounding = {
-            x: parent.scrollLeft - parentBBox.left,
-            y: parent.scrollTop - parentBBox.top
-        }
-        lastPlacement = {
-            x: event.clientX + bounding.x,
-            y: event.clientY + bounding.y
-        }
-        let nodeBbox = ref.current?.getBoundingClientRect()
-        let current = {
-            x: (nodeBbox.left + bounding.x)/props.scale,
-            y: (nodeBbox.top + bounding.y)/props.scale
-        }
-        const handleMouseMove = (ev) => {
-            parentBBox = parent.getBoundingClientRect()
-            bounding = {
-                x: parent.scrollLeft - parentBBox.left,
-                y: parent.scrollTop - parentBBox.top
-            }
-            const mousePlacement = {
-                x: ev.clientX + bounding.x,
-                y: ev.clientY + bounding.y
-            }
-            const toBeApplied = {
-                x: lastPlacement.x - mousePlacement.x,
-                y: lastPlacement.y - mousePlacement.y
-            }
-
-            lastPlacement = mousePlacement
-            nodeBbox = ref.current?.getBoundingClientRect()
-
-            current = {
-                x: ((nodeBbox.left + bounding.x) - toBeApplied.x)/props.scale,
-                y: ((nodeBbox.top + bounding.y) - toBeApplied.y)/props.scale
-            }
-
-            ref.current?.setAttribute('transform', `translate(${current.x} ${current.y})`)
-        }
-        const handleMouseUp = () => {
-            t.style.cursor = 'grab'
-            const bBox = ref.current.getBoundingClientRect()
-            let fixedPlacement = current
-            if (bBox.top - parentBBox.top < 0)
-                fixedPlacement.y = 0
-            if (bBox.left - parentBBox.left < 0)
-                fixedPlacement.x = 0
-
-            if (bBox.top - parentBBox.top > parentBBox.height)
-                fixedPlacement.y = parentBBox.height - bBox.height
-            if (bBox.left - parentBBox.left > parentBBox.width)
-                fixedPlacement.x = parentBBox.width - bBox.width
-
-            ref.current?.setAttribute('transform', `translate(${fixedPlacement.x} ${fixedPlacement.y})`)
-
-            document.removeEventListener('mousemove', handleMouseMove)
-        }
-        document.addEventListener('mousemove', handleMouseMove)
-        document.addEventListener('mouseup', handleMouseUp, {once: true})
-    }
+    const  {
+        selected,
+        ref,
+        handleDragStart,
+        handleLinkDrag,
+        height,
+        pathRef,
+        outputLinks,
+        inputLinks
+    } = useNode(props)
 
     return (
         <g>
@@ -119,7 +35,7 @@ export default function Node(props) {
                     style={{
                         width: '250px',
                         height: height + 'px',
-                        outlineColor: props.selected === props.node.id ? 'var(--fabric-accent-color) !important' : undefined
+                        outline: selected ? 'var(--fabric-accent-color) 2px solid' : undefined
                     }}>
                     <div className={styles.label}
                          onMouseDown={ev => handleDragStart(ev, props.node, props.handleChange)}>
@@ -141,6 +57,7 @@ export default function Node(props) {
                                             e.preventDefault()
                                             e.currentTarget.style.background = 'var(--fabric-accent-color)'
                                         }}
+                                        style={{background: inputLinks.includes(a.key) ? 'var(--fabric-accent-color' : undefined}}
                                         onDrop={e => {
                                             e.preventDefault()
                                             const data = JSON.parse(e.dataTransfer.getData('text'))
@@ -193,6 +110,7 @@ export default function Node(props) {
                                     </div>
                                     <div
                                         id={props.node.id + a.key}
+                                        style={{background: outputLinks.includes(a.key) ? 'var(--fabric-accent-color' : undefined}}
                                         className={styles.connection}
                                         draggable={true}
                                         onDrop={() => {
@@ -232,6 +150,7 @@ export default function Node(props) {
     )
 }
 Node.propTypes = {
+    links: PropTypes.array,
     setAlert: PropTypes.func,
     node: PropTypes.object.isRequired,
     scale: PropTypes.number,

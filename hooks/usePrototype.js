@@ -1,42 +1,36 @@
-import {useContext, useEffect, useLayoutEffect, useMemo, useState} from "react";
+import {useContext, useEffect, useLayoutEffect, useState} from "react";
 import parseNodes from "../utils/parseNodes";
 
-import PBRMaterial from "../workflows/material/templates/PBRMaterial";
+import Material from "../workflows/material/Material";
 import QuickAccessProvider from "../../../components/db/QuickAccessProvider";
 import DatabaseProvider from "../../../components/db/DatabaseProvider";
+import cloneClass from "../../editor/utils/misc/cloneClass";
+import LoadProvider from "../../editor/hook/LoadProvider";
+import EVENTS from "../../editor/utils/misc/EVENTS";
 
 
-export default function usePrototype(file = {}, workflow) {
+export default function usePrototype(file = {}) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
     const [selected, setSelected] = useState()
-    const name = useMemo(() => {
-        return file.name
-    }, [file])
-    const quickAccess = useContext(QuickAccessProvider)
 
+    const quickAccess = useContext(QuickAccessProvider)
     const database = useContext(DatabaseProvider)
+
     useLayoutEffect(() => {
+
         parseNodes(database, file.nodes, file.response, file.workflow, (parsed) => {
             let n = [...parsed]
-            if(parsed.length === 0 && workflow === 'PBRMaterial')
-                n.push(new PBRMaterial())
+            if (parsed.length === 0)
+                n.push(new Material())
 
             setNodes(n)
             if (file.links !== undefined)
-            setLinks(file.links)
+                setLinks(file.links)
+
         }, quickAccess)
     }, [file])
-    const cloneObj = (obj) => {
-        return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj)
-    }
-    const checkFields = (node) => {
-        let valid = true
-        node.inputs.forEach(i => {
-            valid = valid && node[i.key] !== undefined
-        })
-        return valid
-    }
+
     const updateLinks = () => {
         links.forEach(l => {
             const parsed = {
@@ -48,7 +42,7 @@ export default function usePrototype(file = {}, workflow) {
 
             setNodes(prev => {
                 let c = [...prev]
-                let targetClone = cloneObj(nodes[parsed.target])
+                let targetClone = cloneClass(nodes[parsed.target])
                 targetClone[parsed.targetKey] = nodes[parsed.source][parsed.sourceKey]
                 c[parsed.target] = targetClone
                 return c
@@ -62,48 +56,35 @@ export default function usePrototype(file = {}, workflow) {
     }, [links, selected])
 
     const compile = () => {
-        let changed
-        let copy = [...nodes]
-        do {
-            updateLinks()
-            changed = 0
-            copy = copy.map(c => {
-                let allValid = checkFields(c)
+        updateLinks()
+        const newNodes = nodes.map(
+            c => {
                 const docNode = document.getElementById(c.id).parentNode
-                const transformation = docNode.getAttribute('transform').replace('translate(', '').replace(')', '').split(' ')
+                const transformation = docNode
+                    .getAttribute('transform')
+                    .replace('translate(', '')
+                    .replace(')', '')
+                    .split(' ')
+
                 c.x = parseFloat(transformation[0])
                 c.y = parseFloat(transformation[1])
 
-                if (typeof c.execute === 'function' && allValid) {
-                    let oldResponse = c[c.output.key]
-
-                    c.execute()
-
-                    if (c[c.output.key] !== oldResponse)
-                        changed += 1
-                    return c
-                }
                 return c
             })
-        }
-        while (changed > 0 || changed === undefined)
+        setNodes(newNodes)
 
-        setNodes(copy)
+        return newNodes
     }
-    const [alert, setAlert] = useState({
-        type: undefined,
-        message: undefined
-    })
+
     return {
         compile,
-        selected, setSelected,
-        setAlert,
-        alert,
+        selected,
+        setSelected,
         setNodes,
         nodes,
         links,
         setLinks,
-        name,
+        name: file.name,
         quickAccess
     }
 }

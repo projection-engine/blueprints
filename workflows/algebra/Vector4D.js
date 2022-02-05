@@ -1,4 +1,4 @@
-import Node from "../../../templates/Node";
+import Node from "../../templates/Node";
 
 export default class Vector4D extends Node {
     constructor() {
