@@ -5,8 +5,6 @@ import Material from "../workflows/material/Material";
 import QuickAccessProvider from "../../../components/db/QuickAccessProvider";
 import DatabaseProvider from "../../../components/db/DatabaseProvider";
 import cloneClass from "../../editor/utils/misc/cloneClass";
-import LoadProvider from "../../editor/hook/LoadProvider";
-import EVENTS from "../../editor/utils/misc/EVENTS";
 
 
 export default function usePrototype(file = {}) {

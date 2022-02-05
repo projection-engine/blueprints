@@ -3,16 +3,12 @@ import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
 import Material from "../workflows/material/Material";
 import ResizableBar from "../../../components/resizable/ResizableBar";
-import Response from "../templates/Response";
-import Function from "../templates/Function";
-
-import {RgbaColorPicker, RgbColorPicker} from "react-colorful";
 
 import {Accordion, AccordionSummary, Button, TextField, ToolTip} from "@f-ui/core";
 import Range from "../../../components/range/Range";
 import Selector from "../../../components/selector/Selector";
 import Viewport from "../../../components/viewport/Viewport";
-import useVisualizer, {IDS} from "../../mesh/hook/useVisualizer";
+import {IDS} from "../../mesh/hook/useVisualizer";
 import cloneClass from "../../editor/utils/misc/cloneClass";
 import ColorPicker from "../../../components/color/ColorPicker";
 import updateViewport from "../utils/updateViewport";
@@ -20,7 +16,7 @@ import LoadProvider from "../../editor/hook/LoadProvider";
 import EVENTS from "../../editor/utils/misc/EVENTS";
 import DatabaseProvider from "../../../components/db/DatabaseProvider";
 import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
-import {colorToImage} from "../../../services/engine/utils/imageManipulation";
+
 import Texture from "../../../services/engine/renderer/elements/Texture";
 import {ENTITY_ACTIONS} from "../../../services/engine/ecs/utils/entityReducer";
 import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
@@ -65,7 +61,7 @@ export default function NodeEditor(props) {
                 return <ColorPicker submit={submit} value={value} label={'Color'}/>
             case 'Image':
                 return <Selector
-                    availableTextures={props.hook.quickAccess.images}
+                    type={'image'}
                     handleChange={ev => {
 
                         submit({

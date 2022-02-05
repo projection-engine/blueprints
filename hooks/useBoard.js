@@ -35,8 +35,6 @@ export default function useBoard(hook, setAlert, parentRef) {
             resizeObs = new ResizeObserver(callback)
         resizeObs.observe(ref.current?.parentNode)
         callback()
-
-
     }, [])
 
 

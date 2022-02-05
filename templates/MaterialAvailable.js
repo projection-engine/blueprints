@@ -1,4 +1,3 @@
-import Material from "../workflows/material/Material";
 import TextureSample from "../workflows/material/TextureSample";
 import Color from "../workflows/material/Color";
 

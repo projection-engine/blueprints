@@ -1,7 +1,5 @@
 import PropTypes from "prop-types";
 import styles from '../styles/Node.module.css'
-import {useEffect, useMemo, useRef, useState} from "react";
-import getBezierCurve from "../utils/bezierCurve";
 import {ToolTip} from "@f-ui/core";
 import checkType from "../utils/checkType";
 import useNode from "../hooks/useNode";

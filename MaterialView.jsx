@@ -5,7 +5,7 @@ import Available from "./components/Available";
 import styles from './styles/Board.module.css'
 
 import {useContext, useEffect, useMemo, useRef} from "react";
-import PropTypes, {instanceOf} from "prop-types";
+import PropTypes from "prop-types";
 
 import makePackage from "./utils/makePackage";
 import ControlProvider from "../../components/tabs/components/ControlProvider";
@@ -13,15 +13,15 @@ import ResizableBar from "../../components/resizable/ResizableBar";
 import MaterialClass from './workflows/material/Material'
 import useVisualizer from "../mesh/hook/useVisualizer";
 
-export default function Material(props) {
+export default function MaterialView(props) {
     const hook = usePrototype(props.file)
     const ref = useRef()
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n.constructor.name === MaterialClass.constructor.name)
     }, [hook.nodes])
-    const toolBarContext = useContext(ControlProvider)
     const engine = useVisualizer(true, true, true)
 
+    const toolBarContext = useContext(ControlProvider)
     useEffect(() => {
         toolBarContext.setOptions([
             {
@@ -44,12 +44,6 @@ export default function Material(props) {
 
                     props.submitPackage(m.albedo?.previewImage, makePackage(hook), true)
                 }
-            },
-            {
-                label: 'Import script',
-                icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>download</span>,
-                onClick: () => null,
-                disabled: true
             }
         ])
     }, [hook.nodes, hook.links])
@@ -73,7 +67,7 @@ export default function Material(props) {
     )
 }
 
-Material.propTypes = {
+MaterialView.propTypes = {
     setAlert: PropTypes.func.isRequired,
     file: PropTypes.object,
     submitPackage: PropTypes.func.isRequired,

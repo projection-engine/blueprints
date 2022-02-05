@@ -17,9 +17,6 @@ import DotProduct from "../workflows/algebra/DotProduct";
 import Color from "../workflows/material/Color";
 import Power from "../workflows/basic/Power";
 import TextureSample from "../workflows/material/TextureSample";
-import {getFetchPromise} from "../../editor/utils/parsers/loadMaterial";
-import {colorToImage} from "../../../services/engine/utils/imageManipulation";
-import {instanceOf} from "prop-types";
 
 
 export default function parseNodes(database, nodes, responseOBJ, workflow, callback, quickAccess) {
