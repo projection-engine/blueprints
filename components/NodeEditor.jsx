@@ -14,7 +14,7 @@ import ColorPicker from "../../../components/color/ColorPicker";
 import updateViewport from "../utils/updateViewport";
 import LoadProvider from "../../editor/hook/LoadProvider";
 import EVENTS from "../../editor/utils/misc/EVENTS";
-import DatabaseProvider from "../../../components/db/DatabaseProvider";
+
 import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
 
 import Texture from "../../../services/engine/renderer/elements/Texture";
@@ -82,13 +82,13 @@ export default function NodeEditor(props) {
 
     }
     const load = useContext(LoadProvider)
-    const database = useContext(DatabaseProvider)
+
     const [initiated, setInitiated] = useState(false)
     const updateTexture = () => {
         const sphere = props.engine.entities.find(e => e.id === IDS.SPHERE)
         if (sphere) {
             load.pushEvent(EVENTS.LOADING_MATERIAL)
-            updateViewport(database, props.hook.nodes.find(e => e instanceof Material))
+            updateViewport({}, props.hook.nodes.find(e => e instanceof Material))
                 .then(res => {
                     let mat = props.engine.materials.find(m => m.id === MAT_ID)
                     const gpu = props.engine.gpu

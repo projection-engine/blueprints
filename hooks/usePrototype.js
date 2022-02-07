@@ -3,7 +3,7 @@ import parseNodes from "../utils/parseNodes";
 
 import Material from "../workflows/material/Material";
 import QuickAccessProvider from "../../../components/db/QuickAccessProvider";
-import DatabaseProvider from "../../../components/db/DatabaseProvider";
+
 import cloneClass from "../../editor/utils/misc/cloneClass";
 
 
@@ -11,13 +11,10 @@ export default function usePrototype(file = {}) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
     const [selected, setSelected] = useState()
-
     const quickAccess = useContext(QuickAccessProvider)
-    const database = useContext(DatabaseProvider)
 
     useLayoutEffect(() => {
-
-        parseNodes(database, file.nodes, file.response, file.workflow, (parsed) => {
+        parseNodes({}, file.nodes, file.response, file.workflow, (parsed) => {
             let n = [...parsed]
             if (parsed.length === 0)
                 n.push(new Material())
@@ -25,7 +22,6 @@ export default function usePrototype(file = {}) {
             setNodes(n)
             if (file.links !== undefined)
                 setLinks(file.links)
-
         }, quickAccess)
     }, [file])
 
