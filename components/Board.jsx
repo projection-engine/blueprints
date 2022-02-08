@@ -7,7 +7,7 @@ import handleDropBoard from "../utils/handleDropBoard";
 import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
 import ContextMenu from "../../../components/context/ContextMenu";
-import cloneClass from "../../editor/utils/misc/cloneClass";
+import cloneClass from "../../../pages/project/utils/misc/cloneClass";
 
 
 export default function Board(props) {

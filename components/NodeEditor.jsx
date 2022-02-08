@@ -9,17 +9,19 @@ import Range from "../../../components/range/Range";
 import Selector from "../../../components/selector/Selector";
 import Viewport from "../../../components/viewport/Viewport";
 import {IDS} from "../../mesh/hook/useVisualizer";
-import cloneClass from "../../editor/utils/misc/cloneClass";
+
 import ColorPicker from "../../../components/color/ColorPicker";
 import updateViewport from "../utils/updateViewport";
-import LoadProvider from "../../editor/hook/LoadProvider";
-import EVENTS from "../../editor/utils/misc/EVENTS";
+
 
 import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
 
 import Texture from "../../../services/engine/renderer/elements/Texture";
 import {ENTITY_ACTIONS} from "../../../services/engine/ecs/utils/entityReducer";
 import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
+import LoadProvider from "../../../pages/project/hook/LoadProvider";
+import * as EVENTS from "events";
+import cloneClass from "../../../pages/project/utils/misc/cloneClass";
 
 const MAT_ID = 'MAT-0'
 export default function NodeEditor(props) {
@@ -88,6 +90,7 @@ export default function NodeEditor(props) {
         const sphere = props.engine.entities.find(e => e.id === IDS.SPHERE)
         if (sphere) {
             load.pushEvent(EVENTS.LOADING_MATERIAL)
+            // TODO - UPDATE VIEWPORT
             updateViewport({}, props.hook.nodes.find(e => e instanceof Material))
                 .then(res => {
                     let mat = props.engine.materials.find(m => m.id === MAT_ID)

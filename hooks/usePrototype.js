@@ -3,8 +3,8 @@ import parseNodes from "../utils/parseNodes";
 
 import Material from "../workflows/material/Material";
 import QuickAccessProvider from "../../../components/db/QuickAccessProvider";
+import cloneClass from "../../../pages/project/utils/misc/cloneClass";
 
-import cloneClass from "../../editor/utils/misc/cloneClass";
 
 
 export default function usePrototype(file = {}) {
