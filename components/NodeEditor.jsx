@@ -110,7 +110,6 @@ export default function NodeEditor(props) {
                     }
 
                     res.forEach(r => {
-                        console.log(referenceMaterial)
                         if (r.data) {
                             if (r.type === 'albedo')
                                 mat[r.type] = new Texture(r.data, false, gpu)
@@ -141,7 +140,6 @@ export default function NodeEditor(props) {
             updateTexture()
         }
         if (!referenceMaterial && props.engine.gpu){
-            console.trace(referenceMaterial)
             setReferenceMaterial(new MaterialInstance(
                 props.engine.gpu,
             ))

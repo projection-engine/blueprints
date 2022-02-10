@@ -145,7 +145,6 @@ export default function parseNodes(database, nodes, responseOBJ, workflow, callb
             case TextureSample.prototype.constructor.name: {
 
                 const newClass = new TextureSample()
-                console.log(n)
                 newClass.sample = quickAccess.images.find(e => e.id === n.sample)
                 newClass.name = n.name
 
