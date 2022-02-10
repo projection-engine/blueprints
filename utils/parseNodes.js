@@ -19,7 +19,7 @@ import Power from "../workflows/basic/Power";
 import TextureSample from "../workflows/material/TextureSample";
 
 
-export default function parseNodes(database, nodes, responseOBJ, workflow, callback, quickAccess) {
+export default function parseNodes(nodes, responseOBJ, workflow, callback, quickAccess) {
 
     const updatePlacement = (obj, node) => {
 

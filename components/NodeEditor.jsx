@@ -20,8 +20,9 @@ import Texture from "../../../services/engine/renderer/elements/Texture";
 import {ENTITY_ACTIONS} from "../../../services/engine/ecs/utils/entityReducer";
 import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
 import LoadProvider from "../../../pages/project/hook/LoadProvider";
-import * as EVENTS from "events";
+
 import cloneClass from "../../../pages/project/utils/misc/cloneClass";
+import EVENTS from "../../../pages/project/utils/misc/EVENTS";
 
 const MAT_ID = 'MAT-0'
 export default function NodeEditor(props) {
@@ -90,8 +91,8 @@ export default function NodeEditor(props) {
         const sphere = props.engine.entities.find(e => e.id === IDS.SPHERE)
         if (sphere) {
             load.pushEvent(EVENTS.LOADING_MATERIAL)
-            // TODO - UPDATE VIEWPORT
-            updateViewport({}, props.hook.nodes.find(e => e instanceof Material))
+
+            updateViewport(props.hook.quickAccess.fileSystem, props.hook.nodes.find(e => e instanceof Material))
                 .then(res => {
                     let mat = props.engine.materials.find(m => m.id === MAT_ID)
                     const gpu = props.engine.gpu
@@ -104,9 +105,10 @@ export default function NodeEditor(props) {
                             undefined,
                             undefined,
                             undefined,
-                            undefined
+                            undefined,
+                            false
                         )
-                        props.engine.setMaterials([mat])
+
                     }
 
                     res.forEach(r => {
@@ -119,7 +121,7 @@ export default function NodeEditor(props) {
                             mat[r.type] = referenceMaterial[r.type]
                         }
                     })
-
+                    props.engine.setMaterials([mat])
                     sphere.components.MaterialComponent.materialID = mat.id
                     props.engine.dispatchEntities({
                         type: ENTITY_ACTIONS.UPDATE_COMPONENT,

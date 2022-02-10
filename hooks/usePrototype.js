@@ -2,28 +2,40 @@ import {useContext, useEffect, useLayoutEffect, useState} from "react";
 import parseNodes from "../utils/parseNodes";
 
 import Material from "../workflows/material/Material";
-import QuickAccessProvider from "../../../components/db/QuickAccessProvider";
+import QuickAccessProvider from "../../../pages/project/hook/QuickAccessProvider";
 import cloneClass from "../../../pages/project/utils/misc/cloneClass";
 
 
-
-export default function usePrototype(file = {}) {
+export default function usePrototype(registryID) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
     const [selected, setSelected] = useState()
     const quickAccess = useContext(QuickAccessProvider)
 
     useLayoutEffect(() => {
-        parseNodes({}, file.nodes, file.response, file.workflow, (parsed) => {
-            let n = [...parsed]
-            if (parsed.length === 0)
-                n.push(new Material())
+        quickAccess.fileSystem
+            .readRegistryFile(registryID)
+            .then(res => {
+                if (res) {
+                    quickAccess.fileSystem
+                        .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
+                        .then(file => {
+                            if (file) {
+                                parseNodes( file.nodes, file.response, file.workflow, (parsed) => {
+                                    let n = [...parsed]
+                                    if (parsed.length === 0)
+                                        n.push(new Material())
 
-            setNodes(n)
-            if (file.links !== undefined)
-                setLinks(file.links)
-        }, quickAccess)
-    }, [file])
+                                    setNodes(n)
+                                    if (file.links !== undefined)
+                                        setLinks(file.links)
+                                }, quickAccess)
+                            }
+                        })
+                }
+            })
+
+    }, [registryID])
 
     const updateLinks = () => {
         links.forEach(l => {
@@ -78,7 +90,6 @@ export default function usePrototype(file = {}) {
         nodes,
         links,
         setLinks,
-        name: file.name,
         quickAccess
     }
 }

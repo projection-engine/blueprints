@@ -14,7 +14,7 @@ import MaterialClass from './workflows/material/Material'
 import useVisualizer from "../mesh/hook/useVisualizer";
 
 export default function MaterialView(props) {
-    const hook = usePrototype(props.file)
+    const hook = usePrototype(props.registryID)
     const ref = useRef()
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n.constructor.name === MaterialClass.constructor.name)
@@ -69,7 +69,7 @@ export default function MaterialView(props) {
 
 MaterialView.propTypes = {
     setAlert: PropTypes.func.isRequired,
-    file: PropTypes.object,
+    registryID: PropTypes.string,
     submitPackage: PropTypes.func.isRequired,
 
 }
