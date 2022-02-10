@@ -103,8 +103,9 @@ export default function Board(props) {
                 overflow: 'auto',
                 width: '100%',
                 height: '100%',
-                borderRadius: '5px'
-            }} className={styles.background}>
+                borderRadius: '5px',
+                '--size': scale * 20 + 'px'
+            }} className={styles.background} >
             <svg
                 onDragOver={e => e.preventDefault()}
                 data-board={'self'}

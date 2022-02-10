@@ -1,7 +1,9 @@
 .background{
-    background: var(--background-3) radial-gradient(var(--background-1) 1px, transparent 0);
-    background-size: 20px 20px;
+    --size: 20px;
+    background: var(--background-1) radial-gradient(var(--fabric-border-secondary) calc(var(--size)/20), transparent 0);
+    background-size:var(--size) var(--size);
 }
+
 .wrapper {
     left: 0;
     top: 0;
