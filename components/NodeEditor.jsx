@@ -23,6 +23,7 @@ import LoadProvider from "../../../pages/project/hook/LoadProvider";
 
 import cloneClass from "../../../pages/project/utils/misc/cloneClass";
 import EVENTS from "../../../pages/project/utils/misc/EVENTS";
+import {TYPES} from "../templates/TYPES";
 
 const MAT_ID = 'MAT-0'
 export default function NodeEditor(props) {
@@ -39,16 +40,17 @@ export default function NodeEditor(props) {
     const attributes = useMemo(() => {
         let res = []
         if (selected) {
-
-            res = [...selected.output.filter(o => !o.notEditable)]
-
-
             res = [{
                 key: 'name',
                 value: selected.name,
-                type: 'String',
+                type: TYPES.STRING,
                 label: 'Node name'
-            }].concat(res)
+            }, ...selected.inputs.filter(o => !o.accept).map(e => {
+                return {
+                    ...e,
+                    value: e[e.key]
+                }
+            })]
         }
         return res
     }, [selected])
@@ -56,13 +58,13 @@ export default function NodeEditor(props) {
 
     const getInput = (label, type, value, submit) => {
         switch (type) {
-            case 'Constant':
+            case TYPES.NUMBER:
                 return (
                     <Range value={value} handleChange={submit} label={label}/>
                 )
-            case 'Color':
+            case TYPES.COLOR:
                 return <ColorPicker submit={submit} value={value} label={'Color'}/>
-            case 'Image':
+            case TYPES.TEXTURE:
                 return <Selector
                     type={'image'}
                     handleChange={ev => {
@@ -74,7 +76,7 @@ export default function NodeEditor(props) {
                         })
                     }}
                     selected={props.hook.quickAccess.images.find(e => e.id === value?.id)}/>
-            case 'String':
+            case TYPES.STRING:
                 return <TextField
                     value={value} width={'100%'} size={'small'}
                     handleChange={ev => submit(ev.target.value)} label={label} placeholder={label}/>
@@ -82,7 +84,6 @@ export default function NodeEditor(props) {
             default:
                 return
         }
-
     }
     const load = useContext(LoadProvider)
 
@@ -99,14 +100,7 @@ export default function NodeEditor(props) {
                     if (!mat) {
                         mat = new MaterialInstance(
                             gpu,
-                            MAT_ID,
-                            undefined,
-                            undefined,
-                            undefined,
-                            undefined,
-                            undefined,
-                            undefined,
-                            false
+                            MAT_ID
                         )
 
                     }
@@ -141,7 +135,7 @@ export default function NodeEditor(props) {
         if (props.engine.gpu && !initiated && referenceMaterial) {
             updateTexture()
         }
-        if (!referenceMaterial && props.engine.gpu){
+        if (!referenceMaterial && props.engine.gpu) {
             setReferenceMaterial(new MaterialInstance(
                 props.engine.gpu,
             ))
@@ -159,7 +153,6 @@ export default function NodeEditor(props) {
                     styles={{bottom: 'unset', top: '4px', right: 'unset', left: '4px'}}
                     onClick={() => {
                         viewportRef.current.requestFullscreen()
-
                     }}
                 >
                     <ToolTip content={'Fullscreen'}/>

@@ -1,30 +1,32 @@
-import Function from "../../templates/Function";
+
 import {vec2, vec3, vec4} from "gl-matrix";
+import Node from "../../templates/Node";
+import {TYPES} from "../../templates/TYPES";
 
 
-export default class VectorScalar extends Function {
-    response
+export default class VectorScalar extends Node {
+    value
 
-    constructor(vecA, scalar) {
+    constructor() {
         super([
-            {label: 'Vector A', key: 'vecA', accept: ['Vector2D', 'Vector3D', 'Vector4D']},
-            {label: 'Scalar', key: 'scalar', accept: ['Constant']}
-        ]);
-        this.vecA = vecA
-        this.scalar = scalar
+            {label: 'Vector A', key: 'vecA', accept: [TYPES.VEC]},
+            {label: 'Scalar', key: 'scalar', type: TYPES.NUMBER}
+        ],[{label: 'Value', key: 'value', type: TYPES.VEC}]);
+
+        this.scalar = 0
         this.name = 'Vector times scalar'
     }
 
-    execute() {
+    compile() {
         switch (this.vecA.length) {
             case 2:
-                vec2.scale(this.response, this.vecA, this.scalar)
+                vec2.scale(this.value, this.vecA, this.scalar)
                 break
             case 3:
-                vec3.scale(this.response, this.vecA, this.scalar)
+                vec3.scale(this.value, this.vecA, this.scalar)
                 break
             case 4:
-                vec4.scale(this.response, this.vecA, this.scalar)
+                vec4.scale(this.value, this.vecA, this.scalar)
                 break
             default:
                 break

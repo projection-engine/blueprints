@@ -1,16 +1,23 @@
-import Constant from "../workflows/basic/Constant";
+import Integer from "../workflows/basic/Integer";
 import Add from "../workflows/basic/Add";
 import Subtract from "../workflows/basic/Subtract";
 import Multiply from "../workflows/basic/Multiply";
 import Divide from "../workflows/basic/Divide";
 import Material from "../workflows/material/Material";
+import Float from "../workflows/basic/Float";
 
 export const basicAvailable=[
     {
-        label: 'Constant',
-        dataTransfer: 'constant',
-        tooltip: 'Node for a numeric constant.',
-        getNewInstance: () => new Constant()
+        label: 'Integer',
+        dataTransfer: 'integer',
+        tooltip: 'Node for a integer.',
+        getNewInstance: () => new Integer()
+    },
+    {
+        label: 'Float',
+        dataTransfer: 'float',
+        tooltip: 'Node for a float.',
+        getNewInstance: () => new Float()
     },
     {
         label: 'Addition',

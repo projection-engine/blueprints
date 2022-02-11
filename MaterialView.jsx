@@ -20,8 +20,8 @@ export default function MaterialView(props) {
         return hook.nodes.find(n => n.constructor.name === MaterialClass.constructor.name)
     }, [hook.nodes])
     const engine = useVisualizer(true, true, true)
-
     const toolBarContext = useContext(ControlProvider)
+
     useEffect(() => {
         toolBarContext.setOptions([
             {

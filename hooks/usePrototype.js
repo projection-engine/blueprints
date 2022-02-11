@@ -4,6 +4,10 @@ import parseNodes from "../utils/parseNodes";
 import Material from "../workflows/material/Material";
 import QuickAccessProvider from "../../../pages/project/hook/QuickAccessProvider";
 import cloneClass from "../../../pages/project/utils/misc/cloneClass";
+import ImageProcessor from "../../../services/workers/ImageProcessor";
+import logo from "../../../static/LOGO.png";
+import EVENTS from "../../../pages/project/utils/misc/EVENTS";
+import LoadProvider from "../../../pages/project/hook/LoadProvider";
 
 
 export default function usePrototype(registryID) {
@@ -11,6 +15,8 @@ export default function usePrototype(registryID) {
     const [links, setLinks] = useState([])
     const [selected, setSelected] = useState()
     const quickAccess = useContext(QuickAccessProvider)
+    const load = useContext(LoadProvider)
+
 
     useLayoutEffect(() => {
         quickAccess.fileSystem
@@ -37,32 +43,10 @@ export default function usePrototype(registryID) {
 
     }, [registryID])
 
-    const updateLinks = () => {
-        links.forEach(l => {
-            const parsed = {
-                target: nodes.findIndex(n => n.id === l.target.id),
-                targetKey: l.target.attribute.key,
-                source: nodes.findIndex(n => n.id === l.source.id),
-                sourceKey: l.source.attribute.key
-            }
-
-            setNodes(prev => {
-                let c = [...prev]
-                let targetClone = cloneClass(nodes[parsed.target])
-                targetClone[parsed.targetKey] = nodes[parsed.source][parsed.sourceKey]
-                c[parsed.target] = targetClone
-                return c
-            })
-            nodes[parsed.target][parsed.targetKey] = nodes[parsed.source][parsed.sourceKey]
-        })
-    }
-
-    useEffect(() => {
-        updateLinks()
-    }, [links, selected])
 
     const compile = () => {
-        updateLinks()
+        load.pushEvent(EVENTS.COMPILING)
+
         const newNodes = nodes.map(
             c => {
                 const docNode = document.getElementById(c.id).parentNode
@@ -77,6 +61,14 @@ export default function usePrototype(registryID) {
 
                 return c
             })
+        // Brightness = value * r, g, b
+        // Blend = r / g / b
+        //
+        // ImageProcessor.blendWithColor(1024, 1024, logo, [1.5, 1.5, 1.5, 1])
+        //     .then(res => {
+        //
+        //         setT(res)
+        //     })
         setNodes(newNodes)
 
         return newNodes

@@ -1,23 +1,17 @@
 import Node from '../../templates/Node'
+import {TYPES} from "../../templates/TYPES";
 
 export default class Color extends Node {
     rgb = 'rgb(0,0,0)'
 
     constructor() {
-        super(undefined, [
-            {label: 'rgb', key: 'rgb', type: 'Color'}
-        ]);
+        super(
+            [
+                {label: 'rgb', key: 'rgb', type: TYPES.COLOR}
+            ],
+            [
+                {label: 'rgb', key: 'rgb', type: TYPES.COLOR}
+            ]);
         this.name = 'Color'
-    }
-    showcase() {
-        return (
-            <div style={{
-                border: 'var(--fabric-border-primary) 2px solid',
-                backgroundColor: this.rgb,
-                height: '175px',
-                width: '175px',
-                borderRadius: '5px'
-            }}/>
-        )
     }
 }

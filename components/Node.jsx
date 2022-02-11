@@ -44,9 +44,8 @@ export default function Node(props) {
                     </div>
                     <div className={styles.content}>
                         <div className={styles.column}>
-                            {props.node.inputs.map(a => (
+                            {props.node.inputs.map(a => a.accept !== undefined ? (
                                 <div className={styles.attribute} key={a.key}>
-                                    <ToolTip content={'Input: ' + a.label} align={'middle'} justify={'end'}/>
                                     <div
                                         id={props.node.id + a.key}
                                         className={styles.connection}
@@ -60,8 +59,8 @@ export default function Node(props) {
                                             e.preventDefault()
                                             const data = JSON.parse(e.dataTransfer.getData('text'))
                                             e.currentTarget.style.background = 'var(--background-1)'
-                                            const isValidType = checkType(data.instanceOf, a.accept)
-                                            if (data.type === 'output' && isValidType)
+
+                                            if (data.type === 'output' && a.accept.includes(data.attribute.type))
                                                 props.handleLink(data, {
                                                     attribute: a,
                                                     id: props.node.id
@@ -94,15 +93,11 @@ export default function Node(props) {
                                         {a.label}
                                     </div>
                                 </div>
-                            ))}
-                            {props.node.showcase !== undefined ? props.node.showcase() : null}
+                            ) : null)}
                         </div>
                         <div className={styles.column} style={{justifyContent: 'flex-end'}}>
                             {props.node.output.map(a => (
                                 <div className={styles.attribute} style={{justifyContent: 'flex-end'}} key={a.key}>
-                                    <ToolTip
-                                        content={JSON.stringify(props.node.constructor.name === 'Constant' ? props.node.value : props.node.response)}
-                                        align={'middle'} justify={'start'}/>
                                     <div className={styles.overflow}>
                                         {a.label}
                                     </div>
@@ -128,8 +123,7 @@ export default function Node(props) {
                                         onDragStart={e => e.dataTransfer.setData('text', JSON.stringify({
                                             id: props.node.id,
                                             type: 'output',
-                                            attribute: a,
-                                            instanceOf: props.node.constructor.name
+                                            attribute: a
                                         }))}
                                     />
                                 </div>
@@ -143,7 +137,8 @@ export default function Node(props) {
                 fill={'none'}
                 stroke={'var(--fabric-accent-color)'}
                 strokeWidth={'2'}
-                strokeDasharray={'3,3'}/>
+                strokeDasharray={'3,3'}
+            />
         </g>
     )
 }

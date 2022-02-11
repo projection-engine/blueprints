@@ -1,30 +1,31 @@
-import Function from "../../templates/Function";
+import Node from "../../templates/Node";
 import {vec2, vec3, vec4} from "gl-matrix";
+import {TYPES} from "../../templates/TYPES";
 
 
-export default class SubtractVector extends Function {
-    response
+export default class SubtractVector extends Node {
+    value
 
-    constructor(vecA, vecB) {
+    constructor( ) {
         super([
-            {label: 'Vector A', key: 'vecA', accept: ['Vector2D', 'Vector3D', 'Vector4D']},
-            {label: 'Vector B', key: 'vecB', accept: ['Vector2D', 'Vector3D', 'Vector4D']}
-        ]);
-        this.vecA = vecA
-        this.vecB = vecB
+            {label: 'Vector A', key: 'vecA', accept: [TYPES.VEC]},
+            {label: 'Vector B', key: 'vecB', accept: [TYPES.VEC]}
+        ],[{label: 'Value', key: 'value', type: TYPES.VEC}]);
+
+
         this.name = 'Subtract vectors'
     }
 
-    execute() {
+    compile() {
         switch (this.vecA.length) {
             case 2:
-                vec2.sub(this.response, this.vecA, this.vecB)
+                vec2.sub(this.value, this.vecA, this.vecB)
                 break
             case 3:
-                vec3.sub(this.response, this.vecA, this.vecB)
+                vec3.sub(this.value, this.vecA, this.vecB)
                 break
             case 4:
-                vec4.sub(this.response, this.vecA, this.vecB)
+                vec4.sub(this.value, this.vecA, this.vecB)
                 break
             default:
                 break

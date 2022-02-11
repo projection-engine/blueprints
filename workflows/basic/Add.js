@@ -1,19 +1,17 @@
-import Function from "../../templates/Function";
+import Node from "../../templates/Node";
+import {TYPES} from "../../templates/TYPES";
 
-export default class Add extends Function {
-    response
-
-    constructor(constA, constB) {
+export default class Add extends Node {
+    value
+    constructor( ) {
         super([
-            {label: 'A', key: 'constA', accept: ['Constant', 'Multiply', 'Divide', 'Add', 'Subtract', 'Power']},
-            {label: 'B', key: 'constB', accept: ['Constant', 'Multiply', 'Divide', 'Add', 'Subtract', 'Power']}
-        ]);
-        this.constA = constA
-        this.constB = constB
+            {label: 'A', key: 'constA', accept: [TYPES.NUMBER]},
+            {label: 'B', key: 'constB', accept: [TYPES.NUMBER]}
+        ], [{label: 'Value', key: 'value', type: TYPES.NUMBER}]);
         this.name = 'Add'
     }
 
-    execute() {
-        this.response = this.constA + this.constB
+    compile() {
+        this.value = this.constA + this.constB
     }
 }

@@ -1,4 +1,4 @@
-import Constant from "../workflows/basic/Constant";
+import Integer from "../workflows/basic/Integer";
 import Material from "../workflows/material/Material";
 import Vector2D from "../workflows/algebra/Vector2D";
 import VectorScalar from "../workflows/algebra/VectorScalar";
@@ -32,8 +32,8 @@ export default function parseNodes(nodes, responseOBJ, workflow, callback, quick
     let parsedNodes = nodes === undefined || nodes === null || nodes.length === 0 ? [] : nodes.map(n => {
 
         switch (n.instanceOf) {
-            case Constant.constructor.name: {
-                const newClass = new Constant()
+            case Integer.constructor.name: {
+                const newClass = new Integer()
                 newClass.value = n.values
                 updatePlacement(n, newClass)
                 return newClass
