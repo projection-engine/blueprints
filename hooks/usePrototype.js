@@ -1,87 +1,93 @@
-import {useContext, useEffect, useLayoutEffect, useState} from "react";
-import parseNodes from "../utils/parseNodes";
+import {useContext, useEffect, useState} from "react";
 
 import Material from "../workflows/material/Material";
 import QuickAccessProvider from "../../../pages/project/hook/QuickAccessProvider";
-import cloneClass from "../../../pages/project/utils/misc/cloneClass";
-import ImageProcessor from "../../../services/workers/ImageProcessor";
-import logo from "../../../static/LOGO.png";
 import EVENTS from "../../../pages/project/utils/misc/EVENTS";
 import LoadProvider from "../../../pages/project/hook/LoadProvider";
 
 
-export default function usePrototype(registryID) {
+import Subtract from "../workflows/basic/Subtract";
+import Add from "../workflows/basic/Add";
+import Multiply from "../workflows/basic/Multiply";
+import Divide from "../workflows/basic/Divide";
+import Color from "../workflows/material/Color";
+import Power from "../workflows/basic/Power";
+import TextureSample from "../workflows/material/TextureSample";
+import Numeric from "../workflows/basic/Numeric";
+import compile from "../utils/compile";
+import applyViewport from "../utils/applyViewport";
+import useVisualizer from "../../mesh/hook/useVisualizer";
+import ColorToTexture from "../workflows/material/ColorToTexture";
+
+const INSTANCES = {
+    Subtract: () => {return new Subtract()},
+    Add: () => {return new Add()},
+    Multiply: () => {return new Multiply()},
+    Divide: () => {return new Divide()},
+    Power: () => {return new Power()},
+    Numeric: () => {return new Numeric()},
+
+    Color: () => {return new Color()},
+    ColorToTexture: () => {return new ColorToTexture()},
+    TextureSample: () => {return new TextureSample()},
+    Material: () => {return new Material()}
+}
+
+export default function usePrototype(file) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
     const [selected, setSelected] = useState()
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoadProvider)
+    const engine = useVisualizer(true, true, true)
 
+    useEffect(() => {
+        load.pushEvent(EVENTS.LOADING_MATERIAL)
+        if(engine.gpu && engine.meshes.length > 0){
+            quickAccess.fileSystem
+                .readRegistryFile(file.registryID)
+                .then(res => {
+                    if (res) {
+                        quickAccess.fileSystem
+                            .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
+                            .then(file => {
+                                if (file) {
+                                    const newNodes = file.nodes.map(f => {
+                                        const i = INSTANCES[f.instance]()
+                                        Object.keys(f).forEach(o => {
+                                            i[o] = f[o]
+                                        })
+                                        return i
+                                    })
 
-    useLayoutEffect(() => {
-        quickAccess.fileSystem
-            .readRegistryFile(registryID)
-            .then(res => {
-                if (res) {
-                    quickAccess.fileSystem
-                        .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
-                        .then(file => {
-                            if (file) {
-                                parseNodes( file.nodes, file.response, file.workflow, (parsed) => {
-                                    let n = [...parsed]
-                                    if (parsed.length === 0)
-                                        n.push(new Material())
+                                    compile(load, newNodes, file.links, quickAccess.fileSystem)
+                                        .then(res => {
+                                            applyViewport(res, engine, load)
+                                            setNodes(newNodes)
+                                            setLinks(file.links)
+                                        })
+                                }
+                                else
+                                    load.finishEvent(EVENTS.LOADING_MATERIAL)
+                            })
+                    }
+                    else
+                        load.finishEvent(EVENTS.LOADING_MATERIAL)
+                })
+        }
 
-                                    setNodes(n)
-                                    if (file.links !== undefined)
-                                        setLinks(file.links)
-                                }, quickAccess)
-                            }
-                        })
-                }
-            })
+    }, [file, engine.gpu,engine.meshes])
 
-    }, [registryID])
-
-
-    const compile = () => {
-        load.pushEvent(EVENTS.COMPILING)
-
-        const newNodes = nodes.map(
-            c => {
-                const docNode = document.getElementById(c.id).parentNode
-                const transformation = docNode
-                    .getAttribute('transform')
-                    .replace('translate(', '')
-                    .replace(')', '')
-                    .split(' ')
-
-                c.x = parseFloat(transformation[0])
-                c.y = parseFloat(transformation[1])
-
-                return c
-            })
-        // Brightness = value * r, g, b
-        // Blend = r / g / b
-        //
-        // ImageProcessor.blendWithColor(1024, 1024, logo, [1.5, 1.5, 1.5, 1])
-        //     .then(res => {
-        //
-        //         setT(res)
-        //     })
-        setNodes(newNodes)
-
-        return newNodes
-    }
 
     return {
-        compile,
+        engine,
         selected,
         setSelected,
         setNodes,
         nodes,
         links,
         setLinks,
-        quickAccess
+        quickAccess,
+        load
     }
 }

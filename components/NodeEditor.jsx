@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
+import React, {useMemo, useRef} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
 import Material from "../workflows/material/Material";
@@ -8,26 +8,13 @@ import {Accordion, AccordionSummary, Button, TextField, ToolTip} from "@f-ui/cor
 import Range from "../../../components/range/Range";
 import Selector from "../../../components/selector/Selector";
 import Viewport from "../../../components/viewport/Viewport";
-import {IDS} from "../../mesh/hook/useVisualizer";
 
 import ColorPicker from "../../../components/color/ColorPicker";
-import updateViewport from "../utils/updateViewport";
-
-
-import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
-
-import Texture from "../../../services/engine/renderer/elements/Texture";
-import {ENTITY_ACTIONS} from "../../../services/engine/ecs/utils/entityReducer";
-import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
-import LoadProvider from "../../../pages/project/hook/LoadProvider";
 
 import cloneClass from "../../../pages/project/utils/misc/cloneClass";
-import EVENTS from "../../../pages/project/utils/misc/EVENTS";
 import {TYPES} from "../templates/TYPES";
 
-const MAT_ID = 'MAT-0'
 export default function NodeEditor(props) {
-    const [referenceMaterial, setReferenceMaterial] = useState(undefined)
     const selected = useMemo(() => {
         const index = props.hook.nodes.findIndex(n => (props.selected ? n.id === props.selected : n instanceof Material))
         if (index > -1)
@@ -68,79 +55,23 @@ export default function NodeEditor(props) {
                 return <Selector
                     type={'image'}
                     handleChange={ev => {
-
-                        submit({
-                            name: ev.name,
-                            id: ev.id,
-                            previewImage: ev.previewImage
-                        })
+                        submit(ev)
                     }}
-                    selected={props.hook.quickAccess.images.find(e => e.id === value?.id)}/>
+                    selected={value}/>
             case TYPES.STRING:
                 return <TextField
                     value={value} width={'100%'} size={'small'}
-                    handleChange={ev => submit(ev.target.value)} label={label} placeholder={label}/>
+                    handleChange={ev => submit(ev.target.value)}
+                    label={label}
+                    placeholder={label}/>
 
             default:
                 return
         }
     }
-    const load = useContext(LoadProvider)
 
-    const [initiated, setInitiated] = useState(false)
-    const updateTexture = () => {
-        const sphere = props.engine.entities.find(e => e.id === IDS.SPHERE)
-        if (sphere) {
-            load.pushEvent(EVENTS.LOADING_MATERIAL)
 
-            updateViewport(props.hook.quickAccess.fileSystem, props.hook.nodes.find(e => e instanceof Material))
-                .then(res => {
-                    let mat = props.engine.materials.find(m => m.id === MAT_ID)
-                    const gpu = props.engine.gpu
-                    if (!mat) {
-                        mat = new MaterialInstance(
-                            gpu,
-                            MAT_ID
-                        )
 
-                    }
-
-                    res.forEach(r => {
-                        if (r.data) {
-                            if (r.type === 'albedo')
-                                mat[r.type] = new Texture(r.data, false, gpu)
-                            else
-                                mat[r.type] = new Texture(r.data, false, gpu, gpu.RGB, gpu.RGB)
-                        } else if (referenceMaterial[r.type]) {
-                            mat[r.type] = referenceMaterial[r.type]
-                        }
-                    })
-                    props.engine.setMaterials([mat])
-                    sphere.components.MaterialComponent.materialID = mat.id
-                    props.engine.dispatchEntities({
-                        type: ENTITY_ACTIONS.UPDATE_COMPONENT,
-                        payload: {
-                            entityID: sphere.id,
-                            key: MaterialComponent.prototype.constructor.name,
-                            data: sphere.components.MaterialComponent
-                        }
-                    })
-                    setInitiated(true)
-                    load.finishEvent(EVENTS.LOADING_MATERIAL)
-                })
-        }
-    }
-
-    useEffect(() => {
-        if (props.engine.gpu && !initiated && referenceMaterial) {
-            updateTexture()
-        }
-        if (!referenceMaterial && props.engine.gpu) {
-            setReferenceMaterial(new MaterialInstance(
-                props.engine.gpu,
-            ))
-        }
-    }, [props.engine.gpu, props.engine.entities, referenceMaterial])
 
     const viewportRef = useRef()
     return (
@@ -161,18 +92,7 @@ export default function NodeEditor(props) {
                         style={{fontSize: '1.1rem'}}
                     >fullscreen</span>
                 </Button>
-                <Button
-                    className={styles.refresh}
-                    onClick={() => {
-                        updateTexture()
-                    }}
-                >
-                    <ToolTip content={'Refresh viewport'}/>
-                    <span
-                        className={'material-icons-round'}
-                        style={{fontSize: '1.1rem'}}
-                    >refresh</span>
-                </Button>
+
             </div>
             <ResizableBar type={'height'}/>
             <div className={styles.form}>

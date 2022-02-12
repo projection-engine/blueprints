@@ -1,6 +1,6 @@
 export default function updateViewport(database, material) {
     const promises = []
-    console.trace(material)
+
     if(material) {
         promises.push(
             new Promise((r, d) => {

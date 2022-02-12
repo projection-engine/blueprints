@@ -14,4 +14,11 @@ export default class Color extends Node {
             ]);
         this.name = 'Color'
     }
+
+    compile([a, b], fileSystem) {
+        return new Promise(resolve => {
+            this.ready = true
+            resolve()
+        })
+    }
 }

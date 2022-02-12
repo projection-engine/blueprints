@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import React from "react";
-import Node from "./Node";
+import React, {useMemo} from "react";
+import Node from "./node/Node";
 import styles from '../styles/Board.module.css'
 import handleDropBoard from "../utils/handleDropBoard";
 
@@ -8,6 +8,7 @@ import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
 import ContextMenu from "../../../components/context/ContextMenu";
 import cloneClass from "../../../pages/project/utils/misc/cloneClass";
+import getBoardOptions from "../utils/getBoardOptions";
 
 
 export default function Board(props) {
@@ -42,9 +43,35 @@ export default function Board(props) {
             })
         }
     }
+    const handleDropNode = (n, e) => {
+        const bounding = {
+            x: ref.current.scrollLeft - ref.current.getBoundingClientRect().left,
+            y: ref.current.scrollTop - ref.current.getBoundingClientRect().top
+        }
+        const mousePlacement = {
+            x: e.clientX + bounding.x,
+            y: e.clientY + bounding.y
+        }
+        const current = {
+            x: mousePlacement.x,
+            y: mousePlacement.y
+        }
+        n.x = (current.x - 100) / scale
+        n.y = (current.y - 25) / scale
+        props.hook.setNodes(prev => {
+            return [...prev, n]
+        })
+    }
+    const boardOptions = useMemo(() => {
+        return getBoardOptions((n, mouseInfo) => {
+            handleDropNode(n, mouseInfo)
+        })
+    },[props.hook.nodes])
+
     return (
         <ContextMenu
             options={[
+                ...boardOptions,
                 {
                     requiredTrigger: 'data-node',
                     label: 'Edit',
@@ -92,7 +119,8 @@ export default function Board(props) {
                     onClick: (node) => {
                         removeLink(links.find(l => (l.target + '-' + l.source) === node.getAttribute('data-link')))
                     }
-                }
+                },
+
             ]}
             triggers={[
                 'data-node',
@@ -100,7 +128,7 @@ export default function Board(props) {
                 'data-link'
             ]}
             styles={{
-                overflow: 'auto',
+
                 width: '100%',
                 height: '100%',
                 borderRadius: '5px',
@@ -121,23 +149,7 @@ export default function Board(props) {
                     e.preventDefault()
                     const n = handleDropBoard(e.dataTransfer.getData('text'))
                     if (n) {
-                        const bounding = {
-                            x: ref.current.scrollLeft - ref.current.getBoundingClientRect().left,
-                            y: ref.current.scrollTop - ref.current.getBoundingClientRect().top
-                        }
-                        const mousePlacement = {
-                            x: e.clientX + bounding.x,
-                            y: e.clientY + bounding.y
-                        }
-                        const current = {
-                            x: mousePlacement.x,
-                            y: mousePlacement.y
-                        }
-                        n.x = (current.x - 100) / scale
-                        n.y = (current.y - 25) / scale
-                        props.hook.setNodes(prev => {
-                            return [...prev, n]
-                        })
+                        handleDropNode(n, e)
                     }
                 }}
                 ref={ref}

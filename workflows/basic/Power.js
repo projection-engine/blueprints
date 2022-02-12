@@ -13,8 +13,11 @@ export default class Power extends Node {
         this.name = 'Power'
     }
 
-    compile() {
-        this.value = this.constA ** this.constB
-
+    compile([a, b], fileSystem) {
+        return new Promise(resolve => {
+            this.value = a ** b
+            this.ready = true
+            resolve()
+        })
     }
 }

@@ -1,6 +1,5 @@
 import {materialAvailable} from "../templates/MaterialAvailable";
 import {basicAvailable} from "../templates/BasicAvailable";
-import {algebraAvailable} from "../templates/AlgebraAvailable";
 
 export default function handleDropBoard(data) {
     let newNode
@@ -12,14 +11,11 @@ export default function handleDropBoard(data) {
 
         return n
     }
-    const basic = basicAvailable,
-        algebra = algebraAvailable
+    const basic = basicAvailable
 
     newNode = find(materialAvailable)
     if (!newNode)
         newNode = find(basic)
-    if (!newNode)
-        newNode = find(algebra)
 
 
     return newNode

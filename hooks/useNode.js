@@ -68,13 +68,15 @@ export default function useNode(props){
 
             lastPlacement = mousePlacement
             nodeBbox = ref.current?.getBoundingClientRect()
+            if(nodeBbox){
+                current = {
+                    x: ((nodeBbox.left + bounding.x) - toBeApplied.x)/props.scale,
+                    y: ((nodeBbox.top + bounding.y) - toBeApplied.y)/props.scale
+                }
 
-            current = {
-                x: ((nodeBbox.left + bounding.x) - toBeApplied.x)/props.scale,
-                y: ((nodeBbox.top + bounding.y) - toBeApplied.y)/props.scale
+                ref.current?.setAttribute('transform', `translate(${current.x} ${current.y})`)
             }
-
-            ref.current?.setAttribute('transform', `translate(${current.x} ${current.y})`)
+            console.log('ON MOVE')
         }
         const handleMouseUp = () => {
             t.style.cursor = 'grab'

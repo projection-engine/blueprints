@@ -34,6 +34,7 @@ export default function useBoard(hook, setAlert, parentRef) {
         if (!resizeObs)
             resizeObs = new ResizeObserver(callback)
         resizeObs.observe(ref.current?.parentNode)
+        ref.current.parentNode.scrollLeft = '500px'
         callback()
     }, [])
 

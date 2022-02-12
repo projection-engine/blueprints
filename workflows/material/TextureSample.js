@@ -7,10 +7,28 @@ export default class TextureSample extends Node {
     constructor() {
         super([
             {label: 'UV scale', key: 'uv',   accept: [TYPES.NUMBER]},
-            {label: 'Blend color', key: 'blend', accept: [TYPES.COLOR]},
-            {label: 'Texture', type: TYPES.TEXTURE, key: 'sample' }
+            {label: 'Texture', type: TYPES.TEXTURE, key: 'sample'}
         ], [{label: 'Texture', type: TYPES.TEXTURE, key: 'sample'}]);
         this.name = 'Texture sample'
+    }
+    compile(_, fileSystem) {
+        return new Promise(resolve => {
+            fileSystem.readRegistryFile(this.sample?.registryID)
+                .then(res => {
+                    if(res)
+                        fileSystem.readFile(fileSystem.path + '\\assets\\' + res.path)
+                            .then(file => {
+                                this.sample = file
+                                this.ready = true
+                                resolve()
+                            })
+                    else {
+                        this.sample = ''
+                        this.ready = true
+                        resolve()
+                    }
+                })
+        })
     }
 }
 

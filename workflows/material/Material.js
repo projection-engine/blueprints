@@ -22,5 +22,15 @@ export default class Material extends Response {
 
         this.name = 'Material'
     }
+    compile(items) {
+        console.log(items)
+        return new Promise(resolve => {
+            items.forEach(i => {
+                this[i.key] = i.data
+            })
 
+            this.ready = true
+            resolve()
+        })
+    }
 }
