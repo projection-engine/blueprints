@@ -1,7 +1,6 @@
 .background{
-    --size: 20px;
-    background: var(--background-1) radial-gradient(var(--fabric-border-secondary) calc(var(--size)/20), transparent 0);
-    background-size:var(--size) var(--size);
+    background: var(--background-1) radial-gradient(var(--fabric-border-secondary) 1px, transparent 0);
+    background-size: 20px 20px;
     overflow: hidden;
 }
 

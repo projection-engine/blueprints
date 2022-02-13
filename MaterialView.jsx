@@ -39,7 +39,8 @@ export default function MaterialView(props) {
                 ...n,
                 x: parseFloat(transformation[0]),
                 y: parseFloat(transformation[1]),
-                instance: n.constructor.name
+                instance: n.constructor.name,
+                sample: n.sample && typeof n.sample === 'object' ? {registryID: n.sample.registryID} : undefined
             }
         })
 

@@ -3,12 +3,11 @@ import getBezierCurve from "../utils/bezierCurve";
 
 
 export default function useBoard(hook, setAlert, parentRef) {
-    const [width, setWidth] = useState(500)
-    const [height, setHeight] = useState(500)
+
     const [scale, setScale] = useState(1)
 
     const ref = useRef()
-    let resizeObs
+
     const handleWheel = (e) => {
         e.preventDefault()
         if (e.wheelDelta > 0 && scale < 3)
@@ -23,19 +22,10 @@ export default function useBoard(hook, setAlert, parentRef) {
             ref.current?.parentNode.removeEventListener('wheel', handleWheel, {passive: false})
         }
     }, [scale])
-    const callback = () => {
-        const p = parentRef.current
-        if (p !== null) {
-            setWidth(p.offsetWidth - p.lastChild.offsetWidth)
-            setHeight(ref.current?.parentNode.offsetHeight - 35)
-        }
-    }
+
     useEffect(() => {
-        if (!resizeObs)
-            resizeObs = new ResizeObserver(callback)
-        resizeObs.observe(ref.current?.parentNode)
-        ref.current.parentNode.scrollLeft = '500px'
-        callback()
+        ref.current.parentNode.scrollLeft = 5000
+        ref.current.parentNode.scrollTop = 5000
     }, [])
 
 
@@ -120,8 +110,7 @@ export default function useBoard(hook, setAlert, parentRef) {
         }
     }, [links, scale])
     return {
-        width,
-        height,
+
         scale,
         links,
         ref,

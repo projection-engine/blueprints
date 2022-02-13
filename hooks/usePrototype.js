@@ -51,10 +51,14 @@ export default function usePrototype(file) {
                         quickAccess.fileSystem
                             .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
                             .then(file => {
-                                if (file) {
+
+                                if (file && Object.keys(file).length > 0) {
                                     const newNodes = file.nodes.map(f => {
                                         const i = INSTANCES[f.instance]()
                                         Object.keys(f).forEach(o => {
+                                            if(o === 'sample' && i instanceof TextureSample)
+                                                i[o] = quickAccess.images.find(i => i.registryID === f[o].registryID)
+                                                else
                                             i[o] = f[o]
                                         })
                                         return i
@@ -67,8 +71,10 @@ export default function usePrototype(file) {
                                             setLinks(file.links)
                                         })
                                 }
-                                else
+                                else {
+                                    setNodes([new Material()])
                                     load.finishEvent(EVENTS.LOADING_MATERIAL)
+                                }
                             })
                     }
                     else

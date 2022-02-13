@@ -22,8 +22,15 @@
     gap: 4px;
     padding: 4px;
     height: 25px;
+    position: relative;
 }
-
+.acceptsWrapper{
+    position: absolute;
+    top: 50%;
+    left:0;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
 .connection {
     width: 15px;
     height: 15px;
@@ -104,3 +111,27 @@
 .showcase{
 padding: 4px;
 }
+
+.iconWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    color:  white;
+    background: red;
+}
+.iconWrapper[data-valid = 'true']{
+    background: green;
+}
+.ioKey{
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
