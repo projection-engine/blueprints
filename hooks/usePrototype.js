@@ -3,7 +3,7 @@ import {useContext, useEffect, useState} from "react";
 import Material from "../workflows/material/Material";
 import QuickAccessProvider from "../../../pages/project/hook/QuickAccessProvider";
 import EVENTS from "../../../pages/project/utils/misc/EVENTS";
-import LoadProvider from "../../../pages/project/hook/LoadProvider";
+import LoadProvider from "../../../components/loader/LoadProvider";
 
 
 import Subtract from "../workflows/basic/Subtract";
