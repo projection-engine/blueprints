@@ -6,10 +6,11 @@ import handleDropBoard from "../utils/handleDropBoard";
 
 import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
-import ContextMenu from "../../../components/context/ContextMenu";
+import {ContextMenu} from "@f-ui/core";
 import cloneClass from "../../../pages/project/utils/misc/cloneClass";
 import getBoardOptions from "../utils/getBoardOptions";
 import OnDragProvider from "../hooks/OnDragProvider";
+import SelectBox from "./SelectBox";
 
 
 export default function Board(props) {
@@ -68,6 +69,18 @@ export default function Board(props) {
         })
     }, [props.hook.nodes])
     const [dragType, setDragType] = useState()
+    const setSelected = (i) => {
+        if(i && !props.selected.find(e => e === i))
+            props.setSelected(prev => {
+                return [...prev, i]
+            })
+        else if(props.selected.find(e => e === i))
+            props.setSelected(prev => {
+                const copy = [...prev]
+                copy.splice(copy.indexOf(i), 1)
+                return copy
+            })
+    }
 
     return (
         <OnDragProvider.Provider value={{setDragType, dragType}}>
@@ -79,7 +92,7 @@ export default function Board(props) {
                         label: 'Edit',
                         icon: <span className={'material-icons-round'}>edit</span>,
                         onClick: (node) => {
-                            props.setSelected(node.getAttribute('data-node'))
+                            setSelected(node.getAttribute('data-node'))
                         }
                     },
                     {
@@ -89,7 +102,7 @@ export default function Board(props) {
                         onClick: (node) => {
                             const target = node.getAttribute('data-node')
 
-                            props.setSelected(undefined)
+                            props.setSelected([])
 
                             let found, n = [...props.hook.links]
                             do {
@@ -134,7 +147,9 @@ export default function Board(props) {
                     width: '100%',
                     height: '100%',
                     borderRadius: '5px',
+                    position: 'relative'
                 }}>
+                <SelectBox nodes={props.hook.nodes} selected={props.selected} setSelected={props.setSelected}/>
                 <svg
                     onDragOver={e => e.preventDefault()}
                     data-board={'self'}
@@ -161,7 +176,7 @@ export default function Board(props) {
                             handleBoardScroll(ref.current.parentNode, e)
 
                         if (e.target === ref.current)
-                            props.setSelected(undefined)
+                            props.setSelected([])
                     }}
                 >
                     {props.hook.nodes.map(node => (
@@ -169,7 +184,9 @@ export default function Board(props) {
                             <Node
                                 links={links}
                                 setAlert={props.setAlert}
-                                setSelected={props.setSelected}
+                                setSelected={i => {
+                                    props.setSelected([i])
+                                }}
                                 selected={props.selected}
                                 node={node}
                                 scale={scale}
@@ -202,6 +219,6 @@ Board.propTypes = {
     setAlert: PropTypes.func.isRequired,
     parentRef: PropTypes.object,
     hook: PropTypes.object,
-    selected: PropTypes.string,
+    selected: PropTypes.arrayOf(PropTypes.string).isRequired,
     setSelected: PropTypes.func,
 }

@@ -1,9 +1,9 @@
 import {useRef, useState} from "react";
 import styles from '../styles/Available.module.css'
-import {Accordion, AccordionSummary, Button} from "@f-ui/core";
+import {Accordion,ToolTip, AccordionSummary, Button} from "@f-ui/core";
 import {materialAvailable} from "../templates/MaterialAvailable";
 import {basicAvailable} from "../templates/BasicAvailable";
-import {ToolTip} from '../../../fabric/src/index'
+
 
 export default function Available() {
     const [hidden, setHidden] = useState(true)

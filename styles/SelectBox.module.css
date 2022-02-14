@@ -1,0 +1,7 @@
+.box{
+    border: var(--fabric-accent-color) 2px solid;
+    border-radius: 5px;
+    background: rgba(0, 149, 255, .2);
+    position: absolute;
+    z-index: 999;
+}

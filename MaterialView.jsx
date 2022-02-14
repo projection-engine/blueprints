@@ -122,7 +122,7 @@ export default function MaterialView(props) {
         <div className={styles.prototypeWrapper} ref={ref}>
             <NodeEditor hook={hook}
                         engine={hook.engine}
-                        selected={!hook.selected && fallbackSelected ? fallbackSelected.id : hook.selected}/>
+                        selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
             <ResizableBar type={"width"}/>
             <div className={styles.prototypeWrapperBoard}>
                 <Board
@@ -130,7 +130,8 @@ export default function MaterialView(props) {
                     parentRef={ref}
                     hook={hook}
                     selected={hook.selected}
-                    setSelected={hook.setSelected}/>
+                    setSelected={hook.setSelected}
+                />
             </div>
             <Available/>
         </div>

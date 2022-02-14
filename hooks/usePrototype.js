@@ -1,9 +1,9 @@
 import {useContext, useEffect, useState} from "react";
 
 import Material from "../workflows/material/Material";
-import QuickAccessProvider from "../../../pages/project/hook/QuickAccessProvider";
+import QuickAccessProvider from "../../../services/hooks/QuickAccessProvider";
 import EVENTS from "../../../pages/project/utils/misc/EVENTS";
-import LoadProvider from "../../../components/loader/LoadProvider";
+import {LoaderProvider} from "@f-ui/core";
 
 
 import Subtract from "../workflows/basic/Subtract";
@@ -36,9 +36,9 @@ const INSTANCES = {
 export default function usePrototype(file) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
-    const [selected, setSelected] = useState()
+    const [selected, setSelected] = useState([])
     const quickAccess = useContext(QuickAccessProvider)
-    const load = useContext(LoadProvider)
+    const load = useContext(LoaderProvider)
     const engine = useVisualizer(true, true, true)
 
     useEffect(() => {

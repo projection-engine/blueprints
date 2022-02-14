@@ -1,13 +1,16 @@
 import PropTypes from "prop-types";
 import styles from '../../styles/Node.module.css'
-import React from 'react'
+import React, {useEffect, useMemo} from 'react'
 import useNode from "../../hooks/useNode";
 import NodeIO from "./NodeIO";
 import NodeShowcase from "./NodeShowcase";
 
 export default function Node(props) {
+    const selected = useMemo(() => {
+        return props.selected.indexOf(props.node.id) > -1
+    }, [props.selected])
     const {
-        selected,
+
         ref,
         handleDragStart,
         handleLinkDrag,
@@ -15,7 +18,14 @@ export default function Node(props) {
         pathRef,
         outputLinks,
         inputLinks
-    } = useNode(props)
+    } = useNode(props, selected)
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleDragStart)
+        return () => {
+            document.removeEventListener('mousedown', handleDragStart)
+        }
+    }, [props.node, props.selected, selected])
 
     return (
         <g>
@@ -28,8 +38,9 @@ export default function Node(props) {
                     id={props.node.id}
 
                     className={styles.wrapper}
-                    onClick={() => {
-                        props.setSelected(props.node.id)
+                    onMouseDown={e => {
+                        if (e.button === 0)
+                            props.setSelected(props.node.id)
                     }}
                     style={{
                         width: '250px',
@@ -38,7 +49,8 @@ export default function Node(props) {
                     }}>
                     <div
                         className={styles.label}
-                        onMouseDown={ev => handleDragStart(ev, props.node, props.handleChange)}>
+                        id={props.node.id + '-node'}
+                    >
                         <div className={'material-icons-round'}
                              style={{fontSize: '1.2rem'}}>drag_indicator
                         </div>

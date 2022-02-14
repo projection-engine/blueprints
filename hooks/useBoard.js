@@ -12,21 +12,17 @@ export default function useBoard(hook, setAlert, parentRef) {
         e.preventDefault()
         if (e.wheelDelta > 0 && scale < 3)
             setScale(scale + scale * .1)
-        else if (e.wheelDelta < 0 && scale >= .25)
+        else if (e.wheelDelta < 0 && scale >= .5)
             setScale(scale - scale * .1)
     }
 
+    console.log(scale)
     useEffect(() => {
         ref.current?.parentNode.addEventListener('wheel', handleWheel, {passive: false})
         return () => {
             ref.current?.parentNode.removeEventListener('wheel', handleWheel, {passive: false})
         }
     }, [scale])
-
-    useEffect(() => {
-        ref.current.parentNode.scrollLeft = 5000
-        ref.current.parentNode.scrollTop = 5000
-    }, [])
 
 
     const handleLink = (src, target) => {
