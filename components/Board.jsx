@@ -11,6 +11,7 @@ import cloneClass from "../../../pages/project/utils/misc/cloneClass";
 import getBoardOptions from "../utils/getBoardOptions";
 import OnDragProvider from "../hooks/OnDragProvider";
 import SelectBox from "./SelectBox";
+import deleteNode, {removeLink} from "../utils/deleteNode";
 
 
 export default function Board(props) {
@@ -21,29 +22,7 @@ export default function Board(props) {
         ref,
         handleLink
     } = useBoard(props.hook, props.setAlert, props.parentRef)
-    const removeLink = (link) => {
-        if (link) {
-            let t = link.targetKey
-            props.hook.setNodes(prev => {
-                const clone = prev
-                const target = clone.findIndex(p => link.target.includes(p.id))
-                const cloneC = cloneClass(clone[target])
-                delete cloneC[t]
-                clone[target] = cloneC
-                return clone
-            })
-            props.hook.setLinks(prev => {
-                return prev.filter(l => {
-                    const p = {
-                        target: l.target.id + l.target.attribute.key,
-                        source: l.source.id + l.source.attribute.key
-                    }
 
-                    return !(p.target === link.target && p.source === link.source);
-                })
-            })
-        }
-    }
     const handleDropNode = (n, e) => {
         const bounding = {
             x: ref.current.scrollLeft - ref.current.getBoundingClientRect().left,
@@ -100,31 +79,7 @@ export default function Board(props) {
                         label: 'Delete',
                         icon: <span className={'material-icons-round'}>delete</span>,
                         onClick: (node) => {
-                            const target = node.getAttribute('data-node')
-
-                            props.setSelected([])
-
-                            let found, n = [...props.hook.links]
-                            do {
-                                found = n.findIndex(el => el.target.id === target || el.source.id === target)
-                                if (found > -1) {
-                                    removeLink({
-                                        target: n[found].target.id + n[found].target.attribute.key,
-                                        source: n[found].source.id + n[found].source.attribute.key,
-                                        targetKey: n[found].target.attribute.key,
-                                        sourceKey: n[found].source.attribute.key
-                                    })
-                                    n.splice(found, 1)
-                                }
-                            } while (found > -1 || found === undefined)
-
-                            props.hook.setLinks(n)
-
-                            props.hook.setNodes(prev => {
-                                let n = [...prev]
-                                n.splice(n.findIndex(el => el.id === target), 1)
-                                return n
-                            })
+                            deleteNode(node.getAttribute('data-node'), props.hook)
                         }
                     },
                     {
@@ -132,7 +87,7 @@ export default function Board(props) {
                         label: 'Break link',
                         icon: <span className={'material-icons-round'}>link_off</span>,
                         onClick: (node) => {
-                            removeLink(links.find(l => (l.target + '-' + l.source) === node.getAttribute('data-link')))
+                            removeLink(links.find(l => (l.target + '-' + l.source) === node.getAttribute('data-link')), props.hook)
                         }
                     },
 
