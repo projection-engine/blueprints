@@ -40,7 +40,7 @@ export default function Node(props) {
                     className={styles.wrapper}
                     onMouseDown={e => {
                         if (e.button === 0)
-                            props.setSelected(props.node.id)
+                            props.setSelected(props.node.id, e.ctrlKey)
                     }}
                     style={{
                         width: '250px',

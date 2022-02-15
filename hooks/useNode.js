@@ -47,7 +47,7 @@ export default function useNode(props, selected) {
                     alreadyFound = true
             })
 
-        if (event.button === 0 && (selected || isFirst)) {
+        if (event.button === 0 && ((selected && event.ctrlKey) || isFirst)) {
             const t = ref.current.firstChild
             t.style.cursor = 'grabbing'
             const parent = ref.current?.parentNode.parentNode

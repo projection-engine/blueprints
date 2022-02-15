@@ -1,7 +1,7 @@
 import {IDS} from "../../mesh/hook/useVisualizer";
 import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
 import Texture from "../../../services/engine/renderer/elements/Texture";
-import {ENTITY_ACTIONS} from "../../../services/engine/ecs/utils/entityReducer";
+import {ENTITY_ACTIONS} from "../../../services/engine/utils/entityReducer";
 import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
 import EVENTS from "../../../pages/project/utils/misc/EVENTS";
 

@@ -16,7 +16,6 @@ import compile from "./utils/compile";
 import ImageProcessor from "../../services/workers/ImageProcessor";
 import applyViewport from "./utils/applyViewport";
 import useHotKeys, {KEYS} from "../../services/hooks/useHotKeys";
-import {ENTITY_ACTIONS} from "../../services/engine/ecs/utils/entityReducer";
 import cloneClass from "../../pages/project/utils/misc/cloneClass";
 import randomID from "../../pages/project/utils/misc/randomID";
 import deleteNode from "./utils/deleteNode";
@@ -121,7 +120,7 @@ export default function MaterialView(props) {
         )
 
     }, [hook.nodes, hook.links, hook.engine.gpu, hook.engine.gpu])
-    const [toCopy, setToCopy] = useState()
+    const [toCopy, setToCopy] = useState([])
     useHotKeys({
         disabled: controlProvider.tab !== props.index,
         actions: [
@@ -134,18 +133,28 @@ export default function MaterialView(props) {
             {
                 require: [KEYS.ControlLeft, KEYS.KeyC],
                 callback: () => {
-                    setToCopy(props.engine.selectedElement)
-                    if (props.engine.selectedElement)
+                    setToCopy(hook.selected)
+                    if(hook.selected.length > 0)
                         props.setAlert({
-                            type: 'info',
-                            message: 'Entity copied.'
+                            type: 'success',
+                            message: 'Entities copied.'
                         })
                 }
             },
             {
                 require: [KEYS.ControlLeft, KEYS.ShiftLeft, KEYS.KeyF],
                 callback: () => {
-                    // TODO
+                    const el = document.getElementById(hook.engine.id + '-canvas')
+                    if (el) {
+                        const target = el.parentNode.parentNode
+                        if (target) {
+                            if (!document.fullscreenElement)
+                                target.requestFullscreen()
+                            else
+                                document.exitFullscreen()
+                        }
+                    }
+
                 }
             },
             {
@@ -161,7 +170,21 @@ export default function MaterialView(props) {
             {
                 require: [KEYS.ControlLeft, KEYS.KeyV],
                 callback: () => {
-                    // TODO
+                   toCopy.forEach(toC => {
+                       const toCopyNode = hook.nodes.find(n => n.id === toC)
+                       if (toCopyNode && !(toCopyNode instanceof MaterialClass)) {
+                           const nodeEl = document.getElementById(toC)
+
+                           const clone = cloneClass(toCopyNode)
+                           clone.id = randomID()
+                           clone.x = nodeEl.getBoundingClientRect().x + 5
+                           clone.y = nodeEl.getBoundingClientRect().y + 5
+
+                           hook.setNodes(prev => {
+                               return [...prev, clone]
+                           })
+                       }
+                   })
                 }
             }
         ]
@@ -170,6 +193,7 @@ export default function MaterialView(props) {
     return (
         <div className={styles.prototypeWrapper} ref={ref}>
             <NodeEditor hook={hook}
+
                         engine={hook.engine}
                         selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
             <ResizableBar type={"width"}/>

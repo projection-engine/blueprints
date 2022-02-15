@@ -2,10 +2,12 @@ import styles from "../../styles/Node.module.css";
 import PropTypes from "prop-types";
 import {TYPES} from "../../templates/TYPES";
 import {ToolTip} from "@f-ui/core";
-import {useContext} from "react";
+import {useContext, useEffect, useRef} from "react";
 import OnDragProvider from "../../hooks/OnDragProvider";
 
 export default function NodeIO(props) {
+    const infoRef = useRef()
+    const wrapperRef = useRef()
     const asInput = (e) => {
         e.preventDefault()
         const data = JSON.parse(e.dataTransfer.getData('text'))
@@ -42,80 +44,109 @@ export default function NodeIO(props) {
         }
     }
     const onDragContext = useContext(OnDragProvider)
+    const parent = document.getElementById(props.nodeID)
+    const handler = (e) => {
+        const bBox = parent.getBoundingClientRect()
 
+        if(e.type === 'dragover' && props.type === 'input' && props.data.accept) {
+            console.log('E')
+            infoRef.current.style.zIndex = 999
+            infoRef.current.style.top = wrapperRef.current.offsetTop + 'px'
+            infoRef.current.style.left = (e.clientX - bBox.x)+ 'px'
+            infoRef.current.style.borderLeft = props.data.accept.includes(onDragContext.dragType)? 'green 2px solid' : 'red 2px solid'
+        }
+        else
+            infoRef.current.style.zIndex = -1
+    }
+    useEffect(() => {
+        const el = document.getElementById(props.nodeID+props.data.key)
+        if (el) {
+            el.addEventListener('dragover', handler)
+            el.addEventListener('dragleave', handler)
+            el.addEventListener('drop', handler)
+        }
+        return () => {
+            if (el) {
+                el.removeEventListener('drop', handler)
+                el.removeEventListener('dragleave', handler)
+                el.removeEventListener('dragover', handler)
+            }
+        }
+    }, [onDragContext.dragType])
     return (
-        <div className={styles.attribute}>
-            {props.type === 'input' && onDragContext.dragType !== undefined?
-                <ToolTip >
-                  <div style={{textAlign: 'left', display: 'grid', gap: '8px'}}>
-                      Accepts:
-                      {props.data.accept?.map((a, i) => (
-                          <div className={styles.ioKey} key={i + '-key-' + a}>
-                              <div className={styles.iconWrapper} data-valid={`${onDragContext.dragType === a}`}>
-                                <span style={{fontSize: '1rem'}}
+        <>
+            <div ref={infoRef} className={styles.infoWrapper}>
+                {props.data.accept?.map((a, i) => (
+                    <div className={styles.ioKey} key={i + '-key-' + a}>
+                        <div className={styles.iconWrapper} data-valid={`${onDragContext.dragType === a}`}>
+                                <span style={{fontSize: '.8rem'}}
                                       className={'material-icons-round'}>{onDragContext.dragType === a ? 'check' : 'close'}</span>
-                              </div>
-                              {getType(a)}
-                          </div>
-                      ))}
-                  </div>
-                </ToolTip>
-                :
-                null}
-            {props.type === 'output' ? (
-                <div className={styles.overflow} style={{fontWeight: 'normal'}}>
-                    {props.data.label}
-                </div>
-            ) : null}
-            <div
-                id={props.nodeID + props.data.key}
-                className={styles.connection}
-                draggable={true}
-                onDragOver={e => {
-                    e.preventDefault()
-                    onDragContext.setDragType(undefined)
-                    if (!props.links.includes(props.data.key))
-                        e.currentTarget.style.background = 'var(--fabric-accent-color)'
-                }}
-                style={{background: props.links.includes(props.data.key) ? 'var(--fabric-accent-color' : undefined}}
-                onDrop={e => {
-                    onDragContext.setDragType(undefined)
-                    if (props.type === 'input')
-                        asInput(e)
-                    else
-                        props.setAlert({
-                            type: 'error',
-                            message: 'Can\'t link with output.'
-                        })
+                        </div>
+                        {getType(a)}
+                    </div>
+                ))}
+            </div>
+            <div className={styles.attribute} ref={wrapperRef}>
 
-                }}
-                onDragEnd={props.onDragEnd}
-                onDragLeave={e => {
-                    e.preventDefault()
-                    if (!props.links.includes(props.data.key))
-                        e.currentTarget.style.background = 'var(--background-1)'
-                }}
-                onDrag={props.handleLinkDrag}
-                onDragStart={e => {
-                    e.dataTransfer
-                        .setData(
-                            'text',
-                            JSON.stringify({
-                                id: props.nodeID,
-                                type: props.type,
-                                attribute: props.data
+                {props.type === 'output' ? (
+                    <div className={styles.overflow} style={{fontWeight: 'normal'}}>
+                        {props.data.label}
+                    </div>
+                ) : null}
+                <div
+
+                    id={props.nodeID + props.data.key}
+                    className={styles.connection}
+                    draggable={true}
+                    onDragOver={e => {
+                        e.preventDefault()
+                        // onDragContext.setDragType(undefined)
+                        // TODO - REPLACE LINK
+                        if (!props.links.includes(props.data.key))
+                            e.currentTarget.style.background = 'var(--fabric-accent-color)'
+                    }}
+                    style={{background: props.links.includes(props.data.key) ? 'var(--fabric-accent-color' : undefined}}
+                    onDrop={e => {
+                        onDragContext.setDragType(undefined)
+                        if (props.type === 'input')
+                            asInput(e)
+                        else
+                            props.setAlert({
+                                type: 'error',
+                                message: 'Can\'t link with output.'
                             })
-                        )
 
-                    if (props.type === 'output')
-                        onDragContext.setDragType(props.data.type)
-                }}/>
-            {props.type === 'input' ? (
-                <div className={styles.overflow} style={{fontWeight: 'normal'}}>
-                    {props.data.label}
-                </div>
-            ) : null}
-        </div>
+                    }}
+                    onDragEnd={props.onDragEnd}
+                    onDragLeave={e => {
+                        e.preventDefault()
+                        if (!props.links.includes(props.data.key))
+                            e.currentTarget.style.background = 'var(--background-1)'
+                    }}
+                    onDrag={props.handleLinkDrag}
+                    onDragStart={e => {
+                        e.dataTransfer
+                            .setData(
+                                'text',
+                                JSON.stringify({
+                                    id: props.nodeID,
+                                    type: props.type,
+                                    attribute: props.data
+                                })
+                            )
+
+                        if (props.type === 'output') {
+                            console.log(props.data.type)
+                            onDragContext.setDragType(props.data.type)
+                        }
+                    }}/>
+                {props.type === 'input' ? (
+                    <div className={styles.overflow} style={{fontWeight: 'normal'}}>
+                        {props.data.label}
+                    </div>
+                ) : null}
+            </div>
+        </>
     )
 }
 

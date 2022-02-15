@@ -139,8 +139,11 @@ export default function Board(props) {
                             <Node
                                 links={links}
                                 setAlert={props.setAlert}
-                                setSelected={i => {
-                                    props.setSelected([i])
+                                setSelected={(i, multi) => {
+                                    if(multi)
+                                        setSelected(i)
+                                    else
+                                        props.setSelected([i])
                                 }}
                                 selected={props.selected}
                                 node={node}

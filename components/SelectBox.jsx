@@ -48,7 +48,7 @@ export default function SelectBox(props) {
 
             ref.current.style.transform = `translate(${translation.x + 'px'}, ${translation.y + 'px'})`
         }
-        console.log('E')
+
     }
     const handleMouseDown = (event) => {
 

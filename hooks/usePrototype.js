@@ -36,6 +36,8 @@ const INSTANCES = {
 export default function usePrototype(file) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
+    const [changed, setChanged] = useState(false)
+
     const [selected, setSelected] = useState([])
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
@@ -94,6 +96,7 @@ export default function usePrototype(file) {
         links,
         setLinks,
         quickAccess,
-        load
+        load,
+        changed, setChanged
     }
 }

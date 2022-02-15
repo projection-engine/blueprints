@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {useMemo} from "react";
+import {useMemo, useState} from "react";
 import {TYPES} from "../../templates/TYPES";
 import styles from '../../styles/Node.module.css'
 
@@ -17,9 +17,9 @@ export default function NodeShowcase(props) {
                 return null
         }).filter(n => n !== null)
     }, [props.node])
-
     return (
         <div className={styles.showcase}>
+
             {attributesToRender.map((a, i) =>
                 a.type === TYPES.TEXTURE ?
                     <div className={styles.showcaseWrapper} key={props.node.id + '-input-' + i}
@@ -27,6 +27,7 @@ export default function NodeShowcase(props) {
 
                         {a.value?.preview ?
                             <img src={a.value?.preview} alt={a.label}/>
+
                             :
                             <div className={styles.error}>
                                 Missing texture
