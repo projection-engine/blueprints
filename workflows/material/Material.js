@@ -1,7 +1,8 @@
-import Response from "../../templates/Response";
+import Node from '../../templates/Node'
 import {TYPES} from "../../templates/TYPES";
+import NODE_TYPES from "../../templates/NODE_TYPES";
 
-export default class Material extends Response {
+export default class Material extends Node {
     albedo
     metallic
     height
@@ -22,6 +23,11 @@ export default class Material extends Response {
 
         this.name = 'Material'
     }
+
+    get type (){
+        return NODE_TYPES.RESPONSE
+    }
+
     compile(items) {
         console.log(items)
         return new Promise(resolve => {

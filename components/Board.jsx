@@ -7,7 +7,6 @@ import handleDropBoard from "../utils/handleDropBoard";
 import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
 import {ContextMenu} from "@f-ui/core";
-import cloneClass from "../../../pages/project/utils/misc/cloneClass";
 import getBoardOptions from "../utils/getBoardOptions";
 import OnDragProvider from "../hooks/OnDragProvider";
 import SelectBox from "./SelectBox";

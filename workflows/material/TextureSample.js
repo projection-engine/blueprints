@@ -1,5 +1,6 @@
 import Node from "../../templates/Node";
 import {TYPES} from "../../templates/TYPES";
+import NODE_TYPES from "../../templates/NODE_TYPES";
 
 export default class TextureSample extends Node {
     sample = {}
@@ -10,6 +11,9 @@ export default class TextureSample extends Node {
             {label: 'Texture', type: TYPES.TEXTURE, key: 'sample'}
         ], [{label: 'Texture', type: TYPES.TEXTURE, key: 'sample'}]);
         this.name = 'Texture sample'
+    }
+    get type (){
+        return NODE_TYPES.DATA
     }
     compile(_, fileSystem) {
         return new Promise(resolve => {

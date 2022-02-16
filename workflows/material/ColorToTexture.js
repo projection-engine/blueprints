@@ -1,6 +1,7 @@
 import Node from "../../templates/Node";
 import {TYPES} from "../../templates/TYPES";
 import ImageProcessor from "../../../../services/workers/ImageProcessor";
+import NODE_TYPES from "../../templates/NODE_TYPES";
 
 export default class ColorToTexture extends Node {
     sample = ''
@@ -15,6 +16,9 @@ export default class ColorToTexture extends Node {
             [{label: 'Texture', type: TYPES.TEXTURE, key: 'sample'}]
         );
         this.name = 'Color to texture'
+    }
+    get type (){
+        return NODE_TYPES.FUNCTION
     }
     compile([color]) {
         return new Promise(resolve => {

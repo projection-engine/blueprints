@@ -1,7 +1,6 @@
 import styles from "../../styles/Node.module.css";
 import PropTypes from "prop-types";
 import {TYPES} from "../../templates/TYPES";
-import {ToolTip} from "@f-ui/core";
 import {useContext, useEffect, useRef} from "react";
 import OnDragProvider from "../../hooks/OnDragProvider";
 

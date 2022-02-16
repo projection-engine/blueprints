@@ -1,18 +1,21 @@
 import Node from "../../templates/Node";
 import {TYPES} from "../../templates/TYPES";
 import ImageProcessor, {COLOR_BLEND_OPERATIONS} from "../../../../services/workers/ImageProcessor";
+import NODE_TYPES from "../../templates/NODE_TYPES";
 
 export default class Multiply extends Node {
     value
 
     constructor() {
         super([
-            {label: 'A', key: 'texture', accept: [TYPES.TEXTURE]},
-            {label: 'B', key: 'valueToMultiply', accept: [TYPES.COLOR, TYPES.NUMBER]}
+            {label: 'Texture', key: 'texture', accept: [TYPES.TEXTURE]},
+            {label: 'Value', key: 'valueToMultiply', accept: [TYPES.COLOR, TYPES.NUMBER]}
         ], [{label: 'Texture', key: 'value', type: TYPES.TEXTURE}]);
         this.name = 'Multiply'
     }
-
+    get type (){
+        return NODE_TYPES.FUNCTION
+    }
     compile(items, fileSystem) {
         return new Promise(resolve => {
             const image = items.find(i => i.key === 'texture')

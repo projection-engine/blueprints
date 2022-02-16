@@ -6,10 +6,8 @@ import EVENTS from "../../../pages/project/utils/misc/EVENTS";
 import {LoaderProvider} from "@f-ui/core";
 
 
-import Subtract from "../workflows/basic/Subtract";
 import Add from "../workflows/basic/Add";
 import Multiply from "../workflows/basic/Multiply";
-import Divide from "../workflows/basic/Divide";
 import Color from "../workflows/material/Color";
 import Power from "../workflows/basic/Power";
 import TextureSample from "../workflows/material/TextureSample";
@@ -20,10 +18,9 @@ import useVisualizer from "../../mesh/hook/useVisualizer";
 import ColorToTexture from "../workflows/material/ColorToTexture";
 
 const INSTANCES = {
-    Subtract: () => {return new Subtract()},
+
     Add: () => {return new Add()},
     Multiply: () => {return new Multiply()},
-    Divide: () => {return new Divide()},
     Power: () => {return new Power()},
     Numeric: () => {return new Numeric()},
 

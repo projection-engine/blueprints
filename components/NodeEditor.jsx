@@ -78,7 +78,7 @@ export default function NodeEditor(props) {
         <div className={styles.wrapper}>
             <div ref={viewportRef}
                  style={{width: '100%', height: '200px', overflow: 'hidden', position: 'relative'}}>
-                <Viewport allowDrop={false} id={props.engine.id} engine={props.engine}/>
+                <Viewport allowDrop={false} id={props.engine.id} engine={props.engine} renderer={props.engine.renderer}/>
                 <Button
                     className={styles.refresh}
                     styles={{bottom: 'unset', top: '4px', right: 'unset', left: '4px'}}

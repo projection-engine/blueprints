@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import {useMemo, useState} from "react";
+import {useMemo} from "react";
 import {TYPES} from "../../templates/TYPES";
 import styles from '../../styles/Node.module.css'
 

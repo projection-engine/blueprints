@@ -4,6 +4,7 @@ import React, {useEffect, useMemo} from 'react'
 import useNode from "../../hooks/useNode";
 import NodeIO from "./NodeIO";
 import NodeShowcase from "./NodeShowcase";
+import NODE_TYPES from "../../templates/NODE_TYPES";
 
 export default function Node(props) {
     const selected = useMemo(() => {
@@ -27,6 +28,26 @@ export default function Node(props) {
         }
     }, [props.node, props.selected, selected])
 
+    const nodeInfo = useMemo(() => {
+        switch (props.node.type) {
+            case NODE_TYPES.FUNCTION:
+                return {
+                    backgroundColor: '#7b6fa2',
+                    icon: <span style={{fontSize: '1rem'}} className={'material-icons-round'}>functions</span>
+                }
+            case NODE_TYPES.RESPONSE:
+                return {
+                    backgroundColor: '#a14a2a',
+                    icon: <span style={{fontSize: '1rem'}} className={'material-icons-round'}>output</span>
+                }
+            default:
+                return {
+                    backgroundColor: '#0095ff',
+                    icon: <span style={{fontSize: '1rem'}} className={'material-icons-round'}>tune</span>
+                }
+        }
+    }, [props.node])
+
     return (
         <g>
             <g
@@ -45,17 +66,15 @@ export default function Node(props) {
                     style={{
                         width: '250px',
                         height: height + 'px',
-                        outline: selected ? 'var(--fabric-accent-color) 2px solid' : undefined
+                        outline: selected ? nodeInfo.backgroundColor + ' 2px solid' : undefined
                     }}>
                     <div
                         className={styles.label}
+                        style={{borderColor: nodeInfo.backgroundColor}}
                         id={props.node.id + '-node'}
                     >
-                        <div className={'material-icons-round'}
-                             style={{fontSize: '1.2rem'}}>drag_indicator
-                        </div>
+                        {nodeInfo.icon}
                         {props.node.name}
-                        {props.node.instanceOf === (Response.constructor.name)}
                     </div>
                     <div className={styles.content}>
                         <div className={styles.column}>

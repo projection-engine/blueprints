@@ -1,5 +1,6 @@
 import Node from "../../templates/Node";
 import {TYPES} from "../../templates/TYPES";
+import NODE_TYPES from "../../templates/NODE_TYPES";
 
 
 export default class Power extends Node {
@@ -7,12 +8,14 @@ export default class Power extends Node {
 
     constructor( ) {
         super([
-            {label: 'A', key: 'constA', accept: [TYPES.NUMBER]},
-            {label: 'B', key: 'constB', accept: [TYPES.NUMBER]}
+            {label: 'Texture', key: 'texture', accept: [TYPES.TEXTURE]},
+            {label: 'Value', key: 'valueToMultiply', accept: [TYPES.COLOR, TYPES.NUMBER]}
         ], [{label: 'Value', key: 'value', type: TYPES.NUMBER}]);
         this.name = 'Power'
     }
-
+    get type (){
+        return NODE_TYPES.FUNCTION
+    }
     compile([a, b], fileSystem) {
         return new Promise(resolve => {
             this.value = a ** b

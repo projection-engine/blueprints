@@ -44,18 +44,21 @@
     height: 30px;
     display: flex;
     align-items: center;
-    gap: 3px;
-    background-color: var(--background-2);
-    font-weight: 600;
-    color: var(--fabric-color-secondary);
 
+    gap: 3px;
+
+    padding: 0 4px;
+    font-weight: 550;
+    font-size: .7rem;
+    color:var(--fabric-color-secondary);
+
+    border-left: transparent 3px solid;
+
+    background: var(--background-2a);
     transition: color 150ms linear;
 
 }
 
-.label:hover, .label:active {
-    color: var(--fabric-accent-color);
-}
 
 .column {
     width: 100%;
