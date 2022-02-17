@@ -14,7 +14,7 @@ import TextureSample from "../workflows/material/TextureSample";
 import Numeric from "../workflows/basic/Numeric";
 import compile from "../utils/compile";
 import applyViewport from "../utils/applyViewport";
-import useVisualizer from "../../mesh/hook/useVisualizer";
+import useVisualizer from "../../../services/hooks/useVisualizer";
 import ColorToTexture from "../workflows/material/ColorToTexture";
 
 const INSTANCES = {
