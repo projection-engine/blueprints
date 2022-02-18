@@ -44,15 +44,17 @@ export default function Board(props) {
     const boardOptions = useMemo(() => {
         return getBoardOptions((n, mouseInfo) => {
             handleDropNode(n, mouseInfo)
-        })
-    }, [props.hook.nodes])
+        }, props.hook, links)
+    }, [props.hook.nodes, props.hook.links, links])
+
+
     const [dragType, setDragType] = useState()
     const setSelected = (i) => {
-        if(i && !props.selected.find(e => e === i))
+        if (i && !props.selected.find(e => e === i))
             props.setSelected(prev => {
                 return [...prev, i]
             })
-        else if(props.selected.find(e => e === i))
+        else if (props.selected.find(e => e === i))
             props.setSelected(prev => {
                 const copy = [...prev]
                 copy.splice(copy.indexOf(i), 1)
@@ -63,35 +65,9 @@ export default function Board(props) {
     return (
         <OnDragProvider.Provider value={{setDragType, dragType}}>
             <ContextMenu
-                options={[
-                    ...boardOptions,
-                    {
-                        requiredTrigger: 'data-node',
-                        label: 'Edit',
-                        icon: <span className={'material-icons-round'}>edit</span>,
-                        onClick: (node) => {
-                            setSelected(node.getAttribute('data-node'))
-                        }
-                    },
-                    {
-                        requiredTrigger: 'data-node',
-                        label: 'Delete',
-                        icon: <span className={'material-icons-round'}>delete</span>,
-                        onClick: (node) => {
-                            deleteNode(node.getAttribute('data-node'), props.hook)
-                        }
-                    },
-                    {
-                        requiredTrigger: 'data-link',
-                        label: 'Break link',
-                        icon: <span className={'material-icons-round'}>link_off</span>,
-                        onClick: (node) => {
-                            removeLink(links.find(l => (l.target + '-' + l.source) === node.getAttribute('data-link')), props.hook)
-                        }
-                    },
-
-                ]}
+                options={boardOptions}
                 triggers={[
+
                     'data-node',
                     'data-board',
                     'data-link'
@@ -102,19 +78,19 @@ export default function Board(props) {
                     height: '100%',
                     borderRadius: '5px',
                     position: 'relative'
-                }}>
+                }}
+
+            >
                 <SelectBox nodes={props.hook.nodes} selected={props.selected} setSelected={props.setSelected}/>
                 <svg
                     onDragOver={e => e.preventDefault()}
-                    data-board={'self'}
                     style={{
-
                         transform: `scale(${scale})`,
                         transformOrigin: 'top left',
                         height: '10000px',
                         width: '10000px',
-
                     }}
+                    data-board={'self'}
                     onContextMenu={e => e.preventDefault()}
                     onDrop={e => {
                         e.preventDefault()
@@ -139,7 +115,7 @@ export default function Board(props) {
                                 links={links}
                                 setAlert={props.setAlert}
                                 setSelected={(i, multi) => {
-                                    if(multi)
+                                    if (multi)
                                         setSelected(i)
                                     else
                                         props.setSelected([i])

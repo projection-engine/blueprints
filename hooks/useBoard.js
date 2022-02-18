@@ -16,7 +16,7 @@ export default function useBoard(hook, setAlert, parentRef) {
             setScale(scale - scale * .1)
     }
 
-    console.log(scale)
+
     useEffect(() => {
         ref.current?.parentNode.addEventListener('wheel', handleWheel, {passive: false})
         return () => {
@@ -63,7 +63,7 @@ export default function useBoard(hook, setAlert, parentRef) {
                 sourceKey: l.source.attribute.key
             }
         })
-    }, [hook])
+    }, [hook.links])
 
     let currentFrame = 0
 
@@ -106,7 +106,6 @@ export default function useBoard(hook, setAlert, parentRef) {
         }
     }, [links, scale])
     return {
-
         scale,
         links,
         ref,

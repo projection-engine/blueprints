@@ -54,6 +54,7 @@ export default function MaterialView(props) {
             response: res
         })
     }
+
     useEffect(() => {
         controlProvider.setTabAttributes(
             [
