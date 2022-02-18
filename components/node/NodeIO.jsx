@@ -2,7 +2,7 @@ import styles from "../../styles/Node.module.css";
 import PropTypes from "prop-types";
 import {TYPES} from "../../templates/TYPES";
 import {useContext, useEffect, useRef} from "react";
-import OnDragProvider from "../../hooks/OnDragProvider";
+import OnDragProvider from "../../hooks/DragProvider";
 
 export default function NodeIO(props) {
     const infoRef = useRef()
@@ -10,7 +10,7 @@ export default function NodeIO(props) {
     const asInput = (e) => {
         e.preventDefault()
         const data = JSON.parse(e.dataTransfer.getData('text'))
-        e.currentTarget.style.background = 'var(--background-1)'
+        e.currentTarget.style.background = 'var(--fabric-background-primary)'
 
         if (data.type === 'output' && props.data.accept.includes(data.attribute.type))
             props.handleLink(data, {
@@ -120,7 +120,7 @@ export default function NodeIO(props) {
                     onDragLeave={e => {
                         e.preventDefault()
                         if (!props.links.includes(props.data.key))
-                            e.currentTarget.style.background = 'var(--background-1)'
+                            e.currentTarget.style.background = 'var(--fabric-background-primary)'
                     }}
                     onDrag={props.handleLinkDrag}
                     onDragStart={e => {

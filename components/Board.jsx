@@ -8,8 +8,8 @@ import handleBoardScroll from "../utils/handleBoardScroll";
 import useBoard from "../hooks/useBoard";
 import {ContextMenu} from "@f-ui/core";
 import getBoardOptions from "../utils/getBoardOptions";
-import OnDragProvider from "../hooks/OnDragProvider";
-import SelectBox from "./SelectBox";
+import OnDragProvider from "../hooks/DragProvider";
+import SelectBox from "../../../components/selectbox/SelectBox";
 import deleteNode, {removeLink} from "../utils/deleteNode";
 
 

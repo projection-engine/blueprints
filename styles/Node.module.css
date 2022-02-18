@@ -1,6 +1,6 @@
 .wrapper {
     border-radius: 5px;
-    background-color: var(--background-1);
+    background-color: var(--fabric-background-primary);
 
     border: var(--fabric-border-primary) 1px solid;
     box-shadow: rgba(0, 0, 0, .2) 2px 2px 4px .1px;
@@ -29,7 +29,7 @@
 .connection {
     width: 15px;
     height: 15px;
-    background-color: var(--background-1);
+    background-color: var(--fabric-background-primary);
     border-radius: 50%;
     cursor: grab;
     border: var(--fabric-border-secondary) 1px solid;
@@ -54,7 +54,7 @@
 
     border-left: transparent 3px solid;
 
-    background: var(--background-2a);
+    background: var(--fabric-background-tertiary);
     transition: color 150ms linear;
 
 }
@@ -70,7 +70,7 @@
 .content {
     display: flex;
     height: fit-content;
-    background-color: var(--background-1);
+    background-color: var(--fabric-background-primary);
 }
 
 .overflow {
@@ -137,7 +137,7 @@ padding: 4px;
 .infoWrapper{
     transform: translateX(50%);
     border-radius: 0 5px 5px 0;
-    background: var(--background-1);
+    background: var(--fabric-background-primary);
 
     color: var(--fabric-color-secondary);
 

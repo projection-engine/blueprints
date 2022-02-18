@@ -3,7 +3,7 @@
 
     height: 100%;
 
-    background-color: var(--background-1);
+    background-color: var(--fabric-background-primary);
     border: var(--fabric-border-primary) 1px solid;
 
 
@@ -73,7 +73,7 @@
     height: 100%;
     z-index: -1;
     opacity: .3;
-    background-color: var(--background-1) !important;
+    background-color: var(--fabric-background-primary) !important;
 }
 
 .content{
