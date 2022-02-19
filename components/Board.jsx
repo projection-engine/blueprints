@@ -44,7 +44,7 @@ export default function Board(props) {
     const boardOptions = useMemo(() => {
         return getBoardOptions((n, mouseInfo) => {
             handleDropNode(n, mouseInfo)
-        }, props.hook, links)
+        },props.setSelected,  props.hook, links)
     }, [props.hook.nodes, props.hook.links, links])
 
 

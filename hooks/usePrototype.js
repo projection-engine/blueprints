@@ -16,19 +16,9 @@ import compile from "../utils/compile";
 import applyViewport from "../utils/applyViewport";
 import useVisualizer from "../../../services/hooks/useVisualizer";
 import ColorToTexture from "../workflows/material/ColorToTexture";
+import parseMaterialFile from "../utils/parseMaterialFile";
 
-const INSTANCES = {
 
-    Add: () => {return new Add()},
-    Multiply: () => {return new Multiply()},
-    Power: () => {return new Power()},
-    Numeric: () => {return new Numeric()},
-
-    Color: () => {return new Color()},
-    ColorToTexture: () => {return new ColorToTexture()},
-    TextureSample: () => {return new TextureSample()},
-    Material: () => {return new Material()}
-}
 
 export default function usePrototype(file) {
     const [nodes, setNodes] = useState([])
@@ -43,42 +33,7 @@ export default function usePrototype(file) {
     useEffect(() => {
         load.pushEvent(EVENTS.LOADING_MATERIAL)
         if(engine.gpu && engine.meshes.length > 0){
-            quickAccess.fileSystem
-                .readRegistryFile(file.registryID)
-                .then(res => {
-                    if (res) {
-                        quickAccess.fileSystem
-                            .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
-                            .then(file => {
-
-                                if (file && Object.keys(file).length > 0) {
-                                    const newNodes = file.nodes.map(f => {
-                                        const i = INSTANCES[f.instance]()
-                                        Object.keys(f).forEach(o => {
-                                            if(o === 'sample' && i instanceof TextureSample)
-                                                i[o] = quickAccess.images.find(i => i.registryID === f[o].registryID)
-                                                else
-                                            i[o] = f[o]
-                                        })
-                                        return i
-                                    })
-
-                                    compile(load, newNodes, file.links, quickAccess.fileSystem)
-                                        .then(res => {
-                                            applyViewport(res, engine, load)
-                                            setNodes(newNodes)
-                                            setLinks(file.links)
-                                        })
-                                }
-                                else {
-                                    setNodes([new Material()])
-                                    load.finishEvent(EVENTS.LOADING_MATERIAL)
-                                }
-                            })
-                    }
-                    else
-                        load.finishEvent(EVENTS.LOADING_MATERIAL)
-                })
+          parseMaterialFile(file, quickAccess, setNodes, setLinks, engine, load)
         }
 
     }, [file, engine.gpu,engine.meshes])

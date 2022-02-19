@@ -8,10 +8,12 @@ import getImagePromise from "../../../services/engine/utils/getImagePromise";
 
 const MAT_ID = 'MAT-0'
 export default function applyViewport(materialObject, engine, load) {
-    if (engine.gpu) {
+    if (engine.gpu && materialObject) {
+
         load.pushEvent(EVENTS.LOADING_MATERIAL)
         const sphere = engine.entities.find(e => e.id === IDS.SPHERE)
         if (sphere) {
+
             const newMaterial = new MaterialInstance(engine.gpu, MAT_ID)
             newMaterial.initializeTextures(
                 materialObject.albedo,
@@ -38,5 +40,6 @@ export default function applyViewport(materialObject, engine, load) {
         } else
             load.finishEvent(EVENTS.LOADING_MATERIAL)
 
-    }
+    }else
+        load.finishEvent(EVENTS.LOADING_MATERIAL)
 }

@@ -20,7 +20,7 @@ export default function getBoardOptions(pushNode,setSelected, hook, links) {
             label: 'Edit',
             icon: <span className={'material-icons-round'}>edit</span>,
             onClick: (node) => {
-                setSelected(node.getAttribute('data-node'))
+                setSelected([node.getAttribute('data-node')])
             }
         },
         {
@@ -28,7 +28,7 @@ export default function getBoardOptions(pushNode,setSelected, hook, links) {
             label: 'Delete',
             icon: <span className={'material-icons-round'}>delete</span>,
             onClick: (node) => {
-                deleteNode(node.getAttribute('data-node'), hook)
+                deleteNode(node.getAttribute('data-node'), hook, setSelected)
             }
         },
         {

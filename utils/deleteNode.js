@@ -23,10 +23,10 @@ export function removeLink (link, hook) {
         })
     }
 }
-export default function deleteNode(node, hook){
+export default function deleteNode(node, hook, setSelected){
     const target = node
-
-    hook.setSelected([])
+    
+    setSelected([])
 
     let found, n = [...hook.links]
     do {

@@ -19,6 +19,7 @@ import useHotKeys, {KEYS} from "../../services/hooks/useHotKeys";
 import cloneClass from "../../pages/project/utils/misc/cloneClass";
 import randomID from "../../pages/project/utils/misc/randomID";
 import deleteNode from "./utils/deleteNode";
+import MATERIAL_TYPES from "./templates/MATERIAL_TYPES";
 
 
 export default function MaterialView(props) {
@@ -51,7 +52,8 @@ export default function MaterialView(props) {
         return JSON.stringify({
             nodes: parsedNodes,
             links: hook.links,
-            response: res
+            response: res,
+            type: MATERIAL_TYPES.DEFAULT
         })
     }
 
@@ -63,7 +65,6 @@ export default function MaterialView(props) {
                     disabled: hook.disabled,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                     onClick: () => {
-                        hook.load.pushEvent(EVENTS.LOADING_MATERIAL)
                         compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
                             .then(res => {
                                 applyViewport(res, hook.engine, hook.load)
@@ -97,7 +98,6 @@ export default function MaterialView(props) {
                     disabled: hook.disabled,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
                     onClick: () => {
-                        hook.load.pushEvent(EVENTS.LOADING_MATERIAL)
                         compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
                             .then(res => {
                                 applyViewport(res, hook.engine, hook.load)

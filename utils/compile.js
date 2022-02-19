@@ -13,6 +13,7 @@ export default function compile(load, n, l, fileSystem) {
         if (startPoint) {
             const resolveDependencies = (currentNode) => {
                 const linksToResolve = links.filter(l => l.target.id === currentNode.id)
+                const forwardLinks = links.filter(l => l.source.id === currentNode.id).map(l => l.source.attribute.key)
                 const promises = linksToResolve.map(link => {
                     const source = nodes.find(n => n.id === link.source.id)
                     let value
@@ -44,7 +45,7 @@ export default function compile(load, n, l, fileSystem) {
                                     else
                                         return undefined
                                 }).filter(f => f !== undefined)
-                                currentNode.compile(compiledLinks, fileSystem)
+                                currentNode.compile(compiledLinks, fileSystem, forwardLinks)
                                     .then(() => {
                                         nodes[nodes.findIndex(n => n.id === currentNode.id)] = currentNode
                                         resolveLoop()
@@ -64,7 +65,7 @@ export default function compile(load, n, l, fileSystem) {
                             else
                                 return undefined
                         }).filter(f => f !== undefined)
-                        currentNode.compile(compiledLinks, fileSystem)
+                        currentNode.compile(compiledLinks, fileSystem, forwardLinks)
                             .then(() => {
                                 nodes[nodes.findIndex(n => n.id === currentNode.id)] = currentNode
                                 resolveLoop()

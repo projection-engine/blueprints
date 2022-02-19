@@ -85,10 +85,10 @@ export default function NodeIO(props) {
                     </div>
                 ))}
             </div>
-            <div className={styles.attribute} ref={wrapperRef}>
+            <div className={styles.attribute} ref={wrapperRef} style={{justifyContent: props.type === 'input' ? 'flex-start' : 'flex-end'}}>
 
                 {props.type === 'output' ? (
-                    <div className={styles.overflow} style={{fontWeight: 'normal'}}>
+                    <div className={styles.overflow} style={{color: props.data.color, fontWeight: 'bold'}}>
                         {props.data.label}
                     </div>
                 ) : null}
@@ -161,7 +161,8 @@ NodeIO.propTypes = {
         key: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
         type: PropTypes.oneOf([TYPES.COLOR, TYPES.NUMBER, TYPES.STRING, TYPES.TEXTURE, TYPES.VEC]),
-        accept: PropTypes.arrayOf(PropTypes.number)
+        accept: PropTypes.arrayOf(PropTypes.number),
+        color: PropTypes.string
     }).isRequired,
     links: PropTypes.arrayOf(PropTypes.string).isRequired
 }
