@@ -38,6 +38,7 @@ export default function useNode(props, selected) {
         y: 0
     }
     const handleDragStart = (event) => {
+        console.log('EEEE')
         let isFirst, alreadyFound = false
         document.elementsFromPoint(event.clientX, event.clientY)
             .forEach(e => {
@@ -46,10 +47,11 @@ export default function useNode(props, selected) {
                 else if (e.id?.includes('-node') && !alreadyFound)
                     alreadyFound = true
             })
-
+        if(event.button === 0 && isFirst)
+            props.setSelected(props.node.id, false)
         if (event.button === 0 && ((selected && event.ctrlKey) || isFirst)) {
             const t = ref.current.firstChild
-            t.style.cursor = 'grabbing'
+
             const parent = ref.current?.parentNode.parentNode
             let parentBBox = parent.getBoundingClientRect()
             let bounding = {
@@ -93,7 +95,7 @@ export default function useNode(props, selected) {
             }
 
             const handleMouseUp = () => {
-                t.style.cursor = 'grab'
+
                 const bBox = ref.current.getBoundingClientRect()
                 let fixedPlacement = current
                 if (bBox.top - parentBBox.top < 0)

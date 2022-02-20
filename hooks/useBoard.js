@@ -28,29 +28,17 @@ export default function useBoard(hook, setAlert, parentRef) {
     const handleLink = (src, target) => {
         hook.setLinks(prev => {
             const c = [...prev]
-            const targetInstance = hook.nodes.find(n => n.id === target.id)
             const existing = c.findIndex(c => c.target.id === target.id && c.target.attribute.key === target.attribute.key)
-            let valid = true
-            if (existing > -1) {
-                let acceptsArray = targetInstance.inputs.find(f => f.key === target.attribute.key).accept.find(f => f === 'Array')
-                valid = valid && acceptsArray !== undefined
-            }
 
-            if (valid && !c.find(i => i.source.id === src.id && i.target.id === target.id && i.source.attribute.key === src.attribute.key && i.target.attribute.key === target.attribute.key))
-                c.push({
-                    source: src,
-                    target: target
-                })
-            else if (valid)
-                setAlert({
-                    type: 'info',
-                    message: 'Already linked'
-                })
-            else
-                setAlert({
-                    type: 'info',
-                    message: 'Input doesn\'t support multiple values.'
-                })
+            if (existing > -1)
+                c.splice(existing, 1)
+
+            c.push({
+                source: src,
+                target: target
+            })
+
+
             return c
         })
     }

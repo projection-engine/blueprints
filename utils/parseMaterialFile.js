@@ -69,6 +69,7 @@ export default function parseMaterialFile(file, quickAccess, setNodes, setLinks,
                             setLinks(file.links)
                             load.finishEvent(EVENTS.LOADING_MATERIAL)
                         } else {
+                            applyViewport({}, engine, load)
                             setNodes([new Material()])
                             load.finishEvent(EVENTS.LOADING_MATERIAL)
                         }
