@@ -1,23 +1,9 @@
 import {useContext, useEffect, useState} from "react";
-
-import Material from "../workflows/material/Material";
 import QuickAccessProvider from "../../../services/hooks/QuickAccessProvider";
-import EVENTS from "../../../pages/project/utils/misc/EVENTS";
+import EVENTS from "../../../services/utils/misc/EVENTS";
 import {LoaderProvider} from "@f-ui/core";
-
-
-import Add from "../workflows/basic/Add";
-import Multiply from "../workflows/basic/Multiply";
-import Color from "../workflows/material/Color";
-import Power from "../workflows/basic/Power";
-import TextureSample from "../workflows/material/TextureSample";
-import Numeric from "../workflows/basic/Numeric";
-import compile from "../utils/compile";
-import applyViewport from "../utils/applyViewport";
 import useVisualizer from "../../../services/hooks/useVisualizer";
-import ColorToTexture from "../workflows/material/ColorToTexture";
 import parseMaterialFile from "../utils/parseMaterialFile";
-
 
 
 export default function usePrototype(file) {

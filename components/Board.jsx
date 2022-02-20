@@ -10,7 +10,6 @@ import {ContextMenu} from "@f-ui/core";
 import getBoardOptions from "../utils/getBoardOptions";
 import OnDragProvider from "../hooks/DragProvider";
 import SelectBox from "../../../components/selectbox/SelectBox";
-import deleteNode, {removeLink} from "../utils/deleteNode";
 
 
 export default function Board(props) {

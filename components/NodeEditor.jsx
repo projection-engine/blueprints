@@ -11,7 +11,7 @@ import Viewport from "../../../components/viewport/Viewport";
 
 import ColorPicker from "../../../components/color/ColorPicker";
 
-import cloneClass from "../../../pages/project/utils/misc/cloneClass";
+import cloneClass from "../../../services/utils/misc/cloneClass";
 import {TYPES} from "../templates/TYPES";
 
 export default function NodeEditor(props) {

@@ -1,4 +1,4 @@
-import cloneClass from "../../../pages/project/utils/misc/cloneClass";
+import cloneClass from "../../../services/utils/misc/cloneClass";
 
 export function removeLink (link, hook) {
     if (link) {

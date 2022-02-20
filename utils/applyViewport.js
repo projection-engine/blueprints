@@ -1,10 +1,8 @@
 import {IDS} from "../../../services/hooks/useVisualizer";
 import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
-import Texture from "../../../services/engine/renderer/elements/Texture";
 import {ENTITY_ACTIONS} from "../../../services/engine/utils/entityReducer";
 import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
-import EVENTS from "../../../pages/project/utils/misc/EVENTS";
-import getImagePromise from "../../../services/engine/utils/getImagePromise";
+import EVENTS from "../../../services/utils/misc/EVENTS";
 
 const MAT_ID = 'MAT-0'
 export default function applyViewport(materialObject, engine, load) {
@@ -23,9 +21,7 @@ export default function applyViewport(materialObject, engine, load) {
                 materialObject.height,
                 materialObject.ao
             ).then(() => {
-                engine.setMaterials([
-                  newMaterial
-                ])
+                engine.setMaterial(newMaterial)
                 sphere.components.MaterialComponent.materialID = MAT_ID
                 engine.dispatchEntities({
                     type: ENTITY_ACTIONS.UPDATE_COMPONENT,

@@ -1,6 +1,6 @@
-import EVENTS from "../../../pages/project/utils/misc/EVENTS";
+import EVENTS from "../../../services/utils/misc/EVENTS";
 import MaterialClass from "../workflows/material/Material";
-import cloneClass from "../../../pages/project/utils/misc/cloneClass";
+import cloneClass from "../../../services/utils/misc/cloneClass";
 
 export default function compile(load, n, l, fileSystem) {
     let links = [...l], nodes = n.map(node => cloneClass(node))
