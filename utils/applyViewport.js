@@ -13,6 +13,7 @@ export default function applyViewport(materialObject, engine, load) {
         if (sphere) {
 
             const newMaterial = new MaterialInstance(engine.gpu, MAT_ID)
+            console.log(materialObject)
             newMaterial.initializeTextures(
                 materialObject.albedo,
                 materialObject.metallic,

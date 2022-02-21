@@ -43,6 +43,7 @@ export default function parseMaterialFile(file, quickAccess, setNodes, setLinks,
         .readRegistryFile(file.registryID)
         .then(res => {
             if (res) {
+
                 quickAccess.fileSystem
                     .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
                     .then(file => {
@@ -63,7 +64,7 @@ export default function parseMaterialFile(file, quickAccess, setNodes, setLinks,
                                 })
                                 return i
                             })
-
+                            console.log(newNodes,file.links)
                             applyViewport(file.response, engine, load)
                             setNodes(newNodes)
                             setLinks(file.links)
