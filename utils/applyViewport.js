@@ -1,7 +1,5 @@
 import {IDS} from "../../../services/hooks/useVisualizer";
 import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
-import {ENTITY_ACTIONS} from "../../../services/engine/utils/entityReducer";
-import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
 import EVENTS from "../../../services/utils/misc/EVENTS";
 
 const MAT_ID = 'MAT-0'
@@ -23,15 +21,6 @@ export default function applyViewport(materialObject, engine, load) {
                 materialObject.ao
             ).then(() => {
                 engine.setMaterial(newMaterial)
-                sphere.components.MaterialComponent.materialID = MAT_ID
-                engine.dispatchEntities({
-                    type: ENTITY_ACTIONS.UPDATE_COMPONENT,
-                    payload: {
-                        entityID: sphere.id,
-                        key: MaterialComponent.prototype.constructor.name,
-                        data: sphere.components.MaterialComponent
-                    }
-                })
                 load.finishEvent(EVENTS.LOADING_MATERIAL)
             })
         } else
