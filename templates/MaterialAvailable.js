@@ -1,6 +1,7 @@
 import TextureSample from "../workflows/material/TextureSample";
 import Color from "../workflows/material/Color";
 import ColorToTexture from "../workflows/material/ColorToTexture";
+import SpecularToMetallic from "../workflows/material/SpecularToMetallic";
 
 export const materialAvailable=[
     {
@@ -15,6 +16,13 @@ export const materialAvailable=[
         tooltip: 'Converts RGB color to texture sample.',
         getNewInstance: () => new ColorToTexture()
     },
+
+    {
+        label: 'Specular to metallic',
+        dataTransfer: 's-t-m',
+        tooltip: 'Specular workflow to metallic workflow.',
+        getNewInstance: () => new SpecularToMetallic()
+    }    ,
     {
         label: 'RGB',
         dataTransfer: 'rgb',
