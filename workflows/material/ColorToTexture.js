@@ -10,7 +10,7 @@ export default class ColorToTexture extends Node {
     constructor() {
         super(
             [
-                {label: 'UV scale', key: 'uv', type: 'Constant', accept: [TYPES.NUMBER]},
+                {label: 'UV scale', key: 'uv', accept: [TYPES.NUMBER]},
                 {label: 'Base color', key: 'color', accept: [TYPES.COLOR]}
             ],
             [{label: 'Texture', type: TYPES.TEXTURE, key: 'sample'}]

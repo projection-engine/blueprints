@@ -15,7 +15,7 @@ export default class Material extends Node {
             [
                 {label: 'Albedo', key: 'albedo', accept: [ TYPES.TEXTURE]},
                 {label: 'Metallic', key: 'metallic',  accept: [ TYPES.TEXTURE]},
-                {label: 'Height', key: 'height', accept: [ TYPES.TEXTURE]},
+                {label: 'Height', key: 'height', accept: [ TYPES.OBJECT ]},
                 {label: 'Roughness', key: 'roughness',  accept: [ TYPES.TEXTURE]},
                 {label: 'Normal', key: 'normal',  accept: [ TYPES.TEXTURE]},
                 {label: 'Ambient occlusion', key: 'ao',  accept: [ TYPES.TEXTURE]}

@@ -11,7 +11,7 @@ export default function NodeIO(props) {
         e.preventDefault()
         const data = JSON.parse(e.dataTransfer.getData('text'))
         e.currentTarget.style.background = 'var(--fabric-background-primary)'
-
+        console.log(data, props.data)
         if (data.type === 'output' && props.data.accept.includes(data.attribute.type))
             props.handleLink(data, {
                 attribute: props.data,
@@ -40,6 +40,8 @@ export default function NodeIO(props) {
                 return 'RGB'
             case TYPES.TEXTURE:
                 return 'Texture sample'
+            case TYPES.OBJECT:
+                return 'Object'
         }
     }
     const onDragContext = useContext(OnDragProvider)
@@ -48,7 +50,7 @@ export default function NodeIO(props) {
         const bBox = parent.getBoundingClientRect()
 
         if(e.type === 'dragover' && props.type === 'input' && props.data.accept) {
-            console.log('E')
+
             infoRef.current.style.zIndex = 999
             infoRef.current.style.top = wrapperRef.current.offsetTop + 'px'
             infoRef.current.style.left = (e.clientX - bBox.x)+ 'px'
@@ -99,8 +101,6 @@ export default function NodeIO(props) {
                     draggable={true}
                     onDragOver={e => {
                         e.preventDefault()
-                        // onDragContext.setDragType(undefined)
-                        // TODO - REPLACE LINK
                         if (!props.links.includes(props.data.key))
                             e.currentTarget.style.background = 'var(--fabric-accent-color)'
                     }}
