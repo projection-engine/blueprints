@@ -1,5 +1,5 @@
 import {IDS} from "../../../services/hooks/useVisualizer";
-import MaterialInstance from "../../../services/engine/renderer/elements/MaterialInstance";
+import MaterialInstance from "../../../services/engine/elements/instances/MaterialInstance";
 import EVENTS from "../../../services/utils/misc/EVENTS";
 
 const MAT_ID = 'MAT-0'
