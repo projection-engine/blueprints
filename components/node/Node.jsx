@@ -5,6 +5,7 @@ import useNode from "../../hooks/useNode";
 import NodeIO from "./NodeIO";
 import NodeShowcase from "./NodeShowcase";
 import NODE_TYPES from "../../templates/NODE_TYPES";
+import {TYPES} from "../../templates/TYPES";
 
 export default function Node(props) {
     const selected = useMemo(() => {
@@ -26,7 +27,7 @@ export default function Node(props) {
         return () => {
             document.removeEventListener('mousedown', handleDragStart)
         }
-    }, [props.node, props.selected, selected])
+    }, [props.node, props.selected, selected, props.scale])
 
     const nodeInfo = useMemo(() => {
         switch (props.node.type) {
@@ -48,6 +49,13 @@ export default function Node(props) {
         }
     }, [props.node])
 
+    const outputInfo = useMemo(() => {
+
+        if(props.node.output?.length === 1 && (props.node.output[0].type === TYPES.NUMBER || props.node.output[0].type === TYPES.COLOR || props.node.output[0].type === TYPES.VEC)){
+            return props.node.output[0].type === TYPES.VEC ? JSON.stringify( props.node[props.node.output[0].key] ) :  props.node[props.node.output[0].key]
+        }
+        return null
+    }, [props.node])
     return (
         <g>
             <g
@@ -72,6 +80,12 @@ export default function Node(props) {
                     >
                         {nodeInfo.icon}
                         {props.node.name}
+
+                        {outputInfo ?
+                            <label style={{textAlign: 'right', width: '100%'}}>
+                                {outputInfo}
+                            </label>
+                        :null}
                     </div>
                     <div className={styles.content}>
                         <div className={styles.column}>

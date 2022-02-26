@@ -43,11 +43,23 @@ export default function NodeEditor(props) {
     }, [selected])
 
 
-    const getInput = (label, type, value, submit) => {
+    const getInput = (label, type, value, submit, obj) => {
         switch (type) {
             case TYPES.NUMBER:
                 return (
-                    <Range value={value} handleChange={submit} label={label}/>
+                    <Range maxValue={obj.max} minValue={obj.min} value={value !== undefined ? value : 0}
+                           handleChange={submit} label={label}/>
+                )
+            case TYPES.VEC:
+                return (
+                    <div className={styles.vecWrapper}>
+                        <Range accentColor={'red'} maxValue={obj.max} minValue={obj.min} value={value ? value[0] : undefined}
+                               handleChange={v => submit([parseFloat(v), value[1], value[2]])} label={label}/>
+                        <Range accentColor={'green'} maxValue={obj.max} minValue={obj.min} value={value ? value[1] : undefined}
+                               handleChange={v => submit([value[0], parseFloat(v), value[2]])} label={label}/>
+                        <Range accentColor={'blue'} maxValue={obj.max} minValue={obj.min} value={value ? value[2] : undefined}
+                               handleChange={v => submit([value[0], value[1], parseFloat(v)])} label={label}/>
+                    </div>
                 )
             case TYPES.COLOR:
                 return <ColorPicker submit={submit} value={value} label={'Color'}/>
@@ -71,14 +83,13 @@ export default function NodeEditor(props) {
     }
 
 
-
-
     const viewportRef = useRef()
     return (
         <div className={styles.wrapper}>
             <div ref={viewportRef}
                  style={{width: '100%', height: '200px', overflow: 'hidden', position: 'relative'}}>
-                <Viewport allowDrop={false} id={props.engine.id} engine={props.engine} renderer={props.engine.renderer}/>
+                <Viewport allowDrop={false} id={props.engine.id} engine={props.engine}
+                          renderer={props.engine.renderer}/>
                 <Button
                     className={styles.refresh}
                     styles={{bottom: 'unset', top: '4px', right: 'unset', left: '4px'}}
@@ -115,7 +126,8 @@ export default function NodeEditor(props) {
 
                                         n[classLocation] = clone
                                         return n
-                                    }))}
+                                    }),
+                                    attr)}
                             </div>
                         </Accordion>
 

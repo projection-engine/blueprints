@@ -79,3 +79,7 @@
 .content{
     padding: 4px;
 }
+.vecWrapper{
+    display: flex;
+    gap: 4px;
+}

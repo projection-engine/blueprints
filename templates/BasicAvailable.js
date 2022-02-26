@@ -3,6 +3,7 @@ import Add from "../workflows/basic/Add";
 import Multiply from "../workflows/basic/Multiply";
 
 import Material from "../workflows/material/Material";
+import Vector from "../workflows/basic/Vector";
 
 
 export const basicAvailable=[
@@ -29,5 +30,10 @@ export const basicAvailable=[
         dataTransfer: 'pow',
         tooltip: 'Node for the numeric function power.',
         getNewInstance: () => new Material()
+    },{
+        label: 'Vector',
+        dataTransfer: 'vec',
+        tooltip: '3D vector node.',
+        getNewInstance: () => new Vector()
     }
 ]

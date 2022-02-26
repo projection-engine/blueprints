@@ -8,6 +8,8 @@ import Power from "../workflows/basic/Power";
 import Numeric from "../workflows/basic/Numeric";
 import Color from "../workflows/material/Color";
 import ColorToTexture from "../workflows/material/ColorToTexture";
+import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMapping";
+import Vector from "../workflows/basic/Vector";
 
 const INSTANCES = {
 
@@ -27,15 +29,11 @@ const INSTANCES = {
     Color: () => {
         return new Color()
     },
-    ColorToTexture: () => {
-        return new ColorToTexture()
-    },
-    TextureSample: () => {
-        return new TextureSample()
-    },
-    Material: () => {
-        return new Material()
-    }
+    ColorToTexture: () => new ColorToTexture(),
+    TextureSample: () => new TextureSample(),
+    Material: () => new Material(),
+    Vector: () => new Vector(),
+    ParallaxOcclusionMapping: () => new ParallaxOcclusionMapping()
 }
 
 export default function parseMaterialFile(file, quickAccess, setNodes, setLinks, engine, load) {
@@ -55,10 +53,8 @@ export default function parseMaterialFile(file, quickAccess, setNodes, setLinks,
                                 const i = INSTANCES[f.instance]()
                                 Object.keys(f).forEach(o => {
 
-                                    if (o === 'sample' && i instanceof TextureSample) {
+                                    if (o === 'sample' && i instanceof TextureSample)
                                         i[o] = quickAccess.images.find(i => i.registryID === f[o].registryID)
-
-                                    }
                                     else
                                         i[o] = f[o]
                                 })

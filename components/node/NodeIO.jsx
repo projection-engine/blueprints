@@ -160,7 +160,7 @@ NodeIO.propTypes = {
     data: PropTypes.shape({
         key: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
-        type: PropTypes.oneOf([TYPES.COLOR, TYPES.NUMBER, TYPES.STRING, TYPES.TEXTURE, TYPES.VEC]),
+        type: PropTypes.number,
         accept: PropTypes.arrayOf(PropTypes.number),
         color: PropTypes.string
     }).isRequired,
