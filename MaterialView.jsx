@@ -123,6 +123,7 @@ export default function MaterialView(props) {
     }, [hook.nodes, hook.links, hook.engine.gpu, hook.engine.gpu])
     const [toCopy, setToCopy] = useState([])
     useHotKeys({
+        focusTarget:props.file.fileID + '-board',
         disabled: controlProvider.tab !== props.index,
         actions: [
             {
@@ -198,7 +199,7 @@ export default function MaterialView(props) {
                         engine={hook.engine}
                         selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
             <ResizableBar type={"width"}/>
-            <div className={styles.prototypeWrapperBoard}>
+            <div className={styles.prototypeWrapperBoard} id={props.file.fileID + '-board'}>
                 <Board
                     setAlert={props.setAlert}
                     parentRef={ref}
