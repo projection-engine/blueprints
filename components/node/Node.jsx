@@ -6,6 +6,7 @@ import NodeIO from "./NodeIO";
 import NodeShowcase from "./NodeShowcase";
 import NODE_TYPES from "../../templates/NODE_TYPES";
 import {TYPES} from "../../templates/TYPES";
+import Material from "../../workflows/material/Material";
 
 export default function Node(props) {
     const selected = useMemo(() => {
@@ -56,6 +57,10 @@ export default function Node(props) {
         }
         return null
     }, [props.node])
+
+    const canBeDeleted = useMemo(() => {
+        return !(props.node instanceof Material)
+    }, [props.node])
     return (
         <g>
             <g
@@ -63,7 +68,7 @@ export default function Node(props) {
                 transform={`translate(${props.node.x} ${props.node.y})`}
             >
                 <foreignObject
-                    data-node={props.node.id}
+                    data-node={canBeDeleted ? props.node.id : undefined}
                     id={props.node.id}
 
                     className={styles.wrapper}

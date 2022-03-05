@@ -8,19 +8,8 @@ import {basicAvailable} from "../templates/BasicAvailable";
 export default function Available() {
     const [hidden, setHidden] = useState(true)
     const ref = useRef()
-    const workflowData = [
-        {
-            data: materialAvailable,
-            label: 'Material',
-            icon: <span style={{fontSize: '1.1rem'}} className={'material-icons-round'}>public</span>
-        },
-        {
-            data: basicAvailable,
-            label: 'Operations',
-            icon: <span style={{fontSize: '1.1rem'}} className={'material-icons-round'}>calculate</span>
-        },
+    const workflowData = [...materialAvailable, ...basicAvailable]
 
-    ]
     return (
         <div ref={ref} className={styles.wrapper} style={{width: hidden ? '35px' : undefined}}>
             <Button
@@ -48,28 +37,20 @@ export default function Available() {
             </Button>
 
             <div className={styles.content}>
-                {hidden ? null : workflowData.map(data => (
-                    <Accordion>
-                        <AccordionSummary
-                            className={styles.summary}
-                            styles={{fontSize: '.9rem'}}>
-                            {data.icon}
-                            {data.label}
-                        </AccordionSummary>
-                        {data.data.map((d) => (
-                            <div
-                                className={styles.option}
-                                draggable={true}
-                                onDragStart={e => e.dataTransfer.setData('text', d.dataTransfer)}>
-                                <div className={'material-icons-round'}
-                                     style={{fontSize: '1.1rem'}}>drag_indicator
-                                </div>
-                                {d.label}
-                                <ToolTip content={d.tooltip} align={'middle'} justify={'start'}/>
-                            </div>
-                        ))}
-                    </Accordion>
+
+                {hidden ? null : workflowData.map(d =>(
+                    <div
+                        className={styles.option}
+                        draggable={true}
+                        onDragStart={e => e.dataTransfer.setData('text', d.dataTransfer)}>
+                        <div className={styles.icon}>
+                            {d.icon}
+                        </div>
+                        {d.label}
+                        <ToolTip content={d.tooltip} align={'middle'} justify={'start'}/>
+                    </div>
                 ))}
+
             </div>
         </div>
     )

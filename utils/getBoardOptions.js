@@ -9,7 +9,7 @@ export default function getBoardOptions(pushNode,setSelected, hook, links) {
         return {
             requiredTrigger: 'data-board',
             label: o.label,
-            icon: <span className={'material-icons-round'}>{materialAvailable.indexOf(o) > -1 ? 'texture' : 'functions'}</span>,
+            icon: o.icon,
             onClick: (_, mouseInfo) => {
                 pushNode(handleDropBoard(o.dataTransfer), mouseInfo)
             }

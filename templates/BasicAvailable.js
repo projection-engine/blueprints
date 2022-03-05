@@ -4,36 +4,43 @@ import Multiply from "../workflows/basic/Multiply";
 
 import Material from "../workflows/material/Material";
 import Vector from "../workflows/basic/Vector";
+import styles from "../styles/Context.module.css";
+import Power from "../workflows/basic/Power";
 
 
-export const basicAvailable=[
+export const basicAvailable = [
     {
-        label: 'Number',
+        label: <label className={styles.label}>Number</label>,
         dataTransfer: 'number',
         tooltip: 'Node for a numeric constant.',
+        icon: <span className={'material-icons-round'}>123</span>,
         getNewInstance: () => new Numeric()
     },
 
     {
-        label: 'Addition',
+        label: <label className={styles.label}>Addition</label>,
         dataTransfer: 'add',
         tooltip: 'Node for the numeric Addition.',
+        icon: <span className={'material-icons-round'}>calculate</span>,
         getNewInstance: () => new Add()
     },
     {
-        label: 'Multiplication',
+        label: <label className={styles.label}>Multiplication</label>,
         dataTransfer: 'mul',
         tooltip: 'Node for the numeric multiplication.',
+        icon: <span className={'material-icons-round'}>calculate</span>,
         getNewInstance: () => new Multiply()
-    },{
-        label: 'Power',
+    }, {
+        label: <label className={styles.label}>Power</label>,
         dataTransfer: 'pow',
         tooltip: 'Node for the numeric function power.',
-        getNewInstance: () => new Material()
-    },{
-        label: 'Vector',
+        icon: <span className={'material-icons-round'}>calculate</span>,
+        getNewInstance: () => new Power()
+    }, {
+        label: <label className={styles.label}>Vector</label>,
         dataTransfer: 'vec',
         tooltip: '3D vector node.',
+        icon: <span className={'material-icons-round'}>data_array</span>,
         getNewInstance: () => new Vector()
     }
 ]

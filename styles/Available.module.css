@@ -22,7 +22,7 @@
 }
 
 .content {
-    padding: 8px;
+    padding: 4px;
     gap: 4px;
     display: grid;
     overflow-x: hidden;
@@ -42,8 +42,13 @@
     justify-content: flex-start;
     gap: 4px;
     font-size: .85rem;
-    font-weight: 600;
-    border-bottom: var(--fabric-border-primary) 1px solid;
+    font-weight: 550;
+
+    border-radius: 5px;
+    border: var(--fabric-border-primary) 1px solid;
+    background-color: var(--fabric-background-secondary);
+
+    color: var(--fabric-color-secondary);
 }
 
 .option:hover {
@@ -52,6 +57,9 @@
 
 .option:active {
     cursor: grabbing;
+    border-style: dashed;
+
+    border-color: var(--fabric-accent-color);
 }
 
 .summary {
@@ -60,4 +68,18 @@
     gap: 4px;
     align-content: center;
     justify-content: flex-start;
+}
+
+.icon{
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+}
+.icon>*{
+    font-size: 1.1rem !important;
 }

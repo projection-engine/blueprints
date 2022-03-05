@@ -1,0 +1,8 @@
+.label{
+    font-weight: 550;
+    font-size: .7rem;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

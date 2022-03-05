@@ -8,10 +8,10 @@ export default class Color extends Node {
     constructor() {
         super(
             [
-                {label: 'rgb', key: 'rgb', type: TYPES.COLOR}
+                {label: 'RGB', key: 'rgb', type: TYPES.COLOR}
             ],
             [
-                {label: 'rgb', key: 'rgb', type: TYPES.COLOR}
+                {label: 'RGB', key: 'rgb', type: TYPES.COLOR}
             ]);
         this.name = 'Color'
     }

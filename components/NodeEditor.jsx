@@ -27,17 +27,12 @@ export default function NodeEditor(props) {
     const attributes = useMemo(() => {
         let res = []
         if (selected) {
-            res = [{
-                key: 'name',
-                value: selected.name,
-                type: TYPES.STRING,
-                label: 'Node name'
-            }, ...selected.inputs.filter(o => !o.accept).map(e => {
+            res = selected.inputs.filter(o => !o.accept).map(e => {
                 return {
                     ...e,
                     value: e[e.key]
                 }
-            })]
+            })
         }
         return res
     }, [selected])
@@ -70,12 +65,7 @@ export default function NodeEditor(props) {
                         submit(ev)
                     }}
                     selected={value}/>
-            case TYPES.STRING:
-                return <TextField
-                    value={value} width={'100%'} size={'small'}
-                    handleChange={ev => submit(ev.target.value)}
-                    label={label}
-                    placeholder={label}/>
+
 
             default:
                 return
@@ -107,6 +97,23 @@ export default function NodeEditor(props) {
             </div>
             <ResizableBar type={'height'}/>
             <div className={styles.form}>
+                {selected ?
+                <TextField
+                    value={selected.name} width={'100%'} size={'small'}
+                    handleChange={ev => {
+                        props.hook.setNodes(prev => {
+                            const n = [...prev],
+                                classLocation = n.findIndex(e => e.id === selected.id),
+                                clone = cloneClass(prev[classLocation])
+
+                            clone.name = ev.target.value
+                            n[classLocation] = clone
+                            return n
+                        })
+                    }}
+                    label={'Name'}
+                    placeholder={'Name'}/>
+                    : null}
                 {attributes.map((attr, i) => (
                     <React.Fragment key={attr.label + '-attribute-' + i}>
                         <Accordion>

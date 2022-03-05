@@ -1,38 +1,30 @@
 import TextureSample from "../workflows/material/TextureSample";
 import Color from "../workflows/material/Color";
-import ColorToTexture from "../workflows/material/ColorToTexture";
+
 import SpecularToMetallic from "../workflows/material/SpecularToMetallic";
 import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMapping";
+import styles from '../styles/Context.module.css'
 
-export const materialAvailable=[
+export const materialAvailable = [
     {
-        label: 'Texture sample',
+        label: <label className={styles.label}>Texture sample</label>,
         dataTransfer: 'texture-sample',
+        icon: <span className={'material-icons-round'}>texture</span>,
         tooltip: 'Texture sample node.',
         getNewInstance: () => new TextureSample()
     },
 
     {
-        label: 'Color to texture',
-        dataTransfer: 'color-to-texture',
-        tooltip: 'Converts RGB color to texture sample.',
-        getNewInstance: () => new ColorToTexture()
-    },
-    {
-        label: 'Parallax occlusion mapping',
+        label: <label className={styles.label}>Parallax occlusion mapping</label>,
         dataTransfer: 'pom',
+        icon: <span className={'material-icons-round'}>line_weight</span>,
         tooltip: 'POM node.',
         getNewInstance: () => new ParallaxOcclusionMapping()
     },
     {
-        label: 'Specular to metallic',
-        dataTransfer: 's-t-m',
-        tooltip: 'Specular workflow to metallic workflow.',
-        getNewInstance: () => new SpecularToMetallic()
-    }    ,
-    {
-        label: 'RGB',
+        label: <label className={styles.label}>RGB</label>,
         dataTransfer: 'rgb',
+        icon: <span className={'material-icons-round'}>palette</span>,
         tooltip: 'RGB color node.',
         getNewInstance: () => new Color()
     }

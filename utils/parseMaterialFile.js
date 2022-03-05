@@ -7,7 +7,7 @@ import Multiply from "../workflows/basic/Multiply";
 import Power from "../workflows/basic/Power";
 import Numeric from "../workflows/basic/Numeric";
 import Color from "../workflows/material/Color";
-import ColorToTexture from "../workflows/material/ColorToTexture";
+
 import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMapping";
 import Vector from "../workflows/basic/Vector";
 
@@ -29,7 +29,7 @@ const INSTANCES = {
     Color: () => {
         return new Color()
     },
-    ColorToTexture: () => new ColorToTexture(),
+
     TextureSample: () => new TextureSample(),
     Material: () => new Material(),
     Vector: () => new Vector(),
