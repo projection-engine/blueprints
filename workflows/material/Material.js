@@ -2,12 +2,8 @@ import Node from '../../templates/Node'
 import {TYPES} from "../../templates/TYPES";
 import NODE_TYPES from "../../templates/NODE_TYPES";
 import ImageProcessor from "../../../../services/workers/ImageProcessor";
+import MATERIAL_TYPES from "../../templates/MATERIAL_TYPES";
 
-export const MATERIAL_VARIANTS = {
-    OPAQUE: 0,
-    TRANSPARENT: 1,
-    TERRAIN: 2
-}
 export default class Material extends Node {
     albedo
     metallic
@@ -15,7 +11,7 @@ export default class Material extends Node {
     roughness
     normal
     ao
-    materialVariant = MATERIAL_VARIANTS.OPAQUE
+    materialVariant = MATERIAL_TYPES.OPAQUE
 
     constructor() {
         super(
@@ -45,12 +41,12 @@ export default class Material extends Node {
     set variant(d) {
         this.materialVariant = d
         this.inputs = this.inputs.map(i => {
-            if (this.materialVariant === MATERIAL_VARIANTS.TRANSPARENT && (i.key === 'refraction' || i.key === 'opacity'))
+            if (this.materialVariant === MATERIAL_TYPES.TRANSPARENT && (i.key === 'refraction' || i.key === 'opacity'))
                 return {...i, disabled: false}
-            else if(i.key === 'refraction' || i.key === 'opacity')
+            else if (i.key === 'refraction' || i.key === 'opacity')
                 return {...i, disabled: true}
             else
-                return  i
+                return i
         })
     }
 
@@ -61,7 +57,7 @@ export default class Material extends Node {
     compile(items) {
         return new Promise(resolve => {
             items.forEach(i => {
-                this[i.key] = i.data?.includes('data:image/png') ? i.data : ImageProcessor.colorToImage(i.data)
+                this[i.key] = typeof i.data === 'string' ? (i.data.includes('data:image/png') ? i.data : ImageProcessor.colorToImage(i.data)) : i.data
             })
 
             this.ready = true

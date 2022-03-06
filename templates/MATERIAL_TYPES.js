@@ -1,4 +1,5 @@
 export default {
-    EMBEDDED: 0,
-    DEFAULT: 1
+    OPAQUE: 0,
+    TRANSPARENT: 1,
+    TERRAIN: 2
 }

@@ -32,6 +32,13 @@ export default function MaterialView(props) {
     const controlProvider = useContext(ControlProvider)
 
     const mapNodes = (res) => {
+        const engine = hook.engine.renderer
+        const canvas = engine.canvas
+        engine.camera.yaw = .5
+        engine.camera.pitch = .5
+        engine.camera.radius = 2
+        engine.camera.updateViewMatrix()
+
         const parsedNodes = hook.nodes.map(n => {
             const docNode = document.getElementById(n.id).parentNode
             const transformation = docNode
@@ -49,12 +56,16 @@ export default function MaterialView(props) {
             }
         })
 
-        return JSON.stringify({
-            nodes: parsedNodes,
-            links: hook.links,
-            response: res,
-            type: MATERIAL_TYPES.DEFAULT
-        })
+
+        return {
+            preview: canvas.toDataURL(),
+            data: JSON.stringify({
+                nodes: parsedNodes,
+                links: hook.links,
+                response: res,
+                type: res
+            })
+        }
     }
 
     useEffect(() => {
@@ -67,10 +78,12 @@ export default function MaterialView(props) {
                     onClick: () => {
                         compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
                             .then(res => {
+
                                 applyViewport(res, hook.engine, hook.load)
+                                const response = mapNodes(res)
                                 props.submitPackage(
-                                    res.albedo ? res.albedo : ImageProcessor.colorToImage('rgb(128, 128, 128)'),
-                                    mapNodes(res),
+                                    response.preview,
+                                    response.data,
                                     false
                                 )
                             })
@@ -81,12 +94,17 @@ export default function MaterialView(props) {
                     disabled: hook.disabled,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: () => {
+
+
                         hook.load.pushEvent(EVENTS.LOADING_MATERIAL)
                         compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
                             .then(res => {
+                                applyViewport(res, hook.engine, hook.load)
+
+                                const response = mapNodes(res)
                                 props.submitPackage(
-                                    res.albedo ? res.albedo : ImageProcessor.colorToImage('rgb(128, 128, 128)'),
-                                    mapNodes(res),
+                                    response.preview,
+                                    response.data,
                                     true
                                 )
                             })
@@ -123,7 +141,7 @@ export default function MaterialView(props) {
     }, [hook.nodes, hook.links, hook.engine.gpu, hook.engine.gpu])
     const [toCopy, setToCopy] = useState([])
     useHotKeys({
-        focusTarget:props.file.fileID + '-board',
+        focusTarget: props.file.fileID + '-board',
         disabled: controlProvider.tab !== props.index,
         actions: [
             {
@@ -136,7 +154,7 @@ export default function MaterialView(props) {
                 require: [KEYS.ControlLeft, KEYS.KeyC],
                 callback: () => {
                     setToCopy(hook.selected)
-                    if(hook.selected.length > 0)
+                    if (hook.selected.length > 0)
                         props.setAlert({
                             type: 'success',
                             message: 'Entities copied.'
@@ -172,21 +190,21 @@ export default function MaterialView(props) {
             {
                 require: [KEYS.ControlLeft, KEYS.KeyV],
                 callback: () => {
-                   toCopy.forEach(toC => {
-                       const toCopyNode = hook.nodes.find(n => n.id === toC)
-                       if (toCopyNode && !(toCopyNode instanceof MaterialClass)) {
-                           const nodeEl = document.getElementById(toC)
+                    toCopy.forEach(toC => {
+                        const toCopyNode = hook.nodes.find(n => n.id === toC)
+                        if (toCopyNode && !(toCopyNode instanceof MaterialClass)) {
+                            const nodeEl = document.getElementById(toC)
 
-                           const clone = cloneClass(toCopyNode)
-                           clone.id = randomID()
-                           clone.x = nodeEl.getBoundingClientRect().x + 5
-                           clone.y = nodeEl.getBoundingClientRect().y + 5
+                            const clone = cloneClass(toCopyNode)
+                            clone.id = randomID()
+                            clone.x = nodeEl.getBoundingClientRect().x + 5
+                            clone.y = nodeEl.getBoundingClientRect().y + 5
 
-                           hook.setNodes(prev => {
-                               return [...prev, clone]
-                           })
-                       }
-                   })
+                            hook.setNodes(prev => {
+                                return [...prev, clone]
+                            })
+                        }
+                    })
                 }
             }
         ]
