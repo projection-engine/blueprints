@@ -3,9 +3,6 @@ import {TYPES} from "../../templates/TYPES";
 import NODE_TYPES from "../../templates/NODE_TYPES";
 
 export default class Vector extends Node {
-    a = 0
-    b = 0
-    c = 0
     constructor() {
         super(
             [{label: 'Value', key: 'value', type: TYPES.VEC}],

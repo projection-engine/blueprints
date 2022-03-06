@@ -51,12 +51,12 @@ export default function NodeIO(props) {
 
         if (e.type === 'dragover' && props.type === 'input' && props.data.accept) {
 
-            infoRef.current.style.zIndex = 999
+            infoRef.current.style.display = 'grid'
             infoRef.current.style.top = wrapperRef.current.offsetTop + 'px'
             infoRef.current.style.left = (e.clientX - bBox.x) + 'px'
             infoRef.current.style.borderLeft = props.data.accept.includes(onDragContext.dragType) ? 'green 2px solid' : 'red 2px solid'
         } else
-            infoRef.current.style.zIndex = -1
+            infoRef.current.style.display = 'none'
     }
     useEffect(() => {
         const el = document.getElementById(props.nodeID + props.data.key)
@@ -73,6 +73,7 @@ export default function NodeIO(props) {
             }
         }
     }, [onDragContext.dragType])
+
     return (
         <>
             <div ref={infoRef} className={styles.infoWrapper}>

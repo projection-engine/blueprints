@@ -61,6 +61,7 @@ export default function Node(props) {
     const canBeDeleted = useMemo(() => {
         return !(props.node instanceof Material)
     }, [props.node])
+
     return (
         <g>
             <g
@@ -94,9 +95,7 @@ export default function Node(props) {
                     </div>
                     <div className={styles.content}>
                         <div className={styles.column}>
-                            {props.node.inputs.map((a, i) =>
-                                a.accept !== undefined ?
-                                    (
+                            {props.node.inputs.filter(a => Array.isArray(a.accept)).map((a, i) => (
                                         <React.Fragment key={a.key + '-input-' + i}>
                                             <NodeIO
                                                 handleLink={props.handleLink}
@@ -111,9 +110,7 @@ export default function Node(props) {
                                                 type={'input'}
                                             />
                                         </React.Fragment>
-                                    )
-                                    :
-                                    null)}
+                                    ))}
                             <NodeShowcase node={props.node}/>
                         </div>
                         <div className={styles.column} style={{justifyContent: 'flex-end'}}>

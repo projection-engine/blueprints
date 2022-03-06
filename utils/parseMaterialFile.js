@@ -10,26 +10,18 @@ import Color from "../workflows/material/Color";
 
 import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMapping";
 import Vector from "../workflows/basic/Vector";
+import Lerp from "../workflows/basic/Lerp";
+import Mask from "../workflows/basic/Mask";
 
 const INSTANCES = {
+    Lerp: () => new Lerp(),
+    Mask: () => new Mask(),
 
-    Add: () => {
-        return new Add()
-    },
-    Multiply: () => {
-        return new Multiply()
-    },
-    Power: () => {
-        return new Power()
-    },
-    Numeric: () => {
-        return new Numeric()
-    },
-
-    Color: () => {
-        return new Color()
-    },
-
+    Add: () => new Add(),
+    Multiply: () => new Multiply(),
+    Power: () => new Power(),
+    Numeric: () => new Numeric(),
+    Color: () => new Color(),
     TextureSample: () => new TextureSample(),
     Material: () => new Material(),
     Vector: () => new Vector(),

@@ -2,6 +2,8 @@ import TextureSample from "../workflows/material/TextureSample";
 import Color from "../workflows/material/Color";
 import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMapping";
 import styles from '../styles/Context.module.css'
+import Mask from "../workflows/basic/Mask";
+import Lerp from "../workflows/basic/Lerp";
 
 export const materialAvailable = [
     {
@@ -25,5 +27,19 @@ export const materialAvailable = [
         icon: <span className={'material-icons-round'}>palette</span>,
         tooltip: 'RGB color node.',
         getNewInstance: () => new Color()
+    },
+    {
+        label: <label className={styles.label}>Mask</label>,
+        dataTransfer: 'mask',
+        icon: <span className={'material-icons-round'}>colorize</span>,
+        tooltip: 'Extracts color channel from texture.',
+        getNewInstance: () => new Mask()
+    },
+    {
+        label: <label className={styles.label}>Lerp</label>,
+        dataTransfer: 'lerp',
+        icon: <span className={'material-icons-round'}>blur_linear</span>,
+        tooltip: 'Linear interpolates two textures.',
+        getNewInstance: () => new Lerp()
     }
 ]

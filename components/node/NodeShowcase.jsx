@@ -5,9 +5,9 @@ import styles from '../../styles/Node.module.css'
 
 export default function NodeShowcase(props) {
     const attributesToRender = useMemo(() => {
+        console.log(props.node.inputs)
         return props.node.inputs.map(n => {
-
-            if (n.type === TYPES.TEXTURE || n.type === TYPES.COLOR)
+            if ((n.type === TYPES.TEXTURE || n.type === TYPES.COLOR) && !n.accept)
                 return {
                     type: n.type,
                     label: n.label,
@@ -17,28 +17,30 @@ export default function NodeShowcase(props) {
                 return null
         }).filter(n => n !== null)
     }, [props.node])
-    return (
-        <div className={styles.showcase}>
+    if (attributesToRender.length > 0)
+        return (
+            <div className={styles.showcase}>
+                {attributesToRender.map((a, i) =>
+                    a.type === TYPES.TEXTURE ?
+                        <div className={styles.showcaseWrapper} key={props.node.id + '-input-' + i}
+                             style={{background: a.value?.preview ? undefined : 'black'}}>
 
-            {attributesToRender.map((a, i) =>
-                a.type === TYPES.TEXTURE ?
-                    <div className={styles.showcaseWrapper} key={props.node.id + '-input-' + i}
-                         style={{background: a.value?.preview ? undefined : 'black'}}>
+                            {a.value?.preview ?
+                                <img src={a.value?.preview} alt={a.label}/>
 
-                        {a.value?.preview ?
-                            <img src={a.value?.preview} alt={a.label}/>
-
-                            :
-                            <div className={styles.error}>
-                                Missing texture
-                            </div>}
-                    </div>
-                    :
-                    <div className={styles.showcaseWrapper} style={{background: a.value}}
-                         key={props.node.id + '-input-' + i}/>
-            )}
-        </div>
-    )
+                                :
+                                <div className={styles.error}>
+                                    Missing texture
+                                </div>}
+                        </div>
+                        :
+                        <div className={styles.showcaseWrapper} style={{background: a.value}}
+                             key={props.node.id + '-input-' + i}/>
+                )}
+            </div>
+        )
+    else
+        return null
 }
 NodeShowcase.propTypes = {
     node: PropTypes.object

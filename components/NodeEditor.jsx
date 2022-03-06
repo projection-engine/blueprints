@@ -37,8 +37,9 @@ export default function NodeEditor(props) {
         return res
     }, [selected])
 
-
+    console.log(selected)
     const getInput = (label, type, value, submit, obj) => {
+
         switch (type) {
             case TYPES.NUMBER:
                 return (
