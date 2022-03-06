@@ -29,14 +29,19 @@
 .connection {
     width: 15px;
     height: 15px;
-    background-color: var(--fabric-background-primary);
+    background-color: var(--fabric-background-secondary);
     border-radius: 50%;
     cursor: grab;
     border: var(--fabric-border-secondary) 1px solid;
 }
 
-.connection:hover {
+.connection[data-disabled = 'false']:hover {
     border-color: var(--fabric-accent-color);
+}
+
+.connection[data-disabled = 'true']{
+    cursor: default !important;
+    background-color: var(--fabric-background-primary);
 }
 
 .label {
@@ -82,6 +87,9 @@
     white-space: nowrap;
 }
 
+.overflow[data-disabled='true']{
+    color: #999999 !important;
+}
 .showcaseWrapper {
     display: flex;
     align-items: flex-end;

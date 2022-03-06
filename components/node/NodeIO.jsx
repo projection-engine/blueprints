@@ -49,18 +49,17 @@ export default function NodeIO(props) {
     const handler = (e) => {
         const bBox = parent.getBoundingClientRect()
 
-        if(e.type === 'dragover' && props.type === 'input' && props.data.accept) {
+        if (e.type === 'dragover' && props.type === 'input' && props.data.accept) {
 
             infoRef.current.style.zIndex = 999
             infoRef.current.style.top = wrapperRef.current.offsetTop + 'px'
-            infoRef.current.style.left = (e.clientX - bBox.x)+ 'px'
-            infoRef.current.style.borderLeft = props.data.accept.includes(onDragContext.dragType)? 'green 2px solid' : 'red 2px solid'
-        }
-        else
+            infoRef.current.style.left = (e.clientX - bBox.x) + 'px'
+            infoRef.current.style.borderLeft = props.data.accept.includes(onDragContext.dragType) ? 'green 2px solid' : 'red 2px solid'
+        } else
             infoRef.current.style.zIndex = -1
     }
     useEffect(() => {
-        const el = document.getElementById(props.nodeID+props.data.key)
+        const el = document.getElementById(props.nodeID + props.data.key)
         if (el) {
             el.addEventListener('dragover', handler)
             el.addEventListener('dragleave', handler)
@@ -87,24 +86,26 @@ export default function NodeIO(props) {
                     </div>
                 ))}
             </div>
-            <div className={styles.attribute} ref={wrapperRef} style={{justifyContent: props.type === 'input' ? 'flex-start' : 'flex-end'}}>
+            <div className={styles.attribute} ref={wrapperRef}
+                 style={{justifyContent: props.type === 'input' ? 'flex-start' : 'flex-end'}}>
 
                 {props.type === 'output' ? (
-                    <div className={styles.overflow} style={{color: props.data.color, fontWeight: 'bold'}}>
+                    <div data-disabled={`${props.data.disabled}`} className={styles.overflow}
+                         style={{color: props.data.color, fontWeight: 'bold'}}>
                         {props.data.label}
                     </div>
                 ) : null}
                 <div
-
+                    data-disabled={`${props.data.disabled}`}
                     id={props.nodeID + props.data.key}
                     className={styles.connection}
-                    draggable={true}
+                    draggable={!props.data.disabled}
                     onDragOver={e => {
                         e.preventDefault()
                         if (!props.links.includes(props.data.key))
                             e.currentTarget.style.background = 'var(--fabric-accent-color)'
                     }}
-                    style={{background: props.links.includes(props.data.key) ? 'var(--fabric-accent-color' : undefined}}
+                    style={{background: props.links.includes(props.data.key) && !props.data.disabled ? 'var(--fabric-accent-color' : undefined}}
                     onDrop={e => {
                         onDragContext.setDragType(undefined)
                         if (props.type === 'input')
@@ -140,7 +141,8 @@ export default function NodeIO(props) {
                         }
                     }}/>
                 {props.type === 'input' ? (
-                    <div className={styles.overflow} style={{fontWeight: 'normal'}}>
+                    <div data-disabled={`${props.data.disabled}`} className={styles.overflow}
+                         style={{fontWeight: 'normal'}}>
                         {props.data.label}
                     </div>
                 ) : null}
@@ -158,6 +160,7 @@ NodeIO.propTypes = {
     handleLinkDrag: PropTypes.func.isRequired,
     onDragEnd: PropTypes.func.isRequired,
     data: PropTypes.shape({
+        disabled: PropTypes.bool,
         key: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
         type: PropTypes.number,
