@@ -13,13 +13,11 @@ import ResizableBar from "../../components/resizable/ResizableBar";
 import MaterialClass from './workflows/material/Material'
 import EVENTS from "../../services/utils/misc/EVENTS";
 import compile from "./utils/compile";
-import ImageProcessor from "../../services/workers/ImageProcessor";
 import applyViewport from "./utils/applyViewport";
 import useHotKeys, {KEYS} from "../../services/hooks/useHotKeys";
 import cloneClass from "../../services/utils/misc/cloneClass";
 import randomID from "../../services/utils/misc/randomID";
 import deleteNode from "./utils/deleteNode";
-import MATERIAL_TYPES from "./templates/MATERIAL_TYPES";
 
 
 export default function MaterialView(props) {

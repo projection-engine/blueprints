@@ -1,7 +1,5 @@
 import TextureSample from "../workflows/material/TextureSample";
 import Color from "../workflows/material/Color";
-
-import SpecularToMetallic from "../workflows/material/SpecularToMetallic";
 import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMapping";
 import styles from '../styles/Context.module.css'
 

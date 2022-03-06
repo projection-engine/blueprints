@@ -1,8 +1,6 @@
 import Numeric from "../workflows/basic/Numeric";
 import Add from "../workflows/basic/Add";
 import Multiply from "../workflows/basic/Multiply";
-
-import Material from "../workflows/material/Material";
 import Vector from "../workflows/basic/Vector";
 import styles from "../styles/Context.module.css";
 import Power from "../workflows/basic/Power";
