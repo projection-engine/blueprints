@@ -31,7 +31,7 @@ export default class Mask extends Node {
 
                 ImageProcessor.byChannels([...this.channel, 1], image)
                     .then(channel => {
-                        console.log(channel, image)
+
                         this.result = channel
                         this.ready = true
                         resolve()

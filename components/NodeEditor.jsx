@@ -4,7 +4,16 @@ import PropTypes from "prop-types";
 import Material from "../workflows/material/Material";
 import ResizableBar from "../../../components/resizable/ResizableBar";
 
-import {Accordion, AccordionSummary, Button, TextField, ToolTip} from "@f-ui/core";
+import {
+    Accordion,
+    AccordionSummary,
+    Button,
+    Dropdown,
+    DropdownOption,
+    DropdownOptions,
+    TextField,
+    ToolTip
+} from "@f-ui/core";
 import Range from "../../../components/range/Range";
 import Selector from "../../../components/selector/Selector";
 import Viewport from "../../../components/viewport/Viewport";
@@ -37,9 +46,8 @@ export default function NodeEditor(props) {
         return res
     }, [selected])
 
-    console.log(selected)
-    const getInput = (label, type, value, submit, obj) => {
 
+    const getInput = (label, type, value, submit, obj) => {
         switch (type) {
             case TYPES.NUMBER:
                 return (
@@ -49,25 +57,46 @@ export default function NodeEditor(props) {
             case TYPES.VEC:
                 return (
                     <div className={styles.vecWrapper}>
-                        <Range accentColor={'red'} maxValue={obj.max} minValue={obj.min} value={value ? value[0] : undefined}
+                        <Range accentColor={'red'} maxValue={obj.max} minValue={obj.min}
+                               value={value ? value[0] : undefined}
                                handleChange={v => submit([parseFloat(v), value[1], value[2]])} label={label}/>
-                        <Range accentColor={'green'} maxValue={obj.max} minValue={obj.min} value={value ? value[1] : undefined}
+                        <Range accentColor={'green'} maxValue={obj.max} minValue={obj.min}
+                               value={value ? value[1] : undefined}
                                handleChange={v => submit([value[0], parseFloat(v), value[2]])} label={label}/>
-                        <Range accentColor={'blue'} maxValue={obj.max} minValue={obj.min} value={value ? value[2] : undefined}
+                        <Range accentColor={'blue'} maxValue={obj.max} minValue={obj.min}
+                               value={value ? value[2] : undefined}
                                handleChange={v => submit([value[0], value[1], parseFloat(v)])} label={label}/>
                     </div>
                 )
             case TYPES.COLOR:
                 return <ColorPicker submit={submit} value={value} label={'Color'}/>
             case TYPES.TEXTURE:
-                return <Selector
-                    type={'image'}
-                    handleChange={ev => {
-                        submit(ev)
-                    }}
-                    selected={value}/>
+                return (
+                    <Selector
+                        type={'image'}
+                        handleChange={ev => submit(ev)}
+                        selected={value}/>
+                )
 
-
+            case TYPES.OPTIONS:
+                return (
+                    <Dropdown styles={{width: '100%', justifyContent: 'space-between'}}>
+                        {obj.options.find(o => o.data === selected[obj.key])?.label}
+                        <DropdownOptions>
+                            {obj.options?.map((o, i) => (
+                                <React.Fragment key={'options-'+ i}>
+                                    <DropdownOption option={{
+                                        ...o,
+                                        icon: o.data === selected[obj.key] ? <span style={{fontSize: '1.1rem'}} className={'material-icons-round'}>check</span> : null,
+                                        onClick: () =>{
+                                            submit(o.data)
+                                        }
+                                    }}/>
+                                </React.Fragment>
+                            ))}
+                        </DropdownOptions>
+                    </Dropdown>
+                )
             default:
                 return
         }
@@ -99,21 +128,21 @@ export default function NodeEditor(props) {
             <ResizableBar type={'height'}/>
             <div className={styles.form}>
                 {selected ?
-                <TextField
-                    value={selected.name} width={'100%'} size={'small'}
-                    handleChange={ev => {
-                        props.hook.setNodes(prev => {
-                            const n = [...prev],
-                                classLocation = n.findIndex(e => e.id === selected.id),
-                                clone = cloneClass(prev[classLocation])
+                    <TextField
+                        value={selected.name} width={'100%'} size={'small'}
+                        handleChange={ev => {
+                            props.hook.setNodes(prev => {
+                                const n = [...prev],
+                                    classLocation = n.findIndex(e => e.id === selected.id),
+                                    clone = cloneClass(prev[classLocation])
 
-                            clone.name = ev.target.value
-                            n[classLocation] = clone
-                            return n
-                        })
-                    }}
-                    label={'Name'}
-                    placeholder={'Name'}/>
+                                clone.name = ev.target.value
+                                n[classLocation] = clone
+                                return n
+                            })
+                        }}
+                        label={'Name'}
+                        placeholder={'Name'}/>
                     : null}
                 {attributes.map((attr, i) => (
                     <React.Fragment key={attr.label + '-attribute-' + i}>

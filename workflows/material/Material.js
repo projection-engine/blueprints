@@ -28,7 +28,16 @@ export default class Material extends Node {
                 {label: 'Opacity', key: 'opacity', accept: [TYPES.NUMBER], disabled: true},
 
                 {label: 'Subsurface', key: 'subsurface', accept: [TYPES.TEXTURE, TYPES.COLOR], disabled: true},
-                // {label: 'Ambient occlusion', key: 'ao',  accept: [ TYPES.TEXTURE, TYPES.COLOR], disabled: }
+                {
+                    label: 'Material type',
+                    key: 'variant',
+                    type: TYPES.OPTIONS,
+                    options: [
+                        {label: 'Opaque', data: MATERIAL_TYPES.OPAQUE},
+                        {label: 'Transparent', data: MATERIAL_TYPES.TRANSPARENT},
+                        {label: 'Terrain', data: MATERIAL_TYPES.TERRAIN}
+                    ]
+                }
             ]);
 
         this.name = 'Material'
@@ -41,12 +50,30 @@ export default class Material extends Node {
     set variant(d) {
         this.materialVariant = d
         this.inputs = this.inputs.map(i => {
-            if (this.materialVariant === MATERIAL_TYPES.TRANSPARENT && (i.key === 'refraction' || i.key === 'opacity'))
-                return {...i, disabled: false}
-            else if (i.key === 'refraction' || i.key === 'opacity')
-                return {...i, disabled: true}
-            else
-                return i
+            switch (d) {
+                case MATERIAL_TYPES.TRANSPARENT:
+                    if (this.materialVariant === MATERIAL_TYPES.TRANSPARENT && (i.key === 'refraction' || i.key === 'opacity'))
+                        return {...i, disabled: false}
+                    else if (i.accept !== undefined && i.accept.includes(TYPES.ATLAS))
+                        return {...i, accept: i.accept.filter(e => e !== TYPES.ATLAS)}
+                    return i
+                case MATERIAL_TYPES.OPAQUE:
+                    if (i.key === 'refraction' || i.key === 'opacity')
+                        return {...i, disabled: true}
+                    else if (i.accept !== undefined && i.accept.includes(TYPES.ATLAS))
+                        return {...i, accept: i.accept.filter(e => e !== TYPES.ATLAS)}
+                    return i
+                case MATERIAL_TYPES.TERRAIN:
+                    if (i.key === 'height' || i.key === 'ao' || i.key === 'emissive' || i.key === 'refraction' || i.key === 'opacity')
+                        return {...i, disabled: true}
+                    else if (i.accept !== undefined && !i.accept.includes(TYPES.ATLAS))
+                        return {...i, accept: [...i.accept, TYPES.ATLAS]}
+                    else
+                        return i
+                default:
+                    return i
+            }
+
         })
     }
 

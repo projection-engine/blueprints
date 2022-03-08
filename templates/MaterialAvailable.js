@@ -4,6 +4,9 @@ import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMap
 import styles from '../styles/Context.module.css'
 import Mask from "../workflows/basic/Mask";
 import Lerp from "../workflows/basic/Lerp";
+import Atlas from "../workflows/material/Atlas";
+import OneMinus from "../workflows/material/OneMinus";
+import HeightLerp from "../workflows/material/HeightLerp";
 
 export const materialAvailable = [
     {
@@ -41,5 +44,26 @@ export const materialAvailable = [
         icon: <span className={'material-icons-round'}>blur_linear</span>,
         tooltip: 'Linear interpolates two textures.',
         getNewInstance: () => new Lerp()
+    },
+    {
+        label: <label className={styles.label}>Height Lerp</label>,
+        dataTransfer: 'h-lerp',
+        icon: <span className={'material-icons-round'}>blur_linear</span>,
+        tooltip: 'Height based linear interpolation.',
+        getNewInstance: () => new HeightLerp()
+    },
+    {
+        label: <label className={styles.label}>Atlas layer blend</label>,
+        dataTransfer: 'atlas',
+        icon: <span className={'material-icons-round'}>window</span>,
+        tooltip: 'Layered terrain atlas node.',
+        getNewInstance: () => new Atlas()
+    },
+    {
+        label: <label className={styles.label}>1-X</label>,
+        dataTransfer: 'one-',
+        icon: <span className={'material-icons-round'}>invert_colors</span>,
+        tooltip: 'Layered terrain atlas node.',
+        getNewInstance: () => new OneMinus()
     }
 ]

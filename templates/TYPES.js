@@ -5,5 +5,7 @@ export const TYPES = {
     COLOR: 2,
     VEC: 3,
     STRING: 4,
-    OBJECT: 5
+    OBJECT: 5,
+    OPTIONS: 6,
+    ATLAS: 7
 }

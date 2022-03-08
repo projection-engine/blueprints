@@ -12,10 +12,14 @@ import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMap
 import Vector from "../workflows/basic/Vector";
 import Lerp from "../workflows/basic/Lerp";
 import Mask from "../workflows/basic/Mask";
+import OneMinus from "../workflows/material/OneMinus";
+import HeightLerp from "../workflows/material/HeightLerp";
 
 const INSTANCES = {
     Lerp: () => new Lerp(),
     Mask: () => new Mask(),
+    OneMinus: () => new OneMinus(),
+    HeightLerp: () => new HeightLerp(),
 
     Add: () => new Add(),
     Multiply: () => new Multiply(),
