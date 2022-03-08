@@ -1,6 +1,8 @@
 import {IDS} from "../../../services/hooks/useVisualizer";
 import MaterialInstance from "../../../services/engine/elements/instances/MaterialInstance";
 import EVENTS from "../../../services/utils/misc/EVENTS";
+import {ENTITY_ACTIONS} from "../../../services/utils/entityReducer";
+import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
 
 const MAT_ID = 'MAT-0'
 export default function applyViewport(materialObject, engine, load) {
@@ -10,15 +12,19 @@ export default function applyViewport(materialObject, engine, load) {
         const sphere = engine.entities.find(e => e.id === IDS.SPHERE)
         if (sphere) {
 
-            const newMaterial = new MaterialInstance(engine.gpu, MAT_ID)
-            console.log(materialObject)
+            const newMaterial = new MaterialInstance(engine.gpu, IDS.MATERIAL, undefined, undefined, undefined, materialObject.variant)
+
             newMaterial.initializeTextures(
                 materialObject.albedo,
                 materialObject.metallic,
                 materialObject.roughness,
                 materialObject.normal,
                 materialObject.height,
-                materialObject.ao
+                materialObject.ao,
+                materialObject.emissive,
+                materialObject.opacity,
+                materialObject.subSurface,
+
             ).then(() => {
                 engine.setMaterial(newMaterial)
                 load.finishEvent(EVENTS.LOADING_MATERIAL)

@@ -2,7 +2,7 @@ import Node from '../../templates/Node'
 import {TYPES} from "../../templates/TYPES";
 import NODE_TYPES from "../../templates/NODE_TYPES";
 import ImageProcessor from "../../../../services/workers/ImageProcessor";
-import MATERIAL_TYPES from "../../templates/MATERIAL_TYPES";
+import MATERIAL_TYPES from "../../../../services/engine/utils/misc/MATERIAL_TYPES";
 
 export default class Material extends Node {
     albedo
@@ -27,7 +27,7 @@ export default class Material extends Node {
                 {label: 'Emissive', key: 'emissive', accept: [TYPES.TEXTURE, TYPES.COLOR]},
                 {label: 'Opacity', key: 'opacity', accept: [TYPES.NUMBER], disabled: true},
 
-                {label: 'Subsurface', key: 'subsurface', accept: [TYPES.TEXTURE, TYPES.COLOR], disabled: true},
+                {label: 'Subsurface', key: 'subSurface', accept: [TYPES.TEXTURE, TYPES.COLOR], disabled: true},
                 {
                     label: 'Material type',
                     key: 'variant',

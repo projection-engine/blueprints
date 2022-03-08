@@ -61,7 +61,7 @@ export default function MaterialView(props) {
                 nodes: parsedNodes,
                 links: hook.links,
                 response: res,
-                type: res
+                type: res.variant
             })
         }
     }

@@ -22,6 +22,9 @@ import ColorPicker from "../../../components/color/ColorPicker";
 
 import cloneClass from "../../../services/utils/misc/cloneClass";
 import {TYPES} from "../templates/TYPES";
+import {ENTITY_ACTIONS} from "../../../services/utils/entityReducer";
+import MeshComponent from "../../../services/engine/ecs/components/MeshComponent";
+import {IDS} from "../../../services/hooks/useVisualizer";
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {
@@ -51,7 +54,7 @@ export default function NodeEditor(props) {
         switch (type) {
             case TYPES.NUMBER:
                 return (
-                    <Range maxValue={obj.max} minValue={obj.min} value={value !== undefined ? value : 0}
+                    <Range precision={3} maxValue={obj.max} incrementPercentage={.001} minValue={obj.min} value={value !== undefined ? value : 0}
                            handleChange={submit} label={label}/>
                 )
             case TYPES.VEC:
@@ -102,7 +105,9 @@ export default function NodeEditor(props) {
         }
     }
 
-
+    const currentMesh = useMemo(() => {
+        return props.engine.entities.find(e => e.id === IDS.SPHERE)
+    }, [props.engine.entities])
     const viewportRef = useRef()
     return (
         <div className={styles.wrapper}>
@@ -111,8 +116,8 @@ export default function NodeEditor(props) {
                 <Viewport allowDrop={false} id={props.engine.id} engine={props.engine}
                           renderer={props.engine.renderer}/>
                 <Button
-                    className={styles.refresh}
-                    styles={{bottom: 'unset', top: '4px', right: 'unset', left: '4px'}}
+                    className={[styles.floating, styles.button].join(' ')}
+                    styles={{top: '4px', left: '4px'}}
                     onClick={() => {
                         viewportRef.current.requestFullscreen()
                     }}
@@ -123,6 +128,41 @@ export default function NodeEditor(props) {
                         style={{fontSize: '1.1rem'}}
                     >fullscreen</span>
                 </Button>
+                <div className={[styles.buttonGroup, styles.floating].join(' ')} style={{bottom: '4px', padding: '0 4px'}}>
+                    <Button
+                        className={styles.button}
+
+                        disabled={currentMesh === IDS.SPHERE}
+                        onClick={() => {
+                            props.engine.dispatchEntities({
+                                type: ENTITY_ACTIONS.UPDATE_COMPONENT,
+                                payload: {
+                                    entityID: IDS.SPHERE,
+                                    key: 'MeshComponent',
+                                    data: new MeshComponent(undefined, IDS.SPHERE)
+                                }
+                            })
+                        }}
+                    >
+                        Sphere
+                    </Button>
+                    <Button
+                        className={styles.button}
+                        disabled={currentMesh === IDS.CUBE}
+                        onClick={() => {
+                            props.engine.dispatchEntities({
+                                type: ENTITY_ACTIONS.UPDATE_COMPONENT,
+                                payload: {
+                                    entityID: IDS.SPHERE,
+                                    key: 'MeshComponent',
+                                    data: new MeshComponent(undefined, IDS.CUBE)
+                                }
+                            })
+                        }}
+                    >
+                        Cube
+                    </Button>
+                </div>
 
             </div>
             <ResizableBar type={'height'}/>

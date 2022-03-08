@@ -14,7 +14,7 @@ export default function usePrototype(file) {
     const [selected, setSelected] = useState([])
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
-    const engine = useVisualizer(true, true, true)
+    const engine = useVisualizer(true, true, true, true)
 
     useEffect(() => {
         load.pushEvent(EVENTS.LOADING_MATERIAL)

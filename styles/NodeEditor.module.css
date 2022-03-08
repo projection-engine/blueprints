@@ -50,18 +50,28 @@
 
 }
 
-.refresh {
+.floating{
     position: absolute !important;
-    bottom: 8px;
-    right: 8px;
-    backdrop-filter: blur(20px);
+
+}
+.button{
+    backdrop-filter: blur(20px) brightness(.8) !important;
     border-radius: 5px;
-    width: 25px !important;
-    height: 25px !important;
-    padding: 0 !important;
+    width: fit-content;
+    height: fit-content;
+    padding: 2px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.buttonGroup{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 
 .refresh::before {
