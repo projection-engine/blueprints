@@ -1,6 +1,6 @@
 import Node from "../../templates/Node";
 import {TYPES} from "../../templates/TYPES";
-import ImageProcessor, {COLOR_BLEND_OPERATIONS} from "../../../../services/workers/ImageProcessor";
+import ImageProcessor from "../../../../services/workers/ImageProcessor";
 import NODE_TYPES from "../../templates/NODE_TYPES";
 
 export default class OneMinus extends Node {

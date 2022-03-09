@@ -1,8 +1,6 @@
 import {IDS} from "../../../services/hooks/useVisualizer";
-import MaterialInstance from "../../../services/engine/elements/instances/MaterialInstance";
+import MaterialInstance from "../../../services/engine/instances/MaterialInstance";
 import EVENTS from "../../../services/utils/misc/EVENTS";
-import {ENTITY_ACTIONS} from "../../../services/utils/entityReducer";
-import MaterialComponent from "../../../services/engine/ecs/components/MaterialComponent";
 
 const MAT_ID = 'MAT-0'
 export default function applyViewport(materialObject, engine, load) {
