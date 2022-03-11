@@ -48,11 +48,12 @@ export default function parseMaterialFile(file, quickAccess, setNodes, setLinks,
 
                                 const i = INSTANCES[f.instance]()
                                 Object.keys(f).forEach(o => {
-
-                                    if (o === 'sample' && i instanceof TextureSample)
-                                        i[o] = quickAccess.images.find(i => i.registryID === f[o].registryID)
-                                    else
-                                        i[o] = f[o]
+                                    if(o !== 'inputs' && o !== 'output') {
+                                        if (o === 'sample' && i instanceof TextureSample)
+                                            i[o] = quickAccess.images.find(i => i.registryID === f[o].registryID)
+                                        else
+                                            i[o] = f[o]
+                                    }
                                 })
                                 return i
                             })

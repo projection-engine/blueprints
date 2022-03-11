@@ -12,6 +12,8 @@ export default class Material extends Node {
     normal
     ao
     materialVariant = MATERIAL_TYPES.OPAQUE
+    tilingX = 1
+    tilingY = 1
 
     constructor() {
         super(
@@ -37,7 +39,10 @@ export default class Material extends Node {
                         {label: 'Transparent', data: MATERIAL_TYPES.TRANSPARENT},
                         {label: 'Terrain', data: MATERIAL_TYPES.TERRAIN}
                     ]
-                }
+                },
+
+                {label: 'UV tiling X', key: 'tilingX', type: TYPES.NUMBER},
+                {label: 'UV tiling Y', key: 'tilingY', type: TYPES.NUMBER},
             ]);
 
         this.name = 'Material'
@@ -83,10 +88,12 @@ export default class Material extends Node {
 
     compile(items) {
         return new Promise(resolve => {
-            items.forEach(i => {
+            items.filter(i => !i.key?.includes('tiling')).forEach(i => {
                 this[i.key] = typeof i.data === 'string' ? (i.data.includes('data:image/png') ? i.data : ImageProcessor.colorToImage(i.data)) : i.data
             })
 
+
+            this.tiling = [this.tilingX, this.tilingY]
             this.ready = true
             resolve()
         })
