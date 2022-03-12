@@ -62,6 +62,7 @@ export default class TextureSample extends Node {
                                                 })
                                             break
                                         default:
+
                                             this.sample = file
                                             this.ready = true
                                             resolve()

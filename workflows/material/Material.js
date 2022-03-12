@@ -89,7 +89,8 @@ export default class Material extends Node {
     compile(items) {
         return new Promise(resolve => {
             items.filter(i => !i.key?.includes('tiling')).forEach(i => {
-                this[i.key] = typeof i.data === 'string' ? (i.data.includes('data:image/png') ? i.data : ImageProcessor.colorToImage(i.data)) : i.data
+                console.log(i)
+                this[i.key] = typeof i.data === 'string' ? (i.data.includes('data:image/png') || i.data.includes('data:image/jpeg') || i.data.includes('data:image/jpg') ? i.data : ImageProcessor.colorToImage(i.data)) : i.data
             })
 
 

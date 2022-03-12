@@ -5,7 +5,7 @@ import styles from '../../styles/Node.module.css'
 
 export default function NodeShowcase(props) {
     const attributesToRender = useMemo(() => {
-        console.log(props.node.inputs)
+
         return props.node.inputs.map(n => {
             if ((n.type === TYPES.TEXTURE || n.type === TYPES.COLOR) && !n.accept)
                 return {

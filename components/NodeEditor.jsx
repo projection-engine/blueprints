@@ -201,6 +201,13 @@ export default function NodeEditor(props) {
                                         const clone = cloneClass(prev[classLocation])
                                         clone[attr.key] = event
 
+                                        if(clone instanceof Material && props.engine.material && (attr.key === 'tilingX'||attr.key === 'tilingY')) {
+                                            if (attr.key === 'tilingX')
+                                                props.engine.material.uvScale = [event, clone.tilingY ? clone.tilingY : 1]
+                                            if (attr.key === 'tilingY')
+                                                props.engine.material.uvScale = [clone.tilingX ? clone.tilingX : 1, event]
+                                        }
+
                                         n[classLocation] = clone
                                         return n
                                     }),
