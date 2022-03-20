@@ -100,10 +100,10 @@ export default class Material extends Node {
                 const d = typeof i.data === 'string' ? (i.data.includes('data:image') ? i.data : ImageProcessor.colorToImage(i.data)) : i.data
                 let img
                 this[i.key] = {}
-                console.log(d)
+
                 if (typeof d === "object") {
                     const imgKey = Object.keys(d).find(k => d[k].includes('data:image'))
-                    console.log(imgKey)
+
                     img = d[imgKey]
                     delete d[imgKey]
                     this[i.key + 'Meta'] = d
@@ -130,7 +130,6 @@ export default class Material extends Node {
 
             Promise.all(promises)
                 .then(() => {
-                    console.log('H')
                     this.tiling = [this.tilingX, this.tilingY]
                     this.ready = true
                     resolve()
