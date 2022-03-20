@@ -20,7 +20,6 @@ import randomID from "../../services/utils/misc/randomID";
 import deleteNode from "./utils/deleteNode";
 
 
-
 export default function MaterialView(props) {
     const hook = usePrototype(props.file)
     const ref = useRef()
