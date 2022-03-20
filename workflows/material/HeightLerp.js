@@ -25,6 +25,9 @@ export default class HeightLerp extends Node {
     }
 
     compile(items) {
+        if(this.ready)
+            return new Promise(r => r())
+
         return new Promise(resolve => {
             let image0 = items.find(i => i.key === 'sample')?.data,
                 image1 = items.find(i => i.key === 'sample1')?.data,

@@ -16,6 +16,8 @@ export default class Vector extends Node {
     }
 
     compile() {
+        if(this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
             this.ready = true
             resolve()

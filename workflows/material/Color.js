@@ -19,6 +19,8 @@ export default class Color extends Node {
         return NODE_TYPES.DATA
     }
     compile([a, b], fileSystem) {
+        if(this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
             this.ready = true
             resolve()

@@ -2,10 +2,11 @@ import EVENTS from "../../../services/utils/misc/EVENTS";
 import MaterialClass from "../workflows/material/Material";
 import cloneClass from "../../../services/utils/misc/cloneClass";
 
-export default function compile(load, n, l, fileSystem) {
+export default function compile(load, n, l, fileSystem, final) {
     let links = [...l], nodes = n.map(node => cloneClass(node))
-
+    load.pushEvent(EVENTS.COMPILING)
     return new Promise(resolve => {
+
         const startPoint = nodes.find(n => {
             return n instanceof MaterialClass
         })
@@ -45,7 +46,7 @@ export default function compile(load, n, l, fileSystem) {
                                     else
                                         return undefined
                                 }).filter(f => f !== undefined)
-                                currentNode.compile(compiledLinks, fileSystem, forwardLinks)
+                                currentNode.compile(compiledLinks, fileSystem, forwardLinks, final)
                                     .then(() => {
                                         nodes[nodes.findIndex(n => n.id === currentNode.id)] = currentNode
                                         resolveLoop()
@@ -65,7 +66,7 @@ export default function compile(load, n, l, fileSystem) {
                             else
                                 return undefined
                         }).filter(f => f !== undefined)
-                        currentNode.compile(compiledLinks, fileSystem, forwardLinks)
+                        currentNode.compile(compiledLinks, fileSystem, forwardLinks, final)
                             .then(() => {
                                 nodes[nodes.findIndex(n => n.id === currentNode.id)] = currentNode
                                 resolveLoop()

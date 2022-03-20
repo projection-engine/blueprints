@@ -25,7 +25,8 @@ export default class TextureSample extends Node {
     }
 
     compile(_, fileSystem, items) {
-
+        if(this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
             fileSystem.readRegistryFile(this.sample?.registryID)
                 .then(res => {

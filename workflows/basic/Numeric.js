@@ -12,6 +12,8 @@ export default class Numeric extends Node {
         return NODE_TYPES.DATA
     }
     compile( ) {
+        if(this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
             this.ready = true
             resolve()

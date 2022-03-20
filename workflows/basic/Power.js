@@ -17,6 +17,8 @@ export default class Power extends Node {
         return NODE_TYPES.FUNCTION
     }
     compile([a, b], fileSystem) {
+        if(this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
             this.value = a ** b
             this.ready = true

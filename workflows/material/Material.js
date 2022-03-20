@@ -15,6 +15,10 @@ export default class Material extends Node {
     tilingX = 1
     tilingY = 1
 
+    lowQuality = {}
+    mediumQuality = {}
+    highQuality = {}
+
     constructor() {
         super(
             [
@@ -86,17 +90,51 @@ export default class Material extends Node {
         return this.materialVariant
     }
 
-    compile(items) {
+    compile(items, fileSystem, forwardLinks, final) {
+        if (this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
+            let promises = []
             items.filter(i => !i.key?.includes('tiling')).forEach(i => {
-                console.log(i)
-                this[i.key] = typeof i.data === 'string' ? (i.data.includes('data:image/png') || i.data.includes('data:image/jpeg') || i.data.includes('data:image/jpg') ? i.data : ImageProcessor.colorToImage(i.data)) : i.data
+
+                const d = typeof i.data === 'string' ? (i.data.includes('data:image') ? i.data : ImageProcessor.colorToImage(i.data)) : i.data
+                let img
+                this[i.key] = {}
+                console.log(d)
+                if (typeof d === "object") {
+                    const imgKey = Object.keys(d).find(k => d[k].includes('data:image'))
+                    console.log(imgKey)
+                    img = d[imgKey]
+                    delete d[imgKey]
+                    this[i.key + 'Meta'] = d
+                } else
+                    img = d
+
+                promises.push(new Promise(resolve1 => {
+                    ImageProcessor.resizeImage(img, undefined, undefined, .2, .2).then(r => {
+                        this[i.key].low = r
+                        resolve1()
+                    })
+                }))
+                promises.push(new Promise(resolve1 => {
+                    ImageProcessor.resizeImage(img, undefined, undefined, .5, .5).then(r => {
+                        this[i.key].medium = r
+                        resolve1()
+                    })
+                }))
+
+
+                this[i.key].high = img
+
             })
 
-
-            this.tiling = [this.tilingX, this.tilingY]
-            this.ready = true
-            resolve()
+            Promise.all(promises)
+                .then(() => {
+                    console.log('H')
+                    this.tiling = [this.tilingX, this.tilingY]
+                    this.ready = true
+                    resolve()
+                }).catch(e => console.log(e))
         })
     }
 }

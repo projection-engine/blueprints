@@ -17,15 +17,16 @@ export default class Multiply extends Node {
         return NODE_TYPES.FUNCTION
     }
     compile(items, fileSystem) {
+        if(this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
             const image = items.find(i => i.key === 'texture')
             const color = items.find(i => i.key === 'valueToMultiply')
 
             if (image && color) {
                 const isNumber = !isNaN(parseFloat(color.data))
-                console.trace(        !isNumber? color.data : `rgb(${color.data}, ${color.data}, ${color.data})`)
-                ImageProcessor.blendWithColor(
 
+                ImageProcessor.blendWithColor(
                     image.data,
                     !isNumber? color.data : `rgb(${color.data}, ${color.data}, ${color.data})`,
                     COLOR_BLEND_OPERATIONS.MULTIPLY

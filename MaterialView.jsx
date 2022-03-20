@@ -20,6 +20,7 @@ import randomID from "../../services/utils/misc/randomID";
 import deleteNode from "./utils/deleteNode";
 
 
+
 export default function MaterialView(props) {
     const hook = usePrototype(props.file)
     const ref = useRef()
@@ -58,10 +59,11 @@ export default function MaterialView(props) {
         return {
             preview: canvas.toDataURL(),
             data: JSON.stringify({
-                nodes: parsedNodes,
-                links: hook.links,
-                response: res,
-                type: res.variant
+                    nodes: parsedNodes,
+                    links: hook.links,
+                    response: res,
+                    type: res.variant
+
             })
         }
     }
@@ -74,7 +76,7 @@ export default function MaterialView(props) {
                     disabled: hook.disabled,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                     onClick: () => {
-                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
+                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem, true)
                             .then(res => {
 
                                 applyViewport(res, hook.engine, hook.load)
@@ -95,7 +97,7 @@ export default function MaterialView(props) {
 
 
                         hook.load.pushEvent(EVENTS.LOADING_MATERIAL)
-                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
+                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem, true)
                             .then(res => {
                                 applyViewport(res, hook.engine, hook.load)
 

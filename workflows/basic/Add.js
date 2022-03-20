@@ -17,6 +17,8 @@ export default class Add extends Node {
         return NODE_TYPES.FUNCTION
     }
     compile(items, fileSystem) {
+        if(this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
             const image = items.find(i => i.key === 'texture')
             const color = items.find(i => i.key === 'valueToMultiply')

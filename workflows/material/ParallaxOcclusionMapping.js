@@ -25,6 +25,8 @@ export default class ParallaxOcclusionMapping extends Node {
     }
 
     compile(inputs) {
+        if(this.ready)
+            return new Promise(r => r())
         let texture = inputs.find(i => i.key === 'sample')?.data,
             layers = inputs.find(i => i.key === 'layers')?.data,
             heightMapChannel = inputs.find(i => i.key === 'channel')?.data,

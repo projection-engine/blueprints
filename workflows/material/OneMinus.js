@@ -19,6 +19,8 @@ export default class OneMinus extends Node {
     }
 
     compile(items, fileSystem) {
+        if(this.ready)
+            return new Promise(r => r())
         return new Promise(resolve => {
             let image = items.find(i => i.key === 'sampler0').data
 

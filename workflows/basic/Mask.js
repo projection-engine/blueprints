@@ -22,6 +22,8 @@ export default class Mask extends Node {
     }
 
     compile(items) {
+        if(this.ready)
+            return new Promise(r => r())
 
         return new Promise(resolve => {
             let image = items.find(i => i.key === 'sample')?.data
