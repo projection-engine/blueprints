@@ -38,7 +38,6 @@ export default function useNode(props, selected) {
         y: 0
     }
     const handleDragStart = (event) => {
-        console.log('EEEE')
         let isFirst, alreadyFound = false
         document.elementsFromPoint(event.clientX, event.clientY)
             .forEach(e => {

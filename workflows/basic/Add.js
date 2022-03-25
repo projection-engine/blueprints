@@ -25,7 +25,6 @@ export default class Add extends Node {
 
             if (image && color) {
                 const isNumber = !isNaN(parseFloat(color.data))
-                console.trace(        !isNumber? color.data : `rgb(${color.data}, ${color.data}, ${color.data})`)
                 ImageProcessor.blendWithColor(
                     image.data,
                     !isNumber? color.data : `rgb(${color.data}, ${color.data}, ${color.data})`,

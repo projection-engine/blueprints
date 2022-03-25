@@ -11,7 +11,7 @@ export default function NodeIO(props) {
         e.preventDefault()
         const data = JSON.parse(e.dataTransfer.getData('text'))
         e.currentTarget.style.background = 'var(--fabric-background-primary)'
-        console.log(data, props.data)
+
         if (data.type === 'output' && props.data.accept.includes(data.attribute.type))
             props.handleLink(data, {
                 attribute: props.data,
@@ -136,10 +136,8 @@ export default function NodeIO(props) {
                                 })
                             )
 
-                        if (props.type === 'output') {
-                            console.log(props.data.type)
+                        if (props.type === 'output')
                             onDragContext.setDragType(props.data.type)
-                        }
                     }}/>
                 {props.type === 'input' ? (
                     <div data-disabled={`${props.data.disabled}`} className={styles.overflow}

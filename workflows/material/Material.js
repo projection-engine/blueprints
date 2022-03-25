@@ -15,10 +15,6 @@ export default class Material extends Node {
     tilingX = 1
     tilingY = 1
 
-    lowQuality = {}
-    mediumQuality = {}
-    highQuality = {}
-
     constructor() {
         super(
             [
@@ -90,7 +86,7 @@ export default class Material extends Node {
         return this.materialVariant
     }
 
-    compile(items, fileSystem, forwardLinks, final) {
+    compile(items) {
         if (this.ready)
             return new Promise(r => r())
         return new Promise(resolve => {
@@ -111,7 +107,7 @@ export default class Material extends Node {
                     img = d
 
                 promises.push(new Promise(resolve1 => {
-                    ImageProcessor.resizeImage(img, undefined, undefined, .2, .2).then(r => {
+                    ImageProcessor.resizeImage(img, undefined, undefined, .12, .12).then(r => {
                         this[i.key].low = r
                         resolve1()
                     })
@@ -133,7 +129,7 @@ export default class Material extends Node {
                     this.tiling = [this.tilingX, this.tilingY]
                     this.ready = true
                     resolve()
-                }).catch(e => console.log(e))
+                }).catch()
         })
     }
 }
