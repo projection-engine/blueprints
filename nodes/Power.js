@@ -1,6 +1,6 @@
 import Node from "../../../components/flow/Node";
-import {TYPES} from "../templates/TYPES";
-import NODE_TYPES from "../templates/NODE_TYPES";
+import {TYPES} from "../../../components/flow/TYPES";
+import NODE_TYPES from "../../../components/flow/NODE_TYPES";
 
 
 export default class Power extends Node {

@@ -1,7 +1,7 @@
 import Node from "../../../components/flow/Node";
-import {TYPES} from "../templates/TYPES";
+import {TYPES} from "../../../components/flow/TYPES";
 import ImageProcessor from "../../../services/workers/ImageProcessor";
-import NODE_TYPES from "../templates/NODE_TYPES";
+import NODE_TYPES from "../../../components/flow/NODE_TYPES";
 
 export default class OneMinus extends Node {
     sampler0

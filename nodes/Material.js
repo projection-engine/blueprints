@@ -1,6 +1,6 @@
 import Node from '../../../components/flow/Node'
-import {TYPES} from "../templates/TYPES";
-import NODE_TYPES from "../templates/NODE_TYPES";
+import {TYPES} from "../../../components/flow/TYPES";
+import NODE_TYPES from "../../../components/flow/NODE_TYPES";
 import ImageProcessor from "../../../services/workers/ImageProcessor";
 import MATERIAL_TYPES from "../../../services/engine/utils/misc/MATERIAL_TYPES";
 
@@ -14,6 +14,7 @@ export default class Material extends Node {
     materialVariant = MATERIAL_TYPES.OPAQUE
     tilingX = 1
     tilingY = 1
+    canBeDeleted = false
 
     constructor() {
         super(

@@ -21,7 +21,7 @@ import Viewport from "../../../components/viewport/Viewport";
 import ColorPicker from "../../../components/color/ColorPicker";
 
 import cloneClass from "../../../services/utils/misc/cloneClass";
-import {TYPES} from "../templates/TYPES";
+import {TYPES} from "../../../components/flow/TYPES";
 import {ENTITY_ACTIONS} from "../../../services/utils/entityReducer";
 import MeshComponent from "../../../services/engine/ecs/components/MeshComponent";
 import {IDS} from "../../../services/hooks/useVisualizer";
