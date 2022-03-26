@@ -9,7 +9,7 @@ export default function applyViewport(materialObject, engine, load) {
         const sphere = engine.entities.find(e => e.id === IDS.SPHERE)
         if (sphere) {
 
-
+            console.log(engine.material, materialObject)
             if (engine.material === undefined) {
                 const newMaterial = new MaterialInstance(engine.gpu, IDS.MATERIAL, undefined, undefined, undefined, materialObject.variant)
                 newMaterial.initializeTextures(
