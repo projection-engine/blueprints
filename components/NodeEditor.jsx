@@ -1,7 +1,7 @@
 import React, {useMemo, useRef} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
-import Material from "../workflows/material/Material";
+import Material from "../nodes/Material";
 import ResizableBar from "../../../components/resizable/ResizableBar";
 
 import {

@@ -1,6 +1,6 @@
-import Node from '../../templates/Node'
-import {TYPES} from "../../templates/TYPES";
-import NODE_TYPES from "../../templates/NODE_TYPES";
+import Node from '../../../components/flow/Node'
+import {TYPES} from "../templates/TYPES";
+import NODE_TYPES from "../templates/NODE_TYPES";
 
 export default class Numeric extends Node {
     constructor(value = 0.0) {

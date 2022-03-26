@@ -83,3 +83,12 @@
 .icon>*{
     font-size: 1.1rem !important;
 }
+
+.label{
+    font-weight: 550;
+    font-size: .7rem;
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

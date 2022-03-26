@@ -1,7 +1,7 @@
-import Node from "../../templates/Node";
-import {TYPES} from "../../templates/TYPES";
-import NODE_TYPES from "../../templates/NODE_TYPES";
-import ImageProcessor from "../../../../services/workers/ImageProcessor";
+import Node from "../../../components/flow/Node";
+import {TYPES} from "../templates/TYPES";
+import NODE_TYPES from "../templates/NODE_TYPES";
+import ImageProcessor from "../../../services/workers/ImageProcessor";
 
 export default class Atlas extends Node {
     sample = {}

@@ -1,7 +1,7 @@
-import Node from "../../templates/Node";
-import {TYPES} from "../../templates/TYPES";
-import ImageProcessor from "../../../../services/workers/ImageProcessor";
-import NODE_TYPES from "../../templates/NODE_TYPES";
+import Node from "../../../components/flow/Node";
+import {TYPES} from "../templates/TYPES";
+import ImageProcessor from "../../../services/workers/ImageProcessor";
+import NODE_TYPES from "../templates/NODE_TYPES";
 
 export default class ParallaxOcclusionMapping extends Node {
     sample = ''

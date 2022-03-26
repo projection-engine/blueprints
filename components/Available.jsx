@@ -1,15 +1,13 @@
 import {useRef, useState} from "react";
 import styles from '../styles/Available.module.css'
 import {Button, ToolTip} from "@f-ui/core";
-import {materialAvailable} from "../templates/MaterialAvailable";
-import {basicAvailable} from "../templates/BasicAvailable";
+
+import {allNodes} from "../templates/AllNodes";
 
 
 export default function Available() {
     const [hidden, setHidden] = useState(true)
     const ref = useRef()
-    const workflowData = [...materialAvailable, ...basicAvailable]
-
     return (
         <div ref={ref} className={styles.wrapper} style={{width: hidden ? '35px' : undefined}}>
             <Button
@@ -38,7 +36,7 @@ export default function Available() {
 
             <div className={styles.content}>
 
-                {hidden ? null : workflowData.map(d =>(
+                {hidden ? null : allNodes.map(d =>(
                     <div
                         className={styles.option}
                         draggable={true}

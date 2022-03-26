@@ -1,9 +1,10 @@
 import EVENTS from "../../../services/utils/misc/EVENTS";
-import MaterialClass from "../workflows/material/Material";
+import MaterialClass from "../nodes/Material";
 import cloneClass from "../../../services/utils/misc/cloneClass";
 
 export default function compile(load, n, l, fileSystem, final) {
     let links = [...l], nodes = n.map(node => cloneClass(node))
+
     load.pushEvent(EVENTS.COMPILING)
     return new Promise(resolve => {
 
@@ -14,7 +15,6 @@ export default function compile(load, n, l, fileSystem, final) {
         if (startPoint) {
             const resolveDependencies = (currentNode) => {
                 const linksToResolve = links.filter(l => l.target.id === currentNode.id)
-                const forwardLinks = links.filter(l => l.source.id === currentNode.id).map(l => l.source.attribute.key)
                 const promises = linksToResolve.map(link => {
                     const source = nodes.find(n => n.id === link.source.id)
                     let value
@@ -23,7 +23,6 @@ export default function compile(load, n, l, fileSystem, final) {
                         value = new Promise(resolve1 => {
                             resolveDependencies(source)
                                 .then(() => {
-
                                     resolve1()
                                 })
                         })
@@ -33,7 +32,7 @@ export default function compile(load, n, l, fileSystem, final) {
                 }).filter(n => n !== undefined)
 
                 return new Promise(resolveLoop => {
-                    if (promises.length > 0)
+                    if (promises.length > 0 || !currentNode.ready)
                         Promise.all(promises)
                             .then(() => {
                                 const compiledLinks = linksToResolve.map(l => {
@@ -46,38 +45,16 @@ export default function compile(load, n, l, fileSystem, final) {
                                     else
                                         return undefined
                                 }).filter(f => f !== undefined)
-                                currentNode.compile(compiledLinks, fileSystem, forwardLinks, final)
-                                    .then(() => {
-                                        nodes[nodes.findIndex(n => n.id === currentNode.id)] = currentNode
-                                        resolveLoop()
-                                    })
+                                currentNode.compile(compiledLinks, fileSystem, links.filter(l => l.source.id === currentNode.id).map(l => l.source.attribute.key), final)
+                                    .then(() => resolveLoop())
                             })
                     else if (currentNode.ready)
                         resolveLoop()
-
-                    else {
-                        const compiledLinks = linksToResolve.map(l => {
-                            const f = nodes.find(n => n.id === l.source.id)
-                            if (f)
-                                return {
-                                    data: f[l.source.attribute.key],
-                                    key: l.target.attribute.key
-                                }
-                            else
-                                return undefined
-                        }).filter(f => f !== undefined)
-                        currentNode.compile(compiledLinks, fileSystem, forwardLinks, final)
-                            .then(() => {
-                                nodes[nodes.findIndex(n => n.id === currentNode.id)] = currentNode
-                                resolveLoop()
-                            })
-                    }
                 })
             }
             resolveDependencies(startPoint)
                 .then(() => {
                     load.finishEvent(EVENTS.COMPILING)
-
                     resolve(nodes.find(n => {
                         return n instanceof MaterialClass
                     }))

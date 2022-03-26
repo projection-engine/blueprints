@@ -1,8 +1,8 @@
-import Board from "./components/Board";
-import usePrototype from "./hooks/usePrototype";
+import Board from "../../components/flow/components/Board";
+import useMaterialView from "./hooks/useMaterialView";
 import NodeEditor from "./components/NodeEditor";
 import Available from "./components/Available";
-import styles from './styles/Board.module.css'
+import styles from '../../components/flow/styles/Board.module.css'
 
 import {useContext, useEffect, useMemo, useRef, useState} from "react";
 import PropTypes from "prop-types";
@@ -10,18 +10,19 @@ import PropTypes from "prop-types";
 
 import ControlProvider from "../../components/tabs/components/ControlProvider";
 import ResizableBar from "../../components/resizable/ResizableBar";
-import MaterialClass from './workflows/material/Material'
+import MaterialClass from './nodes/Material'
 import EVENTS from "../../services/utils/misc/EVENTS";
 import compile from "./utils/compile";
 import applyViewport from "./utils/applyViewport";
 import useHotKeys, {KEYS} from "../../services/hooks/useHotKeys";
 import cloneClass from "../../services/utils/misc/cloneClass";
 import randomID from "../../services/utils/misc/randomID";
-import deleteNode from "./utils/deleteNode";
+import deleteNode from "../../components/flow/utils/deleteNode";
+import {allNodes} from "./templates/AllNodes";
 
 
 export default function MaterialView(props) {
-    const hook = usePrototype(props.file)
+    const hook = useMaterialView(props.file)
     const ref = useRef()
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n.constructor.name === MaterialClass.constructor.name)
@@ -218,6 +219,7 @@ export default function MaterialView(props) {
             <ResizableBar type={"width"}/>
             <div className={styles.prototypeWrapperBoard} id={props.file.fileID + '-board'}>
                 <Board
+                    allNodes={allNodes}
                     setAlert={props.setAlert}
                     parentRef={ref}
                     hook={hook}

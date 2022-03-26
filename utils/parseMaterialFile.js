@@ -1,19 +1,19 @@
-import TextureSample from "../workflows/material/TextureSample";
+import TextureSample from "../nodes/TextureSample";
 import applyViewport from "./applyViewport";
-import Material from "../workflows/material/Material";
+import Material from "../nodes/Material";
 import EVENTS from "../../../services/utils/misc/EVENTS";
-import Add from "../workflows/basic/Add";
-import Multiply from "../workflows/basic/Multiply";
-import Power from "../workflows/basic/Power";
-import Numeric from "../workflows/basic/Numeric";
-import Color from "../workflows/material/Color";
+import Add from "../nodes/Add";
+import Multiply from "../nodes/Multiply";
+import Power from "../nodes/Power";
+import Numeric from "../nodes/Numeric";
+import Color from "../nodes/Color";
 
-import ParallaxOcclusionMapping from "../workflows/material/ParallaxOcclusionMapping";
-import Vector from "../workflows/basic/Vector";
-import Lerp from "../workflows/basic/Lerp";
-import Mask from "../workflows/basic/Mask";
-import OneMinus from "../workflows/material/OneMinus";
-import HeightLerp from "../workflows/material/HeightLerp";
+import ParallaxOcclusionMapping from "../nodes/ParallaxOcclusionMapping";
+import Vector from "../nodes/Vector";
+import Lerp from "../nodes/Lerp";
+import Mask from "../nodes/Mask";
+import OneMinus from "../nodes/OneMinus";
+import HeightLerp from "../nodes/HeightLerp";
 
 const INSTANCES = {
     Lerp: () => new Lerp(),
