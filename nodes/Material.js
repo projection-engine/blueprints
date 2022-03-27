@@ -2,7 +2,7 @@ import Node from '../../../components/flow/Node'
 import {TYPES} from "../../../components/flow/TYPES";
 import NODE_TYPES from "../../../components/flow/NODE_TYPES";
 import ImageProcessor from "../../../services/workers/ImageProcessor";
-import MATERIAL_TYPES from "../../../services/engine/utils/misc/MATERIAL_TYPES";
+import MATERIAL_TYPES from "../../../services/engine/templates/MATERIAL_TYPES";
 
 export default class Material extends Node {
     albedo

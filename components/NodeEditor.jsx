@@ -225,7 +225,7 @@ export default function NodeEditor(props) {
 
 NodeEditor.propTypes = {
     engine: PropTypes.object.isRequired,
-    workflow: PropTypes.oneOf(['material']),
+
     selected: PropTypes.string,
     hook: PropTypes.object
 }
