@@ -9,6 +9,7 @@ import parseMaterialFile from "../utils/parseMaterialFile";
 export default function useMaterialView(file) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
+    const [groups, setGroups] = useState([])
     const [changed, setChanged] = useState(false)
 
     const [selected, setSelected] = useState([])
@@ -35,6 +36,7 @@ export default function useMaterialView(file) {
         setLinks,
         quickAccess,
         load,
-        changed, setChanged
+        changed, setChanged,
+        groups, setGroups
     }
 }

@@ -1,7 +1,7 @@
 import Board from "../../components/flow/components/Board";
 import useMaterialView from "./hooks/useMaterialView";
 import NodeEditor from "./components/NodeEditor";
-import Available from "./components/Available";
+
 import styles from '../../components/flow/styles/Board.module.css'
 
 import {useContext, useEffect, useMemo, useRef, useState} from "react";
@@ -19,9 +19,11 @@ import cloneClass from "../../services/utils/misc/cloneClass";
 import randomID from "../../services/utils/misc/randomID";
 import deleteNode from "../../components/flow/utils/deleteNode";
 import {allNodes} from "./templates/AllNodes";
+import Available from "../../components/flow/components/Available";
 
 
 export default function MaterialView(props) {
+    const [scale, setScale] = useState(1)
     const hook = useMaterialView(props.file)
     const ref = useRef()
     const fallbackSelected = useMemo(() => {
@@ -219,6 +221,7 @@ export default function MaterialView(props) {
             <ResizableBar type={"width"}/>
             <div className={styles.prototypeWrapperBoard} id={props.file.fileID + '-board'}>
                 <Board
+                    scale={scale} setScale={setScale}
                     allNodes={allNodes}
                     setAlert={props.setAlert}
                     parentRef={ref}
@@ -227,7 +230,10 @@ export default function MaterialView(props) {
                     setSelected={hook.setSelected}
                 />
             </div>
-            <Available/>
+            <ResizableBar type={"width"}/>
+            <div style={{height: '100%', width: '250px'}}>
+                <Available allNodes={allNodes}/>
+            </div>
         </div>
     )
 }
