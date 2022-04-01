@@ -218,7 +218,7 @@ export default function NodeEditor(props) {
                     </React.Fragment>
                 ))}
             </div>
-            <ResizableBar type={'width'}/>
+            {/*<ResizableBar type={'width'}/>*/}
         </div>
     )
 }

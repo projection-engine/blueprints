@@ -61,10 +61,10 @@ export default function MaterialView(props) {
         return {
             preview: canvas.toDataURL(),
             data: JSON.stringify({
-                    nodes: parsedNodes,
-                    links: hook.links,
-                    response: res,
-                    type: res.variant
+                nodes: parsedNodes,
+                links: hook.links,
+                response: res,
+                type: res.variant
 
             })
         }
@@ -214,10 +214,11 @@ export default function MaterialView(props) {
 
     return (
         <div className={styles.prototypeWrapper} ref={ref}>
-            <NodeEditor hook={hook}
+            <NodeEditor
+                hook={hook}
 
-                        engine={hook.engine}
-                        selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
+                engine={hook.engine}
+                selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
             <ResizableBar type={"width"}/>
             <div className={styles.prototypeWrapperBoard} id={props.file.fileID + '-board'}>
                 <Board
