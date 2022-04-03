@@ -1,4 +1,4 @@
-import {IDS} from "../../../services/hooks/useVisualizer";
+import {IDS} from "../../../services/hooks/useMinimalEngine";
 import MaterialInstance from "../../../services/engine/instances/MaterialInstance";
 import EVENTS from "../../../services/utils/misc/EVENTS";
 

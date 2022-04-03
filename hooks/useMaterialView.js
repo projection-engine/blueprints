@@ -2,7 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import QuickAccessProvider from "../../../services/hooks/QuickAccessProvider";
 import EVENTS from "../../../services/utils/misc/EVENTS";
 import {LoaderProvider} from "@f-ui/core";
-import useVisualizer from "../../../services/hooks/useVisualizer";
+import useMinimalEngine from "../../../services/hooks/useMinimalEngine";
 import parseMaterialFile from "../utils/parseMaterialFile";
 
 
@@ -15,7 +15,7 @@ export default function useMaterialView(file) {
     const [selected, setSelected] = useState([])
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
-    const engine = useVisualizer(true, true, true, true)
+    const engine = useMinimalEngine(true, true, true, true)
 
     useEffect(() => {
         load.pushEvent(EVENTS.LOADING_MATERIAL)

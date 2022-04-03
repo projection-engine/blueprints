@@ -24,7 +24,7 @@ import cloneClass from "../../../services/utils/misc/cloneClass";
 import {TYPES} from "../../../components/flow/TYPES";
 import {ENTITY_ACTIONS} from "../../../services/utils/entityReducer";
 import MeshComponent from "../../../services/engine/ecs/components/MeshComponent";
-import {IDS} from "../../../services/hooks/useVisualizer";
+import {IDS} from "../../../services/hooks/useMinimalEngine";
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {

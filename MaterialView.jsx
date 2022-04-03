@@ -74,6 +74,19 @@ export default function MaterialView(props) {
         controlProvider.setTabAttributes(
             [
                 {
+                    label: 'Compile',
+                    group: 'b',
+                    disabled: hook.disabled,
+                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
+                    onClick: () => {
+                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
+                            .then(res => {
+                                applyViewport(res, hook.engine, hook.load)
+                            })
+
+                    }
+                },
+                {
                     label: 'Save',
                     disabled: hook.disabled,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
@@ -110,19 +123,6 @@ export default function MaterialView(props) {
                                     true
                                 )
                             })
-                    }
-                },
-                {
-                    label: 'Apply',
-                    group: 'b',
-                    disabled: hook.disabled,
-                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
-                    onClick: () => {
-                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
-                            .then(res => {
-                                applyViewport(res, hook.engine, hook.load)
-                            })
-
                     }
                 }
             ],
