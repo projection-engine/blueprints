@@ -40,9 +40,17 @@ import ATan from "../nodes/operators/math/ATan";
 import Mod from "../nodes/operators/math/Mod";
 import Abs from "../nodes/operators/math/Abs";
 import KeyPress from "../nodes/events/KeyPress";
+import RotateVector from "../nodes/transformation/RotateVector";
 
 
 export const allNodes = [
+    {
+        label: 'Rotate Vector',
+        dataTransfer: 'RotateVector',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new RotateVector()
+    },
     {
         label: 'Event Tick',
         dataTransfer: 'EventTick',

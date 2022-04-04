@@ -47,6 +47,7 @@ import Tan from "../nodes/operators/math/Tan";
 import Mod from "../nodes/operators/math/Mod";
 import Abs from "../nodes/operators/math/Abs";
 import KeyPress from "../nodes/events/KeyPress";
+import RotateVector from "../nodes/transformation/RotateVector";
 
 
 export default function useScriptingView(file, engine={}, load, isLevelBlueprint) {
@@ -138,6 +139,7 @@ const INSTANCES = {
     [Mod.name]: () => new Mod(),
     [Abs.name]: () => new Abs(),
     [KeyPress.name]: () => new KeyPress(),
+    [RotateVector.name]: () => new RotateVector()
 }
 
 function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, fileSystem, isLevelBlueprint) {
