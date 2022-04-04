@@ -36,4 +36,22 @@ export default {
         LABEL: 'Branch',
         ICON: 'fork_right'
     },
+
+
+    GETTER:  {
+        COLOR: 'green',
+        LABEL: 'Getter',
+        ICON: 'trending_flat'
+    },
+    SETTER:  {
+        COLOR: 'orange',
+        LABEL: 'Setter',
+        ICON: 'tune'
+    },
+    REFERENCE:  {
+        COLOR: 'gray',
+        LABEL: 'Reference',
+        ICON: 'keyboard_double_arrow_down',
+        ROTATE: '-90deg'
+    },
 }

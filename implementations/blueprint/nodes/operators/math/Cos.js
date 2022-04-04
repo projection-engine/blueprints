@@ -11,6 +11,7 @@ export default class Cos extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'Cosine'
+        this.size = 1
     }
 
     get type() {

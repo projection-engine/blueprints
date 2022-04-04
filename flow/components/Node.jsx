@@ -38,16 +38,25 @@ export default function Node(props) {
 
         return NODE_INFO[key] ? NODE_INFO[key] : {}
 
-    }, [props.node])
+    }, [])
 
     const outputInfo = useMemo(() => {
         if (props.node.output?.length === 1 && (props.node.output[0].type === TYPES.NUMBER || props.node.output[0].type === TYPES.COLOR || props.node.output[0].type === TYPES.VEC)) {
             return props.node.output[0].type === TYPES.VEC ? JSON.stringify(props.node[props.node.output[0].key]) : props.node[props.node.output[0].key]
         }
         return null
-    }, [props.node])
+    }, [])
 
-
+    const width = useMemo(() => {
+        switch (props.node.size){
+            case 0:
+                return '250px'
+            case 1:
+                return '175px'
+            case 2:
+                return '150px'
+        }
+    }, [])
     return (
         <g>
             <g
@@ -61,7 +70,7 @@ export default function Node(props) {
                     className={styles.wrapper}
 
                     style={{
-                        width: '250px',
+                        width: width,
                         height: height + 'px',
                         outline: selected ? 'yellow 2px solid' : undefined
                     }}>
@@ -71,7 +80,7 @@ export default function Node(props) {
                         id={props.node.id + '-node'}
                         title={nodeInfo.LABEL}
                     >
-                        <span style={{fontSize: '1rem'}} className={'material-icons-round'}>{nodeInfo.ICON}</span>
+                        <span style={{fontSize: '1rem', transform: nodeInfo.ROTATE ? `rotate(${nodeInfo.ROTATE}`: undefined}} className={'material-icons-round'}>{nodeInfo.ICON}</span>
                         {props.node.name}
                         {outputInfo ?
                             <label style={{textAlign: 'right', width: '100%'}}>

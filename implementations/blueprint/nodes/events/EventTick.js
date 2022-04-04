@@ -9,6 +9,7 @@ export default class EventTick extends Node {
     constructor() {
         super([], [{label: 'Tick', key: 'tick', type: TYPES.EXECUTION}]);
         this.name = 'EventTick'
+        this.size = 2
     }
 
     get type (){

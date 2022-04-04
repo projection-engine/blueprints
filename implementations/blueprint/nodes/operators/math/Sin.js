@@ -11,6 +11,7 @@ export default class Sin extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'Sine'
+        this.size = 1
     }
 
     get type() {

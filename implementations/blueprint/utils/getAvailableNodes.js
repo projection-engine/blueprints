@@ -14,7 +14,7 @@ export default function getAvailableNodes(hook){
                     key: v.id,
                     type: 'getter'
                 }),
-                getNewInstance: () => new Getter(v.id + '/getter/' + randomID(), v.name + ' - Getter', v.type)
+                getNewInstance: () => new Getter(v.id + '/getter/' + randomID(), v.name, v.type)
             },
             {
                 label: <label className={styles.label}>Setter - {v.name}</label>,
@@ -22,7 +22,7 @@ export default function getAvailableNodes(hook){
                     key: v.id,
                     type: 'setter'
                 }),
-                getNewInstance: () => new Setter(v.id + '/setter/' + randomID(), v.name + ' - Setter', v.type)
+                getNewInstance: () => new Setter(v.id + '/setter/' + randomID(), v.name, v.type)
             }
         ]
     }).flat()]

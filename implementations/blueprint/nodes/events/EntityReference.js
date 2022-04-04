@@ -11,13 +11,13 @@ export default class EntityReference extends Node {
             [
                 {label: 'Entity', key: 'entity', type: TYPES.ENTITY}
             ]);
-
+        this.size = 2
         this.id = id + '/' + randomID()
-        this.name = name + ' - EntityReference'
+        this.name = name
     }
 
     get type() {
-        return NODE_TYPES.DATA
+        return NODE_TYPES.REFERENCE
     }
 
     static compile(tick, inputs, entities, attributes, nodeID, executors) {

@@ -13,14 +13,15 @@ export default class Setter extends Node {
             ],
             [
                 {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
-                {label: 'Value', key: 'value', type: type}
+                {label: 'Value', key: 'newValue', type: type}
             ]);
         this.id = id
+        this.size = 1
         this.name = name
     }
 
     get type() {
-        return NODE_TYPES.FUNCTION
+        return NODE_TYPES.SETTER
     }
 
     static compile(tick, {value}, entities, attributes, nodeID, executors, setExecutors) {
@@ -31,6 +32,8 @@ export default class Setter extends Node {
                 value
             }
         })
+        attributes[nodeID] = {}
+        attributes[nodeID].newValue = value
         return attributes
     }
 }

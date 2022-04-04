@@ -9,10 +9,11 @@ export default class Getter extends Node {
 
         this.id = id
         this.name = name
+        this.size = 2
     }
 
     get type (){
-        return NODE_TYPES.VARIABLE
+        return NODE_TYPES.GETTER
     }
     static compile(tick, inputs, entities, attributes, nodeID, executors, setExecutors) {
         const id = nodeID.split('/')[0]

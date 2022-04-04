@@ -11,6 +11,7 @@ export default class ATan extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'ArcTangent'
+        this.size = 1
     }
 
     get type() {

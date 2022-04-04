@@ -12,6 +12,7 @@ export default class Multiply extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'Multiply'
+        this.size = 1
     }
 
     get type (){

@@ -174,7 +174,8 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
         const newNodes = file.nodes.map(f => {
             const i = INSTANCES[f.instance]()
             Object.keys(f).forEach(o => {
-                i[o] = f[o]
+                if(o !== 'size')
+                    i[o] = f[o]
             })
             return i
         })

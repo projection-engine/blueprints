@@ -12,6 +12,7 @@ export default class Divide extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'Divide'
+        this.size = 1
     }
 
     get type (){

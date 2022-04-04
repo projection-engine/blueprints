@@ -176,6 +176,11 @@ export default function Structure(props) {
                         <div
                             data-highlight={`${selectedVariable === g.id}`}
                             className={styles.option}
+                            draggable={true}
+                            onDragStart={e => e.dataTransfer.setData('text', JSON.stringify({
+                                key: g.id,
+                                type: 'getter'
+                            }))}
                             onClick={() => {
                                 props.hook.setSelected([])
                                 setSelectedVariable(g.id)

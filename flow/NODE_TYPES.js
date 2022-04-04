@@ -7,5 +7,10 @@ export default {
 
     VARIABLE: 5,
     START_POINT: 6,
-    BRANCH: 7
+    BRANCH: 7,
+
+
+    GETTER:  8,
+    SETTER:  9,
+    REFERENCE:  10
 }

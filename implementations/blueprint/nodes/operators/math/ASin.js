@@ -11,6 +11,7 @@ export default class ASin extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'ArcSine'
+        this.size = 1
     }
 
     get type() {

@@ -3,13 +3,16 @@ import React, {useState} from "react";
 import {Button} from "@f-ui/core";
 import PropTypes from "prop-types";
 
-export default function MinimalTabs(props){
+export default function MinimalTabs(props) {
     const {open, setOpen} = props
     return (
         <div className={[styles.wrapper, props.className].join(' ')} ref={props.reference}>
             <div className={styles.options}>
                 {props.tabs.map((t, i) => (
-                    <Button variant={'minimal'} highlight={i === open} className={styles.option} onClick={() => {
+                    <Button
+
+                        attributes={{'data-selected': `${open === i}`}}
+                        className={styles.option} onClick={() => {
                         props.onTabSwitch(i)
                         setOpen(i)
                     }}>
@@ -22,7 +25,7 @@ export default function MinimalTabs(props){
     )
 }
 
-MinimalTabs.propTypes={
+MinimalTabs.propTypes = {
     reference: PropTypes.object,
     children: PropTypes.node,
     tabs: PropTypes.array,

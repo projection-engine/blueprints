@@ -196,7 +196,7 @@ export default function NodeEditor(props) {
                 </div>
                 :
                 groupsSelected.length > 0 ? (
-                        <Accordion>
+                        <Accordion contentStyles={{padding: '4px'}}>
                             <AccordionSummary>
                                 Comment accent color
                             </AccordionSummary>

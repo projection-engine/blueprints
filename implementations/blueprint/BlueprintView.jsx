@@ -254,7 +254,7 @@ export default function BlueprintView(props) {
                     <>
                         <NodeEditor
                             hook={hook}
-                            selected={hook.selected[0]}
+                            selected={hook.selected}
                             selectedVariable={selectedVariable}
                         />
 

@@ -12,6 +12,7 @@ export default class Add extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'Add'
+        this.size = 1
     }
 
     get type() {

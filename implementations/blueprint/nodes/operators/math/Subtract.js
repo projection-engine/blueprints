@@ -12,6 +12,7 @@ export default class Subtract extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'Subtract'
+        this.size = 1
     }
 
     get type (){

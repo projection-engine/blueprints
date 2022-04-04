@@ -3,6 +3,7 @@ import randomID from "../../../services/utils/misc/randomID";
 export default class Node{
     canBeDeleted = true
     dynamicInputs = false
+    size = 0
     constructor(inputs, output=[], dynamicInputs) {
         this.x = 10
         this.y = 10

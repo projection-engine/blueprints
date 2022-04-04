@@ -11,6 +11,7 @@ export default class ACos extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'ArcCosine'
+        this.size = 1
     }
 
     get type() {

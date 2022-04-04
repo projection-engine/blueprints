@@ -26,6 +26,7 @@ export default class KeyPress extends Node {
                 {label: 'Pressed', key: 'pressed', type: TYPES.EXECUTION, showTitle: true},
                 {label: 'Released', key: 'Released', type: TYPES.EXECUTION, showTitle: true}
             ]);
+        this.size = 1
         this.name = 'KeyPress'
     }
 

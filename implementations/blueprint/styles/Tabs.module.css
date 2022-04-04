@@ -8,12 +8,26 @@
 .options {
     display: flex;
     width: 100%;
-    height: 35px;
-    align-items: center;
+    height: 25px;
+    align-items: flex-end;
+    gap: 2px;
 }
 
 .option {
-    height: 30px;
+    height: 25px;
     padding: 2px 16px !important;
+    border-radius: 5px 5px 0 0 !important;
+    background: var(--fabric-background-tertiary) !important;
+    color: var(--fabric-color-secondary);
+    opacity: .8;
+    font-size: .7rem;
 
+
+}
+
+.option[data-selected='true'] {
+    opacity: 1;
+    font-weight: 550;
+    background: var(--fabric-background-primary) !important;
+    color: var(--fabric-accent-color);
 }

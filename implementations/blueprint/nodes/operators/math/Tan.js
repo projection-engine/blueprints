@@ -11,6 +11,7 @@ export default class Tan extends Node {
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
         this.name = 'Tangent'
+        this.size = 1
     }
 
     get type() {
