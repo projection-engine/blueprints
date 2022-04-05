@@ -15,7 +15,7 @@ export default class EventTick extends Node {
     get type (){
         return NODE_TYPES.START_POINT
     }
-    static compile(tick, inputs, entities, a, nodeID) {
-        return a
+    static compile(_, obj, nodeID, executors, keys, state = {}, setState) {
+        return obj.branch0
     }
 }

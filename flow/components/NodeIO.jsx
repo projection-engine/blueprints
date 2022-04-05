@@ -5,6 +5,7 @@ import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import OnDragProvider from "../hooks/DragProvider";
 import {Dropdown, DropdownOption, DropdownOptions} from "@f-ui/core";
 import Range from "../../../../components/range/Range";
+import Search from "../../../../components/search/Search";
 
 export default function NodeIO(props) {
     const isExecution = useMemo(() => {
@@ -91,7 +92,7 @@ export default function NodeIO(props) {
             return props.outputLinks.find(o => o.sourceKey === props.data.key)?.color
 
     }, [props.inputLinks, props.outputLinks])
-
+    const [searchString, setSearchString] = useState('')
 
     return (
         <>
@@ -174,19 +175,29 @@ export default function NodeIO(props) {
                                     onFinish={() => props.submitBundledVariable(bundledVariable)}
                                 />
                                 :
-                                <Dropdown className={styles.bundled}  hideArrow={true} variant={bundledVariable !== undefined ? 'filled' : "outlined"}>
+                                <Dropdown
+                                    className={styles.bundled} hideArrow={true}
+                                    wrapperClassname={styles.wrapperContent}
+                                    variant={bundledVariable !== undefined ? 'filled' : "outlined"} attributes={{title: bundledVariable ? bundledVariable : props.data.label}}>
                                     {bundledVariable ? bundledVariable : props.data.label}
                                     <DropdownOptions>
-                                        <DropdownOption
-                                            option={{
-                                                label: 'Clear',
-                                                onClick: () => {
-                                                    props.submitBundledVariable(undefined)
-                                                    setBundledVariable(undefined)
-                                                }
-                                            }}
-                                        />
-                                        {props.data.options.map((o, i) => (
+                                        <div className={styles.header}>
+                                            <Search width={'100%'}
+                                                    setSearchString={v => setSearchString(v.toLowerCase())}
+                                                    searchString={searchString}/>
+                                            <DropdownOption
+                                                option={{
+                                                    label: 'Clear selected',
+                                                    icon: <span className={'material-icons-round'}
+                                                                style={{fontSize: '1.1rem'}}>clear</span>,
+                                                    onClick: () => {
+                                                        props.submitBundledVariable(undefined)
+                                                        setBundledVariable(undefined)
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                        {props.data.options.map((o, i) => o.label.toLowerCase().includes(searchString) ? (
                                             <React.Fragment key={o.label + '-bundled-' + props.nodeID + '-' + i}>
                                                 <DropdownOption
                                                     option={{
@@ -199,10 +210,10 @@ export default function NodeIO(props) {
                                                     }}
                                                 />
                                             </React.Fragment>
-                                        ))}
+                                        ) : null)}
                                     </DropdownOptions>
                                 </Dropdown>
-                        ):null}
+                        ) : null}
                     </div>
                 ) : null}
             </div>

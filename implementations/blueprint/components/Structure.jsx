@@ -4,12 +4,13 @@ import PropTypes from "prop-types";
 
 import {Accordion, AccordionSummary, Button, ContextMenu, Ripple,} from "@f-ui/core";
 import {TYPES} from "../../../flow/TYPES";
-import randomID from "../../../../../services/utils/misc/randomID";
 import deleteNode from "../../../flow/utils/deleteNode";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
 import mapToView from "../../../../scene/utils/mapToView";
 import {ENTITY_ACTIONS} from "../../../../../services/utils/entityReducer";
 import TreeView from "../../../../../components/tree/TreeView";
+
+import {v4 as uuidv4} from 'uuid';
 
 export default function Structure(props) {
     const {
@@ -162,7 +163,7 @@ export default function Structure(props) {
                         onClick={() => {
                             props.hook.setVariables(prev => {
                                 return [...prev, {
-                                    id: randomID(),
+                                    id: uuidv4(),
                                     name: getName(prev),
                                     type: TYPES.NUMBER
                                 }]

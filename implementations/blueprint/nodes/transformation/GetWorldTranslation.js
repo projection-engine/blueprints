@@ -9,7 +9,7 @@ export default class GetWorldTranslation extends Node {
         super(
             [
                 {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-                {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY]}
+                {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
             ],
             [
                 {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},

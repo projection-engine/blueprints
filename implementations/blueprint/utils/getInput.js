@@ -1,10 +1,8 @@
 import {TYPES} from "../../../flow/TYPES";
 import Range from "../../../../../components/range/Range";
 import styles from "../styles/NodeEditor.module.css";
-import {Accordion, AccordionSummary, Checkbox, Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
+import {Checkbox, Dropdown, DropdownOption, DropdownOptions} from "@f-ui/core";
 import React from "react";
-import Getter from "../nodes/utils/Getter";
-import {startKey} from "../nodes/utils/Setter";
 
 export default function getInput(label, type, value, submit, obj, hook, selected){
     switch (type) {

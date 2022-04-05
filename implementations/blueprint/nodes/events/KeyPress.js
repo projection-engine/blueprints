@@ -16,8 +16,8 @@ export default class KeyPress extends Node {
                     bundled: true,
                     options: Object.keys(KEYS).map(k => {
                         return {
-                            value: KEYS[k],
-                            label: KEYS[k] + ' - Key',
+                            value: k,
+                            label: KEYS[k],
                         }
                     })
                 },

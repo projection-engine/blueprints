@@ -13,7 +13,7 @@ import Structure from "./components/Structure";
 import mapNodes from "./utils/mapNodes";
 import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
-import {AlertProvider, Button, LoaderProvider, Tab, Tabs} from "@f-ui/core";
+import {LoaderProvider} from "@f-ui/core";
 
 import EntityReference from "./nodes/events/EntityReference";
 
@@ -112,7 +112,7 @@ export default function MinimalBlueprintView(props) {
                         const entity = props.engine.entities.find(e => e.id === dt)
 
                         if (entity)
-                            return [true, new EntityReference(dt, entity?.name)]
+                            return [true, new EntityReference(dt, entity?.name, Object.keys(entity.components))]
                         else
                             return [true]
                     }}

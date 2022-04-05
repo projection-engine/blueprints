@@ -1,5 +1,4 @@
-
-import randomID from "../../../../services/utils/misc/randomID";
+import {v4 as uuidv4} from 'uuid';
 
 export default function createGroupShortcut(hook) {
 
@@ -50,7 +49,7 @@ export default function createGroupShortcut(hook) {
     hook.setGroups(prev => {
         return [...prev, {
             name: 'New comment',
-            id: randomID(),
+            id: uuidv4(),
             x: smallestX,
             y: smallestY,
             color: [150, 150, 150, .5],

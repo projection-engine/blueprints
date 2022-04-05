@@ -1,4 +1,4 @@
-import randomID from "../../../services/utils/misc/randomID";
+import {v4 as uuidv4} from 'uuid';
 
 export default class Node{
     canBeDeleted = true
@@ -7,7 +7,7 @@ export default class Node{
     constructor(inputs, output=[], dynamicInputs) {
         this.x = 10
         this.y = 10
-        this.id = randomID()
+        this.id = uuidv4()
         this.output = output
         this.inputs = inputs ? inputs : []
 

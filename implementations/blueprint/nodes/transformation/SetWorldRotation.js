@@ -9,9 +9,8 @@ export default class SetWorldRotation extends Node {
     constructor() {
         super([
             {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY]},
-            {label: 'Rotation Quat', key: 'quat', accept: [TYPES.VEC4]},
-            {label: 'Rotation Euler', key: 'euler', accept: [TYPES.VEC3]},
+            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
+            {label: 'Rotation', key: 'rotation', accept: [TYPES.VEC3, TYPES.VEC4]},
 
         ], [
             {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION}]);
@@ -21,15 +20,16 @@ export default class SetWorldRotation extends Node {
     get type() {
         return NODE_TYPES.VOID_FUNCTION
     }
-    static  compile(tick, {quat, euler, entity}, entities, attributes, nodeID) {
-        if (quat)
-            entity.components[COMPONENTS.TRANSFORM].rotationQuat = quat
-        else if (euler) {
+    static  compile(tick, {rotation, entity}, entities, attributes, nodeID) {
+        console.log(rotation)
+        if (rotation.length === 4)
+            entity.components[COMPONENTS.TRANSFORM].rotationQuat = rotation
+        else {
             const quatA = [0, 0, 0, 1]
 
-            quat.rotateX(quatA, quatA, euler[0])
-            quat.rotateY(quatA, quatA, euler[1])
-            quat.rotateZ(quatA, quatA, euler[2])
+            quat.rotateX(quatA, quatA, rotation[0])
+            quat.rotateY(quatA, quatA, rotation[1])
+            quat.rotateZ(quatA, quatA, rotation[2])
 
             entity.components[COMPONENTS.TRANSFORM].rotationQuat = quat.multiply([], quatA, entity.components[COMPONENTS.TRANSFORM].rotationQuat)
         }

@@ -1,5 +1,4 @@
 import cloneClass from "../../../../../services/utils/misc/cloneClass";
-import EventTick from "../nodes/events/EventTick";
 import {TYPES} from "../../../flow/TYPES";
 import Getter from "../nodes/utils/Getter";
 import Branch from "../nodes/operators/boolean/Branch";
@@ -60,7 +59,7 @@ export default function compile(n, links, variables, alreadyCompiled = [], start
                     nodeID: currentNode.id,
                     inputs,
                     classExecutor: currentNode.constructor.name,
-                    isBranch: currentNode.type === NODE_TYPES.BRANCH || currentNode instanceof KeyPress
+                    isBranch: currentNode.type === NODE_TYPES.BRANCH || currentNode.type === NODE_TYPES.START_POINT
                 })
             }
             currentNode.ready = true

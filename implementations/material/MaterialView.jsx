@@ -16,11 +16,12 @@ import compile from "./utils/compile";
 import applyViewport from "./utils/applyViewport";
 import useHotKeys, {KEYS} from "../../../../services/hooks/useHotKeys";
 import cloneClass from "../../../../services/utils/misc/cloneClass";
-import randomID from "../../../../services/utils/misc/randomID";
 import deleteNode from "../../flow/utils/deleteNode";
 import {allNodes} from "./templates/AllNodes";
 import Available from "../../flow/components/Available";
 
+
+import {v4 as uuidv4} from 'uuid';
 
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
@@ -198,7 +199,7 @@ export default function MaterialView(props) {
                             const nodeEl = document.getElementById(toC)
 
                             const clone = cloneClass(toCopyNode)
-                            clone.id = randomID()
+                            clone.id = uuidv4()
                             clone.x = nodeEl.getBoundingClientRect().x + 5
                             clone.y = nodeEl.getBoundingClientRect().y + 5
 

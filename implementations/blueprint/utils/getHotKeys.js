@@ -5,10 +5,11 @@ import compile from "./compile";
 import EventTick from "../nodes/events/EventTick";
 import deleteNode from "../../../flow/utils/deleteNode";
 import cloneClass from "../../../../../services/utils/misc/cloneClass";
-import randomID from "../../../../../services/utils/misc/randomID";
 import EntityReference from "../nodes/events/EntityReference";
 import Setter from "../nodes/utils/Setter";
 import Getter from "../nodes/utils/Getter";
+
+import {v4 as uuidv4} from 'uuid';
 
 export default function getHotKeys(hook, props, toCopy, setToCopy) {
     return [
@@ -71,16 +72,16 @@ export default function getHotKeys(hook, props, toCopy, setToCopy) {
 
                         switch (true) {
                             case clone instanceof Getter:
-                                clone.id = clone.id.split('/getter/')[0] + '/getter/' + randomID()
+                                clone.id = clone.id.split('/getter/')[0] + '/getter/' + uuidv4()
                                 break
                             case clone instanceof Setter:
-                                clone.id = clone.id.split('/setter/')[0] + '/setter/' + randomID()
+                                clone.id = clone.id.split('/setter/')[0] + '/setter/' + uuidv4()
                                 break
                             case clone instanceof EntityReference:
-                                clone.id = clone.id.split('/')[0] + '/' + randomID()
+                                clone.id = clone.id.split('/')[0] + '/' + uuidv4()
                                 break
                             default:
-                                clone.id = randomID()
+                                clone.id = uuidv4()
                                 break
                         }
 

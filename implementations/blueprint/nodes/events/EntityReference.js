@@ -1,18 +1,18 @@
 import Node from "../../../../flow/Node";
 import {TYPES} from "../../../../flow/TYPES";
 import NODE_TYPES from "../../../../flow/NODE_TYPES";
-import randomID from "../../../../../../services/utils/misc/randomID";
 
+import {v4 as uuidv4} from 'uuid';
 
 export default class EntityReference extends Node {
-    constructor(id, name) {
+    constructor(id, name, components) {
         super(
             [],
             [
-                {label: 'Entity', key: 'entity', type: TYPES.ENTITY}
+                {label: 'Entity', key: 'entity', type: TYPES.ENTITY, components: components}
             ]);
         this.size = 2
-        this.id = id + '/' + randomID()
+        this.id = id + '/' + uuidv4()
         this.name = name
     }
 
@@ -24,7 +24,6 @@ export default class EntityReference extends Node {
 
         attributes[nodeID] = {}
         attributes[nodeID].entity = entities[executors[nodeID].value]
-
 
         return attributes
     }

@@ -13,7 +13,7 @@ import Structure from "./components/Structure";
 import mapNodes from "./utils/mapNodes";
 import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
-import {AlertProvider, Button, LoaderProvider, Tab, Tabs} from "@f-ui/core";
+import {AlertProvider, Button, LoaderProvider} from "@f-ui/core";
 import MinimalTabs from "./components/MinimalTabs";
 import SettingsProvider from "../../../../services/hooks/SettingsProvider";
 import useEditorEngine from "../../../../services/hooks/useEditorEngine";
@@ -23,7 +23,6 @@ import COMPONENTS from "../../../../services/engine/templates/COMPONENTS";
 import ScriptComponent from "../../../../services/engine/ecs/components/ScriptComponent";
 import {ENTITY_ACTIONS} from "../../../../services/utils/entityReducer";
 import useForm from "../../../scene/utils/useForm";
-import QuickAccessProvider from "../../../../services/hooks/QuickAccessProvider";
 import sceneStyles from '../../../scene/styles/Scene.module.css'
 import handleDrop from "../../../../services/utils/handleDrop";
 import {SHADING_MODELS} from "../../../../pages/project/hook/useSettings";
@@ -189,7 +188,7 @@ export default function BlueprintView(props) {
                             const entity = engine.entities.find(e => e.id === dt)
 
                             if(entity)
-                                return [true, new EntityReference(dt, entity?.name)]
+                                return [true, new EntityReference(dt, entity?.name, Object.keys(entity.components))]
                             else
                                 return [true]
                         }}

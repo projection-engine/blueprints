@@ -1,5 +1,5 @@
 import styles from '../styles/Tabs.module.css'
-import React, {useState} from "react";
+import React from "react";
 import {Button} from "@f-ui/core";
 import PropTypes from "prop-types";
 

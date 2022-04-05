@@ -206,10 +206,7 @@
 
 
 .bundled {
-    display: flex;
 
-    align-items: center;
-    justify-content: center;
     width: fit-content;
     height: 20px !important;
 
@@ -218,6 +215,22 @@
     background: var(--fabric-background-secondary);
     padding: 2px 4px !important;
 
-    font-size: .7rem !important;
+    font-size: .65rem !important;
     font-weight: 550;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    background: var(--fabric-background-primary);
+    z-index: 10;
+    border-bottom: var(--fabric-border-primary) 1px solid;
+
+}
+.wrapperContent{
+    background: var(--fabric-background-secondary);
 }

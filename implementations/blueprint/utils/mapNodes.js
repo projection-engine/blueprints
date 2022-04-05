@@ -72,7 +72,7 @@ export function mapCompile(hook) {
                 res.push(compile(hook.nodes, hook.links, hook.variables, [], link))
             })
 
-            if (execLinks.length > 1) {
+
                 let executors = {}
                 const bundledKeys = eOrder.inputs.filter(i => i.bundled)
                 bundledKeys
@@ -95,13 +95,12 @@ export function mapCompile(hook) {
                 }
                 res.forEach((l, i) => {
                     newRes.order[0]['branch' + i] = l.order.slice(1, l.order.length)
-                    console.log(l.executors)
                     newRes.executors = {...newRes.executors, ...l.executors}
                 })
 
                 res = [newRes]
 
-            }
+            console.log(res)
             return res
         }).flat()
 }

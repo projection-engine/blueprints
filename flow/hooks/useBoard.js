@@ -1,12 +1,13 @@
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useContext, useEffect, useMemo, useRef, useState} from "react";
 import getBezierCurve from "../utils/bezierCurve";
 import {TYPES} from "../TYPES";
 import TYPES_INFO from "../TYPES_INFO";
+import {AlertProvider} from "@f-ui/core";
 
 
-export default function useBoard(hook, scale, setScale){
+export default function useBoard(hook, scale, setScale) {
     const ref = useRef()
-
+    const alert = useContext(AlertProvider)
     const handleWheel = (e) => {
         e.preventDefault()
 
@@ -19,25 +20,25 @@ export default function useBoard(hook, scale, setScale){
     const [scrolled, setScrolled] = useState(false)
     useEffect(() => {
         let resize
-        if(!scrolled && hook.nodes.length > 0) {
+        if (!scrolled && hook.nodes.length > 0) {
             resize = new ResizeObserver(() => {
                 let biggestX, biggestY
                 hook.nodes.forEach(n => {
-                        const cX = n.x
-                        const cY = n.y
+                    const cX = n.x
+                    const cY = n.y
 
-                        if (!biggestX || cX  > biggestX)
-                            biggestX = cX
-                        if (!biggestY || cY  > biggestY)
-                            biggestY = cY
-                    })
+                    if (!biggestX || cX > biggestX)
+                        biggestX = cX
+                    if (!biggestY || cY > biggestY)
+                        biggestY = cY
+                })
 
 
-                if(biggestX)
-                    ref.current.parentNode.scrollLeft = biggestX  -ref.current.parentNode.offsetWidth/2
+                if (biggestX)
+                    ref.current.parentNode.scrollLeft = biggestX - ref.current.parentNode.offsetWidth / 2
 
-                if(biggestY)
-                    ref.current.parentNode.scrollTop = biggestY -ref.current.parentNode.offsetHeight/2
+                if (biggestY)
+                    ref.current.parentNode.scrollTop = biggestY - ref.current.parentNode.offsetHeight / 2
 
 
                 setScrolled(true)
@@ -46,8 +47,8 @@ export default function useBoard(hook, scale, setScale){
             resize.observe(ref.current.parentNode)
         }
         return () => {
-        if(resize)
-            resize.disconnect()
+            if (resize)
+                resize.disconnect()
         }
     }, [scrolled, hook.nodes])
     useEffect(() => {
@@ -61,19 +62,17 @@ export default function useBoard(hook, scale, setScale){
     const handleLink = (src, target, isExecution) => {
         hook.setLinks(prev => {
             let c = [...prev]
-
-            const existing = c.filter(c => ( c.target.id === target.id && c.target.attribute.key === target.attribute.key) || (isExecution && c.source.id === src.id && c.source.attribute.key === src.attribute.key))
-
-
-            c =  c.filter(cc => {
+            const existing = c.filter(c => (c.target.id === target.id && c.target.attribute.key === target.attribute.key) || (isExecution && c.source.id === src.id && c.source.attribute.key === src.attribute.key))
+            c = c.filter(cc => {
                 return !existing.find(e => e === cc)
             })
-
-
-            c.push({
-                source: src,
-                target: target
-            })
+            if (!target.attribute.componentRequired || src.attribute.components.includes(target.attribute.componentRequired))
+                c.push({
+                    source: src,
+                    target: target
+                })
+            else
+                alert.pushAlert('Missing component on entity', 'error')
             return c
         })
     }

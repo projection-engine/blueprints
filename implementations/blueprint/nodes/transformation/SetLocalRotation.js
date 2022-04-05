@@ -9,7 +9,7 @@ export default class SetLocalRotation extends Node {
     constructor() {
         super([
             {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY]},
+            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
             {label: 'Rotation Quat', key: 'quat', accept: [TYPES.VEC4]},
             {label: 'Rotation Euler', key: 'euler', accept: [TYPES.VEC3]
             },

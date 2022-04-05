@@ -2,8 +2,7 @@ import React, {useMemo} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
 
-import {Accordion, AccordionSummary, Checkbox, Dropdown, DropdownOption, DropdownOptions, TextField,} from "@f-ui/core";
-import Range from "../../../../../components/range/Range";
+import {Accordion, AccordionSummary, TextField,} from "@f-ui/core";
 import {TYPES} from "../../../flow/TYPES";
 import Getter from "../nodes/utils/Getter";
 import {startKey} from "../nodes/utils/Setter";

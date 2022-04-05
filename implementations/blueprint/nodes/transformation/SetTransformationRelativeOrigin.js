@@ -10,7 +10,7 @@ export default class SetTransformationRelativeOrigin extends Node {
     constructor() {
         super([
             {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY]},
+            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
             {label: 'Translation', key: 't', accept: [TYPES.VEC3]},
             {label: 'Rotation', key: 'r', accept: [TYPES.VEC4, TYPES.VEC3]},
             {label: 'Scale', key: 's', accept: [TYPES.VEC3]},
@@ -26,7 +26,7 @@ export default class SetTransformationRelativeOrigin extends Node {
         return NODE_TYPES.VOID_FUNCTION
     }
 
-    static compile(tick, {t, r, s, o, entity}, entities, attributes, nodeID) {
+    static compile(tick, {t, r, s, o, entity}, entities, attributes) {
         let rotation = r
         if (r.length === 3)
             rotation = quat.fromEuler([], r[0] * toDeg, r[1] * toDeg, r[2] * toDeg)

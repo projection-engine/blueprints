@@ -1,6 +1,5 @@
 import {useContext, useEffect, useState} from "react";
 import QuickAccessProvider from "../../../../../services/hooks/QuickAccessProvider";
-import {LoaderProvider} from "@f-ui/core";
 import EventTick from "../nodes/events/EventTick";
 import EVENTS from "../../../../../services/utils/misc/EVENTS";
 import GetWorldTranslation from "../nodes/transformation/GetWorldTranslation";
@@ -48,9 +47,20 @@ import Mod from "../nodes/operators/math/Mod";
 import Abs from "../nodes/operators/math/Abs";
 import KeyPress from "../nodes/events/KeyPress";
 import RotateVector from "../nodes/transformation/RotateVector";
+import WindowResize from "../nodes/events/WindowResize";
+import GetCameraPosition from "../nodes/camera/GetCameraPosition";
+import GetCameraRotation from "../nodes/camera/GetCameraRotation";
+import SetCameraAspectRatio from "../nodes/camera/SetCameraAspectRatio";
+import SetCameraFOV from "../nodes/camera/SetCameraFOV";
+import SetCameraPosition from "../nodes/camera/SetCameraPosition";
+import SetCameraRotation from "../nodes/camera/SetCameraRotation";
+import UpdateCameraLookAt from "../nodes/camera/UpdateCameraLookAt";
+import UpdateCameraProjection from "../nodes/camera/UpdateCameraProjection";
+import SetViewTarget from "../nodes/camera/SetViewTarget";
+import OnSpawn from "../nodes/events/OnSpawn";
 
 
-export default function useScriptingView(file, engine={}, load, isLevelBlueprint) {
+export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
     const [groups, setGroups] = useState([])
@@ -139,7 +149,19 @@ const INSTANCES = {
     [Mod.name]: () => new Mod(),
     [Abs.name]: () => new Abs(),
     [KeyPress.name]: () => new KeyPress(),
-    [RotateVector.name]: () => new RotateVector()
+    [RotateVector.name]: () => new RotateVector(),
+
+    [WindowResize.name]: () => new WindowResize(),
+    [GetCameraPosition.name]: () => new GetCameraPosition(),
+    [GetCameraRotation.name]: () => new GetCameraRotation(),
+    [SetCameraAspectRatio.name]: () => new SetCameraAspectRatio(),
+    [SetCameraFOV.name]: () => new SetCameraFOV(),
+    [SetCameraPosition.name]: () => new SetCameraPosition(),
+    [SetCameraRotation.name]: () => new SetCameraRotation(),
+    [UpdateCameraLookAt.name]: () => new UpdateCameraLookAt(),
+    [UpdateCameraProjection.name]: () => new UpdateCameraProjection(),
+    [SetViewTarget.name]: () => new SetViewTarget(),
+    [OnSpawn.name]: () => new OnSpawn()
 }
 
 function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, fileSystem, isLevelBlueprint) {
@@ -160,7 +182,12 @@ function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, l
         quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow')
             .then(async res => {
                 if (!res)
-                    await quickAccess.fileSystem.createFile('levelBlueprint.flow', JSON.stringify({nodes: [], links: [], variables: [], groups: []}))
+                    await quickAccess.fileSystem.createFile('levelBlueprint.flow', JSON.stringify({
+                        nodes: [],
+                        links: [],
+                        variables: [],
+                        groups: []
+                    }))
                 else {
                     const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow', 'json')
                     console.log(file)
@@ -176,7 +203,7 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
         const newNodes = file.nodes.map(f => {
             const i = INSTANCES[f.instance]()
             Object.keys(f).forEach(o => {
-                if(o !== 'size')
+                if (o !== 'size')
                     i[o] = f[o]
             })
             return i

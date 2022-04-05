@@ -41,9 +41,99 @@ import Mod from "../nodes/operators/math/Mod";
 import Abs from "../nodes/operators/math/Abs";
 import KeyPress from "../nodes/events/KeyPress";
 import RotateVector from "../nodes/transformation/RotateVector";
+import WindowResize from "../nodes/events/WindowResize";
+import GetCameraPosition from "../nodes/camera/GetCameraPosition";
+import GetCameraRotation from "../nodes/camera/GetCameraRotation";
+import SetCameraAspectRatio from "../nodes/camera/SetCameraAspectRatio";
+import SetCameraFOV from "../nodes/camera/SetCameraFOV";
+import SetCameraPosition from "../nodes/camera/SetCameraPosition";
+import SetCameraRotation from "../nodes/camera/SetCameraRotation";
+import UpdateCameraLookAt from "../nodes/camera/UpdateCameraLookAt";
+import UpdateCameraProjection from "../nodes/camera/UpdateCameraProjection";
+import SetViewTarget from "../nodes/camera/SetViewTarget";
+import OnSpawn from "../nodes/events/OnSpawn";
 
 
 export const allNodes = [
+    {
+        label: 'On Spawn',
+        dataTransfer: 'OnSpawn',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new OnSpawn()
+    },
+    {
+        label: 'Set View Target',
+        dataTransfer: 'SetViewTarget',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new SetViewTarget()
+    },
+    {
+        label: 'Window Resize',
+        dataTransfer: 'WindowResize',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new WindowResize()
+    },
+    {
+        label: 'Get Camera Position',
+        dataTransfer: 'GetCameraPosition',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new GetCameraPosition()
+    },
+    {
+        label: 'Get Camera Rotation',
+        dataTransfer: 'GetCameraRotation',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new GetCameraRotation()
+    },
+    {
+        label: 'Set Camera Aspect Ratio',
+        dataTransfer: 'SetCameraAspectRatio',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new SetCameraAspectRatio()
+    },
+    {
+        label: 'Set Camera FOV',
+        dataTransfer: 'SetCameraFOV',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new SetCameraFOV()
+    },
+    {
+        label: 'Set Camera Position',
+        dataTransfer: 'SetCameraPosition',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new SetCameraPosition()
+    },
+    {
+        label: 'Set Camera Rotation',
+        dataTransfer: 'SetCameraRotation',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new SetCameraRotation()
+    },
+    {
+        label: 'Update Camera LookAt',
+        dataTransfer: 'UpdateCameraLookAt',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new UpdateCameraLookAt()
+    },
+    {
+        label: 'Update Camera Projection',
+        dataTransfer: 'UpdateCameraProjection',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new UpdateCameraProjection()
+    },
+
+
     {
         label: 'Rotate Vector',
         dataTransfer: 'RotateVector',
