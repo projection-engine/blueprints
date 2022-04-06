@@ -234,3 +234,8 @@
 .wrapperContent{
     background: var(--fabric-background-secondary);
 }
+.wrapperInput{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}

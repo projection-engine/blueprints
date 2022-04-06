@@ -22,7 +22,8 @@ export default class OnSpawn extends Node {
 
     static compile({
                        state,
-                       setState
+                       setState,
+        object
                    }) {
         if (!state.wasExecuted) {
             setState(true, 'wasExecuted')

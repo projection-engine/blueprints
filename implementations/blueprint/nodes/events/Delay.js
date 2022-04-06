@@ -9,6 +9,8 @@ export default class Delay extends Node {
         super(
             [
                 {key: 'line', accept: [TYPES.EXECUTION]},
+                {label: 'Delay', key: 'delay', accept: [TYPES.NUMBER]},
+                {label: 'Reset', key: 'reset', accept: [TYPES.BOOL]},
             ],
             [
                 {key: 'lineEnd', type: TYPES.EXECUTION},
@@ -21,7 +23,18 @@ export default class Delay extends Node {
         return NODE_TYPES.BRANCH
     }
 
-    static compile({c}, obj) {
-        return c ? obj.branch1 : obj.branch0
+    static compile({inputs, state, setState, object}) {
+        if (inputs.reset) {
+            clearTimeout(state.timeout)
+            setState(false, 'timeoutSet')
+            setState(false, 'canContinue')
+        }
+        if (!state.canContinue && !state.timeoutSet) {
+            setState(true, 'timeoutSet')
+            setState(setTimeout(() => setState(true, 'canContinue'), [inputs.delay]), 'timeout')
+        } else if (state.canContinue)
+            return object.branch0
+
+        return []
     }
 }

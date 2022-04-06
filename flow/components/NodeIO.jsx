@@ -84,12 +84,21 @@ export default function NodeIO(props) {
             }
         }
     }, [onDragContext.dragType])
-
-    const linkColor = useMemo(() => {
+    const isLinked= useMemo(() => {
         if (props.type === 'input')
-            return props.inputLinks.find(o => o.targetKey === props.data.key)?.color
+            return props.inputLinks.find(o => o.targetKey === props.data.key) !== undefined
         else
-            return props.outputLinks.find(o => o.sourceKey === props.data.key)?.color
+            return props.outputLinks.find(o => o.sourceKey === props.data.key) !== undefined
+    }, [props.inputLinks, props.outputLinks])
+    const linkColor = useMemo(() => {
+        if(isLinked) {
+            if (props.type === 'input')
+                return props.inputLinks.find(o => o.targetKey === props.data.key)?.color
+            else
+                return props.outputLinks.find(o => o.sourceKey === props.data.key)?.color
+        }
+        else
+            return undefined
 
     }, [props.inputLinks, props.outputLinks])
     const [searchString, setSearchString] = useState('')
@@ -126,7 +135,7 @@ export default function NodeIO(props) {
                     style={{
                         '--fabric-accent-color': isExecution ? '#0095ff' : '#999999',
                         background: linkColor && !props.data.disabled ? linkColor : undefined,
-                        display: props.data.bundled ? 'none' : undefined
+                        display: props.data.bundled && !props.data.accept ? 'none' : undefined
                     }}
                     onDrop={e => {
                         onDragContext.setDragType(undefined)
@@ -163,11 +172,11 @@ export default function NodeIO(props) {
                 </div>
 
                 {props.type === 'input' && (!isExecution || props.data.showTitle) ? (
-                    <div data-disabled={`${props.data.disabled}`} className={styles.overflow}
+                    <div data-disabled={`${props.data.disabled}`} className={styles.wrapperInput}
                          style={{fontWeight: 'normal'}}>
 
-                        {props.data.bundled ? null : props.data.label}
-                        {props.data.bundled ? (
+                        {props.data.bundled && !props.data.accept ? null : props.data.label}
+                        {props.data.bundled && !isLinked ? (
                             props.data.type === TYPES.NUMBER ?
                                 <Range
                                     value={bundledVariable}
