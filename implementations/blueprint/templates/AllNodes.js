@@ -52,9 +52,35 @@ import UpdateCameraLookAt from "../nodes/camera/UpdateCameraLookAt";
 import UpdateCameraProjection from "../nodes/camera/UpdateCameraProjection";
 import SetViewTarget from "../nodes/camera/SetViewTarget";
 import OnSpawn from "../nodes/events/OnSpawn";
+import QuatRotateZ from "../nodes/operators/math/QuatRotateZ";
+import QuatRotateY from "../nodes/operators/math/QuatRotateY";
+import QuatRotateX from "../nodes/operators/math/QuatRotateX";
 
 
 export const allNodes = [
+    {
+        label: 'QuatRotateX (pitch)',
+        dataTransfer: 'QuatRotateX',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new QuatRotateX()
+    },
+    {
+        label: 'QuatRotateY (yaw)',
+        dataTransfer: 'QuatRotateY',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new QuatRotateY()
+    },
+    {
+        label: 'QuatRotateZ (roll)',
+        dataTransfer: 'QuatRotateZ',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new QuatRotateZ()
+    },
+
+
     {
         label: 'On Spawn',
         dataTransfer: 'OnSpawn',

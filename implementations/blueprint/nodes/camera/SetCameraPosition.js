@@ -4,7 +4,6 @@ import {mat4, quat} from "gl-matrix";
 import NODE_TYPES from "../../../../flow/NODE_TYPES";
 import {TYPES} from "../../../../flow/TYPES";
 
-const toDeg = 57.29
 export default class SetCameraPosition extends Node {
 
     constructor() {
@@ -17,6 +16,7 @@ export default class SetCameraPosition extends Node {
             {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
         ]);
         this.name = 'SetCameraPosition'
+        this.size = 2
     }
 
     get type() {
@@ -25,6 +25,7 @@ export default class SetCameraPosition extends Node {
 
     static compile(tick, {x, y, z, cameraRoot}, entities, attributes) {
 
+        console.log(x, y, z)
         cameraRoot.position[0] = x
         cameraRoot.position[1] = y
         cameraRoot.position[2] = z

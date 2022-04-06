@@ -16,6 +16,7 @@ export default class SetCameraAspectRatio extends Node {
             {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
         ]);
         this.name = 'SetCameraAspectRatio'
+        this.size = 2
     }
 
     get type() {
@@ -24,6 +25,7 @@ export default class SetCameraAspectRatio extends Node {
 
     static compile(tick, {as, cameraRoot}, entities, attributes) {
         cameraRoot.aspectRatio = as
+        cameraRoot.updateProjection()
 
         return attributes
     }

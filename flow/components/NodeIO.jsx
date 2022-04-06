@@ -234,7 +234,7 @@ NodeIO.propTypes = {
     data: PropTypes.shape({
         disabled: PropTypes.bool,
         key: PropTypes.string.isRequired,
-        label: PropTypes.string.isRequired,
+        label: PropTypes.string,
         type: PropTypes.number,
         accept: PropTypes.arrayOf(PropTypes.number),
         color: PropTypes.string,

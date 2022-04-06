@@ -23,7 +23,10 @@ export default class Branch extends Node {
         return NODE_TYPES.BRANCH
     }
 
-    static compile({c}, obj) {
-        return c ? obj.branchA : obj.branchB
+    static compile({
+                       inputs,
+                       object
+                   }) {
+        return inputs.c ? object.branch1 : object.branch0
     }
 }

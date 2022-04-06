@@ -57,6 +57,7 @@ export default function compile(n, links, variables, alreadyCompiled = [], start
 
                 order.push({
                     nodeID: currentNode.id,
+                    type: currentNode.type,
                     inputs,
                     classExecutor: currentNode.constructor.name,
                     isBranch: currentNode.type === NODE_TYPES.BRANCH || currentNode.type === NODE_TYPES.START_POINT
@@ -83,40 +84,26 @@ export default function compile(n, links, variables, alreadyCompiled = [], start
 
         if (!alreadyCompiled.includes(t.id)) {
             const forwardLinks = links.filter(l => l.source.id === targetNode.id)
-            if (!(targetNode instanceof Branch || targetNode instanceof KeyPress)) {
+            if ( targetNode.type !== NODE_TYPES.BRANCH ) {
                 resolveDependencies(targetNode)
                 compiled.push(t.id)
             } else {
-                let branchA, branchB
+                let branches = []
                 for (let liExec = 0; liExec < forwardLinks.length; liExec++) {
-                    if (forwardLinks[liExec].source.attribute.type === TYPES.EXECUTION) {
-                        if (!branchA)
-                            branchA = forwardLinks[liExec]
-                        else
-                            branchB = forwardLinks[liExec]
-                    }
+                    if (forwardLinks[liExec].source.attribute.type === TYPES.EXECUTION)
+                        branches.push(forwardLinks[liExec])
+
                 }
                 compiled.push(t.id)
                 resolveDependencies(targetNode)
-
                 const orderIndex = order.findIndex(oo => oo.nodeID === targetNode.id)
-
-
                 if (orderIndex > -1) {
-
-
-                    if (branchA) {
-                        const bA = compile(nodes, links, variables, branchB ? [...compiled, branchB.target.id] : compiled, branchA)
-                        order[orderIndex].branchA = bA.order
+                    branches.forEach((b, i) => {
+                        const bA = compile(nodes, links, variables, compiled, b)
+                        order[orderIndex]['branch'+i] = bA.order
 
                         executors = {...executors, ...bA.executors}
-                    }
-                    if (branchB) {
-                        const bB = compile(nodes, links, variables, branchA ? [...compiled, branchA.target.id] : compiled, branchB)
-
-                        order[orderIndex].branchB = bB.order
-                        executors = {...executors, ...bB.executors}
-                    }
+                    })
                 }
 
                 break

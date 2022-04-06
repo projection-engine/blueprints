@@ -22,12 +22,21 @@ export default class WindowResize extends Node {
         return NODE_TYPES.START_POINT
     }
 
-    static compile(_, obj, nodeID, executors, keys, state = {}, setState, {width, height}) {
-        if (state.width !== width || state.height !== height) {
-            setState(width, 'width')
-            setState(height, 'height')
+    static compile(
+        inputs,
+        object,
+        nodeID,
+        executors,
+        keys,
+        state,
+        setState,
+        metrics
+    ) {
+        if (state.width !== metrics.width || state.height !== metrics.height) {
+            setState(metrics.width, 'width')
+            setState(metrics.height, 'height')
 
-            return obj.branch0
+            return object.branch0
         }
         return []
     }

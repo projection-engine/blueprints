@@ -16,6 +16,7 @@ export default class SetCameraFOV extends Node {
             {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
         ]);
         this.name = 'SetCameraFOV'
+        this.size = 2
     }
 
     get type() {
@@ -24,7 +25,7 @@ export default class SetCameraFOV extends Node {
 
     static compile(tick, {fov, cameraRoot}, entities, attributes) {
         cameraRoot.fov = fov
-
+        cameraRoot.updateProjection()
         return attributes
     }
 }

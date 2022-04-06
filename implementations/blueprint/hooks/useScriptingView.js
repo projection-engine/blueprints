@@ -58,6 +58,9 @@ import UpdateCameraLookAt from "../nodes/camera/UpdateCameraLookAt";
 import UpdateCameraProjection from "../nodes/camera/UpdateCameraProjection";
 import SetViewTarget from "../nodes/camera/SetViewTarget";
 import OnSpawn from "../nodes/events/OnSpawn";
+import QuatRotateZ from "../nodes/operators/math/QuatRotateZ";
+import QuatRotateY from "../nodes/operators/math/QuatRotateY";
+import QuatRotateX from "../nodes/operators/math/QuatRotateX";
 
 
 export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
@@ -161,7 +164,13 @@ const INSTANCES = {
     [UpdateCameraLookAt.name]: () => new UpdateCameraLookAt(),
     [UpdateCameraProjection.name]: () => new UpdateCameraProjection(),
     [SetViewTarget.name]: () => new SetViewTarget(),
-    [OnSpawn.name]: () => new OnSpawn()
+    [OnSpawn.name]: () => new OnSpawn(),
+
+
+    [QuatRotateX.name]: () => new QuatRotateX(),
+    [QuatRotateY.name]: () => new QuatRotateY(),
+    [QuatRotateZ.name]: () => new QuatRotateZ(),
+
 }
 
 function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, fileSystem, isLevelBlueprint) {

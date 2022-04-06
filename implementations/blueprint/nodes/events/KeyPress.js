@@ -34,15 +34,22 @@ export default class KeyPress extends Node {
         return NODE_TYPES.START_POINT
     }
 
-    static compile(_, obj, nodeID, executors, keys, state = {}, setState) {
+    static compile({
+                       object,
+                       nodeID,
+                       executors,
+                       keys,
+                       state,
+                       setState
+                   }) {
         const isClicked = keys[executors[nodeID].key]
 
         if (isClicked) {
             setState(true, 'wasClicked')
-            return obj.branch0
+            return object.branch0
         } else if (state.wasClicked) {
             setState(false, 'wasClicked')
-            return obj.branch1
+            return object.branch1
         }
         return []
     }

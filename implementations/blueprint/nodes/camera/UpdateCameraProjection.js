@@ -14,6 +14,7 @@ export default class UpdateCameraProjection extends Node {
             {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
         ]);
         this.name = 'UpdateCameraProjection'
+        this.size = 2
     }
 
     get type() {

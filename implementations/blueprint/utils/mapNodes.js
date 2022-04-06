@@ -1,5 +1,4 @@
 import NODE_TYPES from "../../../flow/NODE_TYPES";
-import {TYPES} from "../../../flow/TYPES";
 import compile from "./compile";
 import cloneClass from "../../../../../services/utils/misc/cloneClass";
 import Setter from "../nodes/utils/Setter";
@@ -65,42 +64,44 @@ export function mapCompile(hook) {
     let executionOrder = hook.nodes.filter(n => n.type === NODE_TYPES.START_POINT)
     return executionOrder
         .map(eOrder => {
-            const links = hook.links.filter(l => l.source.id === eOrder.id && l.source.attribute.type === TYPES.EXECUTION)
-            let res = [], execLinks = eOrder.output.filter(o => o.type === TYPES.EXECUTION)
+            const links = hook.links.filter(l => l.source.id === eOrder.id)
+            let res = []
+            console.log(eOrder)
 
             links.forEach(link => {
                 res.push(compile(hook.nodes, hook.links, hook.variables, [], link))
+                console.log(res[res.length - 1])
             })
 
 
-                let executors = {}
-                const bundledKeys = eOrder.inputs.filter(i => i.bundled)
-                bundledKeys
-                    .forEach(bk => {
-                        const old = executors[eOrder.id]
-                        if (old)
-                            executors[eOrder.id] = {...old, [bk.key]: eOrder[bk.key]}
-                        else
-                            executors[eOrder.id] = {[bk.key]: eOrder[bk.key]}
-                    })
-
-                const newRes = {
-                    order: [{
-                        nodeID: eOrder.id,
-                        inputs: [],
-                        classExecutor: eOrder.constructor.name,
-                        isBranch: true,
-                    }],
-                    executors
-                }
-                res.forEach((l, i) => {
-                    newRes.order[0]['branch' + i] = l.order.slice(1, l.order.length)
-                    newRes.executors = {...newRes.executors, ...l.executors}
+            let executors = {}
+            const bundledKeys = eOrder.inputs.filter(i => i.bundled)
+            bundledKeys
+                .forEach(bk => {
+                    const old = executors[eOrder.id]
+                    if (old)
+                        executors[eOrder.id] = {...old, [bk.key]: eOrder[bk.key]}
+                    else
+                        executors[eOrder.id] = {[bk.key]: eOrder[bk.key]}
                 })
 
-                res = [newRes]
+            const newRes = {
+                order: [{
+                    nodeID: eOrder.id,
+                    inputs: [],
+                    classExecutor: eOrder.constructor.name,
+                    isBranch: true,
+                }],
+                executors
+            }
+            res.forEach((l, i) => {
+                newRes.order[0]['branch' + i] = l.order.filter(o => o.type !== NODE_TYPES.START_POINT)
+                newRes.executors = {...newRes.executors, ...l.executors}
+            })
 
+            res = [newRes]
             console.log(res)
+
             return res
         }).flat()
 }

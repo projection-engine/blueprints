@@ -17,6 +17,7 @@ export default class GetCameraPosition extends Node {
             {label: 'Z', key: 'z', type: TYPES.NUMBER},
         ]);
         this.name = 'GetCameraPosition'
+        this.size = 2
     }
 
     get type() {

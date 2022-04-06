@@ -20,10 +20,13 @@ export default class OnSpawn extends Node {
         return NODE_TYPES.START_POINT
     }
 
-    static compile(_, obj, nodeID, executors, keys, state = {}, setState) {
+    static compile({
+                       state,
+                       setState
+                   }) {
         if (!state.wasExecuted) {
             setState(true, 'wasExecuted')
-            return obj.branch0
+            return object.branch0
         }
         return []
     }

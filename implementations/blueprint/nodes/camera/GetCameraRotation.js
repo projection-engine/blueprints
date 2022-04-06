@@ -13,11 +13,11 @@ export default class GetCameraRotation extends Node {
 
         ], [
             {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
-            {label: 'Yaw', key: 'x', type: TYPES.NUMBER},
-            {label: 'Pitch', key: 'y', type: TYPES.NUMBER},
-            {label: 'Roll', key: 'z', type: TYPES.NUMBER},
+            {label: 'Rotation', key: 'rot', type: TYPES.VEC4},
+
         ]);
         this.name = 'GetCameraRotation'
+        this.size = 2
     }
 
     get type() {
@@ -25,11 +25,9 @@ export default class GetCameraRotation extends Node {
     }
 
     static compile(tick, {cameraRoot}, entities, attributes, nodeID) {
-        attributes[nodeID] = {}
-        attributes[nodeID].x = cameraRoot.yaw
-        attributes[nodeID].y = cameraRoot.pitch
-        attributes[nodeID].z = cameraRoot.row
-
+        attributes[nodeID] = {
+            rot: cameraRoot.rotation
+        }
         return attributes
     }
 }

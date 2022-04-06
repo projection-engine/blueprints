@@ -25,7 +25,6 @@ export default class SetWorldTranslation extends Node {
     }
 
     static compile(tick, {x, y, z, entity}, entities, attributes, nodeID) {
-        console.log(x, y, z, entity)
         entity.components[COMPONENTS.TRANSFORM].translation = [x, y, z]
         return attributes
     }
