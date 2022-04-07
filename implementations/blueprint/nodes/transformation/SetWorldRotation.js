@@ -21,7 +21,7 @@ export default class SetWorldRotation extends Node {
         return NODE_TYPES.VOID_FUNCTION
     }
     static  compile(tick, {rotation, entity}, entities, attributes, nodeID) {
-        console.log(rotation)
+
         if (rotation.length === 4)
             entity.components[COMPONENTS.TRANSFORM].rotationQuat = rotation
         else {

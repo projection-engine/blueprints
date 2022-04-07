@@ -16,6 +16,7 @@ export default class Greater extends Node {
             ],
 
         );
+        this.size = 2
         this.name = 'Greater'
     }
 

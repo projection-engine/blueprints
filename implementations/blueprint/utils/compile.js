@@ -100,7 +100,8 @@ export default function compile(n, links, variables, alreadyCompiled = [], start
                 if (orderIndex > -1) {
                     branches.forEach((b, i) => {
                         const bA = compile(nodes, links, variables, compiled, b)
-                        order[orderIndex]['branch'+i] = bA.order
+
+                        order[orderIndex][b.source.attribute.key] = bA.order
 
                         executors = {...executors, ...bA.executors}
                     })

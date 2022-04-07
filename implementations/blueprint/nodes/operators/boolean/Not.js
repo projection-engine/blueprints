@@ -15,7 +15,8 @@ export default class Not extends Node {
             ],
             true
         );
-        this.name = 'Not'
+       this.name = 'Not'
+        this.size = 2
     }
 
     get type (){

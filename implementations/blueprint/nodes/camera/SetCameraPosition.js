@@ -25,7 +25,6 @@ export default class SetCameraPosition extends Node {
 
     static compile(tick, {x, y, z, cameraRoot}, entities, attributes) {
 
-        console.log(x, y, z)
         cameraRoot.position[0] = x
         cameraRoot.position[1] = y
         cameraRoot.position[2] = z

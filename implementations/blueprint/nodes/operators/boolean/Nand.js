@@ -17,6 +17,7 @@ export default class Nand extends Node {
             true
         );
         this.name = 'Nand'
+        this.size = 2
     }
 
     get type (){

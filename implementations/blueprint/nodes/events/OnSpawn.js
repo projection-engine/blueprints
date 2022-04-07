@@ -27,7 +27,7 @@ export default class OnSpawn extends Node {
                    }) {
         if (!state.wasExecuted) {
             setState(true, 'wasExecuted')
-            return object.branch0
+            return object.execute
         }
         return []
     }

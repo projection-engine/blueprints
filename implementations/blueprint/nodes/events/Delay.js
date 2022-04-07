@@ -13,7 +13,7 @@ export default class Delay extends Node {
                 {label: 'Reset', key: 'reset', accept: [TYPES.BOOL]},
             ],
             [
-                {key: 'lineEnd', type: TYPES.EXECUTION},
+                {key: 'execute', type: TYPES.EXECUTION},
             ],
         );
         this.name = 'Delay'
@@ -33,7 +33,7 @@ export default class Delay extends Node {
             setState(true, 'timeoutSet')
             setState(setTimeout(() => setState(true, 'canContinue'), [inputs.delay]), 'timeout')
         } else if (state.canContinue)
-            return object.branch0
+            return object.execute
 
         return []
     }

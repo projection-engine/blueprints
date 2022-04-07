@@ -16,6 +16,7 @@ export default class Xor extends Node {
             ]
         );
         this.name = 'Xor'
+        this.size = 2
     }
 
     get type (){

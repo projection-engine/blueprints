@@ -16,6 +16,7 @@ export default class NotEqual extends Node {
             ]
         );
         this.name = 'NotEqual'
+        this.size = 2
     }
 
     get type (){

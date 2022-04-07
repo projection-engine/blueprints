@@ -47,8 +47,8 @@ export default function useNode(props, selected, hidden) {
                 else if (e.id?.includes('-node') && !alreadyFound)
                     alreadyFound = true
             })
-        if(event.button === 0 && isFirst)
-            props.setSelected(props.node.id, false)
+        if(event.button === 0 && isFirst && !selected)
+            props.setSelected(props.node.id, event.ctrlKey)
         if (event.button === 0 && ((selected && event.ctrlKey) || isFirst)) {
             const parent = ref.current?.parentNode.parentNode
             let parentBBox = parent.getBoundingClientRect()

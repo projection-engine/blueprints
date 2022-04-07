@@ -7,7 +7,7 @@ export default class EventTick extends Node {
     tick = 0
     canBeDeleted = true
     constructor() {
-        super([], [{label: 'Tick', key: 'tick', type: TYPES.EXECUTION}]);
+        super([], [{label: 'Tick', key: 'execute', type: TYPES.EXECUTION}]);
         this.name = 'EventTick'
         this.size = 2
     }
@@ -16,6 +16,6 @@ export default class EventTick extends Node {
         return NODE_TYPES.START_POINT
     }
     static compile({object}) {
-        return object.branch0
+        return object.execute
     }
 }

@@ -36,7 +36,7 @@ export default class WindowResize extends Node {
             setState(metrics.width, 'width')
             setState(metrics.height, 'height')
 
-            return object.branch0
+            return object.execute
         }
         return []
     }

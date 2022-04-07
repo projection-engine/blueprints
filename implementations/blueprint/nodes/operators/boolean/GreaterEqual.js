@@ -16,6 +16,7 @@ export default class GreaterEqual extends Node {
             ]
         );
         this.name = 'GreaterEqual'
+        this.size = 2
     }
 
     get type (){

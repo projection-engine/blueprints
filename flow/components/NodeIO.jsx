@@ -3,15 +3,13 @@ import PropTypes from "prop-types";
 import {TYPES} from "../TYPES";
 import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import OnDragProvider from "../hooks/DragProvider";
-import {Dropdown, DropdownOption, DropdownOptions} from "@f-ui/core";
-import Range from "../../../../components/range/Range";
-import Search from "../../../../components/search/Search";
+
+import EmbeddedInput from "./EmbeddedInput";
 
 export default function NodeIO(props) {
     const isExecution = useMemo(() => {
         return (props.data.accept && props.data.accept.includes(TYPES.EXECUTION)) || props.data.type === TYPES.EXECUTION
     }, [])
-    const [bundledVariable, setBundledVariable] = useState(props.type === 'input' ? props.node[props.data.key] : undefined)
     const infoRef = useRef()
     const wrapperRef = useRef()
     const asInput = (e) => {
@@ -84,24 +82,22 @@ export default function NodeIO(props) {
             }
         }
     }, [onDragContext.dragType])
-    const isLinked= useMemo(() => {
+    const isLinked = useMemo(() => {
         if (props.type === 'input')
             return props.inputLinks.find(o => o.targetKey === props.data.key) !== undefined
         else
             return props.outputLinks.find(o => o.sourceKey === props.data.key) !== undefined
     }, [props.inputLinks, props.outputLinks])
     const linkColor = useMemo(() => {
-        if(isLinked) {
+        if (isLinked) {
             if (props.type === 'input')
                 return props.inputLinks.find(o => o.targetKey === props.data.key)?.color
             else
                 return props.outputLinks.find(o => o.sourceKey === props.data.key)?.color
-        }
-        else
+        } else
             return undefined
 
     }, [props.inputLinks, props.outputLinks])
-    const [searchString, setSearchString] = useState('')
 
     return (
         <>
@@ -175,54 +171,11 @@ export default function NodeIO(props) {
                     <div data-disabled={`${props.data.disabled}`} className={styles.wrapperInput}
                          style={{fontWeight: 'normal'}}>
 
-                        {props.data.bundled && !props.data.accept ? null : props.data.label}
-                        {props.data.bundled && !isLinked ? (
-                            props.data.type === TYPES.NUMBER ?
-                                <Range
-                                    value={bundledVariable}
-                                    handleChange={v => setBundledVariable(v)}
-                                    onFinish={() => props.submitBundledVariable(bundledVariable)}
-                                />
-                                :
-                                <Dropdown
-                                    className={styles.bundled} hideArrow={true}
-                                    wrapperClassname={styles.wrapperContent}
-                                    variant={bundledVariable !== undefined ? 'filled' : "outlined"} attributes={{title: bundledVariable ? bundledVariable : props.data.label}}>
-                                    {bundledVariable ? bundledVariable : props.data.label}
-                                    <DropdownOptions>
-                                        <div className={styles.header}>
-                                            <Search width={'100%'}
-                                                    setSearchString={v => setSearchString(v.toLowerCase())}
-                                                    searchString={searchString}/>
-                                            <DropdownOption
-                                                option={{
-                                                    label: 'Clear selected',
-                                                    icon: <span className={'material-icons-round'}
-                                                                style={{fontSize: '1.1rem'}}>clear</span>,
-                                                    onClick: () => {
-                                                        props.submitBundledVariable(undefined)
-                                                        setBundledVariable(undefined)
-                                                    }
-                                                }}
-                                            />
-                                        </div>
-                                        {props.data.options.map((o, i) => o.label.toLowerCase().includes(searchString) ? (
-                                            <React.Fragment key={o.label + '-bundled-' + props.nodeID + '-' + i}>
-                                                <DropdownOption
-                                                    option={{
-                                                        label: o.label,
-                                                        onClick: () => {
-                                                            props.submitBundledVariable(o.value)
-                                                            setBundledVariable(o.value)
-                                                        },
-                                                        disabled: o.disabled
-                                                    }}
-                                                />
-                                            </React.Fragment>
-                                        ) : null)}
-                                    </DropdownOptions>
-                                </Dropdown>
-                        ) : null}
+                        {props.data.bundled && !isLinked  ? null : props.data.label}
+                        <EmbeddedInput
+                            canRender={props.data.bundled && !isLinked}
+                            type={props.type} node={props.node}
+                            data={props.data} submit={props.submitBundledVariable}/>
                     </div>
                 ) : null}
             </div>
@@ -249,7 +202,7 @@ NodeIO.propTypes = {
         color: PropTypes.string,
         showTitle: PropTypes.bool,
         bundled: PropTypes.bool,
-        options: PropTypes.string
+        options: PropTypes.array
     }).isRequired,
     inputLinks: PropTypes.arrayOf(PropTypes.object).isRequired,
     outputLinks: PropTypes.arrayOf(PropTypes.object).isRequired

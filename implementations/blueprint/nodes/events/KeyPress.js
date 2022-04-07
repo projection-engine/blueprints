@@ -23,8 +23,9 @@ export default class KeyPress extends Node {
                 },
             ],
             [
+                {label: 'Holding', key: 'holding', type: TYPES.EXECUTION, showTitle: true},
                 {label: 'Pressed', key: 'pressed', type: TYPES.EXECUTION, showTitle: true},
-                {label: 'Released', key: 'Released', type: TYPES.EXECUTION, showTitle: true}
+                {label: 'Released', key: 'released', type: TYPES.EXECUTION, showTitle: true}
             ]);
         this.size = 1
         this.name = 'KeyPress'
@@ -44,13 +45,16 @@ export default class KeyPress extends Node {
                    }) {
         const isClicked = keys[executors[nodeID].key]
 
-        if (isClicked) {
+        if (isClicked && !state.wasClicked) {
             setState(true, 'wasClicked')
-            return object.branch0
-        } else if (state.wasClicked) {
+            return object.pressed
+        } else if (isClicked && state.wasClicked)
+            return object.holding
+        else if (state.wasClicked) {
             setState(false, 'wasClicked')
-            return object.branch1
+            return object.released
         }
+
         return []
     }
 }

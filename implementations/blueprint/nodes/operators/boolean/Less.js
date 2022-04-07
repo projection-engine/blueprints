@@ -16,6 +16,7 @@ export default class Less extends Node {
             ],
 
         );
+        this.size = 2
         this.name = 'Less'
     }
 

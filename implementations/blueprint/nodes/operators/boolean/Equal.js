@@ -15,6 +15,7 @@ export default class Equal extends Node {
                 {label: 'Truthful', key: 't', type: TYPES.BOOL}
             ],
         );
+        this.size = 2
         this.name = 'Equal'
     }
 

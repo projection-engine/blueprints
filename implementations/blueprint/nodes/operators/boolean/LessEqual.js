@@ -16,6 +16,7 @@ export default class LessEqual extends Node {
             ]
         );
         this.name = 'LessEqual'
+        this.size = 2
     }
 
     get type (){

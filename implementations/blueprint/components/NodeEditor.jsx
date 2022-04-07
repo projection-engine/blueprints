@@ -206,7 +206,7 @@ export default function NodeEditor(props) {
 
                                     props.hook.setGroups(prev => {
                                         return prev.map(p => {
-                                            console.log(p)
+
                                             if(props.hook.selected.includes(p.id))
                                                 p.color = v
                                             return p
@@ -232,6 +232,6 @@ export default function NodeEditor(props) {
 
 NodeEditor.propTypes = {
     selectedVariable: PropTypes.string,
-    selected: PropTypes.string,
+    selected: PropTypes.array,
     hook: PropTypes.object
 }

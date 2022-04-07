@@ -4,10 +4,12 @@ import NODE_TYPES from "../../../../../flow/NODE_TYPES";
 
 
 export default class Subtract extends Node {
+    a = 0
+    b = 0
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [TYPES.NUMBER]},
-            {label: 'B', key: 'b', accept: [TYPES.NUMBER]}
+            {label: 'A', key: 'a', accept: [TYPES.NUMBER], bundled: true, type: TYPES.NUMBER},
+            {label: 'B', key: 'b', accept: [TYPES.NUMBER], bundled: true, type: TYPES.NUMBER}
         ], [
             {label: 'Result', key: 'res', type: TYPES.NUMBER}
         ]);
@@ -15,12 +17,16 @@ export default class Subtract extends Node {
         this.size = 1
     }
 
-    get type (){
+    get type() {
         return NODE_TYPES.FUNCTION
     }
-    static compile(tick, {a, b}, entities, attributes, nodeID) {
-        attributes[nodeID] = {}
-        attributes[nodeID].res = a - b
+
+    static compile(tick, {a, b}, entities, attributes, nodeID, executors) {
+        const aValue = a !== undefined ? a : executors[nodeID].a,
+            bValue = b !== undefined ? b : executors[nodeID].b
+        attributes[nodeID] = {
+            res: aValue - bValue
+        }
         return attributes
     }
 }

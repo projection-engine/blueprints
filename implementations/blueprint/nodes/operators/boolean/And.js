@@ -17,6 +17,7 @@ export default class And extends Node {
             true
         );
         this.name = 'And'
+        this.size = 2
     }
 
     get type() {

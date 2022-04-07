@@ -81,7 +81,7 @@ export default function getInput(label, type, value, submit, obj, hook, selected
             )
 
         case TYPES.BOOL:
-            return <Checkbox label={label} checked={value} handleCheck={() => submit(!value)}/>
+            return <Checkbox width={'100%'} noMargin={true} label={label} checked={value} handleCheck={() => submit(!value)}/>
         case TYPES.OPTIONS:
             return (
                 <Dropdown styles={{width: '100%', justifyContent: 'space-between'}}>

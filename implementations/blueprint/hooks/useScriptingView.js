@@ -61,6 +61,7 @@ import OnSpawn from "../nodes/events/OnSpawn";
 import QuatRotateZ from "../nodes/operators/math/QuatRotateZ";
 import QuatRotateY from "../nodes/operators/math/QuatRotateY";
 import QuatRotateX from "../nodes/operators/math/QuatRotateX";
+import OnInterval from "../nodes/events/OnInterval";
 
 
 export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
@@ -171,6 +172,8 @@ const INSTANCES = {
     [QuatRotateY.name]: () => new QuatRotateY(),
     [QuatRotateZ.name]: () => new QuatRotateZ(),
 
+    [OnInterval.name]: () => new OnInterval()
+
 }
 
 function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, fileSystem, isLevelBlueprint) {
@@ -199,7 +202,7 @@ function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, l
                     }))
                 else {
                     const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow', 'json')
-                    console.log(file)
+
                     parseFile(f, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
                 }
             })
@@ -212,7 +215,7 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
         const newNodes = file.nodes.map(f => {
             const i = INSTANCES[f.instance]()
             Object.keys(f).forEach(o => {
-                if (o !== 'size')
+                if (o !== 'size' && o !== 'inputs' && o !== 'output')
                     i[o] = f[o]
             })
             return i

@@ -66,11 +66,11 @@ export function mapCompile(hook) {
         .map(eOrder => {
             const links = hook.links.filter(l => l.source.id === eOrder.id)
             let res = []
-            console.log(eOrder)
+
 
             links.forEach(link => {
-                res.push(compile(hook.nodes, hook.links, hook.variables, [], link))
-                console.log(res[res.length - 1])
+                res.push({...compile(hook.nodes, hook.links, hook.variables, [], link), link})
+
             })
 
 
@@ -95,12 +95,11 @@ export function mapCompile(hook) {
                 executors
             }
             res.forEach((l, i) => {
-                newRes.order[0]['branch' + i] = l.order.filter(o => o.type !== NODE_TYPES.START_POINT)
+                newRes.order[0][l.link.source.attribute.key] = l.order.filter(o => o.type !== NODE_TYPES.START_POINT)
                 newRes.executors = {...newRes.executors, ...l.executors}
             })
 
             res = [newRes]
-            console.log(res)
 
             return res
         }).flat()

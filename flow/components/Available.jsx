@@ -28,7 +28,9 @@ export default function Available(props) {
                         draggable={true}
                         title={d.tooltip}
                         style={{background: i%2 === 0 ? 'var(--fabric-background-secondary)' : undefined}}
-                        onDragStart={e => e.dataTransfer.setData('text', d.dataTransfer)}>
+                        onDragStart={e => e.dataTransfer.setData('text', d.dataTransfer)}
+                        key={d.dataTransfer + '-' + i}
+                    >
                         <div className={styles.icon}>
                             {d.icon}
                         </div>

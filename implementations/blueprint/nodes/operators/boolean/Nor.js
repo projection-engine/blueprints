@@ -16,6 +16,7 @@ export default class Nor extends Node {
             ]
         );
         this.name = 'Nor'
+        this.size = 2
     }
 
     get type (){

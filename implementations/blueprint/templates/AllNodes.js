@@ -55,9 +55,18 @@ import OnSpawn from "../nodes/events/OnSpawn";
 import QuatRotateZ from "../nodes/operators/math/QuatRotateZ";
 import QuatRotateY from "../nodes/operators/math/QuatRotateY";
 import QuatRotateX from "../nodes/operators/math/QuatRotateX";
+import OnInterval from "../nodes/events/OnInterval";
 
 
 export const allNodes = [
+    {
+        label: 'OnInterval',
+        dataTransfer: 'OnInterval',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new OnInterval()
+    },
+
     {
         label: 'QuatRotateX (pitch)',
         dataTransfer: 'QuatRotateX',

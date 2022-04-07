@@ -9,14 +9,15 @@ export default class Branch extends Node {
         super(
             [
                 {label: 'A', key: 'line', accept: [TYPES.EXECUTION]},
-                {label: 'Condition', key: 'c', accept: [TYPES.BOOL]}
+                {label: 'Condition', key: 'condition', accept: [TYPES.BOOL]}
             ],
             [
-                {label: 'True', key: 'a', type: TYPES.EXECUTION, showTitle: true},
-                {label: 'False', key: 'b', type: TYPES.EXECUTION, showTitle: true},
+                {label: 'True', key: 'trueLine', type: TYPES.EXECUTION, showTitle: true},
+                {label: 'False', key: 'falseLine', type: TYPES.EXECUTION, showTitle: true},
             ],
         );
         this.name = 'Branch'
+        this.size = 2
     }
 
     get type() {
@@ -27,6 +28,6 @@ export default class Branch extends Node {
                        inputs,
                        object
                    }) {
-        return inputs.c ? object.branch1 : object.branch0
+        return inputs.condition ? object.trueLine : object.falseLine
     }
 }

@@ -17,6 +17,7 @@ export default class Or extends Node {
             true
         );
         this.name = 'Or'
+        this.size = 2
     }
 
     get type (){
