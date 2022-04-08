@@ -9,7 +9,7 @@ export default function useNode(props, selected, hidden) {
     useEffect(() => {
         const h = ref.current.firstChild.scrollHeight
         setHeight(h >= 35 ? h : 55)
-    }, [ hidden])
+    }, [hidden])
 
     const handleLinkDrag = (event) => {
         const parent = ref.current?.parentNode.parentNode
@@ -47,7 +47,7 @@ export default function useNode(props, selected, hidden) {
                 else if (e.id?.includes('-node') && !alreadyFound)
                     alreadyFound = true
             })
-        if(event.button === 0 && isFirst && !selected)
+        if (event.button === 0 && isFirst && !selected)
             props.setSelected(props.node.id, event.ctrlKey)
         if (event.button === 0 && ((selected && event.ctrlKey) || isFirst)) {
             const parent = ref.current?.parentNode.parentNode
@@ -87,6 +87,9 @@ export default function useNode(props, selected, hidden) {
                         x: ((nodeBbox.left + bounding.x) - toBeApplied.x) / props.scale,
                         y: ((nodeBbox.top + bounding.y) - toBeApplied.y) / props.scale
                     }
+
+
+
 
                     ref.current?.setAttribute('transform', `translate(${current.x} ${current.y})`)
                 }

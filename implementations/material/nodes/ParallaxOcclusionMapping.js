@@ -13,9 +13,9 @@ export default class ParallaxOcclusionMapping extends Node {
                 {label: 'Height Map', key: 'sample', accept: [TYPES.TEXTURE]},
                 {label: 'Layers', key: 'layers', accept: [TYPES.NUMBER]},
                 {label: 'Height scale', key: 'heightScale', type: TYPES.NUMBER, max: .3, min: .05},
-                {label: 'Height Map channel', key: 'channel', accept: [TYPES.VEC]}
+                {label: 'Channel', key: 'channel', accept: [TYPES.VEC]}
             ],
-            [{label: 'Parallax object', type: TYPES.OBJECT, key: 'response'}]
+            [{label: 'Parallax', type: TYPES.OBJECT, key: 'response'}]
         );
         this.name = 'Parallax Occlusion Mapping'
     }
@@ -53,7 +53,6 @@ export default class ParallaxOcclusionMapping extends Node {
                     this.ready = true
                     resolve()
                 })
-
         })
     }
 }

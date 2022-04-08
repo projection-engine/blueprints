@@ -57,7 +57,7 @@ export default function NodeIO(props) {
         if (parent) {
             const bBox = parent.getBoundingClientRect()
 
-            if (e.type === 'dragover' && props.type === 'input' && props.data.accept) {
+            if (e.type === 'dragover' && props.type === 'input' && props.data.accept && !props.data.disabled) {
 
                 infoRef.current.style.display = 'grid'
                 infoRef.current.style.top = wrapperRef.current.offsetTop + 'px'
@@ -89,6 +89,7 @@ export default function NodeIO(props) {
             return props.outputLinks.find(o => o.sourceKey === props.data.key) !== undefined
     }, [props.inputLinks, props.outputLinks])
     const linkColor = useMemo(() => {
+
         if (isLinked) {
             if (props.type === 'input')
                 return props.inputLinks.find(o => o.targetKey === props.data.key)?.color
@@ -101,47 +102,50 @@ export default function NodeIO(props) {
 
     return (
         <>
-            <div ref={infoRef} className={styles.infoWrapper}>
+
+            <div ref={infoRef} style={{display: props.data.disabled ? 'none' : undefined}}
+                 className={styles.infoWrapper}>
+                <div className={styles.accepts}>
+                    Accepts
+                </div>
                 {props.data.accept?.map((a, i) => (
                     <div className={styles.ioKey} key={i + '-key-' + a}>
-                        <div className={styles.iconWrapper}
-                             data-valid={`${onDragContext.dragType === a || a === TYPES.ANY}`}>
-                                <span style={{fontSize: '.8rem'}}
-                                      className={'material-icons-round'}>{onDragContext.dragType === a || a === TYPES.ANY ? 'check' : 'close'}</span>
-                        </div>
                         {getType(a)}
                     </div>
                 ))}
             </div>
             <div className={styles.attribute} ref={wrapperRef}
+                 data-disabled={`${props.data.disabled}`}
                  style={{justifyContent: props.type === 'input' ? 'flex-start' : 'flex-end'}}>
 
                 {props.type === 'output' && (!isExecution || props.data.showTitle) ? (
-                    <div data-disabled={`${props.data.disabled}`} className={styles.overflow}
+                    <div  className={styles.overflow}
                          style={{color: props.data.color, fontWeight: 'bold'}}>
                         {props.data.label}
                     </div>
                 ) : null}
                 <div
-                    data-disabled={`${props.data.disabled}`}
+
                     id={props.nodeID + props.data.key}
                     className={isExecution ? styles.executionConnection : styles.connection}
                     draggable={!props.data.disabled && props.type !== 'input'}
-
+                    data-dtype={props.type}
                     style={{
                         '--fabric-accent-color': isExecution ? '#0095ff' : '#999999',
                         background: linkColor && !props.data.disabled ? linkColor : undefined,
-                        display: props.data.bundled && !props.data.accept ? 'none' : undefined
+                        display: props.data.bundled && !props.data.accept ? 'none' : undefined,
                     }}
                     onDrop={e => {
                         onDragContext.setDragType(undefined)
-                        if (props.type === 'input')
-                            asInput(e)
-                        else
-                            props.setAlert({
-                                type: 'error',
-                                message: 'Can\'t link with output.'
-                            })
+                        if(!props.data.disabled){
+                            if (props.type === 'input')
+                                asInput(e)
+                            else
+                                props.setAlert({
+                                    type: 'error',
+                                    message: 'Can\'t link with output.'
+                                })
+                        }
                     }}
                     onDragEnd={props.onDragEnd}
 
@@ -171,7 +175,7 @@ export default function NodeIO(props) {
                     <div data-disabled={`${props.data.disabled}`} className={styles.wrapperInput}
                          style={{fontWeight: 'normal'}}>
 
-                        {props.data.bundled && !isLinked  ? null : props.data.label}
+                        {props.data.bundled && !isLinked ? null : props.data.label}
                         <EmbeddedInput
                             canRender={props.data.bundled && !isLinked}
                             type={props.type} node={props.node}
