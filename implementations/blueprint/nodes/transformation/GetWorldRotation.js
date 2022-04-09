@@ -14,8 +14,7 @@ export default class GetWorldRotation extends Node {
             ],
             [
                 {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
-                {label: 'Quat', key: 'quat', type: TYPES.VEC4},
-                {label: 'Euler', key: 'euler', type: TYPES.VEC3}
+                {label: 'Quaternion', key: 'quaternion', type: TYPES.VEC4}
             ]);
         this.name = 'GetWorldRotation'
     }
@@ -25,10 +24,9 @@ export default class GetWorldRotation extends Node {
     }
 
     static compile(tick, {entity}, entities, attributes, nodeID) {
-        attributes[nodeID] = {}
-        attributes[nodeID].quat = entity.components[COMPONENTS.TRANSFORM].rotationQuat
-        attributes[nodeID].euler = entity.components[COMPONENTS.TRANSFORM].rotation
-
+        attributes[nodeID] = {
+            quaternion: entity.components[COMPONENTS.TRANSFORM].rotationQuat
+        }
         return attributes
     }
 }

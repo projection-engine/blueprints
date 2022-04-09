@@ -19,13 +19,12 @@ import cloneClass from "../../../../services/utils/misc/cloneClass";
 import deleteNode from "../../flow/utils/deleteNode";
 import {allNodes} from "./templates/AllNodes";
 import Available from "../../flow/components/Available";
-
-
 import {v4 as uuidv4} from 'uuid';
+
 
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
-    const hook = useMaterialView(props.file)
+    const hook = useMaterialView(props.file, props.setAlert)
     const ref = useRef()
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n.constructor.name === MaterialClass.constructor.name)
@@ -33,14 +32,7 @@ export default function MaterialView(props) {
 
     const controlProvider = useContext(ControlProvider)
 
-    const mapNodes = (res) => {
-        const engine = hook.engine.renderer
-        const canvas = engine.canvas
-        engine.camera.yaw = .5
-        engine.camera.pitch = .5
-        engine.camera.radius = 2
-        engine.camera.updateViewMatrix()
-
+    const mapNodes = async (res) => {
         const parsedNodes = hook.nodes.map(n => {
             const docNode = document.getElementById(n.id).parentNode
             const transformation = docNode
@@ -58,9 +50,8 @@ export default function MaterialView(props) {
             }
         })
 
-
         return {
-            preview: canvas.toDataURL(),
+            preview: await hook.engine.toImage(),
             data: JSON.stringify({
                 nodes: parsedNodes,
                 links: hook.links,
@@ -70,54 +61,42 @@ export default function MaterialView(props) {
             })
         }
     }
-
     useEffect(() => {
-        controlProvider.setTabAttributes(
-            [
-                {
-                    label: 'Compile',
-                    group: 'b',
-                    disabled: hook.disabled,
-                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
-                    onClick: () => {
-                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem)
-                            .then(res => {
-                                applyViewport(res, hook.engine, hook.load)
-                            })
-
-                    }
-                },
+        if(hook.impactingChange) {
+            hook.setImpactingChange(false)
+            compile(hook.nodes, hook.links, hook.quickAccess.fileSystem, true)
+                .then(res => applyViewport(res, hook.engine, hook.setAlert))
+        }
+    }, [hook.impactingChange])
+    useEffect(() => {
+        controlProvider.setTabAttributes([
                 {
                     label: 'Save',
-                    disabled: hook.disabled,
+                    disabled: !hook.changed,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                     onClick: () => {
-                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem, true)
-                            .then(res => {
-
-                                applyViewport(res, hook.engine, hook.load)
-                                const response = mapNodes(res)
+                        compile(hook.nodes, hook.links, hook.quickAccess.fileSystem, true)
+                            .then(async res => {
+                                const response = await mapNodes(res)
                                 props.submitPackage(
                                     response.preview,
                                     response.data,
                                     false
                                 )
                             })
+                        hook.setChanged(false)
+                        hook.setImpactingChange(false)
                     }
                 },
                 {
                     label: 'Save & close',
-                    disabled: hook.disabled,
+                    disabled: !hook.changed,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: () => {
-
-
                         hook.load.pushEvent(EVENTS.LOADING_MATERIAL)
-                        compile(hook.load, hook.nodes, hook.links, hook.quickAccess.fileSystem, true)
-                            .then(res => {
-                                applyViewport(res, hook.engine, hook.load)
-
-                                const response = mapNodes(res)
+                        compile(hook.nodes, hook.links, hook.quickAccess.fileSystem, true)
+                            .then(async res => {
+                                const response = await mapNodes(res)
                                 props.submitPackage(
                                     response.preview,
                                     response.data,
@@ -141,7 +120,8 @@ export default function MaterialView(props) {
             props.index
         )
 
-    }, [hook.nodes, hook.links, hook.engine.gpu, hook.engine.gpu])
+    }, [hook.nodes, hook.links, hook.engine.gpu, hook.changed, hook.impactingChange])
+
     const [toCopy, setToCopy] = useState([])
     useHotKeys({
         focusTarget: props.file.fileID + '-board',
@@ -215,6 +195,7 @@ export default function MaterialView(props) {
 
     return (
         <div className={styles.prototypeWrapper} ref={ref}>
+
             <NodeEditor
                 hook={hook}
 

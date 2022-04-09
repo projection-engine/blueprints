@@ -44,7 +44,11 @@ export default function MinimalBlueprintView(props) {
                 {
                     label: 'Save',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
-                    onClick: () => props.submitPackage(mapNodes(hook, props.engine, {id: props.id, name: props.name}, true), false)
+                    onClick: () => {
+                        hook.setChanged(false)
+                        hook.setImpactingChange(false)
+                        props.submitPackage(mapNodes(hook, props.engine, {id: props.id, name: props.name}, true), false)
+                    }
                 },
                 {
                     label: 'Save & close',

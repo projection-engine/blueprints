@@ -1,6 +1,6 @@
 import Node from "../../../flow/Node";
 import {TYPES} from "../../../flow/TYPES";
-import ImageProcessor from "../../../../../services/workers/ImageProcessor";
+import ImageProcessor from "../../../../../services/workers/image/ImageProcessor";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
 
 export default class ParallaxOcclusionMapping extends Node {
@@ -43,7 +43,7 @@ export default class ParallaxOcclusionMapping extends Node {
                 }
             }
 
-            ImageProcessor.extractChannel([indexMax[0], indexMax[1], indexMax[2], 1], texture)
+            ImageProcessor.byChannels([indexMax[0], indexMax[1], indexMax[2], 1], texture)
                 .then(res => {
                     this.response = {
                         image: res,

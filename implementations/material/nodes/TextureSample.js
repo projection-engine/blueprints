@@ -1,7 +1,7 @@
 import Node from "../../../flow/Node";
 import {TYPES} from "../../../flow/TYPES";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
-import ImageProcessor from "../../../../../services/workers/ImageProcessor";
+import ImageProcessor from "../../../../../services/workers/image/ImageProcessor";
 
 export default class TextureSample extends Node {
     sample = {}
@@ -36,7 +36,7 @@ export default class TextureSample extends Node {
                                 items.forEach(i => {
                                     switch (i) {
                                         case 'r':
-                                            ImageProcessor.extractChannel([1, 0, 0, 1], file)
+                                            ImageProcessor.byChannels([1, 0, 0, 1], file)
                                                 .then(channel => {
                                                     this.r = channel
 
@@ -45,7 +45,7 @@ export default class TextureSample extends Node {
                                                 })
                                             break
                                         case 'g':
-                                            ImageProcessor.extractChannel([0, 1, 0, 1], file)
+                                            ImageProcessor.byChannels([0, 1, 0, 1], file)
                                                 .then(channel => {
                                                     this.g = channel
 
@@ -54,7 +54,7 @@ export default class TextureSample extends Node {
                                                 })
                                             break
                                         case 'b':
-                                            ImageProcessor.extractChannel([0, 0, 1, 1], file)
+                                            ImageProcessor.byChannels([0, 0, 1, 1], file)
                                                 .then(channel => {
                                                     this.b = channel
                                                     this.ready = true

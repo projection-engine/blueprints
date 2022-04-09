@@ -12,8 +12,8 @@ export default function Node(props) {
     const selected = useMemo(() => {
         return props.selected.indexOf(props.node.id) > -1
     }, [props.selected])
-    const {
 
+    const {
         ref,
         handleDragStart,
         handleLinkDrag,
@@ -38,13 +38,6 @@ export default function Node(props) {
 
         return NODE_INFO[key] ? NODE_INFO[key] : {}
 
-    }, [])
-
-    const outputInfo = useMemo(() => {
-        if (props.node.output?.length === 1 && (props.node.output[0].type === TYPES.NUMBER || props.node.output[0].type === TYPES.COLOR || props.node.output[0].type === TYPES.VEC)) {
-            return props.node.output[0].type === TYPES.VEC ? JSON.stringify(props.node[props.node.output[0].key]) : props.node[props.node.output[0].key]
-        }
-        return null
     }, [])
 
     const width = useMemo(() => {
@@ -82,11 +75,6 @@ export default function Node(props) {
                     >
                         <span style={{fontSize: '1rem', transform: nodeInfo.ROTATE ? `rotate(${nodeInfo.ROTATE}`: undefined}} className={'material-icons-round'}>{nodeInfo.ICON}</span>
                         {props.node.name}
-                        {outputInfo ?
-                            <label style={{textAlign: 'right', width: '100%'}}>
-                                {outputInfo}
-                            </label>
-                            : null}
                     </div>
                     <div className={styles.content}>
                         <div className={styles.column}>

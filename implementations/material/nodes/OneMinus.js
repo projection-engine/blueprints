@@ -1,6 +1,6 @@
 import Node from "../../../flow/Node";
 import {TYPES} from "../../../flow/TYPES";
-import ImageProcessor from "../../../../../services/workers/ImageProcessor";
+import ImageProcessor from "../../../../../services/workers/image/ImageProcessor";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
 
 export default class OneMinus extends Node {
@@ -21,12 +21,12 @@ export default class OneMinus extends Node {
     compile(items, fileSystem) {
         if(this.ready)
             return new Promise(r => r())
-        return new Promise(resolve => {
+        return new Promise(async resolve => {
             let image = items.find(i => i.key === 'sampler0').data
 
 
             if (image) {
-                image = (image.includes('data:image/png') ? image : ImageProcessor.colorToImage(image))
+                image = (image.includes('data:image/png') ? image : await ImageProcessor.colorToImage(image))
 
                 ImageProcessor.invert(image)
                     .then(res => {

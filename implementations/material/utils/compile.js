@@ -2,10 +2,10 @@ import EVENTS from "../../../../../services/utils/misc/EVENTS";
 import MaterialClass from "../nodes/Material";
 import cloneClass from "../../../../../services/utils/misc/cloneClass";
 
-export default function compile(load, n, l, fileSystem, final) {
+export default function compile(n, l, fileSystem, final) {
     let links = [...l], nodes = n.map(node => cloneClass(node))
 
-    load.pushEvent(EVENTS.COMPILING)
+
     return new Promise(resolve => {
 
         const startPoint = nodes.find(n => {
@@ -54,14 +54,13 @@ export default function compile(load, n, l, fileSystem, final) {
             }
             resolveDependencies(startPoint)
                 .then(() => {
-                    load.finishEvent(EVENTS.COMPILING)
+
                     resolve(nodes.find(n => {
                         return n instanceof MaterialClass
                     }))
                 })
-        } else {
-            load.finishEvent(EVENTS.COMPILING)
+        } else
             resolve()
-        }
+
     })
 }

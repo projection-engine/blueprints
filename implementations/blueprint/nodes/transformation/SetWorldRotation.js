@@ -10,7 +10,7 @@ export default class SetWorldRotation extends Node {
         super([
             {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
             {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
-            {label: 'Rotation', key: 'rotation', accept: [TYPES.VEC3, TYPES.VEC4]},
+            {label: 'Quaternion', key: 'rotation', accept: [TYPES.VEC4]},
 
         ], [
             {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION}]);
@@ -20,19 +20,10 @@ export default class SetWorldRotation extends Node {
     get type() {
         return NODE_TYPES.VOID_FUNCTION
     }
-    static  compile(tick, {rotation, entity}, entities, attributes, nodeID) {
 
-        if (rotation.length === 4)
-            entity.components[COMPONENTS.TRANSFORM].rotationQuat = rotation
-        else {
-            const quatA = [0, 0, 0, 1]
-
-            quat.rotateX(quatA, quatA, rotation[0])
-            quat.rotateY(quatA, quatA, rotation[1])
-            quat.rotateZ(quatA, quatA, rotation[2])
-
-            entity.components[COMPONENTS.TRANSFORM].rotationQuat = quat.multiply([], quatA, entity.components[COMPONENTS.TRANSFORM].rotationQuat)
-        }
+    static compile(tick, {rotation, entity}, entities, attributes, nodeID) {
+        console.log(rotation)
+        entity.components[COMPONENTS.TRANSFORM].rotationQuat = rotation
         return attributes
     }
 }

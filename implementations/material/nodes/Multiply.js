@@ -1,6 +1,6 @@
 import Node from "../../../flow/Node";
 import {TYPES} from "../../../flow/TYPES";
-import ImageProcessor, {COLOR_BLEND_OPERATIONS} from "../../../../../services/workers/ImageProcessor";
+import ImageProcessor, {COLOR_BLEND_OPERATIONS} from "../../../../../services/workers/image/ImageProcessor";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
 
 export default class Multiply extends Node {

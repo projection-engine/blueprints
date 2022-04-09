@@ -63,6 +63,7 @@ export default function BlueprintView(props) {
                     label: 'Compile',
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
+                    disabled: true,
                     onClick: () => {
                         const e = mapNodes(hook, engine, props.file)
                         // TODO - find errors
@@ -70,11 +71,17 @@ export default function BlueprintView(props) {
                 },
                 {
                     label: 'Save',
+                    disabled: !hook.changed,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
-                    onClick: () => props.submitPackage(mapNodes(hook, engine, props.file), false)
+                    onClick: () => {
+                        hook.setChanged(false)
+                        hook.setImpactingChange(false)
+                        props.submitPackage(mapNodes(hook, engine, props.file), false)
+                    }
                 },
                 {
                     label: 'Save & close',
+                    disabled: !hook.changed,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: () => props.submitPackage(mapNodes(hook, engine, props.file), true)
                 }
@@ -94,7 +101,7 @@ export default function BlueprintView(props) {
             props.index
         )
 
-    }, [hook.nodes, hook.links, hook.variables, hook.groups, engine.entities])
+    }, [hook.nodes, hook.links, hook.variables, hook.groups, engine.entities, hook.changed, hook.impactingChange])
 
     useHotKeys({
         focusTarget: props.file.registryID + '-board-wrapper',

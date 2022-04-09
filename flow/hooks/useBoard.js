@@ -66,11 +66,14 @@ export default function useBoard(hook, scale, setScale) {
             c = c.filter(cc => {
                 return !existing.find(e => e === cc)
             })
-            if (!target.attribute.componentRequired || src.attribute.components.includes(target.attribute.componentRequired))
+            if (!target.attribute.componentRequired || src.attribute.components.includes(target.attribute.componentRequired)) {
+                hook.setChanged(true)
+                hook.setImpactingChange(true)
                 c.push({
                     source: src,
                     target: target
                 })
+            }
             else
                 alert.pushAlert('Missing component on entity', 'error')
             return c

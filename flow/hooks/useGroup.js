@@ -17,11 +17,12 @@ export default function useGroup(props, selected) {
                 else if (e.id?.includes('-node') && !alreadyFound)
                     alreadyFound = true
             })
+
         if(event.button === 0 && isFirst)
             props.setSelected(props.group.id, false)
         if (event.button === 0 && ((selected && event.ctrlKey) || isFirst)) {
-            const t = ref.current.firstChild
-
+            if(isFirst)
+                props.onDragStart()
             const parent = ref.current?.parentNode.parentNode
             let parentBBox = parent.getBoundingClientRect()
             let bounding = {

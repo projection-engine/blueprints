@@ -1,7 +1,7 @@
 import Node from '../../../flow/Node'
 import {TYPES} from "../../../flow/TYPES";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
-import ImageProcessor from "../../../../../services/workers/ImageProcessor";
+import ImageProcessor from "../../../../../services/workers/image/ImageProcessor";
 import MATERIAL_TYPES from "../../../../../services/engine/templates/MATERIAL_TYPES";
 
 export default class Material extends Node {
@@ -90,11 +90,13 @@ export default class Material extends Node {
     compile(items) {
         if (this.ready)
             return new Promise(r => r())
-        return new Promise(resolve => {
+        return new Promise(async resolve => {
             let promises = []
-            items.filter(i => !i.key?.includes('tiling')).forEach(i => {
-
-                const d = typeof i.data === 'string' ? (i.data.includes('data:image') ? i.data : ImageProcessor.colorToImage(i.data)) : i.data
+            const filtered = items
+                .filter(i => !i.key?.includes('tiling'))
+            for (let j = 0; j < filtered.length; j++) {
+                const i = filtered[j]
+                const d = typeof i.data === 'string' ? (i.data.includes('data:image') ? i.data : await ImageProcessor.colorToImage(i.data)) : i.data
                 let img
                 this[i.key] = {}
 
@@ -123,7 +125,7 @@ export default class Material extends Node {
 
                 this[i.key].high = img
 
-            })
+            }
 
             Promise.all(promises)
                 .then(() => {

@@ -56,9 +56,18 @@ import QuatRotateZ from "../nodes/operators/math/QuatRotateZ";
 import QuatRotateY from "../nodes/operators/math/QuatRotateY";
 import QuatRotateX from "../nodes/operators/math/QuatRotateX";
 import OnInterval from "../nodes/events/OnInterval";
+import FollowAround from "../nodes/camera/FollowAround";
 
 
 export const allNodes = [
+    {
+        label: 'FollowAround',
+        dataTransfer: 'FollowAround',
+        tooltip: 'TODO',
+        icon: <span className={'material-icons-round'}>functions</span>,
+        getNewInstance: () => new FollowAround()
+    },
+
     {
         label: 'OnInterval',
         dataTransfer: 'OnInterval',
@@ -185,14 +194,14 @@ export const allNodes = [
     },
 
     {
-        label: 'Get world rotation',
+        label: 'Get World Rotation',
         dataTransfer: 'GetWorldRotation',
         tooltip: 'TODO',
         icon: <span className={'material-icons-round'}>functions</span>,
         getNewInstance: () => new GetWorldRotation()
     },
     {
-        label: 'Get world translation',
+        label: 'Get World Translation',
         dataTransfer: 'GetWorldTranslation',
         tooltip: 'TODO',
         icon: <span className={'material-icons-round'}>functions</span>,

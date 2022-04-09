@@ -45,6 +45,10 @@ export default function deleteNode(node, hook, setSelected){
         }
     } while (found > -1 || found === undefined)
 
+    if(found > -1 && found !== undefined) {
+        hook.setChanged(true)
+        hook.setImpactingChange(true)
+    }
     hook.setLinks(n)
 
     hook.setNodes(prev => {

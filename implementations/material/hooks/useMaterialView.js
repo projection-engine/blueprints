@@ -4,39 +4,38 @@ import EVENTS from "../../../../../services/utils/misc/EVENTS";
 import {LoaderProvider} from "@f-ui/core";
 import useMinimalEngine from "../../../../../services/hooks/useMinimalEngine";
 import parseMaterialFile from "../utils/parseMaterialFile";
+import useFlow from "../../../flow/hooks/useFlow";
 
 
-export default function useMaterialView(file) {
-    const [nodes, setNodes] = useState([])
-    const [links, setLinks] = useState([])
-    const [groups, setGroups] = useState([])
-    const [changed, setChanged] = useState(false)
-
-    const [selected, setSelected] = useState([])
+export default function useMaterialView(file,setAlert) {
+    const {
+        nodes, setNodes,
+        links, setLinks,
+        groups, setGroups,
+        changed, setChanged,
+        selected, setSelected,
+        impactingChange, setImpactingChange,
+    } = useFlow()
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
-    const engine = useMinimalEngine(true, true, true, true)
+    const engine = useMinimalEngine(true, true, true, true, true)
 
     useEffect(() => {
         load.pushEvent(EVENTS.LOADING_MATERIAL)
-        if(engine.gpu && engine.meshes.length > 0){
-          parseMaterialFile(file, quickAccess, setNodes, setLinks, engine, load)
+        if (engine.gpu && engine.meshes.length > 0) {
+            parseMaterialFile(file, quickAccess, setNodes, setLinks, engine, load, setAlert)
         }
-
-    }, [file, engine.gpu,engine.meshes])
+    }, [file, engine.gpu, engine.meshes])
 
 
     return {
-        engine,
-        selected,
-        setSelected,
-        setNodes,
-        nodes,
-        links,
-        setLinks,
-        quickAccess,
-        load,
+        impactingChange, setImpactingChange,
+        nodes, setNodes,
+        links, setLinks,
+        groups, setGroups,
         changed, setChanged,
-        groups, setGroups
+        selected, setSelected,
+        engine, quickAccess, load,
+        setAlert
     }
 }

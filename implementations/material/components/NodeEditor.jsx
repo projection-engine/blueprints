@@ -54,30 +54,69 @@ export default function NodeEditor(props) {
         switch (type) {
             case TYPES.NUMBER:
                 return (
-                    <Range precision={3} maxValue={obj.max} incrementPercentage={.001} minValue={obj.min} value={value !== undefined ? value : 0}
-                           handleChange={submit} label={label}/>
+                    <Range
+                        precision={3} maxValue={obj.max} incrementPercentage={.001} minValue={obj.min}
+                        value={value !== undefined ? value : 0}
+                        onFinish={() => {
+                            props.hook.setChanged(true)
+                            props.hook.setImpactingChange(true)
+                        }}
+                        handleChange={submit} label={label}
+                    />
                 )
             case TYPES.VEC:
                 return (
                     <div className={styles.vecWrapper}>
-                        <Range accentColor={'red'} maxValue={obj.max} minValue={obj.min}
-                               value={value ? value[0] : undefined}
-                               handleChange={v => submit([parseFloat(v), value[1], value[2]])} label={label}/>
-                        <Range accentColor={'green'} maxValue={obj.max} minValue={obj.min}
-                               value={value ? value[1] : undefined}
-                               handleChange={v => submit([value[0], parseFloat(v), value[2]])} label={label}/>
-                        <Range accentColor={'blue'} maxValue={obj.max} minValue={obj.min}
-                               value={value ? value[2] : undefined}
-                               handleChange={v => submit([value[0], value[1], parseFloat(v)])} label={label}/>
+                        <Range
+                            accentColor={'red'}
+                            maxValue={obj.max}
+                            minValue={obj.min}
+                            value={value ? value[0] : undefined}
+                            onFinish={() => {
+                                props.hook.setChanged(true)
+                                props.hook.setImpactingChange(true)
+                            }}
+                            handleChange={v => submit([parseFloat(v), value[1], value[2]])} label={label}/>
+                        <Range
+                            accentColor={'green'}
+                            maxValue={obj.max}
+                            minValue={obj.min}
+                            onFinish={() => {
+                                props.hook.setChanged(true)
+                                props.hook.setImpactingChange(true)
+                            }}
+                            value={value ? value[1] : undefined}
+                            handleChange={v => submit([value[0], parseFloat(v), value[2]])} label={label}/>
+                        <Range
+                            accentColor={'blue'}
+                            maxValue={obj.max}
+                            minValue={obj.min}
+                            onFinish={() => {
+                                props.hook.setChanged(true)
+                                props.hook.setImpactingChange(true)
+                            }}
+                            value={value ? value[2] : undefined}
+                            handleChange={v => submit([value[0], value[1], parseFloat(v)])} label={label}/>
                     </div>
                 )
             case TYPES.COLOR:
-                return <ColorPicker submit={submit} value={value} label={'Color'}/>
+                return <ColorPicker
+                    submit={c => {
+                        submit(c)
+                        props.hook.setChanged(true)
+                        props.hook.setImpactingChange(true)
+                        console.log('E')
+                    }}
+                    value={value}/>
             case TYPES.TEXTURE:
                 return (
                     <Selector
                         type={'image'}
-                        handleChange={ev => submit(ev)}
+                        handleChange={ev => {
+                            submit(ev)
+                            props.hook.setChanged(true)
+                            props.hook.setImpactingChange(true)
+                        }}
                         selected={value}/>
                 )
 
@@ -87,11 +126,12 @@ export default function NodeEditor(props) {
                         {obj.options.find(o => o.data === selected[obj.key])?.label}
                         <DropdownOptions>
                             {obj.options?.map((o, i) => (
-                                <React.Fragment key={'options-'+ i}>
+                                <React.Fragment key={'options-' + i}>
                                     <DropdownOption option={{
                                         ...o,
-                                        icon: o.data === selected[obj.key] ? <span style={{fontSize: '1.1rem'}} className={'material-icons-round'}>check</span> : null,
-                                        onClick: () =>{
+                                        icon: o.data === selected[obj.key] ? <span style={{fontSize: '1.1rem'}}
+                                                                                   className={'material-icons-round'}>check</span> : null,
+                                        onClick: () => {
                                             submit(o.data)
                                         }
                                     }}/>
@@ -128,7 +168,8 @@ export default function NodeEditor(props) {
                         style={{fontSize: '1.1rem'}}
                     >fullscreen</span>
                 </Button>
-                <div className={[styles.buttonGroup, styles.floating].join(' ')} style={{bottom: '4px', padding: '0 4px'}}>
+                <div className={[styles.buttonGroup, styles.floating].join(' ')}
+                     style={{bottom: '4px', padding: '0 4px'}}>
                     <Button
                         className={styles.button}
 
@@ -201,7 +242,7 @@ export default function NodeEditor(props) {
                                         const clone = cloneClass(prev[classLocation])
                                         clone[attr.key] = event
 
-                                        if(clone instanceof Material && props.engine.material && (attr.key === 'tilingX'||attr.key === 'tilingY')) {
+                                        if (clone instanceof Material && props.engine.material && (attr.key === 'tilingX' || attr.key === 'tilingY')) {
                                             if (attr.key === 'tilingX')
                                                 props.engine.material.uvScale = [event, clone.tilingY ? clone.tilingY : 1]
                                             if (attr.key === 'tilingY')
@@ -209,6 +250,7 @@ export default function NodeEditor(props) {
                                         }
 
                                         n[classLocation] = clone
+
                                         return n
                                     }),
                                     attr)}

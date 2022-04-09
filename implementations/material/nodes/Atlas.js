@@ -1,7 +1,7 @@
 import Node from "../../../flow/Node";
 import {TYPES} from "../../../flow/TYPES";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
-import ImageProcessor from "../../../../../services/workers/ImageProcessor";
+import ImageProcessor from "../../../../../services/workers/image/ImageProcessor";
 
 export default class Atlas extends Node {
     sample = {}
@@ -34,17 +34,17 @@ export default class Atlas extends Node {
     compile(items) {
         if(this.ready)
             return new Promise(r => r())
-        return new Promise(resolve => {
+        return new Promise(async resolve => {
             let image0 = items.find(i => i.key === 'sample0')?.data,
                 image1 = items.find(i => i.key === 'sample1')?.data,
                 image2 = items.find(i => i.key === 'sample2')?.data
 
             if (image0 !== undefined)
-                image0 = (image0.includes('data:image/png') ? image0 : ImageProcessor.colorToImage(image0))
+                image0 = (image0.includes('data:image/png') ? image0 : await ImageProcessor.colorToImage(image0))
             if (image1 !== undefined)
-                image1 = (image1.includes('data:image/png') ? image1 : ImageProcessor.colorToImage(image1))
+                image1 = (image1.includes('data:image/png') ? image1 :await ImageProcessor.colorToImage(image1))
             if (image2 !== undefined)
-                image2 = (image2.includes('data:image/png') ? image2 : ImageProcessor.colorToImage(image2))
+                image2 = (image2.includes('data:image/png') ? image2 : await ImageProcessor.colorToImage(image2))
 
             this.result = {
                 sampler0: image0,

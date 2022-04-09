@@ -38,6 +38,7 @@ export default function Board(props) {
         }
         n.x = (current.x - 100) / scale
         n.y = (current.y - 25) / scale
+        props.hook.setChanged(true)
         props.hook.setNodes(prev => {
             return [...prev, n]
         })
@@ -72,14 +73,24 @@ export default function Board(props) {
                 wrapperClassName={styles.contextWrapper}
                 content={(s, handleClose) => (
                     <Context
-                        deleteNode={() => deleteNode(s.getAttribute('data-node'), props.hook, props.setSelected)}
+                        deleteNode={() => {
+
+                            deleteNode(s.getAttribute('data-node'), props.hook, props.setSelected)
+                        }}
                         handleClose={handleClose}
                         scale={scale}
                         deleteGroup={() => {
+                            console.log('g')
                             const attr = s.getAttribute('data-group')
+                            props.hook.setChanged(true)
                             props.hook.setGroups(prev => prev.filter(pr => pr.id !== attr))
                         }}
-                        deleteLink={() => removeLink(links.find(l => (l.target + '-' + l.source) === s.getAttribute('data-link')), props.hook)}
+                        deleteLink={() => {
+                            console.log('k')
+                            props.hook.setChanged(true)
+                            props.hook.setImpactingChange(true)
+                            removeLink(links.find(l => (l.target + '-' + l.source) === s.getAttribute('data-link')), props.hook)
+                        }}
                         availableNodes={props.allNodes}
                         onSelect={(dataTransfer, mouseInfo) => {
                             handleDropNode(handleDropBoard(dataTransfer, props.allNodes), mouseInfo)
@@ -94,8 +105,6 @@ export default function Board(props) {
                     'data-group'
                 ]}
                 className={styles.context}
-
-
             >
 
                 <SelectBox nodes={[...props.hook.groups, ...props.hook.nodes]} selected={props.selected}
@@ -153,6 +162,7 @@ export default function Board(props) {
                                         })
                                     })
                                 }}
+                                onDragStart={() => props.hook.setChanged(true)}
                                 selected={props.selected}
                                 group={group}
                                 scale={scale}
@@ -183,6 +193,7 @@ export default function Board(props) {
                                 setAlert={props.setAlert}
                                 hidden={props.hide}
                                 submitBundledVariable={(key, value) => {
+                                    props.hook.setChanged(true)
                                     props.hook.setNodes(prev => {
                                         return prev.map(p => {
                                             if (p.id === node.id)
@@ -197,13 +208,13 @@ export default function Board(props) {
                                     else
                                         props.setSelected([i])
                                 }}
+                                onDragStart={() => props.hook.setChanged(true)}
                                 selected={props.selected}
                                 node={node}
                                 scale={scale}
                                 handleLink={handleLink}/>
                         </React.Fragment>
                     ))}
-
                 </svg>
             </ContextWrapper>
         </OnDragProvider.Provider>

@@ -62,16 +62,21 @@ import QuatRotateZ from "../nodes/operators/math/QuatRotateZ";
 import QuatRotateY from "../nodes/operators/math/QuatRotateY";
 import QuatRotateX from "../nodes/operators/math/QuatRotateX";
 import OnInterval from "../nodes/events/OnInterval";
+import FollowAround from "../nodes/camera/FollowAround";
+import useFlow from "../../../flow/hooks/useFlow";
 
 
 export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
-    const [nodes, setNodes] = useState([])
-    const [links, setLinks] = useState([])
-    const [groups, setGroups] = useState([])
-    const [variables, setVariables] = useState([])
-    const [changed, setChanged] = useState(false)
+    const {
+        nodes, setNodes,
+        links, setLinks,
+        groups, setGroups,
+        changed, setChanged,
+        selected, setSelected,
+        impactingChange, setImpactingChange,
+    } = useFlow()
 
-    const [selected, setSelected] = useState([])
+    const [variables, setVariables] = useState([])
     const quickAccess = useContext(QuickAccessProvider)
 
 
@@ -82,22 +87,15 @@ export default function useScriptingView(file, engine = {}, load, isLevelBluepri
 
 
     return {
+        nodes, setNodes,
+        links, setLinks,
         groups, setGroups,
-        selected,
-        setSelected,
-        setNodes,
-        nodes,
+        changed, setChanged,
+        selected, setSelected,
+        impactingChange, setImpactingChange,
 
-        variables,
-        setVariables,
-
-        links,
-        setLinks,
-        quickAccess,
-        load,
-        changed,
-
-        setChanged
+        variables, setVariables,
+        quickAccess, load
     }
 }
 
@@ -172,7 +170,8 @@ const INSTANCES = {
     [QuatRotateY.name]: () => new QuatRotateY(),
     [QuatRotateZ.name]: () => new QuatRotateZ(),
 
-    [OnInterval.name]: () => new OnInterval()
+    [OnInterval.name]: () => new OnInterval(),
+    [FollowAround.name]: () => new FollowAround()
 
 }
 
@@ -215,8 +214,9 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
         const newNodes = file.nodes.map(f => {
             const i = INSTANCES[f.instance]()
             Object.keys(f).forEach(o => {
-                if (o !== 'size' && o !== 'inputs' && o !== 'output')
+                if (o !== 'size')
                     i[o] = f[o]
+                console.log(f[o])
             })
             return i
         })

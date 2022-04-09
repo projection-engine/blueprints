@@ -1,7 +1,7 @@
 import Node from "../../../flow/Node";
 import {TYPES} from "../../../flow/TYPES";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
-import ImageProcessor from "../../../../../services/workers/ImageProcessor";
+import ImageProcessor from "../../../../../services/workers/image/ImageProcessor";
 
 export default class Mask extends Node {
     sample = {}
@@ -25,11 +25,11 @@ export default class Mask extends Node {
         if(this.ready)
             return new Promise(r => r())
 
-        return new Promise(resolve => {
+        return new Promise(async resolve => {
             let image = items.find(i => i.key === 'sample')?.data
             if(image) {
 
-                image = (image.includes('data:image/png') ? image : ImageProcessor.colorToImage(image))
+                image = (image.includes('data:image/png') ? image : await ImageProcessor.colorToImage(image))
 
                 ImageProcessor.byChannels([...this.channel, 1], image)
                     .then(channel => {

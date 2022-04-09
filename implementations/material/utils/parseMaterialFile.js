@@ -32,7 +32,7 @@ const INSTANCES = {
     ParallaxOcclusionMapping: () => new ParallaxOcclusionMapping()
 }
 
-export default function parseMaterialFile(file, quickAccess, setNodes, setLinks, engine, load) {
+export default function parseMaterialFile(file, quickAccess, setNodes, setLinks, engine, load, setAlert) {
     quickAccess.fileSystem
         .readRegistryFile(file.registryID)
         .then(res => {
@@ -57,12 +57,12 @@ export default function parseMaterialFile(file, quickAccess, setNodes, setLinks,
                                 })
                                 return i
                             })
-                            applyViewport(file.response, engine, load)
+                            applyViewport(file.response, engine, setAlert)
                             setNodes(newNodes)
                             setLinks(file.links)
                             load.finishEvent(EVENTS.LOADING_MATERIAL)
                         } else {
-                            applyViewport({}, engine, load)
+                            applyViewport({}, engine, setAlert)
                             setNodes([new Material()])
                             load.finishEvent(EVENTS.LOADING_MATERIAL)
                         }
