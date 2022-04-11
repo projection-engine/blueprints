@@ -1,4 +1,3 @@
-import EVENTS from "../../../../../services/utils/misc/EVENTS";
 import MaterialClass from "../nodes/Material";
 import cloneClass from "../../../../../services/utils/misc/cloneClass";
 

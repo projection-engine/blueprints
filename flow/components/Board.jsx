@@ -69,24 +69,20 @@ export default function Board(props) {
             <ContextWrapper
                 styles={{display: props.hide ? 'none' : undefined}}
                 options={boardOptions}
-                // attributes={{id: props.id + '-board'}}
                 wrapperClassName={styles.contextWrapper}
                 content={(s, handleClose) => (
                     <Context
                         deleteNode={() => {
-
                             deleteNode(s.getAttribute('data-node'), props.hook, props.setSelected)
                         }}
                         handleClose={handleClose}
                         scale={scale}
                         deleteGroup={() => {
-                            console.log('g')
                             const attr = s.getAttribute('data-group')
                             props.hook.setChanged(true)
                             props.hook.setGroups(prev => prev.filter(pr => pr.id !== attr))
                         }}
                         deleteLink={() => {
-                            console.log('k')
                             props.hook.setChanged(true)
                             props.hook.setImpactingChange(true)
                             removeLink(links.find(l => (l.target + '-' + l.source) === s.getAttribute('data-link')), props.hook)
@@ -232,7 +228,6 @@ Board.propTypes = {
     })).isRequired,
     onEmptyClick: PropTypes.func,
     setAlert: PropTypes.func.isRequired,
-    parentRef: PropTypes.object,
     hook: PropTypes.object,
     selected: PropTypes.arrayOf(PropTypes.string).isRequired,
     setSelected: PropTypes.func,

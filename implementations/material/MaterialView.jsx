@@ -1,13 +1,9 @@
 import Board from "../../flow/components/Board";
 import useMaterialView from "./hooks/useMaterialView";
 import NodeEditor from "./components/NodeEditor";
-
-import styles from '../../flow/styles/Board.module.css'
-
-import {useContext, useEffect, useMemo, useRef, useState} from "react";
+import s from './styles/MaterialView.module.css'
+import {useContext, useEffect, useMemo, useState} from "react";
 import PropTypes from "prop-types";
-
-
 import ControlProvider from "../../../../components/tabs/components/ControlProvider";
 import ResizableBar from "../../../../components/resizable/ResizableBar";
 import MaterialClass from './nodes/Material'
@@ -20,12 +16,13 @@ import deleteNode from "../../flow/utils/deleteNode";
 import {allNodes} from "./templates/AllNodes";
 import Available from "../../flow/components/Available";
 import {v4 as uuidv4} from 'uuid';
+import MaterialViewport from "./components/MaterialViewport";
 
 
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
     const hook = useMaterialView(props.file, props.setAlert)
-    const ref = useRef()
+
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n.constructor.name === MaterialClass.constructor.name)
     }, [hook.nodes])
@@ -62,7 +59,7 @@ export default function MaterialView(props) {
         }
     }
     useEffect(() => {
-        if(hook.impactingChange) {
+        if (hook.impactingChange) {
             hook.setImpactingChange(false)
             compile(hook.nodes, hook.links, hook.quickAccess.fileSystem, true)
                 .then(res => applyViewport(res, hook.engine, hook.setAlert))
@@ -124,7 +121,7 @@ export default function MaterialView(props) {
 
     const [toCopy, setToCopy] = useState([])
     useHotKeys({
-        focusTarget: props.file.fileID + '-board',
+        focusTarget: props.file.registryID + '-board',
         disabled: controlProvider.tab !== props.index,
         actions: [
             {
@@ -194,29 +191,30 @@ export default function MaterialView(props) {
     })
 
     return (
-        <div className={styles.prototypeWrapper} ref={ref}>
-
+        <div className={s.wrapper}>
             <NodeEditor
                 hook={hook}
-
                 engine={hook.engine}
                 selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
             <ResizableBar type={"width"}/>
-            <div className={styles.prototypeWrapperBoard} id={props.file.fileID + '-board'}>
-                <Board
-                    scale={scale} setScale={setScale}
-                    allNodes={allNodes}
-                    setAlert={props.setAlert}
-                    parentRef={ref}
-                    hook={hook}
-                    selected={hook.selected}
-                    setSelected={hook.setSelected}
-                />
+            <div className={s.view}>
+                <MaterialViewport engine={hook.engine} fileID={props.file.registryID}/>
+                <ResizableBar type={'height'}/>
+                <div className={s.boardAvailable}  >
+                    <Board
+                        scale={scale} setScale={setScale}
+                        allNodes={allNodes}
+                        setAlert={props.setAlert}
+                        hook={hook}
+                        selected={hook.selected}
+                        setSelected={hook.setSelected}
+                    />
+
+                    <Available allNodes={allNodes} canBeHidden={true}/>
+
+                </div>
             </div>
-            <ResizableBar type={"width"}/>
-            <div style={{height: '100%', width: '250px'}}>
-                <Available allNodes={allNodes}/>
-            </div>
+
         </div>
     )
 }
@@ -225,7 +223,7 @@ MaterialView.propTypes = {
     index: PropTypes.number.isRequired,
     setAlert: PropTypes.func.isRequired,
     file: PropTypes.shape({
-        fileID: PropTypes.string,
+        registryID: PropTypes.string,
         name: PropTypes.string,
         blob: PropTypes.any,
         type: PropTypes.string,

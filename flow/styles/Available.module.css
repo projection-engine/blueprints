@@ -5,8 +5,8 @@
 
     overflow-y: auto;
     background-color: var(--fabric-background-primary);
-    border: var(--fabric-border-primary) 1px solid;
-    transition: 150ms linear;
+
+
 
     border-radius: 5px;
 
@@ -17,9 +17,27 @@
 
     gap: 8px;
 
+    overflow-x: hidden;
+
 }
 
+.vertLabel{
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+height: fit-content;
+    width: fit-content;
+}
+.hideButton{
+    width: 30px;
+    height: 30px;
+    padding: 0 !important;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
 .content {
     height: 100%;
     gap: 2px;
@@ -101,6 +119,7 @@
     font-weight: 550;
 
     display: flex;
+
     flex-direction: column;
     gap: 4px;
 

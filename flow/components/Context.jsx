@@ -62,7 +62,11 @@ export default function Context(props) {
                                 className={styles.option}
                                 style={{background: i % 2 === 0 ? 'var(--fabric-background-secondary)' : undefined}}
                                 onClick={(e) => {
-                                    props.onSelect(a.dataTransfer, e)
+                                     const bBox = e.currentTarget.parentNode.getBoundingClientRect()
+                                    props.onSelect(a.dataTransfer, {
+                                        clientX: bBox.left,
+                                        clientY: bBox.top + bBox.height
+                                    })
                                     props.handleClose()
                                 }}>
                                 {a.label}
@@ -110,6 +114,6 @@ Context.propTypes = {
     handleClose: PropTypes.func,
     availableNodes: PropTypes.array,
     onSelect: PropTypes.func,
-    selected: PropTypes.object,
+    selected: PropTypes.object
 }
 

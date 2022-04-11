@@ -1,6 +1,6 @@
 import Node from "../../../../flow/Node";
 import COMPONENTS from "../../../../../../services/engine/templates/COMPONENTS";
-import {mat4, quat, vec3} from "gl-matrix";
+import {vec3} from "gl-matrix";
 import NODE_TYPES from "../../../../flow/NODE_TYPES";
 import {TYPES} from "../../../../flow/TYPES";
 

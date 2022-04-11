@@ -1,5 +1,5 @@
 .background{
-    background: var(--fabric-background-primary) radial-gradient(var(--fabric-border-secondary) 1px, transparent 0);
+    background: var(--fabric-background-tertiary) radial-gradient(var(--fabric-border-primary) 1px, transparent 0);
     background-size: 20px 20px;
     overflow: hidden;
 }
@@ -60,6 +60,7 @@ box-shadow: var(--fabric-boxshadow);
     height: fit-content !important;
     min-height: unset !important;
     max-height: unset !important;
+
 }
 
 .scaleGroup{
@@ -83,22 +84,6 @@ box-shadow: var(--fabric-boxshadow);
     align-items: center;
     gap: 4px;
     border-radius: 5px;
-}
-.button{
-    color: var(--fabric-color-secondary);
-    width: 25px;
-    height: 25px;
-    padding: 2px !important;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.button > * {
-    font-size: 1.1rem !important;
-}
-.button:disabled{
-    color: #999999;
 }
 .context{
     position: relative;

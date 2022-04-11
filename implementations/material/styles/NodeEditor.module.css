@@ -4,7 +4,6 @@
     height: 100%;
 
     background-color: var(--fabric-background-primary);
-    border: var(--fabric-border-primary) 1px solid;
 
 
     border-radius: 5px;
@@ -27,13 +26,8 @@
     padding: 4px;
     display: flex;
     flex-direction: column;
-
     gap: 8px;
-
-
     overflow-y: auto;
-
-
 }
 
 .formFieldWrapper {
@@ -87,7 +81,13 @@
 }
 
 .content{
-    padding: 4px;
+    padding: 2px;
+    overflow:hidden;
+
+}
+.summary{
+    background-color: var(--fabric-border-primary) !important;
+    border-radius: 5px 5px 0 0;
 }
 .vecWrapper{
     display: flex;

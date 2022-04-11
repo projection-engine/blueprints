@@ -2,7 +2,6 @@ import Node from "../../../../../flow/Node";
 import {TYPES} from "../../../../../flow/TYPES";
 import NODE_TYPES from "../../../../../flow/NODE_TYPES";
 import {quat} from "gl-matrix";
-import ROTATION_TYPES from "../../../../../../../services/engine/templates/ROTATION_TYPES";
 
 
 export default class QuatRotateY extends Node {

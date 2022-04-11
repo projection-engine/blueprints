@@ -1,7 +1,6 @@
 import Node from "../../../../flow/Node";
 import {TYPES} from "../../../../flow/TYPES";
 import NODE_TYPES from "../../../../flow/NODE_TYPES";
-import {KEYS} from "../../../../../../services/hooks/useHotKeys";
 
 
 export default class WindowResize extends Node {

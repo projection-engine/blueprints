@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import QuickAccessProvider from "../../../../../services/hooks/QuickAccessProvider";
 import EVENTS from "../../../../../services/utils/misc/EVENTS";
 import {LoaderProvider} from "@f-ui/core";
@@ -18,13 +18,13 @@ export default function useMaterialView(file,setAlert) {
     } = useFlow()
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
-    const engine = useMinimalEngine(true, true, true, true, true)
+    const engine = useMinimalEngine(true, true, true, true)
 
     useEffect(() => {
         load.pushEvent(EVENTS.LOADING_MATERIAL)
-        if (engine.gpu && engine.meshes.length > 0) {
+        if (engine.gpu && engine.meshes.length > 0)
             parseMaterialFile(file, quickAccess, setNodes, setLinks, engine, load, setAlert)
-        }
+
     }, [file, engine.gpu, engine.meshes])
 
 

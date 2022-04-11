@@ -1,9 +1,7 @@
 import Node from "../../../../flow/Node";
-import COMPONENTS from "../../../../../../services/engine/templates/COMPONENTS";
-import {mat4, quat, vec3} from "gl-matrix";
+import {quat} from "gl-matrix";
 import NODE_TYPES from "../../../../flow/NODE_TYPES";
 import {TYPES} from "../../../../flow/TYPES";
-import ROTATION_TYPES from "../../../../../../services/engine/templates/ROTATION_TYPES";
 
 export default class SetCameraRotation extends Node {
 

@@ -1,7 +1,7 @@
 import styles from "../styles/Node.module.css";
 import PropTypes from "prop-types";
 import {TYPES} from "../TYPES";
-import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
+import React, {useContext, useEffect, useMemo, useRef} from "react";
 import OnDragProvider from "../hooks/DragProvider";
 
 import EmbeddedInput from "./EmbeddedInput";

@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from "react";
 import {TYPES} from "../TYPES";
 import Range from "../../../../components/range/Range";
-import {Dropdown,TextField, DropdownOption, DropdownOptions} from "@f-ui/core";
+import {Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
 import styles from "../styles/Node.module.css";
 import Search from "../../../../components/search/Search";
 import PropTypes from "prop-types";

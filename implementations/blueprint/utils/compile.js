@@ -1,10 +1,8 @@
 import cloneClass from "../../../../../services/utils/misc/cloneClass";
 import {TYPES} from "../../../flow/TYPES";
 import Getter from "../nodes/utils/Getter";
-import Branch from "../nodes/operators/boolean/Branch";
 import NODE_TYPES from "../../../flow/NODE_TYPES";
 import EntityReference from "../nodes/events/EntityReference";
-import KeyPress from "../nodes/events/KeyPress";
 
 
 export default function compile(n, links, variables, alreadyCompiled = [], startPoint) {

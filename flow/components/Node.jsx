@@ -5,7 +5,6 @@ import useNode from "../hooks/useNode";
 import NodeIO from "./NodeIO";
 import NodeShowcase from "./NodeShowcase";
 import NODE_TYPES from "../NODE_TYPES";
-import {TYPES} from "../TYPES";
 import NODE_INFO from "../NODE_INFO";
 
 export default function Node(props) {

@@ -1,30 +1,16 @@
-import React, {useMemo, useRef} from "react";
+import React, {useMemo} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
 import Material from "../nodes/Material";
-import ResizableBar from "../../../../../components/resizable/ResizableBar";
 
-import {
-    Accordion,
-    AccordionSummary,
-    Button,
-    Dropdown,
-    DropdownOption,
-    DropdownOptions,
-    TextField,
-    ToolTip
-} from "@f-ui/core";
+import {Accordion, AccordionSummary, Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
 import Range from "../../../../../components/range/Range";
 import Selector from "../../../../../components/selector/Selector";
-import Viewport from "../../../../../components/viewport/Viewport";
 
 import ColorPicker from "../../../../../components/color/ColorPicker";
 
 import cloneClass from "../../../../../services/utils/misc/cloneClass";
 import {TYPES} from "../../../flow/TYPES";
-import {ENTITY_ACTIONS} from "../../../../../services/utils/entityReducer";
-import MeshComponent from "../../../../../services/engine/ecs/components/MeshComponent";
-import {IDS} from "../../../../../services/hooks/useMinimalEngine";
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {
@@ -59,7 +45,8 @@ export default function NodeEditor(props) {
                         value={value !== undefined ? value : 0}
                         onFinish={() => {
                             props.hook.setChanged(true)
-                            props.hook.setImpactingChange(true)
+                            if (props.hook.selected.length > 0 && !(selected instanceof Material))
+                                props.hook.setImpactingChange(true)
                         }}
                         handleChange={submit} label={label}
                     />
@@ -74,7 +61,8 @@ export default function NodeEditor(props) {
                             value={value ? value[0] : undefined}
                             onFinish={() => {
                                 props.hook.setChanged(true)
-                                props.hook.setImpactingChange(true)
+                                if (props.hook.selected.length > 0 && !(selected instanceof Material))
+                                    props.hook.setImpactingChange(true)
                             }}
                             handleChange={v => submit([parseFloat(v), value[1], value[2]])} label={label}/>
                         <Range
@@ -82,8 +70,10 @@ export default function NodeEditor(props) {
                             maxValue={obj.max}
                             minValue={obj.min}
                             onFinish={() => {
+
                                 props.hook.setChanged(true)
-                                props.hook.setImpactingChange(true)
+                                if (props.hook.selected.length > 0 && !(selected instanceof Material))
+                                    props.hook.setImpactingChange(true)
                             }}
                             value={value ? value[1] : undefined}
                             handleChange={v => submit([value[0], parseFloat(v), value[2]])} label={label}/>
@@ -93,7 +83,8 @@ export default function NodeEditor(props) {
                             minValue={obj.min}
                             onFinish={() => {
                                 props.hook.setChanged(true)
-                                props.hook.setImpactingChange(true)
+                                if (props.hook.selected.length > 0 && !(selected instanceof Material))
+                                    props.hook.setImpactingChange(true)
                             }}
                             value={value ? value[2] : undefined}
                             handleChange={v => submit([value[0], value[1], parseFloat(v)])} label={label}/>
@@ -145,68 +136,9 @@ export default function NodeEditor(props) {
         }
     }
 
-    const currentMesh = useMemo(() => {
-        return props.engine.entities.find(e => e.id === IDS.SPHERE)
-    }, [props.engine.entities])
-    const viewportRef = useRef()
+
     return (
         <div className={styles.wrapper}>
-            <div ref={viewportRef}
-                 style={{width: '100%', height: '200px', overflow: 'hidden', position: 'relative'}}>
-                <Viewport allowDrop={false} id={props.engine.id} engine={props.engine}
-                          renderer={props.engine.renderer}/>
-                <Button
-                    className={[styles.floating, styles.button].join(' ')}
-                    styles={{top: '4px', left: '4px'}}
-                    onClick={() => {
-                        viewportRef.current.requestFullscreen()
-                    }}
-                >
-                    <ToolTip content={'Fullscreen'}/>
-                    <span
-                        className={'material-icons-round'}
-                        style={{fontSize: '1.1rem'}}
-                    >fullscreen</span>
-                </Button>
-                <div className={[styles.buttonGroup, styles.floating].join(' ')}
-                     style={{bottom: '4px', padding: '0 4px'}}>
-                    <Button
-                        className={styles.button}
-
-                        disabled={currentMesh === IDS.SPHERE}
-                        onClick={() => {
-                            props.engine.dispatchEntities({
-                                type: ENTITY_ACTIONS.UPDATE_COMPONENT,
-                                payload: {
-                                    entityID: IDS.SPHERE,
-                                    key: 'MeshComponent',
-                                    data: new MeshComponent(undefined, IDS.SPHERE)
-                                }
-                            })
-                        }}
-                    >
-                        Sphere
-                    </Button>
-                    <Button
-                        className={styles.button}
-                        disabled={currentMesh === IDS.CUBE}
-                        onClick={() => {
-                            props.engine.dispatchEntities({
-                                type: ENTITY_ACTIONS.UPDATE_COMPONENT,
-                                payload: {
-                                    entityID: IDS.SPHERE,
-                                    key: 'MeshComponent',
-                                    data: new MeshComponent(undefined, IDS.CUBE)
-                                }
-                            })
-                        }}
-                    >
-                        Cube
-                    </Button>
-                </div>
-
-            </div>
-            <ResizableBar type={'height'}/>
             <div className={styles.form}>
                 {selected ?
                     <TextField
@@ -227,34 +159,38 @@ export default function NodeEditor(props) {
                     : null}
                 {attributes.map((attr, i) => (
                     <React.Fragment key={attr.label + '-attribute-' + i}>
-                        <Accordion>
-                            <AccordionSummary>
+                        <Accordion contentClassName={styles.content}>
+                            <AccordionSummary className={styles.summary}>
                                 {attr.label}
                             </AccordionSummary>
-                            <div className={styles.content}>
-                                {getInput(
-                                    attr.label,
-                                    attr.type,
-                                    selected[attr.key],
-                                    (event) => props.hook.setNodes(prev => {
-                                        const n = [...prev]
-                                        const classLocation = n.findIndex(e => e.id === selected.id)
-                                        const clone = cloneClass(prev[classLocation])
-                                        clone[attr.key] = event
 
-                                        if (clone instanceof Material && props.engine.material && (attr.key === 'tilingX' || attr.key === 'tilingY')) {
-                                            if (attr.key === 'tilingX')
-                                                props.engine.material.uvScale = [event, clone.tilingY ? clone.tilingY : 1]
-                                            if (attr.key === 'tilingY')
-                                                props.engine.material.uvScale = [clone.tilingX ? clone.tilingX : 1, event]
-                                        }
+                            {getInput(
+                                attr.label,
+                                attr.type,
+                                selected[attr.key],
+                                (event) => {
+                                    if (props.hook.selected.length > 0)
+                                        props.hook.setNodes(prev => {
+                                            const n = [...prev]
+                                            const classLocation = n.findIndex(e => e.id === selected.id)
+                                            const clone = cloneClass(prev[classLocation])
+                                            clone[attr.key] = event
+                                            n[classLocation] = clone
+                                            return n
+                                        })
+                                    else {
+                                        if (attr.key === 'tilingX')
+                                            props.engine.material.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
+                                        if (attr.key === 'tilingY')
+                                            props.engine.material.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
 
-                                        n[classLocation] = clone
+                                        selected[attr.key] = event
+                                    }
+                                },
+                                attr)
 
-                                        return n
-                                    }),
-                                    attr)}
-                            </div>
+                            }
+
                         </Accordion>
 
                     </React.Fragment>

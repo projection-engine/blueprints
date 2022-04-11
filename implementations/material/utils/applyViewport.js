@@ -1,6 +1,5 @@
 import {IDS} from "../../../../../services/hooks/useMinimalEngine";
 import MaterialInstance from "../../../../../services/engine/instances/MaterialInstance";
-import EVENTS from "../../../../../services/utils/misc/EVENTS";
 
 export default function applyViewport(materialObject, engine,  setAlert) {
     setAlert({message: 'Refreshing material', type: 'info'})
