@@ -100,6 +100,7 @@ export default class Material extends Node {
                 let img
                 this[i.key] = {}
 
+                console.log(d)
                 if (typeof d === "object") {
                     const imgKey = Object.keys(d).find(k => d[k].includes('data:image'))
 
