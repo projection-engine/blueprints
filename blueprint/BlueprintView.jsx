@@ -107,7 +107,7 @@ export default function BlueprintView(props) {
         focusTarget: props.file.registryID + '-board-wrapper',
         disabled: controlProvider.tab !== props.index,
         actions: getHotKeys(hook, props, toCopy, setToCopy)
-    })
+    }, [hook.selected, hook.links, hook.nodes, toCopy])
 
 
     const availableNodes = useMemo(() => {

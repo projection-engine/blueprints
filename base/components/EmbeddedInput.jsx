@@ -19,7 +19,7 @@ export default function EmbeddedInput(props) {
                             styles={{width: '50px', height: '20px', borderRadius: '3px'}}
                             value={bundledVariable}
                             handleChange={v => setBundledVariable(v)}
-                            onFinish={() => props.submit(bundledVariable)}
+                            onFinish={(v) => props.submit(v)}
                         />
                     )
                 case TYPES.STRING:

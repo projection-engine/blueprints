@@ -43,7 +43,8 @@ export default function NodeEditor(props) {
                     <Range
                         precision={3} maxValue={obj.max} incrementPercentage={.001} minValue={obj.min}
                         value={value !== undefined ? value : 0}
-                        onFinish={() => {
+                        onFinish={(v) => {
+                            submit(v)
                             props.hook.setChanged(true)
                             if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                 props.hook.setImpactingChange(true)
@@ -59,7 +60,8 @@ export default function NodeEditor(props) {
                             maxValue={obj.max}
                             minValue={obj.min}
                             value={value ? value[0] : undefined}
-                            onFinish={() => {
+                            onFinish={(v) => {
+                                submit([parseFloat(v), value[1], value[2]])
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
@@ -69,8 +71,8 @@ export default function NodeEditor(props) {
                             accentColor={'green'}
                             maxValue={obj.max}
                             minValue={obj.min}
-                            onFinish={() => {
-
+                            onFinish={(v) => {
+                                submit([value[0], parseFloat(v), value[2]])
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
@@ -81,7 +83,8 @@ export default function NodeEditor(props) {
                             accentColor={'blue'}
                             maxValue={obj.max}
                             minValue={obj.min}
-                            onFinish={() => {
+                            onFinish={(v) => {
+                                submit([value[0], value[1], parseFloat(v)])
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
