@@ -68,6 +68,7 @@ export default function useNode(props, selected, hidden) {
                 x: (nodeBbox.left + bounding.x) / props.scale,
                 y: (nodeBbox.top + bounding.y) / props.scale
             }
+
             const handleMouseMove = (ev) => {
                 parentBBox = parent.getBoundingClientRect()
                 bounding = {
@@ -90,7 +91,6 @@ export default function useNode(props, selected, hidden) {
                         x: ((nodeBbox.left + bounding.x) - toBeApplied.x) / props.scale,
                         y: ((nodeBbox.top + bounding.y) - toBeApplied.y) / props.scale
                     }
-
 
 
 
