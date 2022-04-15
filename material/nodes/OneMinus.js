@@ -1,5 +1,5 @@
 import Node from "../../base/Node";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import ImageProcessor from "../../../../services/workers/image/ImageProcessor";
 import NODE_TYPES from "../../base/NODE_TYPES";
 
@@ -8,9 +8,9 @@ export default class OneMinus extends Node {
 
     constructor() {
         super([
-            {label: 'Texture', key: 'sampler0', accept: [TYPES.TEXTURE, TYPES.COLOR]},
+            {label: 'Texture', key: 'sampler0', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
 
-        ], [{label: 'Texture', key: 'value', type: TYPES.TEXTURE}]);
+        ], [{label: 'Texture', key: 'value', type: DATA_TYPES.TEXTURE}]);
         this.name = '1-X'
     }
 

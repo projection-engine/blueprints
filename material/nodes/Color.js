@@ -1,5 +1,5 @@
 import Node from '../../base/Node'
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
 
 export default class Color extends Node {
@@ -8,10 +8,10 @@ export default class Color extends Node {
     constructor() {
         super(
             [
-                {label: 'RGB', key: 'rgb', type: TYPES.COLOR}
+                {label: 'RGB', key: 'rgb', type: DATA_TYPES.COLOR}
             ],
             [
-                {label: 'RGB', key: 'rgb', type: TYPES.COLOR}
+                {label: 'RGB', key: 'rgb', type: DATA_TYPES.COLOR}
             ]);
         this.name = 'Color'
     }

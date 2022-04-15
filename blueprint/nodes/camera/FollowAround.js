@@ -2,16 +2,16 @@ import Node from "../../../base/Node";
 import COMPONENTS from "../../../../../services/engine/templates/COMPONENTS";
 import {vec3} from "gl-matrix";
 import NODE_TYPES from "../../../base/NODE_TYPES";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 
 export default class FollowAround extends Node {
 
     constructor() {
         super([
-            {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM}
+            {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+            {label: 'Entity', key: 'entity', accept: [DATA_TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM}
         ], [
-            {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
+            {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
         ]);
         this.name = 'FollowAround'
 

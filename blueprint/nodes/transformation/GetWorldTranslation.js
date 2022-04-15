@@ -1,6 +1,6 @@
 import Node from "../../../base/Node";
 import COMPONENTS from "../../../../../services/engine/templates/COMPONENTS";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 export default class GetWorldTranslation extends Node {
@@ -8,15 +8,15 @@ export default class GetWorldTranslation extends Node {
     constructor() {
         super(
             [
-                {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-                {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
+                {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+                {label: 'Entity', key: 'entity', accept: [DATA_TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
             ],
             [
-                {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
+                {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
 
-                {label: 'X', key: 'x', type: TYPES.NUMBER},
-                {label: 'Y', key: 'y', type: TYPES.NUMBER},
-                {label: 'Z', key: 'z', type: TYPES.NUMBER}
+                {label: 'X', key: 'x', type: DATA_TYPES.NUMBER},
+                {label: 'Y', key: 'y', type: DATA_TYPES.NUMBER},
+                {label: 'Z', key: 'z', type: DATA_TYPES.NUMBER}
             ]);
         this.name = 'GetWorldTranslation'
     }

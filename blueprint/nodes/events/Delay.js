@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 
@@ -8,12 +8,12 @@ export default class Delay extends Node {
     constructor() {
         super(
             [
-                {key: 'line', accept: [TYPES.EXECUTION]},
-                {label: 'Delay', key: 'delay', accept: [TYPES.NUMBER]},
-                {label: 'Reset', key: 'reset', accept: [TYPES.BOOL]},
+                {key: 'line', accept: [DATA_TYPES.EXECUTION]},
+                {label: 'Delay', key: 'delay', accept: [DATA_TYPES.NUMBER]},
+                {label: 'Reset', key: 'reset', accept: [DATA_TYPES.BOOL]},
             ],
             [
-                {key: 'execute', type: TYPES.EXECUTION},
+                {key: 'execute', type: DATA_TYPES.EXECUTION},
             ],
         );
         this.name = 'Delay'

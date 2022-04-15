@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 import {KEYS} from "../../../../../services/hooks/useHotKeys";
 
@@ -12,7 +12,7 @@ export default class KeyPress extends Node {
                 {
                     label: 'Key',
                     key: 'key',
-                    type: TYPES.OPTIONS,
+                    type: DATA_TYPES.OPTIONS,
                     bundled: true,
                     options: Object.keys(KEYS).map(k => {
                         return {
@@ -23,9 +23,9 @@ export default class KeyPress extends Node {
                 },
             ],
             [
-                {label: 'Holding', key: 'holding', type: TYPES.EXECUTION, showTitle: true},
-                {label: 'Pressed', key: 'pressed', type: TYPES.EXECUTION, showTitle: true},
-                {label: 'Released', key: 'released', type: TYPES.EXECUTION, showTitle: true}
+                {label: 'Holding', key: 'holding', type: DATA_TYPES.EXECUTION, showTitle: true},
+                {label: 'Pressed', key: 'pressed', type: DATA_TYPES.EXECUTION, showTitle: true},
+                {label: 'Released', key: 'released', type: DATA_TYPES.EXECUTION, showTitle: true}
             ]);
         this.size = 1
         this.name = 'KeyPress'

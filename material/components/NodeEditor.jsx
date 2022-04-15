@@ -10,7 +10,7 @@ import Selector from "../../../../components/selector/Selector";
 import ColorPicker from "../../../../components/color/ColorPicker";
 
 import cloneClass from "../../../../services/utils/misc/cloneClass";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {
@@ -38,7 +38,7 @@ export default function NodeEditor(props) {
 
     const getInput = (label, type, value, submit, obj) => {
         switch (type) {
-            case TYPES.NUMBER:
+            case DATA_TYPES.NUMBER:
                 return (
                     <Range
                         precision={3} maxValue={obj.max} incrementPercentage={.001} minValue={obj.min}
@@ -52,7 +52,7 @@ export default function NodeEditor(props) {
                         handleChange={submit} label={label}
                     />
                 )
-            case TYPES.VEC:
+            case DATA_TYPES.VEC:
                 return (
                     <div className={styles.vecWrapper}>
                         <Range
@@ -93,7 +93,7 @@ export default function NodeEditor(props) {
                             handleChange={v => submit([value[0], value[1], parseFloat(v)])} label={label}/>
                     </div>
                 )
-            case TYPES.COLOR:
+            case DATA_TYPES.COLOR:
                 return <ColorPicker
                     submit={c => {
                         submit(c)
@@ -102,7 +102,7 @@ export default function NodeEditor(props) {
                         console.log('E')
                     }}
                     value={value}/>
-            case TYPES.TEXTURE:
+            case DATA_TYPES.TEXTURE:
                 return (
                     <Selector
                         type={'image'}
@@ -114,7 +114,7 @@ export default function NodeEditor(props) {
                         selected={value}/>
                 )
 
-            case TYPES.OPTIONS:
+            case DATA_TYPES.OPTIONS:
                 return (
                     <Dropdown styles={{width: '100%', justifyContent: 'space-between'}}>
                         {obj.options.find(o => o.data === selected[obj.key])?.label}

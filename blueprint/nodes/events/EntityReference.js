@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 import {v4 as uuidv4} from 'uuid';
@@ -9,7 +9,7 @@ export default class EntityReference extends Node {
         super(
             [],
             [
-                {label: 'Entity', key: 'entity', type: TYPES.ENTITY, components: components}
+                {label: 'Entity', key: 'entity', type: DATA_TYPES.ENTITY, components: components}
             ]);
         this.size = 2
         this.id = id + '/' + uuidv4()

@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from "react";
-import {TYPES} from "../TYPES";
+import {DATA_TYPES} from "../DATA_TYPES";
 import Range from "../../../../components/range/Range";
-import {Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
+import {Checkbox, Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
 import styles from "../styles/Node.module.css";
 import Search from "../../../../components/search/Search";
 import PropTypes from "prop-types";
@@ -12,17 +12,58 @@ export default function EmbeddedInput(props) {
     return useMemo(() => {
         if (props.canRender)
             switch (props.data.type) {
-                case TYPES.NUMBER:
+                case DATA_TYPES.FLOAT:
+                case DATA_TYPES.INT:
+                case DATA_TYPES.NUMBER:
                     return (
                         <Range
                             {...props.data}
                             styles={{width: '50px', height: '20px', borderRadius: '3px'}}
                             value={bundledVariable}
-                            handleChange={v => setBundledVariable(v)}
-                            onFinish={(v) => props.submit(v)}
+                            handleChange={v => setBundledVariable(props.data.type === DATA_TYPES.INT ? parseInt(v) : v)}
+                            onFinish={(v) => props.submit(props.data.type === DATA_TYPES.INT ? parseInt(v) : v)}
                         />
                     )
-                case TYPES.STRING:
+                case DATA_TYPES.BOOL:
+                    return (
+                        <>
+                            <label className={styles.overflow}>{props.data.label}</label>
+                            <Dropdown
+                                className={styles.bundled}
+                                hideArrow={true}
+                                wrapperClassname={styles.wrapperContent}
+                                variant={bundledVariable !== undefined ? 'filled' : "outlined"}
+                                attributes={{title: bundledVariable ? bundledVariable : props.data.label}}>
+                                {bundledVariable ? 'Yes' : 'No'}
+                                <DropdownOptions>
+
+                                    <DropdownOption
+                                        option={{
+                                            label: 'Yes',
+                                            icon: !bundledVariable ? null : <span className={'material-icons-round'}
+                                                                                  style={{fontSize: '1.1rem'}}>check</span>,
+                                            onClick: () => {
+                                                props.submit(true)
+                                                setBundledVariable(true)
+                                            }
+                                        }}
+                                    />
+                                    <DropdownOption
+                                        option={{
+                                            label: 'No',
+                                            icon: bundledVariable ? null : <span className={'material-icons-round'}
+                                                                                 style={{fontSize: '1.1rem'}}>check</span>,
+                                            onClick: () => {
+                                                props.submit(false)
+                                                setBundledVariable(false)
+                                            }
+                                        }}
+                                    />
+                                </DropdownOptions>
+                            </Dropdown>
+                        </>
+                    )
+                case DATA_TYPES.STRING:
                     return (
                         <TextField
                             value={bundledVariable}
@@ -34,7 +75,7 @@ export default function EmbeddedInput(props) {
                             onBlur={() => props.submit(bundledVariable)}
                         />
                     )
-                case TYPES.OPTIONS:
+                case DATA_TYPES.OPTIONS:
                     return (
                         <Dropdown
                             className={styles.bundled}
@@ -77,9 +118,11 @@ export default function EmbeddedInput(props) {
                             </DropdownOptions>
                         </Dropdown>
                     )
+                default:
+                    return null
             }
         else
-            return null
+            return (<></>)
     }, [props.node, bundledVariable, searchString, props.canRender])
 }
 

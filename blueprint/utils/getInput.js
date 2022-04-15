@@ -1,4 +1,4 @@
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import Range from "../../../../components/range/Range";
 import styles from "../styles/NodeEditor.module.css";
 import {Checkbox, Dropdown, DropdownOption, DropdownOptions} from "@f-ui/core";
@@ -6,7 +6,7 @@ import React from "react";
 
 export default function getInput(label, type, value, submit, obj, hook, selected){
     switch (type) {
-        case TYPES.NUMBER:
+        case DATA_TYPES.NUMBER:
             return (
                 <Range
                     accentColor={'red'}
@@ -17,9 +17,9 @@ export default function getInput(label, type, value, submit, obj, hook, selected
                     value={value !== undefined ? value : 0}
                     handleChange={submit} label={label}/>
             )
-        case TYPES.VEC2:
-        case TYPES.VEC3:
-        case TYPES.VEC4:
+        case DATA_TYPES.VEC2:
+        case DATA_TYPES.VEC3:
+        case DATA_TYPES.VEC4:
             return (
                 <div className={styles.vecWrapper}>
                     <Range
@@ -47,7 +47,7 @@ export default function getInput(label, type, value, submit, obj, hook, selected
                                submit(c)
                            }}
                            label={label}/>
-                    {type === TYPES.VEC3 || type === TYPES.VEC4 ?
+                    {type === DATA_TYPES.VEC3 || type === DATA_TYPES.VEC4 ?
                         <Range
                             accentColor={'blue'}
                             precision={3}
@@ -62,7 +62,7 @@ export default function getInput(label, type, value, submit, obj, hook, selected
                             }}
                             label={label}/>
                         : null}
-                    {type === TYPES.VEC4 ?
+                    {type === DATA_TYPES.VEC4 ?
                         <Range
                             accentColor={'yellow'}
                             precision={3}
@@ -80,9 +80,9 @@ export default function getInput(label, type, value, submit, obj, hook, selected
                 </div>
             )
 
-        case TYPES.BOOL:
+        case DATA_TYPES.BOOL:
             return <Checkbox width={'100%'} noMargin={true} label={label} checked={value} handleCheck={() => submit(!value)}/>
-        case TYPES.OPTIONS:
+        case DATA_TYPES.OPTIONS:
             return (
                 <Dropdown styles={{width: '100%', justifyContent: 'space-between'}}>
                     {obj.options.find(o => o.data === hook.variables[selected][obj.key])?.label}

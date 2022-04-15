@@ -1,17 +1,17 @@
 import Node from "../../../base/Node";
 import NODE_TYPES from "../../../base/NODE_TYPES";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 
 export default class SetCameraPosition extends Node {
 
     constructor() {
         super([
-            {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'X', key: 'x', accept: [TYPES.NUMBER]},
-            {label: 'Y', key: 'y', accept: [TYPES.NUMBER]},
-            {label: 'Z', key: 'z', accept: [TYPES.NUMBER]},
+            {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+            {label: 'X', key: 'x', accept: [DATA_TYPES.NUMBER]},
+            {label: 'Y', key: 'y', accept: [DATA_TYPES.NUMBER]},
+            {label: 'Z', key: 'z', accept: [DATA_TYPES.NUMBER]},
         ], [
-            {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
+            {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
         ]);
         this.name = 'SetCameraPosition'
         this.size = 2

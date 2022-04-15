@@ -1,5 +1,5 @@
 import Node from "../../base/Node";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
 
 
@@ -8,9 +8,9 @@ export default class Power extends Node {
 
     constructor( ) {
         super([
-            {label: 'Texture', key: 'texture', accept: [TYPES.TEXTURE]},
-            {label: 'Value', key: 'valueToMultiply', accept: [TYPES.COLOR, TYPES.NUMBER]}
-        ], [{label: 'Value', key: 'value', type: TYPES.NUMBER}]);
+            {label: 'Texture', key: 'texture', accept: [DATA_TYPES.TEXTURE]},
+            {label: 'Value', key: 'valueToMultiply', accept: [DATA_TYPES.COLOR, DATA_TYPES.NUMBER]}
+        ], [{label: 'Value', key: 'value', type: DATA_TYPES.NUMBER}]);
         this.name = 'Power'
     }
     get type (){

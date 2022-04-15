@@ -54,4 +54,16 @@ export default {
         ICON: 'keyboard_double_arrow_down',
         ROTATE: '-90deg'
     },
+
+    OUTPUT: {
+        COLOR: 'white',
+        LABEL: 'Output',
+        ICON: 'output'
+    },
+    STATIC: {
+        COLOR: 'red',
+        LABEL: 'Static value',
+        ICON: 'input'
+    }
+
 }

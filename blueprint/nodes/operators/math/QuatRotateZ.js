@@ -1,5 +1,5 @@
 import Node from "../../../../base/Node";
-import {TYPES} from "../../../../base/TYPES";
+import {DATA_TYPES} from "../../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../../base/NODE_TYPES";
 import {quat} from "gl-matrix";
 
@@ -8,17 +8,17 @@ export default class QuatRotateZ extends Node {
     rotType = 'Global'
     constructor() {
         super([
-            {label: 'Quaternion', key: 'vec', accept: [TYPES.VEC4]},
-            {label: 'Angle', key: 'rad', accept: [TYPES.NUMBER]},
+            {label: 'Quaternion', key: 'vec', accept: [DATA_TYPES.VEC4]},
+            {label: 'Angle', key: 'rad', accept: [DATA_TYPES.NUMBER]},
             {
                 label: 'Type',
                 key: 'rotType',
                 bundled: true,
-                type: TYPES.OPTIONS,
+                type: DATA_TYPES.OPTIONS,
                 options: [{label: 'Local', value: 'Local'}, {label: 'Global', value: 'Global'}]
             },
         ], [
-            {label: 'Result', key: 'res', type: TYPES.VEC4},
+            {label: 'Result', key: 'res', type: DATA_TYPES.VEC4},
         ]);
         this.name = 'QuatRotateZ'
         this.size = 1

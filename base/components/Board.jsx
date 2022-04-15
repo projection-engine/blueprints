@@ -24,24 +24,29 @@ export default function Board(props) {
     } = useBoard(props.hook, scale, setScale)
 
     const handleDropNode = (n, e) => {
-        const bounding = {
-            x: ref.current.scrollLeft - ref.current.getBoundingClientRect().left,
-            y: ref.current.scrollTop - ref.current.getBoundingClientRect().top
+        if(n.unique && !props.hook.nodes.find(node => node.constructor.name === n.constructor.name) || !n.unique) {
+            const bounding = {
+                x: ref.current.scrollLeft - ref.current.getBoundingClientRect().left,
+                y: ref.current.scrollTop - ref.current.getBoundingClientRect().top
+            }
+            const mousePlacement = {
+                x: e.clientX + bounding.x,
+                y: e.clientY + bounding.y
+            }
+            const current = {
+                x: mousePlacement.x,
+                y: mousePlacement.y
+            }
+            n.x = (current.x - 100) / scale
+            n.y = (current.y - 25) / scale
+            props.hook.setChanged(true)
+            props.hook.setNodes(prev => {
+                return [...prev, n]
+            })
         }
-        const mousePlacement = {
-            x: e.clientX + bounding.x,
-            y: e.clientY + bounding.y
-        }
-        const current = {
-            x: mousePlacement.x,
-            y: mousePlacement.y
-        }
-        n.x = (current.x - 100) / scale
-        n.y = (current.y - 25) / scale
-        props.hook.setChanged(true)
-        props.hook.setNodes(prev => {
-            return [...prev, n]
-        })
+        else
+            props.setAlert({message: 'Cannot add two instances of ' + n.name, type: 'error'})
+
     }
     const boardOptions = useMemo(() => {
         return getBoardOptions((n, mouseInfo) => {
@@ -63,7 +68,6 @@ export default function Board(props) {
             })
     }
 
-console.log(props.hook.links)
     return (
         <OnDragProvider.Provider value={{setDragType, dragType}}>
             <ContextWrapper

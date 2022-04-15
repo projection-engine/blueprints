@@ -1,5 +1,5 @@
 import Node from "../../base/Node";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
 import ImageProcessor from "../../../../services/workers/image/ImageProcessor";
 
@@ -9,12 +9,12 @@ export default class TextureSample extends Node {
 
     constructor() {
         super([
-            {label: 'Texture', type: TYPES.TEXTURE, key: 'sample'}
+            {label: 'Texture', type: DATA_TYPES.TEXTURE, key: 'sample'}
         ], [
-            {label: 'Texture', type: TYPES.TEXTURE, key: 'sample'},
-            {label: 'R', type: TYPES.TEXTURE, key: 'r', color: 'red'},
-            {label: 'G', type: TYPES.TEXTURE, key: 'g', color: 'green'},
-            {label: 'B', type: TYPES.TEXTURE, key: 'b', color: 'blue'},
+            {label: 'Texture', type: DATA_TYPES.TEXTURE, key: 'sample'},
+            {label: 'R', type: DATA_TYPES.TEXTURE, key: 'r', color: 'red'},
+            {label: 'G', type: DATA_TYPES.TEXTURE, key: 'g', color: 'green'},
+            {label: 'B', type: DATA_TYPES.TEXTURE, key: 'b', color: 'blue'},
         ]);
         this.name = 'Texture sample'
     }

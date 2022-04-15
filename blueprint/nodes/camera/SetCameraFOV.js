@@ -1,17 +1,17 @@
 import Node from "../../../base/Node";
 import NODE_TYPES from "../../../base/NODE_TYPES";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 
 const toDeg = 57.29
 export default class SetCameraFOV extends Node {
 
     constructor() {
         super([
-            {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'FOV', key: 'fov', accept: [TYPES.NUMBER]},
+            {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+            {label: 'FOV', key: 'fov', accept: [DATA_TYPES.NUMBER]},
 
         ], [
-            {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
+            {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
         ]);
         this.name = 'SetCameraFOV'
         this.size = 2

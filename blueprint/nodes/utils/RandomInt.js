@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 
@@ -8,10 +8,10 @@ export default class RandomInt extends Node {
     constructor() {
         super([
 
-                {label: 'Max', key: 'max', accept: [TYPES.NUMBER]},
-                {label: 'Min', key: 'min', accept: [TYPES.NUMBER]}
+                {label: 'Max', key: 'max', accept: [DATA_TYPES.NUMBER]},
+                {label: 'Min', key: 'min', accept: [DATA_TYPES.NUMBER]}
             ],
-            [{label: 'Number', key: 'num', type: TYPES.NUMBER}]);
+            [{label: 'Number', key: 'num', type: DATA_TYPES.NUMBER}]);
         this.name = 'RandomInt'
     }
 

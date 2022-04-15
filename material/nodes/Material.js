@@ -1,5 +1,5 @@
 import Node from '../../base/Node'
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
 import ImageProcessor from "../../../../services/workers/image/ImageProcessor";
 import MATERIAL_TYPES from "../../../../services/engine/templates/MATERIAL_TYPES";
@@ -19,22 +19,22 @@ export default class Material extends Node {
     constructor() {
         super(
             [
-                {label: 'Albedo', key: 'albedo', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-                {label: 'Metallic', key: 'metallic', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-                {label: 'Displacement', key: 'height', accept: [TYPES.OBJECT, TYPES.TEXTURE, TYPES.COLOR]},
-                {label: 'Roughness', key: 'roughness', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-                {label: 'Normal', key: 'normal', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-                {label: 'Ambient occlusion', key: 'ao', accept: [TYPES.TEXTURE, TYPES.COLOR]},
+                {label: 'Albedo', key: 'albedo', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+                {label: 'Metallic', key: 'metallic', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+                {label: 'Displacement', key: 'height', accept: [DATA_TYPES.OBJECT, DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+                {label: 'Roughness', key: 'roughness', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+                {label: 'Normal', key: 'normal', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+                {label: 'Ambient occlusion', key: 'ao', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
 
-                {label: 'Refraction', key: 'refraction', accept: [TYPES.NUMBER], disabled: true},
-                {label: 'Emissive', key: 'emissive', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-                {label: 'Opacity', key: 'opacity', accept: [TYPES.NUMBER], disabled: true},
+                {label: 'Refraction', key: 'refraction', accept: [DATA_TYPES.NUMBER], disabled: true},
+                {label: 'Emissive', key: 'emissive', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+                {label: 'Opacity', key: 'opacity', accept: [DATA_TYPES.NUMBER], disabled: true},
 
-                {label: 'Subsurface', key: 'subSurface', accept: [TYPES.TEXTURE, TYPES.COLOR], disabled: true},
+                {label: 'Subsurface', key: 'subSurface', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR], disabled: true},
                 {
                     label: 'Material type',
                     key: 'variant',
-                    type: TYPES.OPTIONS,
+                    type: DATA_TYPES.OPTIONS,
                     options: [
                         {label: 'Opaque', data: MATERIAL_TYPES.OPAQUE},
                         {label: 'Transparent', data: MATERIAL_TYPES.TRANSPARENT},
@@ -42,8 +42,8 @@ export default class Material extends Node {
                     ]
                 },
 
-                {label: 'UV tiling X', key: 'tilingX', type: TYPES.NUMBER},
-                {label: 'UV tiling Y', key: 'tilingY', type: TYPES.NUMBER},
+                {label: 'UV tiling X', key: 'tilingX', type: DATA_TYPES.NUMBER},
+                {label: 'UV tiling Y', key: 'tilingY', type: DATA_TYPES.NUMBER},
             ]);
 
         this.name = 'Material'
@@ -60,20 +60,20 @@ export default class Material extends Node {
                 case MATERIAL_TYPES.TRANSPARENT:
                     if (this.materialVariant === MATERIAL_TYPES.TRANSPARENT && (i.key === 'refraction' || i.key === 'opacity'))
                         return {...i, disabled: false}
-                    else if (i.accept !== undefined && i.accept.includes(TYPES.ATLAS))
-                        return {...i, accept: i.accept.filter(e => e !== TYPES.ATLAS)}
+                    else if (i.accept !== undefined && i.accept.includes(DATA_TYPES.ATLAS))
+                        return {...i, accept: i.accept.filter(e => e !== DATA_TYPES.ATLAS)}
                     return i
                 case MATERIAL_TYPES.OPAQUE:
                     if (i.key === 'refraction' || i.key === 'opacity')
                         return {...i, disabled: true}
-                    else if (i.accept !== undefined && i.accept.includes(TYPES.ATLAS))
-                        return {...i, accept: i.accept.filter(e => e !== TYPES.ATLAS)}
+                    else if (i.accept !== undefined && i.accept.includes(DATA_TYPES.ATLAS))
+                        return {...i, accept: i.accept.filter(e => e !== DATA_TYPES.ATLAS)}
                     return i
                 case MATERIAL_TYPES.TERRAIN:
                     if (i.key === 'height' || i.key === 'ao' || i.key === 'emissive' || i.key === 'refraction' || i.key === 'opacity')
                         return {...i, disabled: true}
-                    else if (i.accept !== undefined && !i.accept.includes(TYPES.ATLAS))
-                        return {...i, accept: [...i.accept, TYPES.ATLAS]}
+                    else if (i.accept !== undefined && !i.accept.includes(DATA_TYPES.ATLAS))
+                        return {...i, accept: [...i.accept, DATA_TYPES.ATLAS]}
                     else
                         return i
                 default:

@@ -10,7 +10,11 @@ export default {
     BRANCH: 7,
 
 
-    GETTER:  8,
-    SETTER:  9,
-    REFERENCE:  10
+    GETTER: 8,
+    SETTER: 9,
+    REFERENCE: 10,
+
+
+    STATIC: 'static',
+    OUTPUT: 11
 }

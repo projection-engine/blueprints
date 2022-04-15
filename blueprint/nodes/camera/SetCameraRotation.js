@@ -1,17 +1,17 @@
 import Node from "../../../base/Node";
 import {quat} from "gl-matrix";
 import NODE_TYPES from "../../../base/NODE_TYPES";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 
 export default class SetCameraRotation extends Node {
 
     constructor() {
         super([
-            {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'Rotation', key: 'rot', accept: [TYPES.VEC4]},
+            {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+            {label: 'Rotation', key: 'rot', accept: [DATA_TYPES.VEC4]},
 
         ], [
-            {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
+            {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
         ]);
         this.name = 'SetCameraRotation'
         this.size = 2

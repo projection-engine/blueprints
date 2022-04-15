@@ -3,7 +3,7 @@ import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
 
 import {Accordion, AccordionSummary, TextField,} from "@f-ui/core";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import Getter from "../nodes/utils/Getter";
 import {startKey} from "../nodes/utils/Setter";
 import getInput from "../utils/getInput";
@@ -26,21 +26,21 @@ export default function NodeEditor(props) {
         if (selectedVariable) {
             const type = props.hook.variables[selected].type
             switch (type) {
-                case TYPES.VEC2:
-                    res = [{label: 'Vector', key: 'value', type: TYPES.VEC2}]
+                case DATA_TYPES.VEC2:
+                    res = [{label: 'Vector', key: 'value', type: DATA_TYPES.VEC2}]
                     break
-                case TYPES.VEC3:
-                    res = [{label: 'Vector', key: 'value', type: TYPES.VEC3}]
+                case DATA_TYPES.VEC3:
+                    res = [{label: 'Vector', key: 'value', type: DATA_TYPES.VEC3}]
                     break
-                case TYPES.VEC4:
-                    res = [{label: 'Vector', key: 'value', type: TYPES.VEC4}]
+                case DATA_TYPES.VEC4:
+                    res = [{label: 'Vector', key: 'value', type: DATA_TYPES.VEC4}]
                     break
-                case TYPES.NUMBER:
-                    res = [{label: 'Value', key: 'value', type: TYPES.NUMBER}]
+                case DATA_TYPES.NUMBER:
+                    res = [{label: 'Value', key: 'value', type: DATA_TYPES.NUMBER}]
                     break
-                case TYPES.BOOL:
+                case DATA_TYPES.BOOL:
                     res = [
-                        {label: 'Is truthful', key: 'value', type: TYPES.BOOL}
+                        {label: 'Is truthful', key: 'value', type: DATA_TYPES.BOOL}
                     ]
                     break
                 default:
@@ -48,13 +48,13 @@ export default function NodeEditor(props) {
             }
 
             res.push({
-                label: 'Variable Type', key: 'type', type: TYPES.OPTIONS,
+                label: 'Variable Type', key: 'type', type: DATA_TYPES.OPTIONS,
                 options: [
-                    {label: 'Vector 2D', data: TYPES.VEC2},
-                    {label: 'Vector 3D', data: TYPES.VEC3},
-                    {label: 'Vector 4D', data: TYPES.VEC4},
-                    {label: 'Number', data: TYPES.NUMBER},
-                    {label: 'Boolean', data: TYPES.BOOL}
+                    {label: 'Vector 2D', data: DATA_TYPES.VEC2},
+                    {label: 'Vector 3D', data: DATA_TYPES.VEC3},
+                    {label: 'Vector 4D', data: DATA_TYPES.VEC4},
+                    {label: 'Number', data: DATA_TYPES.NUMBER},
+                    {label: 'Boolean', data: DATA_TYPES.BOOL}
                 ]
             })
         }
@@ -64,15 +64,15 @@ export default function NodeEditor(props) {
 
     const getNewValue = (type) => {
         switch (type) {
-            case TYPES.VEC2:
+            case DATA_TYPES.VEC2:
                 return [0, 0]
-            case TYPES.VEC3:
+            case DATA_TYPES.VEC3:
                 return [0, 0, 0]
-            case TYPES.VEC4:
+            case DATA_TYPES.VEC4:
                 return [0, 0, 0, 0]
-            case TYPES.NUMBER:
+            case DATA_TYPES.NUMBER:
                 return 0
-            case TYPES.BOOL:
+            case DATA_TYPES.BOOL:
                 return false
             default:
                 break
@@ -138,13 +138,13 @@ export default function NodeEditor(props) {
                                                                 node.inputs = [{
                                                                     label: 'Start',
                                                                     key: startKey,
-                                                                    accept: [TYPES.EXECUTION]
+                                                                    accept: [DATA_TYPES.EXECUTION]
                                                                 }, {label: 'Value', key: 'value', accept: [event]}]
                                                                 node.output = [
                                                                     {
                                                                         label: 'Execute',
                                                                         key: 'EXECUTION',
-                                                                        type: TYPES.EXECUTION
+                                                                        type: DATA_TYPES.EXECUTION
                                                                     },
                                                                     {label: 'Value', key: 'value', type: event}
                                                                 ]

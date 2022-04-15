@@ -1,5 +1,5 @@
 import Node from "../../base/Node";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import ImageProcessor, {COLOR_BLEND_OPERATIONS} from "../../../../services/workers/image/ImageProcessor";
 import NODE_TYPES from "../../base/NODE_TYPES";
 
@@ -8,9 +8,9 @@ export default class Multiply extends Node {
 
     constructor() {
         super([
-            {label: 'Texture', key: 'texture', accept: [TYPES.TEXTURE]},
-            {label: 'Value', key: 'valueToMultiply', accept: [TYPES.COLOR, TYPES.NUMBER]}
-        ], [{label: 'Texture', key: 'value', type: TYPES.TEXTURE}]);
+            {label: 'Texture', key: 'texture', accept: [DATA_TYPES.TEXTURE]},
+            {label: 'Value', key: 'valueToMultiply', accept: [DATA_TYPES.COLOR, DATA_TYPES.NUMBER]}
+        ], [{label: 'Texture', key: 'value', type: DATA_TYPES.TEXTURE}]);
         this.name = 'Multiply'
     }
     get type (){

@@ -1,0 +1,29 @@
+.boardAvailable{
+    display: grid;
+    grid-auto-flow: column;
+    gap: 3px;
+
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.wrapper {
+    padding: 3px 0 0 0 ;
+    display: flex;
+
+
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+}
+
+.view {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+

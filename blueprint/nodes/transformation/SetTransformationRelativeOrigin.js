@@ -2,22 +2,22 @@ import Node from "../../../base/Node";
 import COMPONENTS from "../../../../../services/engine/templates/COMPONENTS";
 import {mat4, quat} from "gl-matrix";
 import NODE_TYPES from "../../../base/NODE_TYPES";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 
 const toDeg = 57.29
 export default class SetTransformationRelativeOrigin extends Node {
 
     constructor() {
         super([
-            {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
-            {label: 'Translation', key: 't', accept: [TYPES.VEC3]},
-            {label: 'Rotation', key: 'r', accept: [TYPES.VEC4, TYPES.VEC3]},
-            {label: 'Scale', key: 's', accept: [TYPES.VEC3]},
-            {label: 'Origin', key: 'o', accept: [TYPES.VEC3]},
+            {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+            {label: 'Entity', key: 'entity', accept: [DATA_TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
+            {label: 'Translation', key: 't', accept: [DATA_TYPES.VEC3]},
+            {label: 'Rotation', key: 'r', accept: [DATA_TYPES.VEC4, DATA_TYPES.VEC3]},
+            {label: 'Scale', key: 's', accept: [DATA_TYPES.VEC3]},
+            {label: 'Origin', key: 'o', accept: [DATA_TYPES.VEC3]},
 
         ], [
-            {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION}
+            {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION}
         ]);
         this.name = 'SetTransformationRelativeOrigin'
     }

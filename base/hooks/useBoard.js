@@ -1,7 +1,7 @@
 import {useContext, useEffect, useMemo, useRef, useState} from "react";
 import getBezierCurve from "../utils/bezierCurve";
-import {TYPES} from "../TYPES";
-import TYPES_INFO from "../TYPES_INFO";
+import {DATA_TYPES} from "../DATA_TYPES";
+import TYPES_INFO from "../DATA_INFO";
 import {AlertProvider} from "@f-ui/core";
 
 
@@ -78,7 +78,7 @@ export default function useBoard(hook, scale, setScale) {
     }
     const links = useMemo(() => {
         return hook.links.map(l => {
-            let key = (Object.entries(TYPES).find(([_, value]) => value === l.source.attribute.type))
+            let key = (Object.entries(DATA_TYPES).find(([_, value]) => value === l.source.attribute.type))
             if (key)
                 key = key[0]
 
@@ -87,7 +87,9 @@ export default function useBoard(hook, scale, setScale) {
                 source: l.source.id + l.source.attribute.key,
                 targetKey: l.target.attribute.key,
                 sourceKey: l.source.attribute.key,
-                color: TYPES_INFO[key]
+                color: TYPES_INFO[key],
+                sourceType: l.source.attribute.type,
+                targetType: l.target.attribute.type
             }
         })
     }, [hook.links])

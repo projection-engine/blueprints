@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 export const startKey = 'start'
@@ -8,11 +8,11 @@ export default class Setter extends Node {
     constructor(id, name, type) {
         super(
             [
-                {label: 'Start', key: startKey, accept: [TYPES.EXECUTION]},
+                {label: 'Start', key: startKey, accept: [DATA_TYPES.EXECUTION]},
                 {label: 'Value', key: 'value', accept: [type]}
             ],
             [
-                {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
+                {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
                 {label: 'Value', key: 'newValue', type: type}
             ]);
         this.id = id

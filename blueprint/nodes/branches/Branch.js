@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 
@@ -8,12 +8,12 @@ export default class Branch extends Node {
     constructor() {
         super(
             [
-                {label: 'A', key: 'line', accept: [TYPES.EXECUTION]},
-                {label: 'Condition', key: 'condition', accept: [TYPES.BOOL]}
+                {label: 'A', key: 'line', accept: [DATA_TYPES.EXECUTION]},
+                {label: 'Condition', key: 'condition', accept: [DATA_TYPES.BOOL]}
             ],
             [
-                {label: 'True', key: 'trueLine', type: TYPES.EXECUTION, showTitle: true},
-                {label: 'False', key: 'falseLine', type: TYPES.EXECUTION, showTitle: true},
+                {label: 'True', key: 'trueLine', type: DATA_TYPES.EXECUTION, showTitle: true},
+                {label: 'False', key: 'falseLine', type: DATA_TYPES.EXECUTION, showTitle: true},
             ],
         );
         this.name = 'Branch'

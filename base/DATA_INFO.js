@@ -8,15 +8,24 @@ export default {
     OPTIONS: "purple",
     ATLAS: "purple",
 
-
-    VEC4: "yellow",
-    VEC3: "yellow",
-    VEC2: "yellow",
-
-
     EXECUTION: "#0095ff",
     CONSTANT: "purple",
     ANY: "#999999",
-    BOOL: "red",
+
     ENTITY: "#0095ff",
+
+
+
+
+    FLOAT: 'darkgreen',
+    INT: 'orange',
+    SAMPLER_2D: 'blue',
+    SAMPLER_CUBE: 'darkblue',
+    VEC2: 'purple',
+    VEC3: 'purple',
+    VEC4: 'purple',
+    MAT3: 'black',
+    MAT4: 'black',
+    BOOL: 'red',
+    UNDEFINED: 'gray'
 }

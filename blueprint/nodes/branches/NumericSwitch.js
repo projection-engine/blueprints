@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 
@@ -8,12 +8,12 @@ export default class NumericSwitch extends Node {
     constructor() {
         super(
             [
-                { key: 'line', accept: [TYPES.EXECUTION]},
-                {label: 'Selection', key: 'selection', accept: [TYPES.NUMBER]}
+                { key: 'line', accept: [DATA_TYPES.EXECUTION]},
+                {label: 'Selection', key: 'selection', accept: [DATA_TYPES.NUMBER]}
             ],
             [
-                {label: 'True', key: 'trueLine', type: TYPES.EXECUTION, showTitle: true},
-                {label: 'False', key: 'falseLine', type: TYPES.EXECUTION, showTitle: true},
+                {label: 'True', key: 'trueLine', type: DATA_TYPES.EXECUTION, showTitle: true},
+                {label: 'False', key: 'falseLine', type: DATA_TYPES.EXECUTION, showTitle: true},
             ],
         );
         this.name = 'NumericSwitch'

@@ -1,5 +1,5 @@
 import Node from "../../base/Node";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
 import ImageProcessor from "../../../../services/workers/image/ImageProcessor";
 
@@ -10,11 +10,11 @@ export default class Lerp extends Node {
 
     constructor() {
         super([
-            {label: 'Texture 0', key: 'sample', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-            {label: 'Texture 1', key: 'sample1', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-            {label: 'Factor', key: 'factor', accept: [TYPES.NUMBER]},
+            {label: 'Texture 0', key: 'sample', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+            {label: 'Texture 1', key: 'sample1', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+            {label: 'Factor', key: 'factor', accept: [DATA_TYPES.NUMBER]},
         ], [
-            {label: 'Channel', type: TYPES.TEXTURE, key: 'result'}
+            {label: 'Channel', type: DATA_TYPES.TEXTURE, key: 'result'}
         ]);
         this.name = 'Lerp'
     }

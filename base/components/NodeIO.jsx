@@ -1,6 +1,6 @@
 import styles from "../styles/Node.module.css";
 import PropTypes from "prop-types";
-import {TYPES} from "../TYPES";
+import {DATA_TYPES} from "../DATA_TYPES";
 import React, {useContext, useEffect, useMemo, useRef} from "react";
 import OnDragProvider from "../hooks/DragProvider";
 
@@ -8,7 +8,7 @@ import EmbeddedInput from "./EmbeddedInput";
 
 export default function NodeIO(props) {
     const isExecution = useMemo(() => {
-        return (props.data.accept && props.data.accept.includes(TYPES.EXECUTION)) || props.data.type === TYPES.EXECUTION
+        return (props.data.accept && props.data.accept.includes(DATA_TYPES.EXECUTION)) || props.data.type === DATA_TYPES.EXECUTION
     }, [])
     const infoRef = useRef()
     const wrapperRef = useRef()
@@ -17,7 +17,7 @@ export default function NodeIO(props) {
         const data = JSON.parse(e.dataTransfer.getData('text'))
         e.currentTarget.style.background = 'var(--fabric-background-primary)'
 
-        if (data.type === 'output' && (props.data.accept.includes(data.attribute.type) || props.data.accept.includes(TYPES.ANY)))
+        if (data.type === 'output' && (props.data.accept.includes(data.attribute.type) || props.data.accept.includes(DATA_TYPES.ANY)))
             props.handleLink(data, {
                 attribute: props.data,
                 id: props.nodeID
@@ -35,19 +35,19 @@ export default function NodeIO(props) {
     }
     const getType = (a) => {
         switch (a) {
-            case TYPES.VEC:
+            case DATA_TYPES.VEC:
                 return 'Vector'
-            case TYPES.NUMBER:
+            case DATA_TYPES.NUMBER:
                 return 'Number'
-            case TYPES.STRING:
+            case DATA_TYPES.STRING:
                 return 'String'
-            case TYPES.COLOR:
+            case DATA_TYPES.COLOR:
                 return 'RGB'
-            case TYPES.TEXTURE:
+            case DATA_TYPES.TEXTURE:
                 return 'Texture sample'
-            case TYPES.OBJECT:
+            case DATA_TYPES.OBJECT:
                 return 'Object'
-            case TYPES.EXECUTION:
+            case DATA_TYPES.EXECUTION:
                 return 'Execution loop'
         }
     }
@@ -62,7 +62,7 @@ export default function NodeIO(props) {
                 infoRef.current.style.display = 'grid'
                 infoRef.current.style.top = wrapperRef.current.offsetTop + 'px'
                 infoRef.current.style.left = (e.clientX - bBox.x) + 'px'
-                infoRef.current.style.borderLeft = props.data.accept.includes(onDragContext.dragType) || props.data.accept.includes(TYPES.ANY) ? 'green 2px solid' : 'red 2px solid'
+                infoRef.current.style.borderLeft = props.data.accept.includes(onDragContext.dragType) || props.data.accept.includes(DATA_TYPES.ANY) ? 'green 2px solid' : 'red 2px solid'
             } else
                 infoRef.current.style.display = 'none'
         }
@@ -99,7 +99,6 @@ export default function NodeIO(props) {
             return undefined
 
     }, [props.inputLinks, props.outputLinks])
-
     return (
         <>
 
@@ -119,7 +118,7 @@ export default function NodeIO(props) {
                  style={{justifyContent: props.type === 'input' ? 'flex-start' : 'flex-end'}}>
 
                 {props.type === 'output' && (!isExecution || props.data.showTitle) ? (
-                    <div  className={styles.overflow}
+                    <div className={styles.overflow}
                          style={{color: props.data.color, fontWeight: 'bold'}}>
                         {props.data.label}
                     </div>
@@ -137,7 +136,7 @@ export default function NodeIO(props) {
                     }}
                     onDrop={e => {
                         onDragContext.setDragType(undefined)
-                        if(!props.data.disabled){
+                        if (!props.data.disabled) {
                             if (props.type === 'input')
                                 asInput(e)
                             else
@@ -152,18 +151,26 @@ export default function NodeIO(props) {
                     onDrag={props.handleLinkDrag}
                     onDragStart={e => {
                         if (props.type !== 'input') {
+
+                            const nType =props.data.type === DATA_TYPES.UNDEFINED  ?  props.inputLinks.length === 1 ? props.inputLinks[0]?.sourceType : getPredominant(props.inputLinks) : undefined
+                            console.log(nType)
+                            const attribute = props.data.type === DATA_TYPES.UNDEFINED ? {
+                                ...props.data,
+                                type: nType
+                            } : props.data
+                            console.log(attribute)
                             e.dataTransfer
                                 .setData(
                                     'text',
                                     JSON.stringify({
                                         id: props.nodeID,
                                         type: props.type,
-                                        attribute: props.data
+                                        attribute
                                     })
                                 )
 
 
-                            onDragContext.setDragType(props.data.type)
+                            onDragContext.setDragType(attribute.type)
                         } else
                             e.preventDefault()
                     }}>
@@ -210,4 +217,17 @@ NodeIO.propTypes = {
     }).isRequired,
     inputLinks: PropTypes.arrayOf(PropTypes.object).isRequired,
     outputLinks: PropTypes.arrayOf(PropTypes.object).isRequired
+}
+
+function getPredominant([a, b]) {
+    console.log(a, b)
+    const aType = a.sourceType,
+        bType = b.sourceType
+
+    if(aType === bType)
+        return aType
+    if(aType === DATA_TYPES.FLOAT && bType.toString().includes('vec'))
+        return bType
+    else
+        return aType
 }

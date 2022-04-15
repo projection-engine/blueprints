@@ -129,7 +129,6 @@ export default function useNode(props, selected, hidden) {
     }, [props.links])
 
     const inputLinks = useMemo(() => {
-
         return props.links.filter(l => {
             return l.target.includes(props.node.id)
         })

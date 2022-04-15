@@ -1,14 +1,14 @@
 import Node from "../../../../base/Node";
-import {TYPES} from "../../../../base/TYPES";
+import {DATA_TYPES} from "../../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../../base/NODE_TYPES";
 
 
 export default class ACos extends Node {
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [TYPES.NUMBER]}
+            {label: 'A', key: 'a', accept: [DATA_TYPES.NUMBER]}
         ], [
-            {label: 'Result', key: 'res', type: TYPES.NUMBER}
+            {label: 'Result', key: 'res', type: DATA_TYPES.NUMBER}
         ]);
         this.name = 'ArcCosine'
         this.size = 1

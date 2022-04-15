@@ -1,5 +1,5 @@
 import Node from "../../base/Node";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import ImageProcessor from "../../../../services/workers/image/ImageProcessor";
 import NODE_TYPES from "../../base/NODE_TYPES";
 
@@ -10,12 +10,12 @@ export default class ParallaxOcclusionMapping extends Node {
     constructor() {
         super(
             [
-                {label: 'Height Map', key: 'sample', accept: [TYPES.TEXTURE]},
-                {label: 'Layers', key: 'layers', accept: [TYPES.NUMBER]},
-                {label: 'Height scale', key: 'heightScale', type: TYPES.NUMBER, max: .3, min: .05},
-                {label: 'Channel', key: 'channel', accept: [TYPES.VEC]}
+                {label: 'Height Map', key: 'sample', accept: [DATA_TYPES.TEXTURE]},
+                {label: 'Layers', key: 'layers', accept: [DATA_TYPES.NUMBER]},
+                {label: 'Height scale', key: 'heightScale', type: DATA_TYPES.NUMBER, max: .3, min: .05},
+                {label: 'Channel', key: 'channel', accept: [DATA_TYPES.VEC]}
             ],
-            [{label: 'Parallax', type: TYPES.OBJECT, key: 'response'}]
+            [{label: 'Parallax', type: DATA_TYPES.OBJECT, key: 'response'}]
         );
         this.name = 'Parallax Occlusion Mapping'
     }

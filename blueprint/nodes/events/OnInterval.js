@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 
@@ -8,10 +8,10 @@ export default class OnInterval extends Node {
     constructor() {
         super(
             [
-                {label: 'Interval', key: 'interval', type: TYPES.NUMBER, bundled: true, precision: 0}
+                {label: 'Interval', key: 'interval', type: DATA_TYPES.NUMBER, bundled: true, precision: 0}
             ],
             [
-                {key: 'execute', type: TYPES.EXECUTION},
+                {key: 'execute', type: DATA_TYPES.EXECUTION},
             ],
         );
         this.name = 'OnInterval'

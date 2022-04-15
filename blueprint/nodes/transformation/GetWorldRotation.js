@@ -1,6 +1,6 @@
 import Node from "../../../base/Node";
 import COMPONENTS from "../../../../../services/engine/templates/COMPONENTS";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 export default class GetWorldRotation extends Node {
@@ -8,13 +8,13 @@ export default class GetWorldRotation extends Node {
     constructor() {
         super(
             [
-                {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-                {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
+                {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+                {label: 'Entity', key: 'entity', accept: [DATA_TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
 
             ],
             [
-                {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION},
-                {label: 'Quaternion', key: 'quaternion', type: TYPES.VEC4}
+                {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
+                {label: 'Quaternion', key: 'quaternion', type: DATA_TYPES.VEC4}
             ]);
         this.name = 'GetWorldRotation'
     }

@@ -1,5 +1,5 @@
 import Node from "../../../../base/Node";
-import {TYPES} from "../../../../base/TYPES";
+import {DATA_TYPES} from "../../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../../base/NODE_TYPES";
 
 
@@ -8,10 +8,10 @@ export default class Mod extends Node {
     b = 0
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [TYPES.NUMBER], bundled: true, type: TYPES.NUMBER},
-            {label: 'B', key: 'b', accept: [TYPES.NUMBER], bundled: true, type: TYPES.NUMBER}
+            {label: 'A', key: 'a', accept: [DATA_TYPES.NUMBER], bundled: true, type: DATA_TYPES.NUMBER},
+            {label: 'B', key: 'b', accept: [DATA_TYPES.NUMBER], bundled: true, type: DATA_TYPES.NUMBER}
         ], [
-            {label: 'Result', key: 'res', type: TYPES.NUMBER}
+            {label: 'Result', key: 'res', type: DATA_TYPES.NUMBER}
         ]);
         this.name = 'Modulo'
         this.size = 1

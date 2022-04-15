@@ -1,17 +1,17 @@
 import Node from "../../../../base/Node";
-import {TYPES} from "../../../../base/TYPES";
+import {DATA_TYPES} from "../../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../../base/NODE_TYPES";
 
 
 export default class FromVector extends Node {
     constructor() {
         super([
-            {label: 'Vector', key: 'v', accept: [TYPES.VEC2, TYPES.VEC3, TYPES.VEC4]}
+            {label: 'Vector', key: 'v', accept: [DATA_TYPES.VEC2, DATA_TYPES.VEC3, DATA_TYPES.VEC4]}
         ], [
-            {label: 'X', key: 'x', type: TYPES.NUMBER},
-            {label: 'Y', key: 'y', type: TYPES.NUMBER},
-            {label: 'Z', key: 'z', type: TYPES.NUMBER},
-            {label: 'W', key: 'w', type: TYPES.NUMBER},
+            {label: 'X', key: 'x', type: DATA_TYPES.NUMBER},
+            {label: 'Y', key: 'y', type: DATA_TYPES.NUMBER},
+            {label: 'Z', key: 'z', type: DATA_TYPES.NUMBER},
+            {label: 'W', key: 'w', type: DATA_TYPES.NUMBER},
         ]);
         this.name = 'FromVector'
     }

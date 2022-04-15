@@ -1,5 +1,5 @@
 import Node from "../../base/Node";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
 import ImageProcessor from "../../../../services/workers/image/ImageProcessor";
 
@@ -9,10 +9,10 @@ export default class Mask extends Node {
 
     constructor() {
         super([
-            {label: 'Texture', key: 'sample', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-            {label: 'Color channel', key: 'channel', type: TYPES.VEC, max: 1, min: 0}
+            {label: 'Texture', key: 'sample', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+            {label: 'Color channel', key: 'channel', type: DATA_TYPES.VEC, max: 1, min: 0}
         ], [
-            {label: 'Channel', type: TYPES.TEXTURE, key: 'result'}
+            {label: 'Channel', type: DATA_TYPES.TEXTURE, key: 'result'}
         ]);
         this.name = 'Mask'
     }

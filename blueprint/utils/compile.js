@@ -1,5 +1,5 @@
 import cloneClass from "../../../../services/utils/misc/cloneClass";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import Getter from "../nodes/utils/Getter";
 import NODE_TYPES from "../../base/NODE_TYPES";
 import EntityReference from "../nodes/events/EntityReference";
@@ -27,7 +27,7 @@ export default function compile(n, links, variables, alreadyCompiled = [], start
             if (!currentNode.ready) {
                 let inputs = []
                 linksToResolve.forEach(l => {
-                    if (l.source.attribute.type !== TYPES.EXECUTION)
+                    if (l.source.attribute.type !== DATA_TYPES.EXECUTION)
                         inputs.push({
                             localKey: l.target.attribute.key,
                             sourceKey: l.source.attribute.key,
@@ -68,7 +68,7 @@ export default function compile(n, links, variables, alreadyCompiled = [], start
     const getForward = (l) => {
         organizedLinks.push(l)
         const forward = links.filter(ll => {
-            return l.target.id === ll.source.id && ll.source.attribute.type === TYPES.EXECUTION
+            return l.target.id === ll.source.id && ll.source.attribute.type === DATA_TYPES.EXECUTION
         })
 
         forward.forEach(ff => {
@@ -88,7 +88,7 @@ export default function compile(n, links, variables, alreadyCompiled = [], start
             } else {
                 let branches = []
                 for (let liExec = 0; liExec < forwardLinks.length; liExec++) {
-                    if (forwardLinks[liExec].source.attribute.type === TYPES.EXECUTION)
+                    if (forwardLinks[liExec].source.attribute.type === DATA_TYPES.EXECUTION)
                         branches.push(forwardLinks[liExec])
 
                 }

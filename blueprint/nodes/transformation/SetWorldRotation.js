@@ -1,18 +1,18 @@
 import Node from "../../../base/Node";
 import COMPONENTS from "../../../../../services/engine/templates/COMPONENTS";
 import NODE_TYPES from "../../../base/NODE_TYPES";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 
 export default class SetWorldRotation extends Node {
 
     constructor() {
         super([
-            {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
-            {label: 'Quaternion', key: 'rotation', accept: [TYPES.VEC4]},
+            {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+            {label: 'Entity', key: 'entity', accept: [DATA_TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
+            {label: 'Quaternion', key: 'rotation', accept: [DATA_TYPES.VEC4]},
 
         ], [
-            {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION}]);
+            {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION}]);
         this.name = 'SetWorldRotation'
     }
 

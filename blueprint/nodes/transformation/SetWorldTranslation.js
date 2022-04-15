@@ -1,6 +1,6 @@
 import Node from "../../../base/Node";
 import COMPONENTS from "../../../../../services/engine/templates/COMPONENTS";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 export default class SetWorldTranslation extends Node {
@@ -8,14 +8,14 @@ export default class SetWorldTranslation extends Node {
     constructor() {
         super([
 
-            {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-            {label: 'Entity', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
-            {label: 'X', key: 'x', accept: [TYPES.NUMBER]},
-            {label: 'Y', key: 'y', accept: [TYPES.NUMBER]},
-            {label: 'Z', key: 'z', accept: [TYPES.NUMBER]},
+            {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+            {label: 'Entity', key: 'entity', accept: [DATA_TYPES.ENTITY], componentRequired: COMPONENTS.TRANSFORM},
+            {label: 'X', key: 'x', accept: [DATA_TYPES.NUMBER]},
+            {label: 'Y', key: 'y', accept: [DATA_TYPES.NUMBER]},
+            {label: 'Z', key: 'z', accept: [DATA_TYPES.NUMBER]},
 
         ], [
-            {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION}
+            {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION}
         ]);
         this.name = 'SetWorldTranslation'
     }

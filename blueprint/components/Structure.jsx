@@ -3,7 +3,7 @@ import styles from '../styles/Structure.module.css'
 import PropTypes from "prop-types";
 
 import {Accordion, AccordionSummary, Button, ContextMenu, Ripple,} from "@f-ui/core";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import deleteNode from "../../base/utils/deleteNode";
 import NODE_TYPES from "../../base/NODE_TYPES";
 import mapToView from "../../../scene/utils/mapToView";
@@ -36,15 +36,15 @@ export default function Structure(props) {
 
     const getType = (t) => {
         switch (t) {
-            case TYPES.VEC2:
+            case DATA_TYPES.VEC2:
                 return 'Vector 2D'
-            case TYPES.VEC3:
+            case DATA_TYPES.VEC3:
                 return 'Vector 3D'
-            case TYPES.VEC4:
+            case DATA_TYPES.VEC4:
                 return 'Vector 4D'
-            case TYPES.NUMBER:
+            case DATA_TYPES.NUMBER:
                 return 'Number'
-            case TYPES.BOOL:
+            case DATA_TYPES.BOOL:
                 return 'Boolean'
             default:
                 break
@@ -165,7 +165,7 @@ export default function Structure(props) {
                                 return [...prev, {
                                     id: uuidv4(),
                                     name: getName(prev),
-                                    type: TYPES.NUMBER
+                                    type: DATA_TYPES.NUMBER
                                 }]
                             })
                         }}>

@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 
 
@@ -8,7 +8,7 @@ export default class MousePosition extends Node {
     constructor() {
         super(
             [],
-            [{label: 'Position', key: 'pos', type: TYPES.VEC2}],
+            [{label: 'Position', key: 'pos', type: DATA_TYPES.VEC2}],
         );
         this.name = 'MousePosition'
     }

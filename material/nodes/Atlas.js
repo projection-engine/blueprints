@@ -1,5 +1,5 @@
 import Node from "../../base/Node";
-import {TYPES} from "../../base/TYPES";
+import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
 import ImageProcessor from "../../../../services/workers/image/ImageProcessor";
 
@@ -11,12 +11,12 @@ export default class Atlas extends Node {
 
     constructor() {
         super([
-            {label: 'Layer 0', key: 'sample0', accept: [TYPES.TEXTURE, TYPES.COLOR]},
-            {label: 'Layer 1', key: 'sample1', accept: [TYPES.TEXTURE, TYPES.COLOR], disable: true},
-            {label: 'Layer 2', key: 'sample2', accept: [TYPES.TEXTURE, TYPES.COLOR], disable: true},
-            {label: 'Percentage', key: 'percentage', accept: [TYPES.TEXTURE, TYPES.COLOR], disable: true},
+            {label: 'Layer 0', key: 'sample0', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR]},
+            {label: 'Layer 1', key: 'sample1', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR], disable: true},
+            {label: 'Layer 2', key: 'sample2', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR], disable: true},
+            {label: 'Percentage', key: 'percentage', accept: [DATA_TYPES.TEXTURE, DATA_TYPES.COLOR], disable: true},
         ], [
-            {label: 'Atlas', type: TYPES.ATLAS, key: 'result'}
+            {label: 'Atlas', type: DATA_TYPES.ATLAS, key: 'result'}
         ]);
         this.name = 'Atlas layer blend'
     }

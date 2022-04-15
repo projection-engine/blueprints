@@ -1,24 +1,24 @@
 import Node from "../../../base/Node";
 import COMPONENTS from "../../../../../services/engine/templates/COMPONENTS";
 import NODE_TYPES from "../../../base/NODE_TYPES";
-import {TYPES} from "../../../base/TYPES";
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
 
 export default class SetViewTargetWithBlend extends Node {
 
     constructor() {
         super([
-                {label: 'Start', key: 'start', accept: [TYPES.EXECUTION]},
-                {label: 'Target Camera', key: 'entity', accept: [TYPES.ENTITY], componentRequired: COMPONENTS.CAMERA},
+                {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
+                {label: 'Target Camera', key: 'entity', accept: [DATA_TYPES.ENTITY], componentRequired: COMPONENTS.CAMERA},
                 {
                     label: 'Blend function',
                     key: 'func',
-                    type: TYPES.OPTIONS,
+                    type: DATA_TYPES.OPTIONS,
                     bundled: true,
                     options: [{value: 'Linear', key: 'Linear'}]
                 },
             ],
             [
-                {label: 'Execute', key: 'EXECUTION', type: TYPES.EXECUTION}
+                {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION}
             ]);
         this.name = 'SetViewTargetWithBlend'
     }

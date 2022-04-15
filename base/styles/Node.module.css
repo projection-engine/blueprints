@@ -64,8 +64,7 @@
 }
 
 
-
-.attribute[data-disabled = 'true']{
+.attribute[data-disabled = 'true'] {
     cursor: default !important;
     color: #999999 !important;
 
@@ -105,7 +104,8 @@
 
 .content {
     display: flex;
-    height: fit-content;
+    height: calc(100% - 30px);
+
     overflow: visible;
     background-color: var(--fabric-background-primary);
 }
@@ -149,6 +149,10 @@
 
 .showcase {
     padding: 4px;
+    display: flex;
+    align-items: flex-end;
+
+    align-content: flex-end;
 }
 
 .accepts {
@@ -235,3 +239,4 @@
     align-items: center;
     gap: 4px;
 }
+

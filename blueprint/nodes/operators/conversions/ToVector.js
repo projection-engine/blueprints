@@ -1,19 +1,19 @@
 import Node from "../../../../base/Node";
-import {TYPES} from "../../../../base/TYPES";
+import {DATA_TYPES} from "../../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../../base/NODE_TYPES";
 
 
 export default class ToVector extends Node {
     constructor() {
         super([
-            {label: 'X', key: 'x', accept: [TYPES.NUMBER]},
-            {label: 'Y', key: 'y', accept: [TYPES.NUMBER]},
-            {label: 'Z', key: 'z', accept: [TYPES.NUMBER]},
-            {label: 'W', key: 'w', accept: [TYPES.NUMBER]},
+            {label: 'X', key: 'x', accept: [DATA_TYPES.NUMBER]},
+            {label: 'Y', key: 'y', accept: [DATA_TYPES.NUMBER]},
+            {label: 'Z', key: 'z', accept: [DATA_TYPES.NUMBER]},
+            {label: 'W', key: 'w', accept: [DATA_TYPES.NUMBER]},
         ], [
-            {label: 'Vector 2D', key: 'v2', type: TYPES.VEC2},
-            {label: 'Vector 3D', key: 'v3', type: TYPES.VEC3},
-            {label: 'Vector 4D', key: 'v4', type: TYPES.VEC4}
+            {label: 'Vector 2D', key: 'v2', type: DATA_TYPES.VEC2},
+            {label: 'Vector 3D', key: 'v3', type: DATA_TYPES.VEC3},
+            {label: 'Vector 4D', key: 'v4', type: DATA_TYPES.VEC4}
         ]);
         this.name = 'ToVector'
     }
