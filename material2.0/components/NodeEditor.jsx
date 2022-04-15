@@ -172,7 +172,7 @@ export default function NodeEditor(props) {
                                 attr.label,
                                 attr.type,
                                 selected[attr.key],
-                                (event) => {
+                                (event, submit) => {
                                     if (props.hook.selected.length > 0)
                                         props.hook.setNodes(prev => {
                                             const n = [...prev]

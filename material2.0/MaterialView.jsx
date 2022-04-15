@@ -17,6 +17,9 @@ import Make from "./utils/Make";
 import compile from "../material/utils/compile";
 import Material from "./nodes/Material";
 
+import MaterialInstance from "../../../services/engine/instances/MaterialInstance";
+import {IDS} from "../../../services/hooks/useMinimalEngine";
+
 
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
@@ -29,7 +32,25 @@ export default function MaterialView(props) {
     useEffect(() => {
         if (hook.impactingChange) {
             hook.setImpactingChange(false)
-            compiler(hook.nodes, hook.links)
+            compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
+                .then(({shader, uniforms, uniformData}) => {
+                    const prev = hook.engine.material
+                    let promise, newMat
+                    if(!prev)
+                        promise = new Promise(resolve => {
+                            newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, () => resolve(), IDS.MATERIAL)
+                        })
+                    else {
+                        newMat = prev
+                        promise = new Promise(resolve => {
+                            newMat.shader = [shader, uniformData, () => resolve()]
+                        })
+                    }
+
+                    promise.then(() => {
+                        hook.engine.setMaterial(newMat)
+                    })
+                })
         }
     }, [hook.impactingChange])
     useEffect(() => {
@@ -39,7 +60,7 @@ export default function MaterialView(props) {
                     disabled: !hook.changed,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                     onClick: async () => {
-                        const response = await Make(hook, compiler(hook.nodes, hook.links))
+                        const response = await Make(hook, compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                         props.submitPackage(
                             response.preview,
                             response.data,
@@ -54,7 +75,7 @@ export default function MaterialView(props) {
                     disabled: !hook.changed,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: async () => {
-                        const response = await Make(hook, compiler(hook.nodes, hook.links))
+                        const response = await Make(hook, compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                         props.submitPackage(
                             response.preview,
                             response.data,

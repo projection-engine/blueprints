@@ -4,9 +4,9 @@ import NODE_TYPES from "../../base/NODE_TYPES";
 import getMaterialTemplate from "./materialTemplate";
 import resolveStructure from "./resolveStructure";
 
-export default function compiler(n, links) {
+export default async function compiler(n, links, fileSystem) {
     const nodes = n.map(nn => cloneClass(nn))
-    const codeString = getMaterialTemplate, uniforms = []
+    const codeString = getMaterialTemplate, uniforms = [], uniformData = []
 
     const startPoint = nodes.find(n => {
         return n.type === NODE_TYPES.OUTPUT
@@ -22,38 +22,44 @@ export default function compiler(n, links) {
         codeString.functions = toJoin.join('\n')
 
         typesInstantiated = {}
-        nodes.forEach((n, i) => {
-            if (n.getInputInstance && !typesInstantiated[n.id]) {
-                toJoin.push(n.getInputInstance(i, uniforms))
+        await Promise.all(nodes.map((n, i) => new Promise(resolve => {
+            if (typeof n.getInputInstance === 'function' && !typesInstantiated[n.id]) {
+                n.getInputInstance(i, uniforms, uniformData, fileSystem).then(res => {
+                    toJoin.push(res)
+                    resolve()
+                })
                 typesInstantiated[n.id] = true
-            }
-        })
+            } else
+                resolve()
+        })))
         codeString.inputs = toJoin.join('\n')
 
 
         let body = []
         resolveStructure(startPoint, [], links, nodes, body)
-        console.log(`
-            ${codeString.static}
+
+        const code = trimString(`#version 300 es
+        
+precision highp float;
+${codeString.static}
             
-            ${codeString.inputs}
+${codeString.inputs}
             
-            ${codeString.functions}
+${codeString.functions}
             
-            ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
-        `.replaceAll(/^\s*\n/gm, ''))
+${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
+`)
+        console.log(code)
+
         return {
-            shader: `
-                ${codeString.static}
-            
-                ${codeString.inputs}
-            
-                ${codeString.functions}
-            
-                ${codeString.wrapper(body.join('\n'))}
-            `,
-            uniforms
+            shader: code,
+            uniforms,
+            uniformData
         }
     } else
         return undefined
+}
+
+export function trimString(str) {
+    return str.replaceAll(/^(\s*)/gm, '').replaceAll(/^\s*\n/gm, '')
 }

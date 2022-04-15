@@ -20,7 +20,6 @@ export default function applyViewport(materialObject, engine,  setAlert) {
                 materialObject
             ).then(() => {
                 engine.setMaterial(newMaterial)
-
             })
 
 

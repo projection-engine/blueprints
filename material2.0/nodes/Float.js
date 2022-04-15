@@ -4,6 +4,7 @@ import NODE_TYPES from "../../base/NODE_TYPES";
 
 
 export default class Float extends Node {
+    v = 0
     constructor() {
         super([
 
@@ -23,8 +24,14 @@ export default class Float extends Node {
     getFunctionInstance(){
         return ''
     }
-    getInputInstance(index, uniforms){
+    async getInputInstance(index, uniforms, uniformData){
+
         this.uniformName = `floatVar${index}`
+        uniformData.push({
+            key: this.uniformName,
+            data: this.v,
+            type: DATA_TYPES.FLOAT
+        })
         uniforms.push({
             label: this.name,
             key:  this.uniformName,

@@ -24,7 +24,7 @@ export default function Board(props) {
     } = useBoard(props.hook, scale, setScale)
 
     const handleDropNode = (n, e) => {
-        if(n.unique && !props.hook.nodes.find(node => node.constructor.name === n.constructor.name) || !n.unique) {
+        if (n.unique && !props.hook.nodes.find(node => node.constructor.name === n.constructor.name) || !n.unique) {
             const bounding = {
                 x: ref.current.scrollLeft - ref.current.getBoundingClientRect().left,
                 y: ref.current.scrollTop - ref.current.getBoundingClientRect().top
@@ -43,8 +43,7 @@ export default function Board(props) {
             props.hook.setNodes(prev => {
                 return [...prev, n]
             })
-        }
-        else
+        } else
             props.setAlert({message: 'Cannot add two instances of ' + n.name, type: 'error'})
 
     }
@@ -89,9 +88,18 @@ export default function Board(props) {
                         deleteLink={() => {
                             props.hook.setChanged(true)
                             props.hook.setImpactingChange(true)
+                            const t = s.getAttribute('data-link')
+                            console.log(t)
                             props.hook.setLinks(prev => {
-                                const t = s.getAttribute('data-link')
-                                return prev.filter(l => (l.target + '-' + l.source) === t)
+
+                                return prev.filter(l => {
+                                    const test = {
+                                        t: l.target.id + l.target.attribute.key,
+                                        s: l.source.id + l.source.attribute.key,
+                                    }
+
+                                    return (test.t + '-' + test.s) !== t
+                                })
                             })
                         }}
                         availableNodes={props.allNodes}

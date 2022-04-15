@@ -23,7 +23,7 @@ export default class TextureCoord extends Node {
         return ''
     }
 
-    getInputInstance(index) {
+    async    getInputInstance(index) {
         return ''
     }
     // texture and uv = {name: variable name, value: variable value if static}

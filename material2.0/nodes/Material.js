@@ -48,6 +48,7 @@ export default class Material extends Node {
     // texture and uv = {name: variable name, value: variable value if static}
     getFunctionCall({al, normal, behaviour}) {
 
+        console.log(al)
         return `
             gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
             gNormal = vec4(${normal ? this._getData(normal) : 'normalVec'}, 1.);

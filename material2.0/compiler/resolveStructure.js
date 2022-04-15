@@ -5,7 +5,7 @@ export default function resolveStructure(currentNode, outputs, links, nodes, bod
         const source = nodes.find(n => n.id === link.source.id)
 
         if (!source.ready)
-            resolveStructure(source, linksToResolve.map(l => l.source.attribute.key), links, nodes, body)
+            resolveStructure(source, links.filter(l => l.source.id === source.id).map(l => l.source.attribute.key), links, nodes, body)
 
         inputs[link.target.attribute.key] = {
             name: source[link.source.attribute.key],
