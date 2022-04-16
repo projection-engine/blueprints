@@ -58,11 +58,12 @@ export default function NodeIO(props) {
             const bBox = parent.getBoundingClientRect()
 
             if (e.type === 'dragover' && props.type === 'input' && props.data.accept && !props.data.disabled) {
-
-                infoRef.current.style.display = 'grid'
+                const valid = props.data.accept.includes(onDragContext.dragType) || props.data.accept.includes(DATA_TYPES.ANY)
+                infoRef.current.style.display = 'flex'
                 infoRef.current.style.top = wrapperRef.current.offsetTop + 'px'
                 infoRef.current.style.left = (e.clientX - bBox.x) + 'px'
-                infoRef.current.style.borderLeft = props.data.accept.includes(onDragContext.dragType) || props.data.accept.includes(DATA_TYPES.ANY) ? 'green 2px solid' : 'red 2px solid'
+                infoRef.current.style.background = valid ? 'green' : 'red'
+                infoRef.current.innerText = valid ? 'check' : 'clear'
             } else
                 infoRef.current.style.display = 'none'
         }
@@ -99,22 +100,17 @@ export default function NodeIO(props) {
             return undefined
 
     }, [props.inputLinks, props.outputLinks])
+
     return (
         <>
 
-            <div ref={infoRef} style={{display: props.data.disabled ? 'none' : undefined}}
-                 className={styles.infoWrapper}>
-                <div className={styles.accepts}>
-                    Accepts
-                </div>
-                {props.data.accept?.map((a, i) => (
-                    <div className={styles.ioKey} key={i + '-key-' + a}>
-                        {getType(a)}
-                    </div>
-                ))}
-            </div>
+            <div
+                ref={infoRef}
+                style={{display: 'none'}}
+                className={[styles.infoWrapper, 'material-icons-round'].join(' ')}/>
             <div className={styles.attribute} ref={wrapperRef}
-                 data-disabled={`${props.data.disabled}`}
+                 data-dtype={props.type}
+                 data-disabled={`${props.data.disabled || props.data.type === DATA_TYPES.UNDEFINED && props.inputLinks.length === 0}`}
                  style={{justifyContent: props.type === 'input' ? 'flex-start' : 'flex-end'}}>
 
                 {props.type === 'output' && (!isExecution || props.data.showTitle) ? (
@@ -127,8 +123,9 @@ export default function NodeIO(props) {
 
                     id={props.nodeID + props.data.key}
                     className={isExecution ? styles.executionConnection : styles.connection}
-                    draggable={!props.data.disabled && props.type !== 'input'}
+                    draggable={!(props.data.type === DATA_TYPES.UNDEFINED && props.inputLinks.length === 0)}
                     data-dtype={props.type}
+                    data-disabled={`${props.data.type === DATA_TYPES.UNDEFINED && props.inputLinks.length === 0}`}
                     style={{
                         '--fabric-accent-color': isExecution ? '#0095ff' : '#999999',
                         background: linkColor && !props.data.disabled ? linkColor : undefined,
@@ -151,14 +148,11 @@ export default function NodeIO(props) {
                     onDrag={props.handleLinkDrag}
                     onDragStart={e => {
                         if (props.type !== 'input') {
-
-                            const nType =props.data.type === DATA_TYPES.UNDEFINED  ?  props.inputLinks.length === 1 ? props.inputLinks[0]?.sourceType : getPredominant(props.inputLinks) : undefined
-                            console.log(nType)
+                            const nType = props.data.type === DATA_TYPES.UNDEFINED ? props.inputLinks.length === 1 ? props.inputLinks[0]?.sourceType : getPredominant(props.inputLinks) : undefined
                             const attribute = props.data.type === DATA_TYPES.UNDEFINED ? {
                                 ...props.data,
                                 type: nType
                             } : props.data
-                            console.log(attribute)
                             e.dataTransfer
                                 .setData(
                                     'text',
@@ -182,7 +176,12 @@ export default function NodeIO(props) {
                     <div data-disabled={`${props.data.disabled}`} className={styles.wrapperInput}
                          style={{fontWeight: 'normal'}}>
 
-                        {props.data.bundled && !isLinked ? null : props.data.label}
+                        {props.data.bundled && !isLinked ? null : (
+                            <div className={styles.overflow}
+                                 style={{color: props.data.color}}>
+                                {props.data.label}
+                            </div>
+                        )}
                         <EmbeddedInput
                             canRender={props.data.bundled && !isLinked}
                             type={props.type} node={props.node}
@@ -208,8 +207,8 @@ NodeIO.propTypes = {
         disabled: PropTypes.bool,
         key: PropTypes.string.isRequired,
         label: PropTypes.string,
-        type: PropTypes.number,
-        accept: PropTypes.arrayOf(PropTypes.number),
+        type: PropTypes.any,
+        accept: PropTypes.array,
         color: PropTypes.string,
         showTitle: PropTypes.bool,
         bundled: PropTypes.bool,
@@ -224,9 +223,9 @@ function getPredominant([a, b]) {
     const aType = a.sourceType,
         bType = b.sourceType
 
-    if(aType === bType)
+    if (aType === bType)
         return aType
-    if(aType === DATA_TYPES.FLOAT && bType.toString().includes('vec'))
+    if (aType === DATA_TYPES.FLOAT && bType.toString().includes('vec'))
         return bType
     else
         return aType

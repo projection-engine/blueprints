@@ -4,8 +4,8 @@ import NODE_TYPES from "../../base/NODE_TYPES";
 import checkFloat from "../utils/checkFloat";
 
 
-export default class Float extends Node {
-    v = 0
+export default class RGB extends Node {
+    v = 'rgb(0,0,0)'
     uniform = false
 
     constructor() {
@@ -19,13 +19,12 @@ export default class Float extends Node {
                     {label: 'No', data: false}
                 ]
             },
-            {label: 'Value', key: 'v', type: DATA_TYPES.FLOAT},
+            {label: 'Value', key: 'v', type: DATA_TYPES.COLOR},
         ], [
-            {label: 'Value', key: 'FLOAT_VAR', type: DATA_TYPES.FLOAT},
+            {label: 'Value', key: 'COLOR_RGB', type: DATA_TYPES.VEC3},
         ]);
 
-        this.name = 'Float'
-        this.size = 2
+        this.name = 'RGB'
     }
 
     get type() {
@@ -37,30 +36,33 @@ export default class Float extends Node {
     }
 
     async getInputInstance(index, uniforms, uniformData) {
+        const split = this.v.match(/[\d.]+/g)
+        const v = split.map(v => parseFloat(v))
 
         if (this.uniform) {
-
-            this.uniformName = `FLOAT_VAR${index}`
+            this.uniformName = `COLOR_RGB${index}`
             uniformData.push({
                 key: this.uniformName,
-                data: this.v,
-                type: DATA_TYPES.FLOAT
+                data: v.map(i => i/255),
+                type: DATA_TYPES.VEC3
             })
             uniforms.push({
                 label: this.name,
                 key: this.uniformName,
-                type: DATA_TYPES.FLOAT
+                type: DATA_TYPES.VEC3,
+                normalized: true
             })
 
             return `uniform float ${this.uniformName};`
         } else {
-            this.uniformName = `FLOAT_VAR${index}`
-            return `#define ${this.uniformName} ${checkFloat(this.v)}`
+            this.uniformName = `COLOR_RGB${index}`
+
+            return `#define ${this.uniformName} vec3(${checkFloat(v[0]/255)}, ${checkFloat(v[1]/255)}, ${checkFloat(v[2]/255)})`
         }
     }
 
     getFunctionCall(_, index) {
-        this.FLOAT_VAR = 'FLOAT_VAR' + index
+        this.COLOR_RGB = 'COLOR_RGB' + index
         return ''
     }
 }

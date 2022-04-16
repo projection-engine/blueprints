@@ -28,36 +28,45 @@ export default function MaterialView(props) {
         return hook.nodes.find(n => n instanceof Material)
     }, [hook.nodes])
     const controlProvider = useContext(ControlProvider)
-
-    useEffect(() => {
-        if (hook.impactingChange) {
-            hook.setImpactingChange(false)
-            compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
-                .then(({shader, uniforms, uniformData}) => {
-                    const prev = hook.engine.material
-                    let promise, newMat
-                    if(!prev)
-                        promise = new Promise(resolve => {
-                            newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, () => resolve(), IDS.MATERIAL)
-                        })
-                    else {
-                        newMat = prev
-                        promise = new Promise(resolve => {
-                            newMat.shader = [shader, uniformData, () => resolve()]
-                        })
-                    }
-
-                    promise.then(() => {
-                        hook.engine.setMaterial(newMat)
+    const compileShaders = () => {
+        props.setAlert({message: 'Compiling shaders', type: 'info'})
+        hook.setImpactingChange(false)
+        compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
+            .then(({shader, uniforms, uniformData}) => {
+                const prev = hook.engine.material
+                let promise, newMat
+                if(!prev)
+                    promise = new Promise(resolve => {
+                        newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, () => resolve(), IDS.MATERIAL)
                     })
+                else {
+                    newMat = prev
+                    promise = new Promise(resolve => {
+                        newMat.shader = [shader, uniformData, () => resolve()]
+                    })
+                }
+
+                promise.then(() => {
+                    hook.engine.setMaterial(newMat)
                 })
-        }
+            })
+    }
+    useEffect(() => {
+        if (hook.impactingChange && hook.realTime)
+           compileShaders()
+
     }, [hook.impactingChange])
     useEffect(() => {
         controlProvider.setTabAttributes([
                 {
+                    label: 'Compile',
+                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>code</span>,
+                    onClick: () => compileShaders()
+                },
+                {
                     label: 'Save',
                     disabled: !hook.changed,
+                    group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                     onClick: async () => {
                         const response = await Make(hook, compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
@@ -73,6 +82,7 @@ export default function MaterialView(props) {
                 {
                     label: 'Save & close',
                     disabled: !hook.changed,
+                    group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: async () => {
                         const response = await Make(hook, compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
@@ -84,7 +94,13 @@ export default function MaterialView(props) {
                         hook.setChanged(false)
                         hook.setImpactingChange(false)
                     }
-                }],
+                },
+                {
+                    label: 'Real time',
+                    group: 'c',
+                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>{hook.realTime ? 'live_tv' : 'tv_off'}</span>,
+                    onClick: () => hook.setRealTime(!hook.realTime)
+                },],
             props.file.name,
             <span
                 style={{fontSize: '1.2rem'}}
@@ -99,7 +115,7 @@ export default function MaterialView(props) {
             props.index
         )
 
-    }, [hook.nodes, hook.links, hook.engine.gpu, hook.changed, hook.impactingChange])
+    }, [hook.nodes, hook.links, hook.engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
 
     return (
         <div className={s.wrapper} id={props.file.registryID + '-board'}>

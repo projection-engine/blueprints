@@ -15,12 +15,13 @@ export default async function compiler(n, links, fileSystem) {
         let toJoin = [], typesInstantiated = {}
         nodes.forEach(n => {
             if (n.type === NODE_TYPES.FUNCTION && !typesInstantiated[n.constructor.name]) {
+                console.log(n.getFunctionInstance)
                 toJoin.push(n.getFunctionInstance())
                 typesInstantiated[n.constructor.name] = true
             }
         })
         codeString.functions = toJoin.join('\n')
-
+        toJoin = []
         typesInstantiated = {}
         await Promise.all(nodes.map((n, i) => new Promise(async resolve => {
             if (typeof n.getInputInstance === 'function' && !typesInstantiated[n.id]) {
@@ -37,17 +38,14 @@ export default async function compiler(n, links, fileSystem) {
         let body = []
         resolveStructure(startPoint, [], links, nodes, body)
 
-        const code = trimString(`#version 300 es
-        
-precision highp float;
-${codeString.static}
-            
-${codeString.inputs}
-            
-${codeString.functions}
-            
-${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
-`)
+        const code = trimString(`
+            #version 300 es
+            precision highp float;
+            ${codeString.static}
+            ${codeString.inputs}
+            ${codeString.functions}
+            ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
+        `)
         console.log(code)
 
         return {

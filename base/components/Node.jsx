@@ -42,11 +42,11 @@ export default function Node(props) {
     const width = useMemo(() => {
         switch (props.node.size){
             case 0:
-                return '250px'
+                return '225px'
             case 1:
-                return '175px'
-            case 2:
                 return '150px'
+            case 2:
+                return '135px'
         }
     }, [])
     return (

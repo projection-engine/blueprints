@@ -1,4 +1,4 @@
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import QuickAccessProvider from "../../../../services/hooks/QuickAccessProvider";
 import EVENTS from "../../../../services/utils/misc/EVENTS";
 import {LoaderProvider} from "@f-ui/core";
@@ -8,8 +8,20 @@ import useFlow from "../../base/hooks/useFlow";
 import Material from "../nodes/Material";
 import TextureSample from "../nodes/TextureSample";
 import Add from "../nodes/Add";
-import TextureCoord from "../nodes/TextureCoord";
+import TextureCoords from "../nodes/TextureCoords";
 import Float from "../nodes/Float";
+import Divide from "../nodes/Divide";
+import Sin from "../nodes/Sin";
+import NormalVector from "../nodes/NormalVector";
+import ParallaxOcclusionMapping from "../nodes/ParallaxOcclusionMapping";
+import RGB from "../nodes/RGB";
+import ToTangentSpace from "../nodes/ToTangentSpace";
+import VertexCoords from "../nodes/VertexCoords";
+import ViewDirection from "../nodes/ViewDirection";
+import CameraCoords from "../nodes/CameraCoords";
+import ElapsedTime from "../nodes/ElapsedTime";
+import Multiply from "../nodes/Multiply";
+import PerlinNoise from "../nodes/PerlinNoise";
 
 
 export default function useMaterialView(file,setAlert) {
@@ -21,6 +33,7 @@ export default function useMaterialView(file,setAlert) {
         selected, setSelected,
         impactingChange, setImpactingChange,
     } = useFlow()
+    const [realTime, setRealTime] = useState(true)
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
     const engine = useMinimalEngine(true, true, true, true)
@@ -34,6 +47,7 @@ export default function useMaterialView(file,setAlert) {
 
 
     return {
+        realTime, setRealTime,
         impactingChange, setImpactingChange,
         nodes, setNodes,
         links, setLinks,
@@ -51,8 +65,22 @@ const INSTANCES = {
 
     [Add.name]: () => new Add(),
     [TextureSample.name]: () => new TextureSample(),
-    [TextureCoord.name]: () => new TextureCoord(),
-    [Float.name]: () => new Float()
+    [TextureCoords.name]: () => new TextureCoords(),
+    [Float.name]: () => new Float(),
+
+    [Divide.name]: () => new Divide(),
+    [Sin.name]: () => new Sin(),
+    [NormalVector.name]: () => new NormalVector(),
+    [ParallaxOcclusionMapping.name]: () => new ParallaxOcclusionMapping(),
+    [RGB.name]: () => new RGB(),
+    [ToTangentSpace.name]: () => new ToTangentSpace(),
+    [VertexCoords.name]: () => new VertexCoords(),
+    [ViewDirection.name]: () => new ViewDirection(),
+
+    [CameraCoords.name]: () => new CameraCoords(),
+    [ElapsedTime.name]: () => new ElapsedTime(),
+    [Multiply.name]: () => new Multiply(),
+    [PerlinNoise.name]: () => new PerlinNoise(),
 }
 
 function parse(file, quickAccess, setNodes, setLinks, engine, load) {

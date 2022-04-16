@@ -1,7 +1,7 @@
 
 export const DATA_TYPES = {
     NUMBER: 0,
-    TEXTURE: 1,
+    TEXTURE: 'sampler2D',
     COLOR: 2,
     VEC: 3,
     STRING: 4,

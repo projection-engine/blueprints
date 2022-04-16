@@ -42,7 +42,9 @@ export default function NodeEditor(props) {
             case DATA_TYPES.FLOAT:
                 return (
                     <Range
-                        precision={3} maxValue={obj.max} incrementPercentage={.001} minValue={obj.min}
+                        precision={type === DATA_TYPES.FLOAT ? 3 : 0}
+
+                        maxValue={obj.max} incrementPercentage={type === DATA_TYPES.FLOAT ? .001 : 1} minValue={obj.min}
                         value={value !== undefined ? value : 0}
                         onFinish={(v) => {
                             submit(type === DATA_TYPES.FLOAT ? v : parseInt(v), true)
@@ -176,7 +178,7 @@ export default function NodeEditor(props) {
                                 attr.type,
                                 selected[attr.key],
                                 (event, submit) => {
-                                    console.log(props.hook.selected.length, submit)
+
                                     if (props.hook.selected.length > 0) {
                                         if (submit)
                                             props.hook.setNodes(prev => {

@@ -44,6 +44,14 @@ export default function Context(props) {
         props.handleClose()
     }, [props.scale])
 
+    useEffect(() => {
+        if (props.selected) {
+            if (trigger === 3)
+                props.setSelected([props.selected.getAttribute('data-group')])
+            else
+                props.setSelected([props.selected.getAttribute('data-node')])
+        }
+    }, [props.selected])
     return (
         <div className={styles.wrapper} style={{height: trigger === 0 ? '650px' : undefined}}>
             {trigger >= 0 ?
@@ -61,13 +69,11 @@ export default function Context(props) {
                                 key={a.dataTransfer + '-option-context'}
                                 className={styles.option}
                                 style={{background: i % 2 === 0 ? 'var(--fabric-background-secondary)' : undefined}}
-                                onClick={(e) => {
-                                     const bBox = e.currentTarget.parentNode.getBoundingClientRect()
-                                    props.onSelect(a.dataTransfer, {
-                                        clientX: bBox.left,
-                                        clientY: bBox.top + bBox.height
-                                    })
+                                onClick={() => {
+                                    props.onSelect(a.dataTransfer)
+
                                     props.handleClose()
+
                                 }}>
                                 {a.label}
                             </button>
@@ -79,10 +85,12 @@ export default function Context(props) {
                             className={styles.option}
                             style={{border: 'none', display: trigger === 2 ? 'none' : undefined}}
                             onClick={() => {
-                                if (trigger === 3)
+                                if (trigger === 3) {
                                     props.deleteGroup()
-                                else
+                                } else
                                     props.deleteNode()
+
+
                                 props.handleClose()
                             }}>
                             <span className={'material-icons-round'}>delete</span>
@@ -93,6 +101,7 @@ export default function Context(props) {
                             className={styles.option}
                             style={{border: 'none', display: trigger === 1 || trigger === 3 ? 'none' : undefined}}
                             onClick={() => {
+
                                 props.deleteLink()
                                 props.handleClose()
                             }}>
@@ -107,6 +116,7 @@ export default function Context(props) {
 }
 
 Context.propTypes = {
+    setSelected: PropTypes.func,
     deleteGroup: PropTypes.func,
     scale: PropTypes.number,
     deleteLink: PropTypes.func,

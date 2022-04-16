@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useRef, useState} from "react";
 import Node from "./Node";
 import styles from '../styles/Board.module.css'
 import handleDropBoard from "../utils/handleDropBoard";
@@ -67,6 +67,8 @@ export default function Board(props) {
             })
     }
 
+    const coords = useRef({clientX: 0, clientY: 0})
+
     return (
         <OnDragProvider.Provider value={{setDragType, dragType}}>
             <ContextWrapper
@@ -89,24 +91,23 @@ export default function Board(props) {
                             props.hook.setChanged(true)
                             props.hook.setImpactingChange(true)
                             const t = s.getAttribute('data-link')
-                            console.log(t)
-                            props.hook.setLinks(prev => {
 
+                            props.hook.setLinks(prev => {
                                 return prev.filter(l => {
                                     const test = {
                                         t: l.target.id + l.target.attribute.key,
                                         s: l.source.id + l.source.attribute.key,
                                     }
-
                                     return (test.t + '-' + test.s) !== t
                                 })
                             })
                         }}
                         availableNodes={props.allNodes}
-                        onSelect={(dataTransfer, mouseInfo) => {
-                            handleDropNode(handleDropBoard(dataTransfer, props.allNodes), mouseInfo)
+                        onSelect={(dataTransfer) => {
+                            handleDropNode(handleDropBoard(dataTransfer, props.allNodes), coords.current)
                         }}
                         selected={s}
+                        setSelected={props.setSelected}
                     />
                 )}
                 triggers={[
@@ -145,8 +146,10 @@ export default function Board(props) {
                     ref={ref}
                     className={[styles.wrapper, styles.background].join(' ')}
                     onMouseDown={e => {
-                        if (e.button === 2)
+                        if (e.button === 2) {
                             handleBoardScroll(ref.current.parentNode, e)
+                            coords.current = {clientX: e.clientX, clientY: e.clientY }
+                        }
 
                         if (e.target === ref.current) {
                             props.setSelected([])

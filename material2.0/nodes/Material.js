@@ -68,7 +68,8 @@ export default class Material extends Node {
     getFunctionCall({al, normal, ao, roughness, metallic}) {
         return `
             gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
-            gNormal = ${normal ? `vec4(normalize(toTangentSpace * ((${this._getData(normal)} * 2.0) - 1.0)), 1.0);` : 'vec4(normalVec, 1.);'}
+            
+            gNormal = vec4(normalize(toTangentSpace * ((${normal ? this._getData(normal) : 'vec3(.5, .5, 1.)'} * 2.0)- 1.0)), 1.0);
             gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao): '1.'},${roughness ? this._getDataBehaviour(roughness): '1.'},${metallic ? this._getDataBehaviour(metallic): '0.'}, 1.);
         `
     }

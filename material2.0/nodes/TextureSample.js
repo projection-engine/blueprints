@@ -16,9 +16,40 @@ export default class TextureSample extends Node {
 
     format = {
         format: TEXTURE_TYPES.RGB,
-        internalFormat: TEXTURE_TYPES.RGB
+        internalFormat: TEXTURE_TYPES.RGB,
+
+        label: 'RGB'
     }
 
+    get ft() {
+        return this.format.label
+    }
+
+    set ft(data) {
+        switch (data) {
+            case 'RGB':
+                this.format = {
+                    format: TEXTURE_TYPES.RGB,
+                    internalFormat: TEXTURE_TYPES.RGB,
+                    label: data
+                }
+                break
+            case 'RGBA':
+                this.format = {
+                    format: TEXTURE_TYPES.RGBA,
+                    internalFormat: TEXTURE_TYPES.RGBA
+                }
+                break
+            case 'SRGBA':
+                this.format = {
+                    format: TEXTURE_TYPES.RGBA,
+                    internalFormat: TEXTURE_TYPES.SRGB8_ALPHA8
+                }
+                break
+            default:
+                break
+        }
+    }
 
     constructor() {
         super([
@@ -27,24 +58,9 @@ export default class TextureSample extends Node {
                 key: 'format',
                 type: DATA_TYPES.OPTIONS,
                 options: [
-                    {
-                        label: 'RGB', data: {
-                            format: TEXTURE_TYPES.RGB,
-                            internalFormat: TEXTURE_TYPES.RGB
-                        }
-                    },
-                    {
-                        label: 'RGBA', data: {
-                            format: TEXTURE_TYPES.RGBA,
-                            internalFormat: TEXTURE_TYPES.RGBA
-                        }
-                    },
-                    {
-                        label: 'sRGBA', data: {
-                            format: TEXTURE_TYPES.RGBA,
-                            internalFormat: TEXTURE_TYPES.SRGB8_ALPHA8
-                        }
-                    }
+                    {label: 'RGB', data: 'RGB'},
+                    {label: 'RGBA', data: 'RGBA'},
+                    {label: 'sRGBA', data: 'SRGBA'}
                 ]
             },
 
@@ -65,7 +81,7 @@ export default class TextureSample extends Node {
             {label: 'Texture', key: 'texture', type: DATA_TYPES.TEXTURE},
             {label: 'UV', key: 'uv', accept: [DATA_TYPES.VEC2]},
         ], [
-            {label: 'RGBA', key: 'rgba', type: DATA_TYPES.VEC4},
+            {label: 'Sampler', key: 'sampler', type: DATA_TYPES.TEXTURE},
             {label: 'RGB', key: 'rgb', type: DATA_TYPES.VEC3},
             {label: 'R', key: 'r', type: DATA_TYPES.FLOAT, color: 'red'},
             {label: 'G', key: 'g', type: DATA_TYPES.FLOAT, color: 'green'},
@@ -121,17 +137,14 @@ export default class TextureSample extends Node {
     getFunctionCall({uv}, index, outputs, body) {
         let response = []
         outputs.forEach(o => {
-            this[o] = o + `${index}`
-
-            const outputKey = this.output.find(oo => oo.key === o)
-            const hasSampledRGBA = body.find(b => {
-                return b.includes('rgba' + index)
-            })
-            console.log(o, outputs, outputKey)
-            if (!hasSampledRGBA)
-                response.push(`${outputKey.type} ${this[o]} = texture(${this.uniformName}, ${uv !== undefined ? uv.name : 'texCoord'}).${o};`)
-            else
-                response.push(`${outputKey.type} ${this[o]} = rgba${index}.${o};`)
+            if (o !== 'sampler') {
+                if (!this[o]) {
+                    this[o] = o + `${index}`
+                    const outputKey = this.output.find(oo => oo.key === o)
+                    response.push(`${outputKey.type} ${this[o]} = texture(${this.uniformName}, ${uv !== undefined ? uv.name : 'texCoord'}).${o};`)
+                }
+            } else
+                this[o] = o + `${index}`
         })
 
         return response.join('\n')
