@@ -1,6 +1,7 @@
 import Node from '../../base/Node'
 import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
+import MATERIAL_TYPES from "../../../../services/engine/templates/MATERIAL_TYPES";
 
 
 export default class Material extends Node {
@@ -15,8 +16,15 @@ export default class Material extends Node {
             {label: 'Roughness', key: 'roughness', accept: allTypes},
             {label: 'Metallic', key: 'metallic', accept: allTypes},
 
-
-            {label: 'Ambient influence', key: 'ambientInfluence', type: DATA_TYPES.BOOL, bundled: true, labelVisible: true},
+            {
+                label: 'Ambient influence',
+                key: 'ambientInfluence',
+                type: DATA_TYPES.OPTIONS,
+                options: [
+                    {label: 'Yes', data: true},
+                    {label: 'No', data: false}
+                ]
+            }
         ], []);
 
         this.name = 'Material'
@@ -44,15 +52,24 @@ export default class Material extends Node {
                 return field.name
         }
     }
-
+    _getDataBehaviour(field) {
+        switch (field.type) {
+            case DATA_TYPES.VEC2:
+            case DATA_TYPES.VEC4:
+            case DATA_TYPES.VEC3:
+                return `${field.name}.x`
+            case DATA_TYPES.INT:
+                return `float(${field.name})`
+            default:
+                return field.name
+        }
+    }
     // texture and uv = {name: variable name, value: variable value if static}
-    getFunctionCall({al, normal, behaviour}) {
-
-        console.log(al)
+    getFunctionCall({al, normal, ao, roughness, metallic}) {
         return `
             gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
-            gNormal = vec4(${normal ? this._getData(normal) : 'normalVec'}, 1.);
-            gBehaviour =  vec4(${behaviour ? this._getData(behaviour): 'vec3(0., 1., 0.)'}, 1.);
+            gNormal = ${normal ? `vec4(normalize(toTangentSpace * ((${this._getData(normal)} * 2.0) - 1.0)), 1.0);` : 'vec4(normalVec, 1.);'}
+            gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao): '1.'},${roughness ? this._getDataBehaviour(roughness): '1.'},${metallic ? this._getDataBehaviour(metallic): '0.'}, 1.);
         `
     }
 }

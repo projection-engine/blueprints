@@ -22,12 +22,11 @@ export default async function compiler(n, links, fileSystem) {
         codeString.functions = toJoin.join('\n')
 
         typesInstantiated = {}
-        await Promise.all(nodes.map((n, i) => new Promise(resolve => {
+        await Promise.all(nodes.map((n, i) => new Promise(async resolve => {
             if (typeof n.getInputInstance === 'function' && !typesInstantiated[n.id]) {
-                n.getInputInstance(i, uniforms, uniformData, fileSystem).then(res => {
-                    toJoin.push(res)
-                    resolve()
-                })
+                const res = await n.getInputInstance(i, uniforms, uniformData, fileSystem)
+                toJoin.push(res)
+                resolve()
                 typesInstantiated[n.id] = true
             } else
                 resolve()

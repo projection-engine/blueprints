@@ -45,7 +45,7 @@ export default function NodeEditor(props) {
                         precision={3} maxValue={obj.max} incrementPercentage={.001} minValue={obj.min}
                         value={value !== undefined ? value : 0}
                         onFinish={(v) => {
-                            submit(type === DATA_TYPES.FLOAT ? v : parseInt(v))
+                            submit(type === DATA_TYPES.FLOAT ? v : parseInt(v), true)
                             props.hook.setChanged(true)
                             if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                 props.hook.setImpactingChange(true)
@@ -62,7 +62,7 @@ export default function NodeEditor(props) {
                             minValue={obj.min}
                             value={value ? value[0] : undefined}
                             onFinish={(v) => {
-                                submit([parseFloat(v), value[1], value[2]])
+                                submit([parseFloat(v), value[1], value[2]], true)
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
@@ -73,7 +73,7 @@ export default function NodeEditor(props) {
                             maxValue={obj.max}
                             minValue={obj.min}
                             onFinish={(v) => {
-                                submit([value[0], parseFloat(v), value[2]])
+                                submit([value[0], parseFloat(v), value[2]], true)
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
@@ -85,7 +85,7 @@ export default function NodeEditor(props) {
                             maxValue={obj.max}
                             minValue={obj.min}
                             onFinish={(v) => {
-                                submit([value[0], value[1], parseFloat(v)])
+                                submit([value[0], value[1], parseFloat(v)], true)
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
@@ -97,7 +97,7 @@ export default function NodeEditor(props) {
             case DATA_TYPES.COLOR:
                 return <ColorPicker
                     submit={c => {
-                        submit(c)
+                        submit(c, true)
                         props.hook.setChanged(true)
                         props.hook.setImpactingChange(true)
                         console.log('E')
@@ -108,7 +108,7 @@ export default function NodeEditor(props) {
                     <Selector
                         type={'image'}
                         handleChange={ev => {
-                            submit(ev)
+                            submit(ev, true)
                             props.hook.setChanged(true)
                             props.hook.setImpactingChange(true)
                         }}
@@ -127,7 +127,10 @@ export default function NodeEditor(props) {
                                         icon: o.data === selected[obj.key] ? <span style={{fontSize: '1.1rem'}}
                                                                                    className={'material-icons-round'}>check</span> : null,
                                         onClick: () => {
-                                            submit(o.data)
+                                            props.hook.setChanged(true)
+                                            props.hook.setImpactingChange(true)
+                                            console.log(o.data)
+                                            submit(o.data, true)
                                         }
                                     }}/>
                                 </React.Fragment>
@@ -163,7 +166,7 @@ export default function NodeEditor(props) {
                     : null}
                 {attributes.map((attr, i) => (
                     <React.Fragment key={attr.label + '-attribute-' + i}>
-                        <Accordion contentClassName={styles.content} >
+                        <Accordion contentClassName={styles.content}>
                             <AccordionSummary className={styles.summary}>
                                 {attr.label}
                             </AccordionSummary>
@@ -173,16 +176,23 @@ export default function NodeEditor(props) {
                                 attr.type,
                                 selected[attr.key],
                                 (event, submit) => {
-                                    if (props.hook.selected.length > 0)
-                                        props.hook.setNodes(prev => {
-                                            const n = [...prev]
-                                            const classLocation = n.findIndex(e => e.id === selected.id)
-                                            const clone = cloneClass(prev[classLocation])
-                                            clone[attr.key] = event
-                                            n[classLocation] = clone
-                                            return n
-                                        })
-                                    else {
+                                    console.log(props.hook.selected.length, submit)
+                                    if (props.hook.selected.length > 0) {
+                                        if (submit)
+                                            props.hook.setNodes(prev => {
+                                                console.log(attr.key)
+                                                const n = [...prev]
+                                                const classLocation = n.findIndex(e => e.id === selected.id)
+                                                const clone = cloneClass(prev[classLocation])
+                                                clone[attr.key] = event
+                                                console.log(clone[attr.key], event)
+                                                n[classLocation] = clone
+                                                return n
+                                            })
+                                        else
+                                            selected[attr.key] = event
+                                    } else {
+
                                         if (attr.key === 'tilingX')
                                             props.engine.material.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
                                         if (attr.key === 'tilingY')
