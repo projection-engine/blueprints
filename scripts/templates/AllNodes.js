@@ -10,7 +10,8 @@ import Divide from "../../../../engine/shared/nodes/operators/math/Divide";
 import ToVector from "../../../../engine/shared/nodes/operators/conversions/ToVector";
 import FromVector from "../../../../engine/shared/nodes/operators/conversions/FromVector";
 import SetLocalRotation from "../../../../engine/shared/nodes/transformation/SetLocalRotation";
-import SetTransformationRelativeOrigin from "../../../../engine/shared/nodes/transformation/SetTransformationRelativeOrigin";
+import SetTransformationRelativeOrigin
+    from "../../../../engine/shared/nodes/transformation/SetTransformationRelativeOrigin";
 import Print from "../../../../engine/shared/nodes/utils/Print";
 import Xor from "../../../../engine/shared/nodes/operators/boolean/Xor";
 import Or from "../../../../engine/shared/nodes/operators/boolean/Or";

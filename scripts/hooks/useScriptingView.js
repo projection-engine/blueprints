@@ -13,7 +13,8 @@ import Add from "../../../../engine/shared/nodes/operators/math/Add";
 import Subtract from "../../../../engine/shared/nodes/operators/math/Subtract";
 import Divide from "../../../../engine/shared/nodes/operators/math/Divide";
 import Multiply from "../../../../engine/shared/nodes/operators/math/Multiply";
-import SetTransformationRelativeOrigin from "../../../../engine/shared/nodes/transformation/SetTransformationRelativeOrigin";
+import SetTransformationRelativeOrigin
+    from "../../../../engine/shared/nodes/transformation/SetTransformationRelativeOrigin";
 import SetLocalRotation from "../../../../engine/shared/nodes/transformation/SetLocalRotation";
 import ToVector from "../../../../engine/shared/nodes/operators/conversions/ToVector";
 import FromVector from "../../../../engine/shared/nodes/operators/conversions/FromVector";
