@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import Transformation from "../../../../../services/engine/shared/utils/workers/Transformation";
+import Transformation from "../../../../../engine/shared/utils/workers/Transformation";
 import {DATA_TYPES} from "../../../base/DATA_TYPES";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 

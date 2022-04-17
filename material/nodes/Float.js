@@ -29,7 +29,10 @@ export default class Float extends Node {
     }
 
     get type() {
-        return NODE_TYPES.VARIABLE
+        if (this.uniform)
+            return NODE_TYPES.VARIABLE
+        else
+            return NODE_TYPES.STATIC
     }
 
     getFunctionInstance() {
@@ -49,7 +52,8 @@ export default class Float extends Node {
             uniforms.push({
                 label: this.name,
                 key: this.uniformName,
-                type: DATA_TYPES.FLOAT
+                type: DATA_TYPES.FLOAT,
+                value: this.v
             })
 
             return `uniform float ${this.uniformName};`

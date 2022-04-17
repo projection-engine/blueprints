@@ -15,6 +15,6 @@ export default {
     REFERENCE: 10,
 
 
-    STATIC: 'static',
+    STATIC: 12,
     OUTPUT: 11
 }

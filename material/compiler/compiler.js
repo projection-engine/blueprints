@@ -1,4 +1,4 @@
-import cloneClass from "../../../../services/engine/utils/cloneClass";
+import cloneClass from "../../../../engine/utils/cloneClass";
 
 import NODE_TYPES from "../../base/NODE_TYPES";
 import getMaterialTemplate from "./materialTemplate";

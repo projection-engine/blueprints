@@ -50,10 +50,11 @@ export default class RGB extends Node {
                 label: this.name,
                 key: this.uniformName,
                 type: DATA_TYPES.VEC3,
+                value: v.map(i => i/255),
                 normalized: true
             })
 
-            return `uniform float ${this.uniformName};`
+            return `uniform vec3 ${this.uniformName};`
         } else {
             this.uniformName = `COLOR_RGB${index}`
 

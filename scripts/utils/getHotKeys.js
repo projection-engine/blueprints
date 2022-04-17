@@ -4,7 +4,7 @@ import mapNodes from "./mapNodes";
 import compile from "./compile";
 import EventTick from "../nodes/events/EventTick";
 import deleteNode from "../../base/utils/deleteNode";
-import cloneClass from "../../../../services/engine/utils/cloneClass";
+import cloneClass from "../../../../engine/utils/cloneClass";
 import EntityReference from "../nodes/events/EntityReference";
 import Setter from "../nodes/utils/Setter";
 import Getter from "../nodes/utils/Getter";

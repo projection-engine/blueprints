@@ -1,7 +1,7 @@
 import Node from '../../base/Node'
 import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
-import ImageProcessor from "../../../../services/engine/utils/image/ImageProcessor";
+import ImageProcessor from "../../../../engine/utils/image/ImageProcessor";
 
 
 export const TEXTURE_TYPES = {
@@ -101,16 +101,25 @@ export default class TextureSample extends Node {
 
     async getInputInstance(index, uniforms, uniformData, fileSystem) {
         this.uniformName = `sampler${index}`
-        if (this.texture.registryID) {
+        if (this.texture?.registryID) {
             try {
                 const res = await fileSystem.readRegistryFile(this.texture?.registryID)
                 if (res) {
                     const file = await fileSystem.readFile(fileSystem.path + '\\assets\\' + res.path, true)
+                    uniforms.push({
+                        label: this.name,
+                        key: this.uniformName,
+                        value: this.texture.registryID,
+                        type: DATA_TYPES.TEXTURE,
+                        format: {...this.format, yFlip: this.yFlip}
+                    })
                     uniformData.push({
+
                         key: this.uniformName,
                         data: file,
                         type: DATA_TYPES.TEXTURE,
-                        format: this.format
+                        format: this.format,
+                        yFlip: this.yFlip
                     })
                 } else
                     uniformData.push({

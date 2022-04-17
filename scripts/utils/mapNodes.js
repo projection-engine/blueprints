@@ -1,6 +1,6 @@
 import NODE_TYPES from "../../base/NODE_TYPES";
 import compile from "./compile";
-import cloneClass from "../../../../services/engine/utils/cloneClass";
+import cloneClass from "../../../../engine/utils/cloneClass";
 import Setter from "../nodes/utils/Setter";
 
 export default function mapNodes(hook, engine, file, isLevelBp) {

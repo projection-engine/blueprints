@@ -1,5 +1,5 @@
 import Node from "../../../base/Node";
-import COMPONENTS from "../../../../../services/engine/shared/templates/COMPONENTS";
+import COMPONENTS from "../../../../../engine/shared/templates/COMPONENTS";
 import NODE_TYPES from "../../../base/NODE_TYPES";
 import {DATA_TYPES} from "../../../base/DATA_TYPES";
 

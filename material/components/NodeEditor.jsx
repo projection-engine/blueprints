@@ -9,7 +9,7 @@ import Selector from "../../../../components/selector/Selector";
 
 import ColorPicker from "../../../../components/color/ColorPicker";
 
-import cloneClass from "../../../../services/engine/utils/cloneClass";
+import cloneClass from "../../../../engine/utils/cloneClass";
 import {DATA_TYPES} from "../../base/DATA_TYPES";
 
 export default function NodeEditor(props) {
@@ -102,7 +102,6 @@ export default function NodeEditor(props) {
                         submit(c, true)
                         props.hook.setChanged(true)
                         props.hook.setImpactingChange(true)
-                        console.log('E')
                     }}
                     value={value}/>
             case DATA_TYPES.TEXTURE:

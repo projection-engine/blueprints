@@ -7,7 +7,7 @@ import {DATA_TYPES} from "../../base/DATA_TYPES";
 import deleteNode from "../../base/utils/deleteNode";
 import NODE_TYPES from "../../base/NODE_TYPES";
 import mapToView from "../../../scene/utils/mapToView";
-import {ENTITY_ACTIONS} from "../../../../services/engine/utils/entityReducer";
+import {ENTITY_ACTIONS} from "../../../../engine/utils/entityReducer";
 import TreeView from "../../../../components/tree/TreeView";
 
 import {v4 as uuidv4} from 'uuid';

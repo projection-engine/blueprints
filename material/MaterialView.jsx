@@ -14,7 +14,7 @@ import useMaterialView from "./hooks/useMaterialView";
 import Make from "./utils/Make";
 import Material from "./nodes/Material";
 
-import MaterialInstance from "../../../services/engine/shared/instances/MaterialInstance";
+import MaterialInstance from "../../../engine/shared/instances/MaterialInstance";
 import {IDS} from "../../../pages/project/utils/hooks/useMinimalEngine";
 
 

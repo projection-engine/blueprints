@@ -1,4 +1,4 @@
-import cloneClass from "../../../../services/engine/utils/cloneClass";
+import cloneClass from "../../../../engine/utils/cloneClass";
 import {DATA_TYPES} from "../../base/DATA_TYPES";
 import Getter from "../nodes/utils/Getter";
 import NODE_TYPES from "../../base/NODE_TYPES";

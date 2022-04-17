@@ -19,14 +19,14 @@ import SettingsProvider from "../../../pages/project/utils/hooks/SettingsProvide
 import useEditorEngine from "../../../pages/project/utils/hooks/useEditorEngine";
 import Viewport from "../../../components/viewport/Viewport";
 import FormTabs from "../../scene/forms/FormTabs";
-import COMPONENTS from "../../../services/engine/shared/templates/COMPONENTS";
-import ScriptComponent from "../../../services/engine/shared/ecs/components/ScriptComponent";
-import {ENTITY_ACTIONS} from "../../../services/engine/utils/entityReducer";
+import COMPONENTS from "../../../engine/shared/templates/COMPONENTS";
+import ScriptComponent from "../../../engine/shared/ecs/components/ScriptComponent";
+import {ENTITY_ACTIONS} from "../../../engine/utils/entityReducer";
 import useForm from "../../scene/utils/useForm";
 import sceneStyles from '../../scene/styles/Scene.module.css'
 import handleDrop from "../../../pages/project/utils/utils/handleDrop";
 import {SHADING_MODELS} from "../../../pages/project/utils/hooks/useSettings";
-import CAMERA_TYPES from "../../../services/engine/editor/camera/CAMERA_TYPES";
+import CAMERA_TYPES from "../../../engine/editor/camera/CAMERA_TYPES";
 import ViewportOptions from "../../../components/viewport/ViewportOptions";
 import EntityReference from "./nodes/events/EntityReference";
 
