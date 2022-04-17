@@ -25,7 +25,7 @@ export default class FollowAround extends Node {
         const transform = entity.components[COMPONENTS.TRANSFORM]
         cameraRoot.rotation = transform.rotationQuat
         cameraRoot.translation = vec3.add([], transform.translation, cameraRoot.position)
-        console.log(transform)
+
         cameraRoot.updateViewMatrix()
         return attributes
     }

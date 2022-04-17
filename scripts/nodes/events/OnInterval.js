@@ -30,7 +30,6 @@ export default class OnInterval extends Node {
             setInterval(() => setState(true, 'canContinue'), [executors[nodeID].interval])
         }
         if (state.canContinue) {
-            console.log('EVERY ', executors[nodeID].interval)
             setState(false, 'canContinue')
             return object.execute
         }

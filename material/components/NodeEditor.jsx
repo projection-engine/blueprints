@@ -130,7 +130,7 @@ export default function NodeEditor(props) {
                                         onClick: () => {
                                             props.hook.setChanged(true)
                                             props.hook.setImpactingChange(true)
-                                            console.log(o.data)
+
                                             submit(o.data, true)
                                         }
                                     }}/>
@@ -181,12 +181,11 @@ export default function NodeEditor(props) {
                                     if (props.hook.selected.length > 0) {
                                         if (submit)
                                             props.hook.setNodes(prev => {
-                                                console.log(attr.key)
                                                 const n = [...prev]
                                                 const classLocation = n.findIndex(e => e.id === selected.id)
                                                 const clone = cloneClass(prev[classLocation])
                                                 clone[attr.key] = event
-                                                console.log(clone[attr.key], event)
+
                                                 n[classLocation] = clone
                                                 return n
                                             })

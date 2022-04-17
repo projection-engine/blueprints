@@ -31,7 +31,6 @@ export default class Multiply extends Node {
 
     getFunctionCall({a,b}, index) {
         this.multRes = 'multRes' + index
-        console.log(a, b)
         if(b && a)
             return `${a.type} ${this.multRes} = ${a.name} * ${b.name};`
         else

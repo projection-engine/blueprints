@@ -15,7 +15,7 @@ export default async function compiler(n, links, fileSystem) {
         let toJoin = [], typesInstantiated = {}
         nodes.forEach(n => {
             if (n.type === NODE_TYPES.FUNCTION && !typesInstantiated[n.constructor.name]) {
-                console.log(n.getFunctionInstance)
+
                 toJoin.push(n.getFunctionInstance())
                 typesInstantiated[n.constructor.name] = true
             }
@@ -46,7 +46,6 @@ export default async function compiler(n, links, fileSystem) {
             ${codeString.functions}
             ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
         `)
-        console.log(code)
 
         return {
             shader: code,

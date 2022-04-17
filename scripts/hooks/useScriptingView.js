@@ -211,7 +211,6 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
             Object.keys(f).forEach(o => {
                 if (o !== 'size')
                     i[o] = f[o]
-                console.log(f[o])
             })
             return i
         })

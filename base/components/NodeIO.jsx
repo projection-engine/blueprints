@@ -219,7 +219,6 @@ NodeIO.propTypes = {
 }
 
 function getPredominant([a, b]) {
-    console.log(a, b)
     const aType = a.sourceType,
         bType = b.sourceType
 

@@ -129,7 +129,6 @@ export default class TextureSample extends Node {
                         format: this.format
                     })
             } catch (error) {
-                console.trace(error)
             }
         } else
             uniformData.push({

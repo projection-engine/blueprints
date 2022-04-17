@@ -31,7 +31,6 @@ export default class Add extends Node {
 
     getFunctionCall({a,b}, index) {
         this.addRes = 'addRes' + index
-        console.log(a, b)
         if(b && a)
             return `${a.type} ${this.addRes} = ${a.name} + ${b.name};`
         else

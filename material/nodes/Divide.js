@@ -31,7 +31,6 @@ export default class Divide extends Node {
 
     getFunctionCall({a,b}, index) {
         this.divideRes = 'divideRes' + index
-        console.log(a, b)
         if(b && a)
             return `${a.type} ${this.divideRes} = ${a.name} / ${b.name};`
         else

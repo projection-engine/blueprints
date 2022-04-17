@@ -31,22 +31,18 @@ export default class ViewDirection extends Node {
 
     getFunctionCall(_, index, outputs) {
         let response = []
-        console.log(outputs)
 
         outputs.forEach(o => {
-            console.log(this[o])
             if(o === 'viewDirection'){
                 this.viewDirection = 'viewDirection'
             }
             else if (!this[o]) {
 
-                    console.trace(o, index)
                     this[o] = o + `${index}`
                     response.push(`float ${this[o]} = viewDirection.${o};`)
                 }
         })
 
-        console.log(response)
         return response.join('\n')
     }
 
