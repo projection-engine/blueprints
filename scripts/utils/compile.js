@@ -1,8 +1,8 @@
 import cloneClass from "../../../../engine/utils/cloneClass";
 import {DATA_TYPES} from "../../base/DATA_TYPES";
-import Getter from "../nodes/utils/Getter";
+import Getter from "../../../../engine/shared/nodes/utils/Getter";
 import NODE_TYPES from "../../base/NODE_TYPES";
-import EntityReference from "../nodes/events/EntityReference";
+import EntityReference from "../../../../engine/shared/nodes/events/EntityReference";
 
 
 export default function compile(n, links, variables, alreadyCompiled = [], startPoint) {
