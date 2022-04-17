@@ -105,8 +105,8 @@ export default class PerlinNoise extends Node {
     getFunctionCall({vec}, index) {
         let response = []
 
-
-        if (!this.res) {
+        console.log(vec)
+        if (!this.res && vec) {
             this.res = `res${index}`
             response.push(`float ${this.res} = pNoise(${vec.type === DATA_TYPES.FLOAT ? `vec2(${vec.name}, ${vec.name})` : vec.name}, ${this.samples}, ${checkFloat(this.persistence)}, ${checkFloat(this.frequency)}, ${checkFloat(this.amplitude)}, ${checkFloat(this.unitValue)});`)
         }

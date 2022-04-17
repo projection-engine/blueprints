@@ -14,7 +14,6 @@ import MaterialViewport from "./components/MaterialViewport";
 import {allNodes} from "./AllNodes";
 import useMaterialView from "./hooks/useMaterialView";
 import Make from "./utils/Make";
-import compile from "../material/utils/compile";
 import Material from "./nodes/Material";
 
 import MaterialInstance from "../../../services/engine/instances/MaterialInstance";
@@ -69,7 +68,7 @@ export default function MaterialView(props) {
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                     onClick: async () => {
-                        const response = await Make(hook, compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
+                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                         props.submitPackage(
                             response.preview,
                             response.data,
@@ -85,7 +84,7 @@ export default function MaterialView(props) {
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: async () => {
-                        const response = await Make(hook, compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
+                        const response = await Make(hook,await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                         props.submitPackage(
                             response.preview,
                             response.data,
