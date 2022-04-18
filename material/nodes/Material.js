@@ -5,6 +5,10 @@ import NODE_TYPES from "../../base/NODE_TYPES";
 
 export default class Material extends Node {
     ambientInfluence = true
+    isForward = false
+    rsmAlbedo
+    doubledSided = true
+
     constructor() {
         const allTypes = [DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2, DATA_TYPES.FLOAT, DATA_TYPES.INT]
         super([
@@ -15,9 +19,29 @@ export default class Material extends Node {
             {label: 'Roughness', key: 'roughness', accept: allTypes},
             {label: 'Metallic', key: 'metallic', accept: allTypes},
 
+            {label: 'GI albedo', key: 'rsmAlbedo', type: DATA_TYPES.TEXTURE},
+
             {
                 label: 'Ambient influence',
                 key: 'ambientInfluence',
+                type: DATA_TYPES.OPTIONS,
+                options: [
+                    {label: 'Yes', data: true},
+                    {label: 'No', data: false}
+                ]
+            },
+            {
+                label: 'Rendering type',
+                key: 'isForward',
+                type: DATA_TYPES.OPTIONS,
+                options: [
+                    {label: 'Forward rendering', data: true},
+                    {label: 'Deferred rendering', data: false}
+                ]
+            },
+            {
+                label: 'Doubled sided',
+                key: 'doubledSided',
                 type: DATA_TYPES.OPTIONS,
                 options: [
                     {label: 'Yes', data: true},

@@ -21,6 +21,18 @@ import CameraCoords from "../nodes/CameraCoords";
 import ElapsedTime from "../nodes/ElapsedTime";
 import Multiply from "../nodes/Multiply";
 import PerlinNoise from "../nodes/PerlinNoise";
+import BreakVec2 from "../nodes/vec/BreakVec2";
+import DotVec2 from "../nodes/vec/DotVec2";
+import LerpVec2 from "../nodes/vec/LerpVec2";
+import LerpVec4 from "../nodes/vec/LerpVec4";
+import LerpVec3 from "../nodes/vec/LerpVec3";
+import DotVec3 from "../nodes/vec/DotVec3";
+import DotVec4 from "../nodes/vec/DotVec4";
+import BreakVec4 from "../nodes/vec/BreakVec4";
+import BreakVec3 from "../nodes/vec/BreakVec3";
+import Vec2 from "../nodes/vec/Vec2";
+import Vec3 from "../nodes/vec/Vec3";
+import Vec4 from "../nodes/vec/Vec4";
 
 
 export default function useMaterialView(file,setAlert) {
@@ -80,6 +92,21 @@ const INSTANCES = {
     [ElapsedTime.name]: () => new ElapsedTime(),
     [Multiply.name]: () => new Multiply(),
     [PerlinNoise.name]: () => new PerlinNoise(),
+
+
+    [BreakVec2.name]: () => new BreakVec2(),
+    [BreakVec3.name]: () => new BreakVec3(),
+    [BreakVec4.name]: () => new BreakVec4(),
+    [DotVec2.name]: () => new DotVec2(),
+    [DotVec3.name]: () => new DotVec3(),
+    [DotVec4.name]: () => new DotVec4(),
+    [LerpVec2.name]: () => new LerpVec2(),
+    [LerpVec3.name]: () => new LerpVec3(),
+    [LerpVec4.name]: () => new LerpVec4(),
+
+    [Vec2.name]: () => new Vec2(),
+    [Vec3.name]: () => new Vec3(),
+    [Vec4.name]: () => new Vec4(),
 }
 
 function parse(file, quickAccess, setNodes, setLinks, engine, load) {

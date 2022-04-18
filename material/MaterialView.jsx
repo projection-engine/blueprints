@@ -29,12 +29,12 @@ export default function MaterialView(props) {
         props.setAlert({message: 'Compiling shaders', type: 'info'})
         hook.setImpactingChange(false)
         compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
-            .then(({shader, uniforms, uniformData}) => {
+            .then(({shader, uniforms, uniformData, settings}) => {
                 const prev = hook.engine.material
                 let promise, newMat
                 if(!prev)
                     promise = new Promise(resolve => {
-                        newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, () => resolve(), IDS.MATERIAL)
+                        newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, settings, () => resolve(), IDS.MATERIAL)
                     })
                 else {
                     newMat = prev

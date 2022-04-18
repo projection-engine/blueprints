@@ -1,24 +1,20 @@
-import Node from '../../base/Node'
-import {DATA_TYPES} from "../../base/DATA_TYPES";
-import NODE_TYPES from "../../base/NODE_TYPES";
+import Node from '../../../base/Node'
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
+import NODE_TYPES from "../../../base/NODE_TYPES";
 
 
-export default class BreakVector extends Node {
+export default class BreakVec2 extends Node {
     x = 0
     y = 0
-    z = 0
-    w = 0
 
     constructor() {
         super([
-            {label: 'Vector', key: 'v', accept: [DATA_TYPES.VEC2, DATA_TYPES.VEC3, DATA_TYPES.VEC4]}
+            {label: 'Vector', key: 'v', accept: [DATA_TYPES.VEC2]}
         ], [
             {label: 'X', key: 'x', type: DATA_TYPES.FLOAT, color: 'red'},
-            {label: 'Y', key: 'y', type: DATA_TYPES.FLOAT, color: 'green'},
-            {label: 'Z', key: 'z', type: DATA_TYPES.FLOAT, color: 'blue'},
-            {label: 'W', key: 'w', type: DATA_TYPES.FLOAT, color: 'white'}
+            {label: 'Y', key: 'y', type: DATA_TYPES.FLOAT, color: 'green'}
         ]);
-        this.name = 'BreakVector'
+        this.name = 'BreakVec2'
         this.size = 1
     }
 

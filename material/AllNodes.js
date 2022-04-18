@@ -17,8 +17,112 @@ import ToTangentSpace from "./nodes/ToTangentSpace";
 import ViewDirection from "./nodes/ViewDirection";
 import ParallaxOcclusionMapping from "./nodes/ParallaxOcclusionMapping";
 import PerlinNoise from "./nodes/PerlinNoise";
+import BreakVec2 from "./nodes/vec/BreakVec2";
+import BreakVec3 from "./nodes/vec/BreakVec3";
+import BreakVec4 from "./nodes/vec/BreakVec4";
+import DotVec2 from "./nodes/vec/DotVec2";
+import DotVec3 from "./nodes/vec/DotVec3";
+import DotVec4 from "./nodes/vec/DotVec4";
+import LerpVec2 from "./nodes/vec/LerpVec2";
+import LerpVec3 from "./nodes/vec/LerpVec3";
+import LerpVec4 from "./nodes/vec/LerpVec4";
+import Vec4 from "./nodes/vec/Vec4";
+import Vec3 from "./nodes/vec/Vec3";
+import Vec2 from "./nodes/vec/Vec2";
 
 export const allNodes = [
+    {
+        label: 'Vec2',
+        dataTransfer: 'BreakVec2',
+        tooltip: '2D vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Vec2()
+    },
+    {
+        label: 'Vec3',
+        dataTransfer: 'BreakVec2',
+        tooltip: '3D vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Vec3()
+    },
+    {
+        label: 'Vec4',
+        dataTransfer: 'BreakVec2',
+        tooltip: '4D vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Vec4()
+    },
+
+
+    {
+        label: 'BreakVec2',
+        dataTransfer: 'BreakVec2',
+        tooltip: 'Break vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new BreakVec2()
+    },
+    {
+        label: 'BreakVec3',
+        dataTransfer: 'BreakVec3',
+        tooltip: 'Break vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new BreakVec3()
+    },
+    {
+        label: 'BreakVec4',
+        dataTransfer: 'BreakVec4',
+        tooltip: 'Break vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new BreakVec4()
+    },
+    {
+        label: 'DotVec2',
+        dataTransfer: 'DotVec2',
+        tooltip: 'Dot product vec2',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new DotVec2()
+    },
+    {
+        label: 'DotVec3',
+        dataTransfer: 'DotVec3',
+        tooltip: 'Dot product vec3',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new DotVec3()
+    },
+    {
+        label: 'DotVec4',
+        dataTransfer: 'DotVec4',
+        tooltip: 'Dot product vec4',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new DotVec4()
+    },
+
+    {
+        label: 'LerpVec2',
+        dataTransfer: 'LerpVec2',
+        tooltip: 'Linear interpolate vec2.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new LerpVec2()
+    },
+    {
+        label: 'LerpVec3',
+        dataTransfer: 'LerpVec3',
+        tooltip: 'Linear interpolate vec3.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new LerpVec3()
+    },
+    {
+        label: 'LerpVec4',
+        dataTransfer: 'LerpVec4',
+        tooltip: 'Linear interpolate vec4.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new LerpVec4()
+    },
+
+
+
+
+
     {
         label: 'PerlinNoise',
         dataTransfer: 'PerlinNoise',

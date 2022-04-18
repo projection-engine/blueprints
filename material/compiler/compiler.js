@@ -50,7 +50,12 @@ export default async function compiler(n, links, fileSystem) {
         return {
             shader: code,
             uniforms,
-            uniformData
+            uniformData,
+            settings: {
+                isForward:startPoint.isForward,
+                rsmAlbedo:startPoint.rsmAlbedo,
+                doubledSided:startPoint.doubledSided
+            }
         }
     } else
         return undefined
