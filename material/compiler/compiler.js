@@ -52,7 +52,7 @@ export default async function compiler(n, links, fileSystem) {
             uniforms,
             uniformData,
             settings: {
-                isForward:startPoint.isForward,
+                isForwardShaded:startPoint.isForwardShaded,
                 rsmAlbedo:startPoint.rsmAlbedo,
                 doubledSided:startPoint.doubledSided
             }

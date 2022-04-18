@@ -32,6 +32,8 @@ export default function MaterialView(props) {
             .then(({shader, uniforms, uniformData, settings}) => {
                 const prev = hook.engine.material
                 let promise, newMat
+
+                console.log(settings)
                 if(!prev)
                     promise = new Promise(resolve => {
                         newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, settings, () => resolve(), IDS.MATERIAL)
@@ -39,7 +41,7 @@ export default function MaterialView(props) {
                 else {
                     newMat = prev
                     promise = new Promise(resolve => {
-                        newMat.shader = [shader, uniformData, () => resolve()]
+                        newMat.shader = [shader, uniformData, () => resolve(), settings]
                     })
                 }
 

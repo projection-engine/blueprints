@@ -5,7 +5,7 @@ import NODE_TYPES from "../../base/NODE_TYPES";
 
 export default class Material extends Node {
     ambientInfluence = true
-    isForward = false
+    isForwardShaded = false
     rsmAlbedo
     doubledSided = true
 
@@ -32,8 +32,9 @@ export default class Material extends Node {
             },
             {
                 label: 'Rendering type',
-                key: 'isForward',
+                key: 'isForwardShaded',
                 type: DATA_TYPES.OPTIONS,
+
                 options: [
                     {label: 'Forward rendering', data: true},
                     {label: 'Deferred rendering', data: false}
