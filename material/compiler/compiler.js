@@ -1,17 +1,19 @@
 import cloneClass from "../../../../engine/utils/cloneClass";
 
 import NODE_TYPES from "../../base/NODE_TYPES";
-import getMaterialTemplate from "./materialTemplate";
+import deferredTemplate from "./deferredTemplate";
+import forwardTemplate from "./forwardTemplate";
 import resolveStructure from "./resolveStructure";
 
 export default async function compiler(n, links, fileSystem) {
     const nodes = n.map(nn => cloneClass(nn))
-    const codeString = getMaterialTemplate, uniforms = [], uniformData = []
 
     const startPoint = nodes.find(n => {
         return n.type === NODE_TYPES.OUTPUT
     })
     if (startPoint) {
+        const codeString = startPoint.isForwardShaded ? forwardTemplate : deferredTemplate, uniforms = [], uniformData = []
+
         let toJoin = [], typesInstantiated = {}
         nodes.forEach(n => {
             if (n.type === NODE_TYPES.FUNCTION && !typesInstantiated[n.constructor.name]) {
@@ -39,15 +41,15 @@ export default async function compiler(n, links, fileSystem) {
         resolveStructure(startPoint, [], links, nodes, body)
 
         const code = trimString(`
-            #version 300 es
-            precision highp float;
             ${codeString.static}
             ${codeString.inputs}
             ${codeString.functions}
             ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
         `)
+        console.log(code)
 
         return {
+            // vertexShader: ,
             shader: code,
             uniforms,
             uniformData,

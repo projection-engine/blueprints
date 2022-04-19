@@ -35,6 +35,27 @@ export default function NodeEditor(props) {
         return res
     }, [selected])
 
+    const getNewVec = (value, v, index, type) => {
+    switch (type){
+        case  DATA_TYPES.VEC2:
+            return [index === 0 ? v : value[0], index === 1 ? v : value[1]]
+        case  DATA_TYPES.VEC3:
+            return [
+                index === 0 ? v : value[0],
+                index === 1 ? v : value[1],
+                index === 2 ? v : value[2]
+            ]
+        case  DATA_TYPES.VEC4:
+            return [
+                index === 0 ? v : value[0],
+                index === 1 ? v : value[1],
+                index === 2 ? v : value[2],
+                index === 3 ? v : value[3]
+            ]
+        default:
+            return value
+    }
+    }
 
     const getInput = (label, type, value, submit, obj) => {
         switch (type) {
@@ -55,7 +76,9 @@ export default function NodeEditor(props) {
                         handleChange={submit} label={label}
                     />
                 )
-            case DATA_TYPES.VEC:
+            case DATA_TYPES.VEC4:
+            case DATA_TYPES.VEC3:
+            case DATA_TYPES.VEC2:
                 return (
                     <div className={styles.vecWrapper}>
                         <Range
@@ -64,36 +87,52 @@ export default function NodeEditor(props) {
                             minValue={obj.min}
                             value={value ? value[0] : undefined}
                             onFinish={(v) => {
-                                submit([parseFloat(v), value[1], value[2]], true)
+                                submit(getNewVec(value, v, 0, type), true)
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
                             }}
-                            handleChange={v => submit([parseFloat(v), value[1], value[2]])} label={label}/>
+                            handleChange={v => submit(getNewVec(value, v, 0, type))} label={label}/>
                         <Range
                             accentColor={'green'}
                             maxValue={obj.max}
                             minValue={obj.min}
                             onFinish={(v) => {
-                                submit([value[0], parseFloat(v), value[2]], true)
+                                submit(getNewVec(value, v, 1, type), true)
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
                             }}
                             value={value ? value[1] : undefined}
-                            handleChange={v => submit([value[0], parseFloat(v), value[2]])} label={label}/>
-                        <Range
-                            accentColor={'blue'}
-                            maxValue={obj.max}
-                            minValue={obj.min}
-                            onFinish={(v) => {
-                                submit([value[0], value[1], parseFloat(v)], true)
-                                props.hook.setChanged(true)
-                                if (props.hook.selected.length > 0 && !(selected instanceof Material))
-                                    props.hook.setImpactingChange(true)
-                            }}
-                            value={value ? value[2] : undefined}
-                            handleChange={v => submit([value[0], value[1], parseFloat(v)])} label={label}/>
+                            handleChange={v => submit(getNewVec(value, v, 1, type))} label={label}/>
+                        {type === DATA_TYPES.VEC4 || type === DATA_TYPES.VEC3 ? (
+                            <Range
+                                accentColor={'blue'}
+                                maxValue={obj.max}
+                                minValue={obj.min}
+                                onFinish={(v) => {
+                                    submit(getNewVec(value, v, 2, type), true)
+                                    props.hook.setChanged(true)
+                                    if (props.hook.selected.length > 0 && !(selected instanceof Material))
+                                        props.hook.setImpactingChange(true)
+                                }}
+                                value={value ? value[2] : undefined}
+                                handleChange={v => submit(getNewVec(value, v, 2, type))} label={label}/>
+                        ) : null}
+                        {type === DATA_TYPES.VEC4? (
+                            <Range
+                                accentColor={'blue'}
+                                maxValue={obj.max}
+                                minValue={obj.min}
+                                onFinish={(v) => {
+                                    submit([value[0], value[1],value[2], parseFloat(v)], true)
+                                    props.hook.setChanged(true)
+                                    if (props.hook.selected.length > 0 && !(selected instanceof Material))
+                                        props.hook.setImpactingChange(true)
+                                }}
+                                value={value ? value[3] : undefined}
+                                handleChange={v => submit(getNewVec(value, v, 3, type))} label={label}/>
+                        ) : null}
                     </div>
                 )
             case DATA_TYPES.COLOR:
@@ -178,13 +217,17 @@ export default function NodeEditor(props) {
                                 selected[attr.key],
                                 (event, submit) => {
 
-                                    if (props.hook.selected.length > 0) {
+                                    if (props.hook.selected.length > 0 || submit) {
                                         if (submit)
                                             props.hook.setNodes(prev => {
                                                 const n = [...prev]
                                                 const classLocation = n.findIndex(e => e.id === selected.id)
                                                 const clone = cloneClass(prev[classLocation])
                                                 clone[attr.key] = event
+                                                const input = clone.inputs.find(i => i.key === attr.key)
+                                                console.log(attr)
+                                                if(input.onChange)
+                                                    input.onChange(event)
 
                                                 n[classLocation] = clone
                                                 return n
@@ -197,6 +240,9 @@ export default function NodeEditor(props) {
                                             props.engine.material.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
                                         if (attr.key === 'tilingY')
                                             props.engine.material.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
+                                        
+
+                                        const input = selected.inputs.find(i => i.key === attr.key)
 
                                         selected[attr.key] = event
                                     }

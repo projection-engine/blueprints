@@ -33,21 +33,21 @@ import Vec2 from "./nodes/vec/Vec2";
 export const allNodes = [
     {
         label: 'Vec2',
-        dataTransfer: 'BreakVec2',
+        dataTransfer: 'Vec2',
         tooltip: '2D vector.',
         icon: <span className={'material-icons-round'}>plus</span>,
         getNewInstance: () => new Vec2()
     },
     {
         label: 'Vec3',
-        dataTransfer: 'BreakVec2',
+        dataTransfer: 'Vec3',
         tooltip: '3D vector.',
         icon: <span className={'material-icons-round'}>plus</span>,
         getNewInstance: () => new Vec3()
     },
     {
         label: 'Vec4',
-        dataTransfer: 'BreakVec2',
+        dataTransfer: 'Vec4',
         tooltip: '4D vector.',
         icon: <span className={'material-icons-round'}>plus</span>,
         getNewInstance: () => new Vec4()
@@ -195,14 +195,7 @@ export const allNodes = [
         icon: <span className={'material-icons-round'}>plus</span>,
         getNewInstance: () => new TextureSample()
     },
-    {
-        label: 'Material',
-        unique:true,
-        dataTransfer: 'Material',
-        tooltip: 'Mesh Material',
-        icon: <span className={'material-icons-round'}>plus</span>,
-        getNewInstance: () => new Material()
-    },
+
     {
         label: 'Float',
         dataTransfer: 'Float',

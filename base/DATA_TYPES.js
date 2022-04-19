@@ -3,7 +3,7 @@ export const DATA_TYPES = {
     NUMBER: 0,
     TEXTURE: 'sampler2D',
     COLOR: 2,
-    VEC: 3,
+
     STRING: 4,
     OBJECT: 5,
     OPTIONS: 6,

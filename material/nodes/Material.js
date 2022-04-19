@@ -8,7 +8,7 @@ export default class Material extends Node {
     isForwardShaded = false
     rsmAlbedo
     doubledSided = true
-
+canBeDeleted = false
     constructor() {
         const allTypes = [DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2, DATA_TYPES.FLOAT, DATA_TYPES.INT]
         super([
@@ -18,8 +18,10 @@ export default class Material extends Node {
             {label: 'Ambient Occlusion', key: 'ao', accept: allTypes},
             {label: 'Roughness', key: 'roughness', accept: allTypes},
             {label: 'Metallic', key: 'metallic', accept: allTypes},
+            {label: 'Opacity', key: 'opacity', accept: allTypes, disabled: true},
 
-            {label: 'GI albedo', key: 'rsmAlbedo', type: DATA_TYPES.TEXTURE},
+            {label: 'Emissive', key: 'emissive', accept: allTypes, disabled: true},
+            {label: 'GI albedo', key: 'rsmAlbedo', type: DATA_TYPES.TEXTURE, hiddenShowcase: true},
 
             {
                 label: 'Ambient influence',
@@ -34,7 +36,7 @@ export default class Material extends Node {
                 label: 'Rendering type',
                 key: 'isForwardShaded',
                 type: DATA_TYPES.OPTIONS,
-
+                onChange: () => console.log('HERE'),
                 options: [
                     {label: 'Forward rendering', data: true},
                     {label: 'Deferred rendering', data: false}
@@ -50,7 +52,10 @@ export default class Material extends Node {
                 ]
             }
         ], []);
-
+        this.inputs.find(i => i.key === 'isForwardShaded').onChange = (v) => {
+            console.log("IM HERE", v)
+            this.inputs.find(i => i.key === 'opacity').disabled = !v
+        }
         this.name = 'Material'
     }
 
@@ -76,6 +81,7 @@ export default class Material extends Node {
                 return field.name
         }
     }
+
     _getDataBehaviour(field) {
         switch (field.type) {
             case DATA_TYPES.VEC2:
@@ -88,13 +94,14 @@ export default class Material extends Node {
                 return field.name
         }
     }
+
     // texture and uv = {name: variable name, value: variable value if static}
-    getFunctionCall({al, normal, ao, roughness, metallic}) {
+    getFunctionCall({al, normal, ao, roughness, metallic, opacity}) {
         return `
-            gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
-            
-            gNormal = vec4(normalize(toTangentSpace * ((${normal ? this._getData(normal) : 'vec3(.5, .5, 1.)'} * 2.0)- 1.0)), 1.0);
-            gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao): '1.'},${roughness ? this._getDataBehaviour(roughness): '1.'},${metallic ? this._getDataBehaviour(metallic): '0.'}, 1.);
+            ${this.isForwardShaded ? 'vec4' : ''} gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
+            ${this.isForwardShaded ? 'vec4' : ''} gNormal = vec4(normalize(toTangentSpace * ((${normal ? this._getData(normal) : 'vec3(.5, .5, 1.)'} * 2.0)- 1.0)), 1.);
+            ${this.isForwardShaded ? 'vec4' : ''} gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao) : '1.'},${roughness ? this._getDataBehaviour(roughness) : '1.'},${metallic ? this._getDataBehaviour(metallic) : '0.'}, 1.);
+            ${this.isForwardShaded ? `float opacity = ${opacity ? this._getDataBehaviour(opacity) : '1.'};` : ''}
         `
     }
 }

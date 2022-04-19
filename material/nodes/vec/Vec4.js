@@ -5,7 +5,7 @@ import checkFloat from "../../utils/checkFloat";
 
 
 export default class Vec4 extends Node {
-    v = [0,0,0,0]
+    v = [0, 0, 0, 0]
     uniform = false
 
     constructor() {
@@ -40,7 +40,6 @@ export default class Vec4 extends Node {
     }
 
     async getInputInstance(index, uniforms, uniformData) {
-
         if (this.uniform) {
 
             this.uniformName = `VEC4_VAR${index}`
@@ -59,7 +58,8 @@ export default class Vec4 extends Node {
             return `uniform float ${this.uniformName};`
         } else {
             this.uniformName = `VEC4_VAR${index}`
-            return `#define ${this.uniformName} vec4(${checkFloat(this.v[0])}, ${checkFloat(this.v[1])},${checkFloat(this.v[2])},${checkFloat(this.v[4])})`
+
+            return `#define ${this.uniformName} vec4(${checkFloat(this.v[0])}, ${checkFloat(this.v[1])}, ${checkFloat(this.v[2])}, ${checkFloat(this.v[3])})`
         }
     }
 

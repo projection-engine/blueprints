@@ -33,6 +33,8 @@ import BreakVec3 from "../nodes/vec/BreakVec3";
 import Vec2 from "../nodes/vec/Vec2";
 import Vec3 from "../nodes/vec/Vec3";
 import Vec4 from "../nodes/vec/Vec4";
+import Max from "../nodes/Max";
+import Min from "../nodes/Min";
 
 
 export default function useMaterialView(file,setAlert) {
@@ -103,6 +105,10 @@ const INSTANCES = {
     [LerpVec2.name]: () => new LerpVec2(),
     [LerpVec3.name]: () => new LerpVec3(),
     [LerpVec4.name]: () => new LerpVec4(),
+
+
+    [Max.name]: () => new Max(),
+    [Min.name]: () => new Min(),
 
     [Vec2.name]: () => new Vec2(),
     [Vec3.name]: () => new Vec3(),

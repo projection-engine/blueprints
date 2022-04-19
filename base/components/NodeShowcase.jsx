@@ -7,7 +7,7 @@ export default function NodeShowcase(props) {
     const attributesToRender = useMemo(() => {
 
         return props.node.inputs.map(n => {
-            if ((n.type === DATA_TYPES.TEXTURE || n.type === DATA_TYPES.COLOR) && !n.accept)
+            if ((n.type === DATA_TYPES.TEXTURE || n.type === DATA_TYPES.COLOR) && !n.accept && !n.hiddenShowcase)
                 return {
                     type: n.type,
                     label: n.label,
