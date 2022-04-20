@@ -35,6 +35,11 @@ import Vec3 from "../nodes/vec/Vec3";
 import Vec4 from "../nodes/vec/Vec4";
 import Max from "../nodes/Max";
 import Min from "../nodes/Min";
+import OneMinus from "../nodes/OneMinus";
+import Clamp from "../nodes/Clamp";
+import Saturate from "../nodes/Saturate";
+import Saturation from "../nodes/Saturation";
+import Pow from "../nodes/Pow";
 
 
 export default function useMaterialView(file,setAlert) {
@@ -113,6 +118,13 @@ const INSTANCES = {
     [Vec2.name]: () => new Vec2(),
     [Vec3.name]: () => new Vec3(),
     [Vec4.name]: () => new Vec4(),
+
+    [OneMinus.name]: () => new OneMinus(),
+    [Saturate.name]: () => new Saturate(),
+    [Clamp.name]: () => new Clamp(),
+
+    [Saturation.name]: () => new Saturation(),
+    [Pow.name]: () => new Pow()
 }
 
 function parse(file, quickAccess, setNodes, setLinks, engine, load) {

@@ -31,7 +31,7 @@ export default class LerpVec3 extends Node {
 
     getFunctionCall({a,b, c}, index) {
         this.resLerp = 'resLerp' + index
-        if(b && a)
+        if(b && a && c)
             return `vec3 ${this.resLerp} = mix(${a.name}, ${b.name}, ${c.name});`
         else
             return `vec3 ${this.resLerp};`

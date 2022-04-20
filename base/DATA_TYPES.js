@@ -31,5 +31,5 @@ export const DATA_TYPES = {
     MAT4: 'mat4',
     BOOL: 'bool',
 
-    UNDEFINED: 0 // TO BE DETERMINED ON COMPILATION
+    UNDEFINED: -1 // TO BE DETERMINED ON COMPILATION
 }

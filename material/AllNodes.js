@@ -1,6 +1,5 @@
 import Add from "./nodes/Add";
 import TextureSample from "./nodes/TextureSample";
-import Material from "./nodes/Material";
 import TextureCoords from "./nodes/TextureCoords";
 import Float from "./nodes/Float";
 import ElapsedTime from "./nodes/ElapsedTime";
@@ -29,8 +28,48 @@ import LerpVec4 from "./nodes/vec/LerpVec4";
 import Vec4 from "./nodes/vec/Vec4";
 import Vec3 from "./nodes/vec/Vec3";
 import Vec2 from "./nodes/vec/Vec2";
+import OneMinus from "./nodes/OneMinus";
+import Saturate from "./nodes/Saturate";
+import Clamp from "./nodes/Clamp";
+import Saturation from "./nodes/Saturation";
+import Pow from "./nodes/Pow";
 
 export const allNodes = [
+    {
+        label: 'Pow',
+        dataTransfer: 'Pow',
+        tooltip: 'Power to exponent.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Pow()
+    },
+    {
+        label: 'Saturation',
+        dataTransfer: 'Saturation',
+        tooltip: 'Adjust saturation.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Saturation()
+    },
+    {
+        label: 'Saturate',
+        dataTransfer: 'Saturate',
+        tooltip: 'Clamp between 0 and 1.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Saturate()
+    },
+    {
+        label: 'Clamp',
+        dataTransfer: 'Clamp',
+        tooltip: 'One minus X.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Clamp()
+    },
+    {
+        label: '1-X (OneMinusX)',
+        dataTransfer: 'OneMinus',
+        tooltip: 'One minus X.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new OneMinus()
+    },
     {
         label: 'Vec2',
         dataTransfer: 'Vec2',

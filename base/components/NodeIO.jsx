@@ -110,7 +110,7 @@ export default function NodeIO(props) {
                 className={[styles.infoWrapper, 'material-icons-round'].join(' ')}/>
             <div className={styles.attribute} ref={wrapperRef}
                  data-dtype={props.type}
-                 data-disabled={`${props.data.disabled || props.data.type === DATA_TYPES.UNDEFINED && props.inputLinks.length === 0}`}
+                 data-disabled={`${props.data.disabled || props.data.type === DATA_TYPES.UNDEFINED && (props.inputLinks.length === 0 && props.node.inputs.length > 0)}`}
                  style={{justifyContent: props.type === 'input' ? 'flex-start' : 'flex-end'}}>
 
                 {props.type === 'output' && (!isExecution || props.data.showTitle) ? (
@@ -123,9 +123,9 @@ export default function NodeIO(props) {
 
                     id={props.nodeID + props.data.key}
                     className={isExecution ? styles.executionConnection : styles.connection}
-                    draggable={!(props.data.type === DATA_TYPES.UNDEFINED && props.inputLinks.length === 0)}
+                    draggable={!(props.data.type === DATA_TYPES.UNDEFINED && (props.inputLinks.length === 0 && props.node.inputs.length > 0))}
                     data-dtype={props.type}
-                    data-disabled={`${props.data.type === DATA_TYPES.UNDEFINED && props.inputLinks.length === 0}`}
+                    data-disabled={`${props.data.type === DATA_TYPES.UNDEFINED && (props.inputLinks.length === 0 && props.node.inputs.length > 0)}`}
                     style={{
                         '--fabric-accent-color': isExecution ? '#0095ff' : '#999999',
                         background: linkColor && !props.data.disabled ? linkColor : undefined,
@@ -148,7 +148,8 @@ export default function NodeIO(props) {
                     onDrag={props.handleLinkDrag}
                     onDragStart={e => {
                         if (props.type !== 'input') {
-                            const nType = props.data.type === DATA_TYPES.UNDEFINED ? props.inputLinks.length === 1 ? props.inputLinks[0]?.sourceType : getPredominant(props.inputLinks) : undefined
+                            console.log(props.data.type)
+                            const nType = props.data.type === DATA_TYPES.UNDEFINED ? (props.inputLinks.length === 1 ? props.inputLinks[0]?.sourceType : getPredominant(props.inputLinks) ): undefined
                             const attribute = props.data.type === DATA_TYPES.UNDEFINED ? {
                                 ...props.data,
                                 type: nType
@@ -196,7 +197,7 @@ export default function NodeIO(props) {
 
 NodeIO.propTypes = {
     submitBundledVariable: PropTypes.func,
-    node: PropTypes.object,
+    node: PropTypes.object.isRequired,
     handleLink: PropTypes.func,
     nodeID: PropTypes.string.isRequired,
     type: PropTypes.oneOf(['input', 'output']),

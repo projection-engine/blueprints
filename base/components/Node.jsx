@@ -102,6 +102,7 @@ export default function Node(props) {
                             {props.node.output.map((a, i) => (
                                 <React.Fragment key={a.key + '-output-' + i}>
                                     <NodeIO
+                                        node={props.node}
                                         setAlert={props.setAlert}
                                         nodeID={props.node.id}
                                         onDragEnd={() => {

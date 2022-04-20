@@ -80,8 +80,9 @@ export default function useScriptingView(file, engine = {}, load, isLevelBluepri
 
 
     useEffect(() => {
+        load.pushEvent(EVENTS.LOADING)
         if (engine.gpu || isLevelBlueprint)
-            parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, quickAccess.fileSystem, isLevelBlueprint)
+            parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, quickAccess.fileSystem, isLevelBlueprint).then(() => load.finishEvent(EVENTS.LOADING))
     }, [file, engine.gpu])
 
 
@@ -171,36 +172,32 @@ const INSTANCES = {
 
 }
 
-function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, fileSystem, isLevelBlueprint) {
-    if (!isLevelBlueprint)
-        quickAccess.fileSystem
+async function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, fileSystem, isLevelBlueprint) {
+    if (!isLevelBlueprint) {
+        const res = await quickAccess.fileSystem
             .readRegistryFile(file.registryID)
-            .then(res => {
-                if (res) {
-                    quickAccess.fileSystem
-                        .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
-                        .then(file => {
-                            parseFile(file, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
-                        })
-                } else
-                    load.finishEvent(EVENTS.LOADING_MATERIAL)
-            })
-    else {
-        quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow')
-            .then(async res => {
-                if (!res)
-                    await quickAccess.fileSystem.createFile('levelBlueprint.flow', JSON.stringify({
-                        nodes: [],
-                        links: [],
-                        variables: [],
-                        groups: []
-                    }))
-                else {
-                    const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow', 'json')
 
-                    parseFile(f, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
-                }
-            })
+        if (res) {
+            const file = await quickAccess.fileSystem
+                .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
+            parseFile(file, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
+
+        } else
+            load.finishEvent(EVENTS.LOADING_MATERIAL)
+    } else {
+        const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow')
+        if (!res)
+            await quickAccess.fileSystem.createFile('levelBlueprint.flow', JSON.stringify({
+                nodes: [],
+                links: [],
+                variables: [],
+                groups: []
+            }))
+        else {
+            const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow', 'json')
+
+            parseFile(f, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
+        }
     }
 }
 
@@ -224,11 +221,18 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
             setVariables(file.variables)
         if (file.entities && !isLevelBlueprint) {
             ProjectLoader.loadMeshes(file.entities.map(e => e.components[COMPONENTS.MESH].meshID), fileSystem, engine.gpu)
-                .then(meshes => {
+                .then(async meshes => {
+                    console.log(meshes)
                     engine.setMeshes(meshes.filter(m => m))
+                    const entities = []
+                    for (let i = 0; i < file.entities.length; i++) {
+                        const e = file.entities[i]
+                        entities.push(await ProjectLoader.mapEntity(e, i, fileSystem, engine.gpu))
+                    }
+                    console.log(entities)
                     engine.dispatchEntities({
                         type: ENTITY_ACTIONS.DISPATCH_BLOCK,
-                        payload: file.entities.map((e, i) => ProjectLoader.mapEntity(e, i, meshes, [], engine.gpu))
+                        payload: entities
                     })
                 })
         }
