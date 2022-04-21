@@ -40,13 +40,12 @@ export default async function compiler(n, links, fileSystem) {
         let body = []
         resolveStructure(startPoint, [], links, nodes, body)
 
-        const code = trimString(`
+        const code = `
             ${codeString.static}
             ${codeString.inputs}
             ${codeString.functions}
             ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
-        `)
-        console.log(code)
+        `
 
         return {
             // vertexShader: ,
@@ -63,6 +62,3 @@ export default async function compiler(n, links, fileSystem) {
         return undefined
 }
 
-export function trimString(str) {
-    return str.replaceAll(/^(\s*)/gm, '').replaceAll(/^\s*\n/gm, '')
-}

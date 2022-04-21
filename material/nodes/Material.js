@@ -21,7 +21,7 @@ canBeDeleted = false
             {label: 'Opacity', key: 'opacity', accept: allTypes, disabled: true},
             {label: 'Refraction', key: 'refraction', accept: allTypes, disabled: true},
 
-            {label: 'Emissive', key: 'emissive', accept: allTypes, disabled: true},
+            {label: 'Emissive', key: 'emissive', accept: allTypes},
             {label: 'GI albedo', key: 'rsmAlbedo', type: DATA_TYPES.TEXTURE, hiddenShowcase: true},
 
             {
@@ -97,13 +97,14 @@ canBeDeleted = false
     }
 
     // texture and uv = {name: variable name, value: variable value if static}
-    getFunctionCall({al, normal, ao, roughness, metallic, opacity, refraction}) {
+    getFunctionCall({al, normal, ao, roughness, metallic, opacity, refraction, emissive}) {
         return `
             ${this.isForwardShaded ? 'vec4' : ''} gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
             ${this.isForwardShaded ? 'vec4' : ''} gNormal = vec4(normalize(toTangentSpace * ((${normal ? this._getData(normal) : 'vec3(.5, .5, 1.)'} * 2.0)- 1.0)), 1.);
             ${this.isForwardShaded ? 'vec4' : ''} gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao) : '1.'},${roughness ? this._getDataBehaviour(roughness) : '1.'},${metallic ? this._getDataBehaviour(metallic) : '0.'}, 1.);
             ${this.isForwardShaded ? `float opacity = ${opacity ? this._getDataBehaviour(opacity) : '1.'};` : ''}
             ${this.isForwardShaded ? `float refraction = ${refraction ? this._getDataBehaviour(refraction) : '0.'};` : ''}
+            ${this.isForwardShaded ? 'vec4' : ''} gEmissive = vec4(${emissive ? this._getData(emissive) : 'vec3(.0)'}, 1.);
         `
     }
 }

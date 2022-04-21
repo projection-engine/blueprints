@@ -50,6 +50,8 @@ void main(){
     ${body}
     vec3 fragPosition = vPosition.xyz;  
     vec3 albedo = vec3(gAlbedo);
+         
+    
     float roughness = gBehaviour.g;
     float metallic = gBehaviour.b;
     float ao = gBehaviour.r;
@@ -120,7 +122,7 @@ void main(){
     ` : ``}
     
     Lo = Lo / (Lo + vec3(1.0));
-    finalColor = vec4(Lo, opacity);
+    finalColor = vec4(Lo + gEmissive.rgb, opacity);
 }
         `,
     inputs: ``,
