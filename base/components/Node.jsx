@@ -96,7 +96,7 @@ export default function Node(props) {
                                     />
                                 </React.Fragment>
                             ))}
-                            <NodeShowcase node={props.node}/>
+                            <NodeShowcase path={props.path} node={props.node}/>
                         </div>
                         <div className={styles.column} style={{justifyContent: 'flex-end'}}>
                             {props.node.output.map((a, i) => (
@@ -109,6 +109,7 @@ export default function Node(props) {
                                             pathRef.current.setAttribute('d', undefined)
                                         }}
                                         data={a}
+
                                         handleLinkDrag={handleLinkDrag}
                                         inputLinks={inputLinks}
                                         outputLinks={outputLinks}
@@ -139,5 +140,6 @@ Node.propTypes = {
     handleLink: PropTypes.func,
     selected: PropTypes.array,
     setSelected: PropTypes.func,
-    hidden: PropTypes.bool
+    hidden: PropTypes.bool,
+    path: PropTypes.string
 }

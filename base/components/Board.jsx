@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, {useMemo, useRef, useState} from "react";
+import React, {useContext, useMemo, useRef, useState} from "react";
 import Node from "./Node";
 import styles from '../styles/Board.module.css'
 import handleDropBoard from "../utils/handleDropBoard";
@@ -13,6 +13,7 @@ import SelectBox from "../../../../components/selectbox/SelectBox";
 import Context from "./Context";
 import deleteNode from "../utils/deleteNode";
 import Group from "./Group";
+import QuickAccessProvider from "../../../../pages/project/utils/hooks/QuickAccessProvider";
 
 export default function Board(props) {
     const {scale, setScale} = props
@@ -22,7 +23,7 @@ export default function Board(props) {
         ref,
         handleLink
     } = useBoard(props.hook, scale, setScale)
-
+const quickAccess=  useContext(QuickAccessProvider)
     const handleDropNode = (n, e) => {
         if (n.unique && !props.hook.nodes.find(node => node.constructor.name === n.constructor.name) || !n.unique) {
             const bounding = {
@@ -203,7 +204,7 @@ export default function Board(props) {
                     {props.hook.nodes.map(node => (
                         <React.Fragment key={node.id}>
                             <Node
-                                links={links}
+                                links={links} path={quickAccess.fileSystem.path}
                                 setAlert={props.setAlert}
                                 hidden={props.hide}
                                 submitBundledVariable={(key, value) => {

@@ -141,6 +141,7 @@ border-radius: 3px;
     color: var(--fabric-color-primary);
     font-size: .7rem;
     font-weight: 550;
+    background-color: var(--fabric-background-tertiary);
 }
 
 .error {
