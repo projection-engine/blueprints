@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import {useMemo} from "react";
 import {DATA_TYPES} from "../DATA_TYPES";
 import styles from '../styles/Node.module.css'
-import usePreview from "../../../../components/preview/usePreview";
 import Preview from "../../../../components/preview/Preview";
 
 export default function NodeShowcase(props) {
