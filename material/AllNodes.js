@@ -34,8 +34,76 @@ import Clamp from "./nodes/Clamp";
 import Saturation from "./nodes/Saturation";
 import Pow from "./nodes/math/Pow";
 import SceneColor from "./nodes/SceneColor";
+import Refract from "./nodes/math/Refract";
+
+import Reflect from "./nodes/math/Reflect";
+import Normalize from "./nodes/math/Normalize";
+import DDY from "./nodes/math/DDY";
+import DDX from "./nodes/math/DDX";
+import SineH from "./nodes/math/SineH";
+import CosineH from "./nodes/math/CosineH";
+import Cosine from "./nodes/math/Cosine";
 
 export const allNodes = [
+    {
+        label: 'Cosine',
+        dataTransfer: 'Cosine',
+        tooltip: 'Cosine.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Cosine()
+    },
+    {
+        label: 'CosineH',
+        dataTransfer: 'CosineH',
+        tooltip: 'Hyperbolic cosine.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new CosineH()
+    },
+    {
+        label: 'SineH',
+        dataTransfer: 'SineH',
+        tooltip: 'Hyperbolic sine.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new SineH()
+    },
+    {
+        label: 'DDX',
+        dataTransfer: 'DDX',
+        tooltip: 'Partial derivative X.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new DDX()
+    },
+    {
+        label: 'DDY',
+        dataTransfer: 'DDY',
+        tooltip: 'Partial derivative Y.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new DDY()
+    },
+    {
+        label: 'Normalize',
+        dataTransfer: 'Normalize',
+        tooltip: 'Normalize vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Normalize()
+    },
+    {
+        label: 'Reflect',
+        dataTransfer: 'Reflect',
+        tooltip: 'Reflect vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Reflect()
+    },
+    {
+        label: 'Refract',
+        dataTransfer: 'Refract',
+        tooltip: 'Refract vector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new Refract()
+    },
+
+
+
     {
         label: 'SceneColor',
         dataTransfer: 'SceneColor',
