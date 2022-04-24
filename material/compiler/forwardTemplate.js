@@ -33,6 +33,7 @@ uniform sampler2D brdfSampler;
 uniform samplerCube irradianceMap;
 uniform samplerCube prefilteredMapSampler;
 uniform float ambientLODSamples; 
+uniform sampler2D sceneColor;
 
 // OUTPUTS
 out vec4 finalColor;

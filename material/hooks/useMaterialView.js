@@ -6,20 +6,20 @@ import useMinimalEngine from "../../../../pages/project/utils/hooks/useMinimalEn
 import useFlow from "../../base/hooks/useFlow";
 import Material from "../nodes/Material";
 import TextureSample from "../nodes/TextureSample";
-import Add from "../nodes/Add";
+import Add from "../nodes/math/Add";
 import TextureCoords from "../nodes/TextureCoords";
 import Float from "../nodes/Float";
-import Divide from "../nodes/Divide";
-import Sin from "../nodes/Sin";
+import Divide from "../nodes/math/Divide";
+import Sine from "../nodes/math/Sine";
 import NormalVector from "../nodes/NormalVector";
 import ParallaxOcclusionMapping from "../nodes/ParallaxOcclusionMapping";
 import RGB from "../nodes/RGB";
 import ToTangentSpace from "../nodes/ToTangentSpace";
-import VertexCoords from "../nodes/VertexCoords";
+import AbsoluteWorldPosition from "../nodes/AbsoluteWorldPosition";
 import ViewDirection from "../nodes/ViewDirection";
 import CameraCoords from "../nodes/CameraCoords";
 import ElapsedTime from "../nodes/ElapsedTime";
-import Multiply from "../nodes/Multiply";
+import Multiply from "../nodes/math/Multiply";
 import PerlinNoise from "../nodes/PerlinNoise";
 import BreakVec2 from "../nodes/vec/BreakVec2";
 import DotVec2 from "../nodes/vec/DotVec2";
@@ -33,13 +33,14 @@ import BreakVec3 from "../nodes/vec/BreakVec3";
 import Vec2 from "../nodes/vec/Vec2";
 import Vec3 from "../nodes/vec/Vec3";
 import Vec4 from "../nodes/vec/Vec4";
-import Max from "../nodes/Max";
-import Min from "../nodes/Min";
-import OneMinus from "../nodes/OneMinus";
+import Max from "../nodes/math/Max";
+import Min from "../nodes/math/Min";
+import OneMinus from "../nodes/math/OneMinus";
 import Clamp from "../nodes/Clamp";
-import Saturate from "../nodes/Saturate";
+import Saturate from "../nodes/math/Saturate";
 import Saturation from "../nodes/Saturation";
-import Pow from "../nodes/Pow";
+import Pow from "../nodes/math/Pow";
+import SceneColor from "../nodes/SceneColor";
 
 
 export default function useMaterialView(file,setAlert) {
@@ -80,6 +81,7 @@ export default function useMaterialView(file,setAlert) {
 
 const INSTANCES = {
     [Material.name]: () => new Material(),
+    [SceneColor.name]: () => new SceneColor(),
 
     [Add.name]: () => new Add(),
     [TextureSample.name]: () => new TextureSample(),
@@ -87,12 +89,12 @@ const INSTANCES = {
     [Float.name]: () => new Float(),
 
     [Divide.name]: () => new Divide(),
-    [Sin.name]: () => new Sin(),
+    [Sine.name]: () => new Sine(),
     [NormalVector.name]: () => new NormalVector(),
     [ParallaxOcclusionMapping.name]: () => new ParallaxOcclusionMapping(),
     [RGB.name]: () => new RGB(),
     [ToTangentSpace.name]: () => new ToTangentSpace(),
-    [VertexCoords.name]: () => new VertexCoords(),
+    [AbsoluteWorldPosition.name]: () => new AbsoluteWorldPosition(),
     [ViewDirection.name]: () => new ViewDirection(),
 
     [CameraCoords.name]: () => new CameraCoords(),

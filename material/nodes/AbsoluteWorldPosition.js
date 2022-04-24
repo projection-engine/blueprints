@@ -3,14 +3,14 @@ import {DATA_TYPES} from "../../base/DATA_TYPES";
 import NODE_TYPES from "../../base/NODE_TYPES";
 
 
-export default class VertexCoords extends Node {
+export default class AbsoluteWorldPosition extends Node {
 
     constructor() {
         super([], [
             {label: 'Coordinates', key: 'vPosition', type: DATA_TYPES.VEC4}
         ]);
 
-        this.name = 'VertexCoords'
+        this.name = 'AbsoluteWorldPosition'
         this.size = 2
     }
 

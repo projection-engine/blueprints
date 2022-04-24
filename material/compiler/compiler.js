@@ -46,7 +46,7 @@ export default async function compiler(n, links, fileSystem) {
             ${codeString.functions}
             ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
         `
-
+        console.log(code)
         return {
             // vertexShader: ,
             shader: code,

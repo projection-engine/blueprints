@@ -1,6 +1,6 @@
-import Node from '../../base/Node'
-import {DATA_TYPES} from "../../base/DATA_TYPES";
-import NODE_TYPES from "../../base/NODE_TYPES";
+import Node from '../../../base/Node'
+import {DATA_TYPES} from "../../../base/DATA_TYPES";
+import NODE_TYPES from "../../../base/NODE_TYPES";
 
 
 export default class OneMinus extends Node {

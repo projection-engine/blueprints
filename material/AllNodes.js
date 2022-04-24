@@ -1,15 +1,15 @@
-import Add from "./nodes/Add";
+import Add from "./nodes/math/Add";
 import TextureSample from "./nodes/TextureSample";
 import TextureCoords from "./nodes/TextureCoords";
 import Float from "./nodes/Float";
 import ElapsedTime from "./nodes/ElapsedTime";
-import Multiply from "./nodes/Multiply";
-import Sin from "./nodes/Sin";
-import Divide from "./nodes/Divide";
-import Max from "./nodes/Max";
-import Min from "./nodes/Min";
+import Multiply from "./nodes/math/Multiply";
+import Sine from "./nodes/math/Sine";
+import Divide from "./nodes/math/Divide";
+import Max from "./nodes/math/Max";
+import Min from "./nodes/math/Min";
 import RGB from "./nodes/RGB";
-import VertexCoords from "./nodes/VertexCoords";
+import AbsoluteWorldPosition from "./nodes/AbsoluteWorldPosition";
 import CameraCoords from "./nodes/CameraCoords";
 import NormalVector from "./nodes/NormalVector";
 import ToTangentSpace from "./nodes/ToTangentSpace";
@@ -28,13 +28,21 @@ import LerpVec4 from "./nodes/vec/LerpVec4";
 import Vec4 from "./nodes/vec/Vec4";
 import Vec3 from "./nodes/vec/Vec3";
 import Vec2 from "./nodes/vec/Vec2";
-import OneMinus from "./nodes/OneMinus";
-import Saturate from "./nodes/Saturate";
+import OneMinus from "./nodes/math/OneMinus";
+import Saturate from "./nodes/math/Saturate";
 import Clamp from "./nodes/Clamp";
 import Saturation from "./nodes/Saturation";
-import Pow from "./nodes/Pow";
+import Pow from "./nodes/math/Pow";
+import SceneColor from "./nodes/SceneColor";
 
 export const allNodes = [
+    {
+        label: 'SceneColor',
+        dataTransfer: 'SceneColor',
+        tooltip: 'Scene color.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new SceneColor()
+    },
     {
         label: 'Pow',
         dataTransfer: 'Pow',
@@ -184,11 +192,11 @@ export const allNodes = [
         getNewInstance: () => new CameraCoords()
     },
     {
-        label: 'VertexCoords',
-        dataTransfer: 'VertexCoords',
+        label: 'AbsoluteWorldPosition',
+        dataTransfer: 'AbsoluteWorldPosition',
         tooltip: 'Vertex coordinates.',
         icon: <span className={'material-icons-round'}>plus</span>,
-        getNewInstance: () => new VertexCoords()
+        getNewInstance: () => new AbsoluteWorldPosition()
     },
     {
         label: 'NormalVector',
@@ -259,7 +267,7 @@ export const allNodes = [
         dataTransfer: 'Sine',
         tooltip: 'Sine of a value.',
         icon: <span className={'material-icons-round'}>plus</span>,
-        getNewInstance: () => new Sin()
+        getNewInstance: () => new Sine()
     },    {
         label: 'Divide',
         dataTransfer: 'Divide',
