@@ -123,7 +123,12 @@ void main(){
     ` : ``}
     
     Lo = Lo / (Lo + vec3(1.0));
-    finalColor = vec4(Lo + gEmissive.rgb, opacity);
+    vec3 color;
+    if(length(gEmissive) <= 1.)
+        color = Lo + gEmissive.rgb;
+    else
+        color = gEmissive.rgb;
+    finalColor = vec4(color, opacity);
 }
         `,
     inputs: ``,

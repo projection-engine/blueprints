@@ -20,6 +20,7 @@ import {IDS} from "../../../pages/project/utils/hooks/useMinimalEngine";
 
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
+
     const hook = useMaterialView(props.file, props.setAlert)
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n instanceof Material)
@@ -33,8 +34,7 @@ export default function MaterialView(props) {
                 const prev = hook.engine.material
                 let promise, newMat
 
-                console.log(settings)
-                if(!prev)
+                if (!prev)
                     promise = new Promise(resolve => {
                         newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, settings, () => resolve(), IDS.MATERIAL)
                     })
@@ -51,10 +51,9 @@ export default function MaterialView(props) {
             })
     }
     useEffect(() => {
-        if (hook.impactingChange && hook.realTime)
-           compileShaders()
-
-    }, [hook.impactingChange])
+        if (hook.impactingChange && hook.realTime && hook.engine.gpu)
+            compileShaders()
+    }, [hook.impactingChange, hook.engine.gpu, hook.realTime])
     useEffect(() => {
         controlProvider.setTabAttributes([
                 {
@@ -84,7 +83,7 @@ export default function MaterialView(props) {
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: async () => {
-                        const response = await Make(hook,await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
+                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                         props.submitPackage(
                             response.preview,
                             response.data,
@@ -97,7 +96,8 @@ export default function MaterialView(props) {
                 {
                     label: 'Real time',
                     group: 'c',
-                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>{hook.realTime ? 'live_tv' : 'tv_off'}</span>,
+                    icon: <span className={'material-icons-round'}
+                                style={{fontSize: '1.2rem'}}>{hook.realTime ? 'live_tv' : 'tv_off'}</span>,
                     onClick: () => hook.setRealTime(!hook.realTime)
                 },],
             props.file.name,

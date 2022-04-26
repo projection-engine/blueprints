@@ -52,6 +52,8 @@ export default function useMaterialView(file,setAlert) {
         selected, setSelected,
         impactingChange, setImpactingChange,
     } = useFlow()
+
+    const [initialized, setInitialized] = useState(false)
     const [realTime, setRealTime] = useState(true)
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
@@ -60,12 +62,17 @@ export default function useMaterialView(file,setAlert) {
     useEffect(() => {
         load.pushEvent(EVENTS.LOADING_MATERIAL)
         if (engine.gpu && engine.meshes.length > 0)
-            parse(file, quickAccess, setNodes, setLinks, engine, load, setAlert)
+            parse(file, quickAccess, setNodes, setLinks, engine, load, setAlert, setInitialized)
 
     }, [file, engine.gpu, engine.meshes])
 
+    useEffect(() => {
 
+            setImpactingChange(true)
+
+    }, [links])
     return {
+
         realTime, setRealTime,
         impactingChange, setImpactingChange,
         nodes, setNodes,
@@ -153,6 +160,7 @@ function parse(file, quickAccess, setNodes, setLinks, engine, load) {
                             // applyViewport(file.response, engine, setAlert)
                             setNodes(newNodes)
                             setLinks(file.links)
+
                             load.finishEvent(EVENTS.LOADING_MATERIAL)
                         } else {
                             // applyViewport({}, engine, setAlert)
