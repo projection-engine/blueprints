@@ -3,9 +3,9 @@ import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
 
 import {Accordion, AccordionSummary, TextField,} from "@f-ui/core";
-import {DATA_TYPES} from "../../base/DATA_TYPES";
-import Getter from "../../../../engine/shared/nodes/utils/Getter";
-import {startKey} from "../../../../engine/shared/nodes/utils/Setter";
+import {DATA_TYPES} from "../../components/DATA_TYPES";
+import Getter from "../nodes/utils/Getter";
+import {startKey} from "../nodes/utils/Setter";
 import getInput from "../utils/getInput";
 import ColorPicker from "../../../../components/color/ColorPicker";
 

@@ -1,13 +1,13 @@
 import {KEYS} from "../../../../pages/project/utils/hooks/useHotKeys";
-import createGroupShortcut from "../../base/utils/createGroupShortcut";
+import createGroupShortcut from "../../components/utils/createGroupShortcut";
 import mapNodes from "./mapNodes";
 import compile from "./compile";
-import EventTick from "../../../../engine/shared/nodes/events/EventTick";
-import deleteNode from "../../base/utils/deleteNode";
+import EventTick from "../nodes/events/EventTick";
+import deleteNode from "../../components/utils/deleteNode";
 import cloneClass from "../../../../engine/utils/cloneClass";
-import EntityReference from "../../../../engine/shared/nodes/events/EntityReference";
-import Setter from "../../../../engine/shared/nodes/utils/Setter";
-import Getter from "../../../../engine/shared/nodes/utils/Getter";
+import EntityReference from "../nodes/events/EntityReference";
+import Setter from "../nodes/utils/Setter";
+import Getter from "../nodes/utils/Getter";
 
 import {v4 as uuidv4} from 'uuid';
 

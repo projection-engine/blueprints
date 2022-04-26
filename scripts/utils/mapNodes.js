@@ -1,7 +1,7 @@
-import NODE_TYPES from "../../base/NODE_TYPES";
+import NODE_TYPES from "../../components/NODE_TYPES";
 import compile from "./compile";
 import cloneClass from "../../../../engine/utils/cloneClass";
-import Setter from "../../../../engine/shared/nodes/utils/Setter";
+import Setter from "../nodes/utils/Setter";
 
 export default function mapNodes(hook, engine, file, isLevelBp) {
     const res = mapCompile(hook)

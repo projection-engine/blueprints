@@ -1,7 +1,7 @@
-import Board from "../base/components/Board";
+import Board from "../components/components/Board";
 import useScriptingView from "./hooks/useScriptingView";
-import Available from "../base/components/Available";
-import styles from '../base/styles/Board.module.css'
+import Available from "../components/components/Available";
+import styles from '../components/styles/Board.module.css'
 import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import PropTypes from "prop-types";
 import ControlProvider from "../../../components/tabs/components/ControlProvider";
@@ -28,7 +28,7 @@ import handleDrop from "../../../pages/project/utils/utils/handleDrop";
 import {SHADING_MODELS} from "../../../pages/project/utils/hooks/useSettings";
 import CAMERA_TYPES from "../../../engine/editor/camera/CAMERA_TYPES";
 import ViewportOptions from "../../../components/viewport/ViewportOptions";
-import EntityReference from "../../../engine/shared/nodes/events/EntityReference";
+import EntityReference from "./nodes/events/EntityReference";
 
 export default function BlueprintView(props) {
     const settings = useContext(SettingsProvider)

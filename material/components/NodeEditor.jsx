@@ -10,7 +10,7 @@ import Selector from "../../../../components/selector/Selector";
 import ColorPicker from "../../../../components/color/ColorPicker";
 
 import cloneClass from "../../../../engine/utils/cloneClass";
-import {DATA_TYPES} from "../../base/DATA_TYPES";
+import {DATA_TYPES} from "../../components/DATA_TYPES";
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {

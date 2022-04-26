@@ -1,4 +1,4 @@
-import {DATA_TYPES} from "../../base/DATA_TYPES";
+import {DATA_TYPES} from "../../components/DATA_TYPES";
 import Range from "../../../../components/range/Range";
 import styles from "../styles/NodeEditor.module.css";
 import {Checkbox, Dropdown, DropdownOption, DropdownOptions} from "@f-ui/core";

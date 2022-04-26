@@ -1,11 +1,11 @@
-import Board from "../base/components/Board";
+import Board from "../components/components/Board";
 
 import s from './styles/MaterialView.module.css'
 import {useContext, useEffect, useMemo, useState} from "react";
 import PropTypes from "prop-types";
 import ControlProvider from "../../../components/tabs/components/ControlProvider";
 import ResizableBar from "../../../components/resizable/ResizableBar";
-import Available from "../base/components/Available";
+import Available from "../components/components/Available";
 import compiler from "./compiler/compiler";
 import NodeEditor from "./components/NodeEditor";
 import MaterialViewport from "./components/MaterialViewport";

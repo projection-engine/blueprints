@@ -3,7 +3,7 @@ import QuickAccessProvider from "../../../../pages/project/utils/hooks/QuickAcce
 import EVENTS from "../../../../pages/project/utils/utils/EVENTS";
 import {LoaderProvider} from "@f-ui/core";
 import useMinimalEngine from "../../../../pages/project/utils/hooks/useMinimalEngine";
-import useFlow from "../../base/hooks/useFlow";
+import useFlow from "../../components/hooks/useFlow";
 import Material from "../nodes/Material";
 import TextureSample from "../nodes/TextureSample";
 import Add from "../nodes/math/Add";

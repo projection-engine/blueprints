@@ -1,6 +1,6 @@
 import cloneClass from "../../../../engine/utils/cloneClass";
 
-import NODE_TYPES from "../../base/NODE_TYPES";
+import NODE_TYPES from "../../components/NODE_TYPES";
 import deferredTemplate from "./deferredTemplate";
 import forwardTemplate from "./forwardTemplate";
 import resolveStructure from "./resolveStructure";

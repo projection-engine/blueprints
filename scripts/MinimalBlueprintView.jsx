@@ -1,7 +1,7 @@
-import Board from "../base/components/Board";
+import Board from "../components/components/Board";
 import useScriptingView from "./hooks/useScriptingView";
-import Available from "../base/components/Available";
-import styles from '../base/styles/Board.module.css'
+import Available from "../components/components/Available";
+import styles from '../components/styles/Board.module.css'
 import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import PropTypes from "prop-types";
 import ControlProvider from "../../../components/tabs/components/ControlProvider";
@@ -15,7 +15,7 @@ import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
 import {LoaderProvider} from "@f-ui/core";
 
-import EntityReference from "../../../engine/shared/nodes/events/EntityReference";
+import EntityReference from "./nodes/events/EntityReference";
 
 export default function MinimalBlueprintView(props) {
     const load = useContext(LoaderProvider)
