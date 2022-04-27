@@ -236,15 +236,15 @@ export default function BlueprintView(props) {
                             {currentForm.open ?
                                 <FormTabs
                                     addComponent={() => {
-                                        currentForm.selected.components[COMPONENTS.SCRIPT] = new ScriptComponent()
-                                        engine.dispatchEntities({
-                                            type: ENTITY_ACTIONS.ADD_COMPONENT,
-                                            payload: {
-                                                entityID: engine.selected[0],
-                                                data: currentForm.selected.components[COMPONENTS.SCRIPT],
-                                                key: COMPONENTS.SCRIPT
-                                            }
-                                        })
+                                        // currentForm.selected.components[COMPONENTS.SCRIPT] = new ScriptComponent()
+                                        // engine.dispatchEntities({
+                                        //     type: ENTITY_ACTIONS.ADD_COMPONENT,
+                                        //     payload: {
+                                        //         entityID: engine.selected[0],
+                                        //         data: currentForm.selected.components[COMPONENTS.SCRIPT],
+                                        //         key: COMPONENTS.SCRIPT
+                                        //     }
+                                        // })
                                     }}
                                     entity={currentForm.selected}
                                     currentTab={currentTab}
