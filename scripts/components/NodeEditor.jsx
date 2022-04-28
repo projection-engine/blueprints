@@ -2,12 +2,13 @@ import React, {useMemo} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
 
-import {Accordion, AccordionSummary, TextField,} from "@f-ui/core";
+import {TextField,} from "@f-ui/core";
 import {DATA_TYPES} from "../../components/DATA_TYPES";
 import Getter from "../nodes/utils/Getter";
 import {startKey} from "../nodes/utils/Setter";
 import getInput from "../utils/getInput";
 import ColorPicker from "../../../../components/color/ColorPicker";
+import AccordionTemplate from "../../../../components/accordion/AccordionTemplate";
 
 export default function NodeEditor(props) {
     const {
@@ -109,59 +110,54 @@ export default function NodeEditor(props) {
                         : null}
                     {attributes.map((attr, i) => (
                         <React.Fragment key={attr.label + '-attribute-' + i}>
-                            <Accordion>
-                                <AccordionSummary>
-                                    {attr.key === 'type' ? 'Variable Type' : 'Variable Value'}
-                                </AccordionSummary>
-                                <div className={styles.content}>
-                                    {getInput(
-                                        attr.label,
-                                        attr.type,
-                                        props.hook.variables[selected][attr.key],
-                                        (event) => props.hook.setVariables(prev => {
-                                            const n = [...prev]
-                                            const classLocation = n.find(e => e.id === selectedVariable)
-                                            classLocation[attr.key] = event
+                            <AccordionTemplate title={attr.key === 'type' ? 'Variable Type' : 'Variable Value'}>
+                                {getInput(
+                                    attr.label,
+                                    attr.type,
+                                    props.hook.variables[selected][attr.key],
+                                    (event) => props.hook.setVariables(prev => {
+                                        const n = [...prev]
+                                        const classLocation = n.find(e => e.id === selectedVariable)
+                                        classLocation[attr.key] = event
 
-                                            if (attr.key === 'type') {
-                                                classLocation.value = getNewValue(event)
-                                                props.hook.setNodes(prevN => {
-                                                    return [...prevN].map(node => {
-                                                        if (node.id.includes(selectedVariable)) {
-                                                            if (node instanceof Getter)
-                                                                node.output = [{
-                                                                    label: 'Value',
-                                                                    key: 'value',
-                                                                    type: event
-                                                                }]
-                                                            else {
-                                                                node.inputs = [{
-                                                                    label: 'Start',
-                                                                    key: startKey,
-                                                                    accept: [DATA_TYPES.EXECUTION]
-                                                                }, {label: 'Value', key: 'value', accept: [event]}]
-                                                                node.output = [
-                                                                    {
-                                                                        label: 'Execute',
-                                                                        key: 'EXECUTION',
-                                                                        type: DATA_TYPES.EXECUTION
-                                                                    },
-                                                                    {label: 'Value', key: 'value', type: event}
-                                                                ]
-                                                            }
+                                        if (attr.key === 'type') {
+                                            classLocation.value = getNewValue(event)
+                                            props.hook.setNodes(prevN => {
+                                                return [...prevN].map(node => {
+                                                    if (node.id.includes(selectedVariable)) {
+                                                        if (node instanceof Getter)
+                                                            node.output = [{
+                                                                label: 'Value',
+                                                                key: 'value',
+                                                                type: event
+                                                            }]
+                                                        else {
+                                                            node.inputs = [{
+                                                                label: 'Start',
+                                                                key: startKey,
+                                                                accept: [DATA_TYPES.EXECUTION]
+                                                            }, {label: 'Value', key: 'value', accept: [event]}]
+                                                            node.output = [
+                                                                {
+                                                                    label: 'Execute',
+                                                                    key: 'EXECUTION',
+                                                                    type: DATA_TYPES.EXECUTION
+                                                                },
+                                                                {label: 'Value', key: 'value', type: event}
+                                                            ]
                                                         }
-                                                        return node
-                                                    })
+                                                    }
+                                                    return node
                                                 })
-                                            }
+                                            })
+                                        }
 
-                                            return n
-                                        }),
-                                        attr,
-                                        props.hook,
-                                        selected)}
-                                </div>
-                            </Accordion>
+                                        return n
+                                    }),
+                                    attr,
+                                    props.hook,
+                                    selected)}
+                            </AccordionTemplate>
                         </React.Fragment>
                     ))}
                     {selectedVariable ? (
@@ -195,10 +191,7 @@ export default function NodeEditor(props) {
                 </div>
                 :
                 groupsSelected.length > 0 ? (
-                        <Accordion contentStyles={{padding: '4px'}}>
-                            <AccordionSummary>
-                                Comment accent color
-                            </AccordionSummary>
+                        <AccordionTemplate title={'Color'}>
                             <ColorPicker
                                 submit={newValue => {
                                     const split = newValue.match(/[\d.]+/g)
@@ -207,14 +200,14 @@ export default function NodeEditor(props) {
                                     props.hook.setGroups(prev => {
                                         return prev.map(p => {
 
-                                            if(props.hook.selected.includes(p.id))
+                                            if (props.hook.selected.includes(p.id))
                                                 p.color = v
                                             return p
                                         })
                                     })
                                 }}
                                 value={`rgb(${groupsSelected[0].color[0]}, ${groupsSelected[0].color[1]}, ${groupsSelected[0].color[2]})`}/>
-                        </Accordion>
+                        </AccordionTemplate>
                     )
                     :
                     (
@@ -223,9 +216,7 @@ export default function NodeEditor(props) {
                             Select a variable or comment to edit it.
                         </div>
                     )
-
             }
-
         </div>
     )
 }

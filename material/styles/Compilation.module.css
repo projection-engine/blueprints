@@ -1,0 +1,15 @@
+.wrapper {
+    height: 100%;
+    max-width: 100%;
+    width: 100%;
+
+    background-color: var(--fabric-background-primary);
+
+
+    border-radius: 5px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: transparent 2px solid;
+
+}

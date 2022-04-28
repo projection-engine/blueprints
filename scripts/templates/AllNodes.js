@@ -10,8 +10,7 @@ import Divide from "../nodes/operators/math/Divide";
 import ToVector from "../nodes/operators/conversions/ToVector";
 import FromVector from "../nodes/operators/conversions/FromVector";
 import SetLocalRotation from "../nodes/transformation/SetLocalRotation";
-import SetTransformationRelativeOrigin
-    from "../nodes/transformation/SetTransformationRelativeOrigin";
+import SetTransformationRelativeOrigin from "../nodes/transformation/SetTransformationRelativeOrigin";
 import Print from "../nodes/utils/Print";
 import Xor from "../nodes/operators/boolean/Xor";
 import Or from "../nodes/operators/boolean/Or";

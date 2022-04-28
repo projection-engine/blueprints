@@ -19,9 +19,6 @@ import SettingsProvider from "../../../pages/project/utils/hooks/SettingsProvide
 import useEditorEngine from "../../../pages/project/utils/hooks/useEditorEngine";
 import Viewport from "../../../components/viewport/Viewport";
 import FormTabs from "../../scene/forms/FormTabs";
-import COMPONENTS from "../../../engine/shared/templates/COMPONENTS";
-import ScriptComponent from "../../../engine/shared/ecs/components/ScriptComponent";
-import {ENTITY_ACTIONS} from "../../../engine/utils/entityReducer";
 import useForm from "../../scene/utils/useForm";
 import sceneStyles from '../../scene/styles/Scene.module.css'
 import handleDrop from "../../../pages/project/utils/utils/handleDrop";

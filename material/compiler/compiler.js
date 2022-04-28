@@ -5,7 +5,7 @@ import deferredTemplate from "./deferredTemplate";
 import forwardTemplate from "./forwardTemplate";
 import resolveStructure from "./resolveStructure";
 
-export default async function compiler(n, links, fileSystem) {
+export default async function compiler(n, links, fileSystem, setStatus) {
     const nodes = n.map(nn => cloneClass(nn))
 
     const startPoint = nodes.find(n => {

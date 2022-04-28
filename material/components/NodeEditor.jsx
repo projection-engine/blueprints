@@ -3,7 +3,7 @@ import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
 import Material from "../nodes/Material";
 
-import {Accordion, AccordionSummary, Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
+import {Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
 import Range from "../../../../components/range/Range";
 import Selector from "../../../../components/selector/Selector";
 
@@ -11,6 +11,7 @@ import ColorPicker from "../../../../components/color/ColorPicker";
 
 import cloneClass from "../../../../engine/utils/cloneClass";
 import {DATA_TYPES} from "../../components/DATA_TYPES";
+import AccordionTemplate from "../../../../components/accordion/AccordionTemplate";
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {
@@ -206,11 +207,7 @@ export default function NodeEditor(props) {
                     : null}
                 {attributes.map((attr, i) => (
                     <React.Fragment key={attr.label + '-attribute-' + i}>
-                        <Accordion contentClassName={styles.content}>
-                            <AccordionSummary className={styles.summary}>
-                                {attr.label}
-                            </AccordionSummary>
-
+                        <AccordionTemplate title={attr.label}>
                             {getInput(
                                 attr.label,
                                 attr.type,
@@ -251,8 +248,7 @@ export default function NodeEditor(props) {
 
                             }
 
-                        </Accordion>
-
+                        </AccordionTemplate>
                     </React.Fragment>
                 ))}
             </div>

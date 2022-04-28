@@ -1,7 +1,6 @@
 import Node from '../../components/Node'
 import {DATA_TYPES} from "../../components/DATA_TYPES";
 import NODE_TYPES from "../../components/NODE_TYPES";
-import ImageProcessor from "../../../../engine/utils/image/ImageProcessor";
 
 export default class SceneColor extends Node {
 

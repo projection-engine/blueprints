@@ -13,8 +13,7 @@ import Add from "../nodes/operators/math/Add";
 import Subtract from "../nodes/operators/math/Subtract";
 import Divide from "../nodes/operators/math/Divide";
 import Multiply from "../nodes/operators/math/Multiply";
-import SetTransformationRelativeOrigin
-    from "../nodes/transformation/SetTransformationRelativeOrigin";
+import SetTransformationRelativeOrigin from "../nodes/transformation/SetTransformationRelativeOrigin";
 import SetLocalRotation from "../nodes/transformation/SetLocalRotation";
 import ToVector from "../nodes/operators/conversions/ToVector";
 import FromVector from "../nodes/operators/conversions/FromVector";

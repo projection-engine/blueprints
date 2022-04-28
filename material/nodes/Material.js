@@ -22,7 +22,8 @@ canBeDeleted = false
             {label: 'Refraction', key: 'refraction', accept: allTypes, disabled: true},
 
             {label: 'Emissive', key: 'emissive', accept: allTypes},
-            {label: 'GI albedo', key: 'rsmAlbedo', type: DATA_TYPES.TEXTURE, hiddenShowcase: true},
+            {label: 'Global illumination albedo', key: 'rsmAlbedo', type: DATA_TYPES.TEXTURE, hiddenShowcase: true},
+            {label: 'World Offset', key: 'worldOffset', accept: [DATA_TYPES.VEC3], disabled: true},
 
             {
                 label: 'Ambient influence',

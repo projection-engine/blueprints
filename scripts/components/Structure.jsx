@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import styles from '../styles/Structure.module.css'
 import PropTypes from "prop-types";
 
-import {Accordion, AccordionSummary, Button, ContextMenu, Ripple,} from "@f-ui/core";
+import {Button, ContextMenu, Ripple,} from "@f-ui/core";
 import {DATA_TYPES} from "../../components/DATA_TYPES";
 import deleteNode from "../../components/utils/deleteNode";
 import NODE_TYPES from "../../components/NODE_TYPES";
@@ -11,6 +11,7 @@ import {ENTITY_ACTIONS} from "../../../../engine/utils/entityReducer";
 import TreeView from "../../../../components/tree/TreeView";
 
 import {v4 as uuidv4} from 'uuid';
+import AccordionTemplate from "../../../../components/accordion/AccordionTemplate";
 
 export default function Structure(props) {
     const {
@@ -88,7 +89,6 @@ export default function Structure(props) {
                     'data-self'
                 ]}
                 draggable={props.openTab === 1 || props.isLevelBlueprint}
-
                 searchable={true}
                 options={[
                     {
@@ -116,11 +116,7 @@ export default function Structure(props) {
                     })
                 }}
             />
-
-            <Accordion className={styles.options}>
-                <AccordionSummary>
-                    Events
-                </AccordionSummary>
+            <AccordionTemplate title={'Events'}>
                 {events.map(g => (
                     <div className={styles.option} onDoubleClick={() => {
                         props.focusNode(g.id)
@@ -131,11 +127,8 @@ export default function Structure(props) {
                         <Ripple accentColor={'var(--fabric-accent-color)'} opacity={'.1'}/>
                     </div>
                 ))}
-            </Accordion>
-            <Accordion className={styles.options}>
-                <AccordionSummary>
-                    Variables
-                </AccordionSummary>
+            </AccordionTemplate>
+            <AccordionTemplate title={'Variables'}>
                 <ContextMenu
                     options={[{
                         requiredTrigger: 'data-var',
@@ -198,8 +191,7 @@ export default function Structure(props) {
                         </div>
                     ))}
                 </ContextMenu>
-            </Accordion>
-
+            </AccordionTemplate>
         </div>
     )
 }

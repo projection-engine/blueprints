@@ -16,20 +16,23 @@ import Material from "./nodes/Material";
 
 import MaterialInstance from "../../../engine/shared/instances/MaterialInstance";
 import {IDS} from "../../../pages/project/utils/hooks/useMinimalEngine";
+import CompilationStatus from "./components/CompilationStatus";
 
 
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
+    const [status, setStatus] = useState([])
 
     const hook = useMaterialView(props.file, props.setAlert)
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n instanceof Material)
     }, [hook.nodes])
+
     const controlProvider = useContext(ControlProvider)
     const compileShaders = () => {
         props.setAlert({message: 'Compiling shaders', type: 'info'})
         hook.setImpactingChange(false)
-        compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
+        compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem, setStatus)
             .then(({shader, uniforms, uniformData, settings}) => {
                 const prev = hook.engine.material
                 let promise, newMat
@@ -67,7 +70,7 @@ export default function MaterialView(props) {
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                     onClick: async () => {
-                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
+                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem, setStatus))
                         props.submitPackage(
                             response.preview,
                             response.data,
@@ -83,7 +86,7 @@ export default function MaterialView(props) {
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: async () => {
-                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
+                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem, setStatus))
                         props.submitPackage(
                             response.preview,
                             response.data,
@@ -118,10 +121,14 @@ export default function MaterialView(props) {
 
     return (
         <div className={s.wrapper} id={props.file.registryID + '-board'}>
-            <NodeEditor
-                hook={hook}
-                engine={hook.engine}
-                selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
+            <div className={s.content}>
+                <NodeEditor
+                    hook={hook}
+                    engine={hook.engine}
+                    selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
+                <ResizableBar type={'height'}/>
+                <CompilationStatus status={status}/>
+            </div>
             <ResizableBar type={"width"}/>
             <div className={s.view}>
                 <MaterialViewport engine={hook.engine} fileID={props.file.registryID}/>
