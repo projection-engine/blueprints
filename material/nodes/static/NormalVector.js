@@ -1,17 +1,17 @@
-import Node from '../../components/Node'
-import {DATA_TYPES} from "../../components/DATA_TYPES";
-import NODE_TYPES from "../../components/NODE_TYPES";
+import Node from '../../../components/Node'
+import {DATA_TYPES} from "../../../components/DATA_TYPES";
+import NODE_TYPES from "../../../components/NODE_TYPES";
 
 
-export default class TextureCoords extends Node {
+export default class NormalVector extends Node {
     texture = {}
 
     constructor() {
         super([], [
-            {label: 'Coordinates', key: 'texCoord', type: DATA_TYPES.VEC2}
+            {label: 'Normal', key: 'normalVec', type: DATA_TYPES.VEC3}
         ]);
 
-        this.name = 'TextureCoords'
+        this.name = 'NormalVector'
         this.size = 2
     }
 
@@ -28,7 +28,7 @@ export default class TextureCoords extends Node {
     }
     // texture and uv = {name: variable name, value: variable value if static}
     getFunctionCall() {
-        this.texCoord = 'texCoord'
+        this.normalVec = 'normalVec'
         return ''
     }
 }

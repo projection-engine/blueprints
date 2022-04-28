@@ -4,12 +4,32 @@
     width: 100%;
 
     background-color: var(--fabric-background-primary);
-
-
     border-radius: 5px;
 
     overflow-x: hidden;
     overflow-y: auto;
     outline: transparent 2px solid;
+    padding: 4px;
+}
 
+.content{
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    justify-content: flex-start;
+    justify-items: flex-start;
+
+
+}
+.row{
+    color: var(--fabric-color-secondary);
+    font-size: .8rem;
+
+    padding: 4px 6px;
+
+    background-color: var(--fabric-background-secondary);
+    border-radius: 5px;
+
+    border: var(--fabric-border-primary) 1px solid;
 }

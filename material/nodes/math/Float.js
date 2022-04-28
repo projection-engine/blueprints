@@ -1,7 +1,7 @@
-import Node from '../../components/Node'
-import {DATA_TYPES} from "../../components/DATA_TYPES";
-import NODE_TYPES from "../../components/NODE_TYPES";
-import checkFloat from "../utils/checkFloat";
+import Node from '../../../components/Node'
+import {DATA_TYPES} from "../../../components/DATA_TYPES";
+import NODE_TYPES from "../../../components/NODE_TYPES";
+import checkFloat from "../../utils/checkFloat";
 
 
 export default class Float extends Node {

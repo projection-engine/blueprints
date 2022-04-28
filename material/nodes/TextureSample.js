@@ -10,6 +10,7 @@ export const TEXTURE_TYPES = {
     SRGB8_ALPHA8: 'SRGB8_ALPHA8'
 }
 export default class TextureSample extends Node {
+    uniform = true
     texture = {}
     yFlip = false
 

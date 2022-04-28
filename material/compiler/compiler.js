@@ -4,15 +4,21 @@ import NODE_TYPES from "../../components/NODE_TYPES";
 import deferredTemplate from "./deferredTemplate";
 import forwardTemplate from "./forwardTemplate";
 import resolveStructure from "./resolveStructure";
+import TextureSample from "../nodes/TextureSample";
 
-export default async function compiler(n, links, fileSystem, setStatus) {
+export default async function compiler(n, links, fileSystem) {
     const nodes = n.map(nn => cloneClass(nn))
 
     const startPoint = nodes.find(n => {
         return n.type === NODE_TYPES.OUTPUT
     })
     if (startPoint) {
-        const codeString = startPoint.isForwardShaded ? forwardTemplate : deferredTemplate, uniforms = [], uniformData = []
+        const samplers = n.filter(e => e instanceof TextureSample),
+            uniformNodes = n.filter(e => e.uniform)
+
+
+        const codeString = startPoint.isForwardShaded ? forwardTemplate : deferredTemplate, uniforms = [],
+            uniformData = []
 
         let toJoin = [], typesInstantiated = {}
         nodes.forEach(n => {
@@ -46,16 +52,18 @@ export default async function compiler(n, links, fileSystem, setStatus) {
             ${codeString.functions}
             ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
         `
-        console.log(code)
         return {
-            // vertexShader: ,
+            info: [
+                {key: 'samplers', label: 'Texture samplers', data: samplers.length},
+                {key: 'uniforms', label: 'Uniform quantity', data: uniformNodes.length},
+            ],
             shader: code,
             uniforms,
             uniformData,
             settings: {
-                isForwardShaded:startPoint.isForwardShaded,
-                rsmAlbedo:startPoint.rsmAlbedo,
-                doubledSided:startPoint.doubledSided
+                isForwardShaded: startPoint.isForwardShaded,
+                rsmAlbedo: startPoint.rsmAlbedo,
+                doubledSided: startPoint.doubledSided
             }
         }
     } else

@@ -1,6 +1,6 @@
-import Node from '../../components/Node'
-import {DATA_TYPES} from "../../components/DATA_TYPES";
-import NODE_TYPES from "../../components/NODE_TYPES";
+import Node from '../../../components/Node'
+import {DATA_TYPES} from "../../../components/DATA_TYPES";
+import NODE_TYPES from "../../../components/NODE_TYPES";
 
 
 export default class AbsoluteWorldPosition extends Node {
@@ -25,7 +25,8 @@ export default class AbsoluteWorldPosition extends Node {
     async getInputInstance(index) {
         return ''
     }
-    getFunctionCall() {
+
+    getFunctionCall( ) {
         this.vPosition = 'vPosition'
         return ''
     }

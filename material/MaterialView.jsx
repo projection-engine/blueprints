@@ -21,7 +21,7 @@ import CompilationStatus from "./components/CompilationStatus";
 
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
-    const [status, setStatus] = useState([])
+    const [status, setStatus] = useState({})
 
     const hook = useMaterialView(props.file, props.setAlert)
     const fallbackSelected = useMemo(() => {
@@ -32,24 +32,55 @@ export default function MaterialView(props) {
     const compileShaders = () => {
         props.setAlert({message: 'Compiling shaders', type: 'info'})
         hook.setImpactingChange(false)
-        compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem, setStatus)
-            .then(({shader, uniforms, uniformData, settings}) => {
+        compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
+            .then(({shader, uniforms, uniformData, settings, info}) => {
                 const prev = hook.engine.material
                 let promise, newMat
 
                 if (!prev)
                     promise = new Promise(resolve => {
-                        newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, settings, () => resolve(), IDS.MATERIAL)
+                        newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
                     })
                 else {
                     newMat = prev
                     promise = new Promise(resolve => {
-                        newMat.shader = [shader, uniformData, () => resolve(), settings]
+                        newMat.shader = [shader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
                     })
                 }
 
-                promise.then(() => {
-                    hook.engine.setMaterial(newMat)
+                promise.then((message) => {
+                    const shaderSplit = shader.split('\n')
+                    setStatus({
+                        ...{
+                            ...message,
+                            messages:
+                                message.messages
+                                    .map(m => m.split('ERROR'))
+                                    .flat()
+                                    .map(m => {
+                                        const data = {lines:[]}
+                                        if (m.length > 0) {
+
+                                            const match = m.match(/:\s([0-9]+):([0-9]+)/gm),
+                                             matchS = m.match(/:\s([0-9]+):([0-9]+)/m)
+                                            if(matchS){
+                                                let s = matchS[0].split('')
+                                                s.shift()
+                                                const [start, end] = s.join('').split(':')
+                                                data.lines = shaderSplit.slice(end, end)
+                                            }
+                                            data.label = 'ERROR' + match[0]
+                                            console.log(matchS)
+                                            return data
+                                        } else
+                                            return undefined
+                                    })
+                                    .filter(e => e)
+                        },
+                        info
+                    })
+                    if (!message.hasError)
+                        hook.engine.setMaterial(newMat)
                 })
             })
     }
@@ -70,7 +101,7 @@ export default function MaterialView(props) {
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
                     onClick: async () => {
-                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem, setStatus))
+                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                         props.submitPackage(
                             response.preview,
                             response.data,
@@ -86,7 +117,7 @@ export default function MaterialView(props) {
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
                     onClick: async () => {
-                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem, setStatus))
+                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                         props.submitPackage(
                             response.preview,
                             response.data,
