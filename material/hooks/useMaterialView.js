@@ -1,7 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import QuickAccessProvider from "../../../../pages/project/utils/hooks/QuickAccessProvider";
 import EVENTS from "../../../../pages/project/utils/utils/EVENTS";
-import {LoaderProvider} from "@f-ui/core";
 import useMinimalEngine from "../../../../pages/project/utils/hooks/useMinimalEngine";
 import useFlow from "../../components/hooks/useFlow";
 import Material from "../nodes/Material";
@@ -41,6 +40,7 @@ import Saturate from "../nodes/math/Saturate";
 import Saturation from "../nodes/Saturation";
 import Pow from "../nodes/math/Pow";
 import SceneColor from "../nodes/SceneColor";
+import LoaderProvider from "../../../../components/loader/LoaderProvider";
 
 
 export default function useMaterialView(file,setAlert) {

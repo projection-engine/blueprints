@@ -13,7 +13,7 @@ import Structure from "./components/Structure";
 import mapNodes from "./utils/mapNodes";
 import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
-import {AlertProvider, Button, LoaderProvider} from "@f-ui/core";
+import {AlertProvider, Button} from "@f-ui/core";
 import MinimalTabs from "./components/MinimalTabs";
 import SettingsProvider from "../../../pages/project/utils/hooks/SettingsProvider";
 import useEditorEngine from "../../../pages/project/utils/hooks/useEditorEngine";
@@ -26,6 +26,7 @@ import {SHADING_MODELS} from "../../../pages/project/utils/hooks/useSettings";
 import CAMERA_TYPES from "../../../engine/editor/camera/CAMERA_TYPES";
 import ViewportOptions from "../../../components/viewport/ViewportOptions";
 import EntityReference from "./nodes/events/EntityReference";
+import LoaderProvider from "../../../components/loader/LoaderProvider";
 
 export default function BlueprintView(props) {
     const settings = useContext(SettingsProvider)

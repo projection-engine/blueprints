@@ -1,5 +1,5 @@
 import Node from "../../../components/Node";
-import COMPONENTS from "../../../../../engine/shared/templates/COMPONENTS";
+import COMPONENTS from "../../../../../engine/templates/COMPONENTS";
 import {vec3} from "gl-matrix";
 import NODE_TYPES from "../../../components/NODE_TYPES";
 import {DATA_TYPES} from "../../../components/DATA_TYPES";

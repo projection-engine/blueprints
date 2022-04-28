@@ -2,8 +2,8 @@ import {IDS} from "../../../../pages/project/utils/hooks/useMinimalEngine";
 import {useRef, useState} from "react";
 import styles from "../styles/MaterialViewport.module.css";
 import {Button, ToolTip} from "@f-ui/core";
-import {ENTITY_ACTIONS} from "../../../../engine/utils/entityReducer";
-import MeshComponent from "../../../../engine/shared/ecs/components/MeshComponent";
+import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials";
+import MeshComponent from "../../../../engine/ecs/components/MeshComponent";
 import PropTypes from "prop-types";
 import Viewport from "../../../../components/viewport/Viewport";
 

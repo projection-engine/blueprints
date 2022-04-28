@@ -13,9 +13,9 @@ import Structure from "./components/Structure";
 import mapNodes from "./utils/mapNodes";
 import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
-import {LoaderProvider} from "@f-ui/core";
 
 import EntityReference from "./nodes/events/EntityReference";
+import LoaderProvider from "../../../components/loader/LoaderProvider";
 
 export default function MinimalBlueprintView(props) {
     const load = useContext(LoaderProvider)
