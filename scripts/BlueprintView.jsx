@@ -16,7 +16,7 @@ import getAvailableNodes from "./utils/getAvailableNodes";
 import {AlertProvider, Button} from "@f-ui/core";
 import MinimalTabs from "./components/MinimalTabs";
 import SettingsProvider from "../../../pages/project/utils/hooks/SettingsProvider";
-import useEditorEngine from "../../../pages/project/utils/hooks/useEditorEngine";
+import useEditorEngine from "../../../engine/useEditorEngine";
 import Viewport from "../../../components/viewport/Viewport";
 import FormTabs from "../../scene/forms/FormTabs";
 import useForm from "../../scene/utils/useForm";

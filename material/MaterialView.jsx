@@ -15,8 +15,9 @@ import Make from "./utils/Make";
 import Material from "./nodes/Material";
 
 import MaterialInstance from "../../../engine/instances/MaterialInstance";
-import {IDS} from "../../../pages/project/utils/hooks/useMinimalEngine";
+import {IDS} from "../../../engine/useMinimalEngine";
 import CompilationStatus from "./components/CompilationStatus";
+import {trimString} from "../../../engine/utils/Shader";
 
 
 export default function MaterialView(props) {
@@ -34,60 +35,65 @@ export default function MaterialView(props) {
         hook.setImpactingChange(false)
         compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
             .then(({shader, uniforms, uniformData, settings, info}) => {
-                const prev = hook.engine.material
-                let promise, newMat
-
-                if (!prev)
-                    promise = new Promise(resolve => {
-                        newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
-                    })
-                else {
-                    newMat = prev
-                    promise = new Promise(resolve => {
-                        newMat.shader = [shader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
+                if (shader) {
+                    const prev = hook.engine.material
+                    let promise, newMat
+                    if (!prev)
+                        promise = new Promise(resolve => {
+                            newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
+                        })
+                    else {
+                        newMat = prev
+                        promise = new Promise(resolve => {
+                            newMat.shader = [shader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
+                        })
+                    }
+                    promise.then((message) => {
+                        const shaderSplit = trimString(shader).split(';')
+                        let parsed = []
+                        setStatus({
+                            ...{
+                                ...message,
+                                messages:
+                                    message.messages
+                                        .map(m => m.split('ERROR'))
+                                        .flat()
+                                        .map(m => {
+                                            const data = {lines: []}
+                                            if (m.length > 0) {
+                                                const match = m.match(/:\s([0-9]+):([0-9]+)/gm),
+                                                    matchS = m.match(/:\s([0-9]+):([0-9]+)/m)
+                                                if (matchS) {
+                                                    let s = matchS[0].split('')
+                                                    s.shift()
+                                                    const [start, end] = s.join('').split(':')
+                                                    if (!parsed.includes(end)) {
+                                                        console.log(shaderSplit)
+                                                        data.lines = shaderSplit.slice(end - 9, end - 8)
+                                                        parsed.push(end)
+                                                        data.error = 'ERROR' + m
+                                                        data.label = 'ERROR' + match[0]
+                                                        return data
+                                                    }
+                                                    return undefined
+                                                }
+                                            } else
+                                                return undefined
+                                        })
+                                        .filter(e => e)
+                            },
+                            info
+                        })
+                        if (!message.hasError)
+                            hook.engine.setMaterial(newMat)
                     })
                 }
-
-                promise.then((message) => {
-                    const shaderSplit = shader.split('\n')
-                    setStatus({
-                        ...{
-                            ...message,
-                            messages:
-                                message.messages
-                                    .map(m => m.split('ERROR'))
-                                    .flat()
-                                    .map(m => {
-                                        const data = {lines:[]}
-                                        if (m.length > 0) {
-
-                                            const match = m.match(/:\s([0-9]+):([0-9]+)/gm),
-                                             matchS = m.match(/:\s([0-9]+):([0-9]+)/m)
-                                            if(matchS){
-                                                let s = matchS[0].split('')
-                                                s.shift()
-                                                const [start, end] = s.join('').split(':')
-                                                data.lines = shaderSplit.slice(end, end)
-                                            }
-                                            data.label = 'ERROR' + match[0]
-                                            console.log(matchS)
-                                            return data
-                                        } else
-                                            return undefined
-                                    })
-                                    .filter(e => e)
-                        },
-                        info
-                    })
-                    if (!message.hasError)
-                        hook.engine.setMaterial(newMat)
-                })
             })
     }
     useEffect(() => {
-        if (hook.impactingChange && hook.realTime && hook.engine.gpu)
+        if (hook.impactingChange && hook.realTime && hook.engine.renderer)
             compileShaders()
-    }, [hook.impactingChange, hook.engine.gpu, hook.realTime])
+    }, [hook.impactingChange, hook.engine.renderer, hook.realTime])
     useEffect(() => {
         controlProvider.setTabAttributes([
                 {

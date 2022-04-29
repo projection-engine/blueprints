@@ -67,6 +67,6 @@ export default async function compiler(n, links, fileSystem) {
             }
         }
     } else
-        return undefined
+        return {}
 }
 

@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import QuickAccessProvider from "../../../../pages/project/utils/hooks/QuickAccessProvider";
 import EVENTS from "../../../../pages/project/utils/utils/EVENTS";
-import useMinimalEngine from "../../../../pages/project/utils/hooks/useMinimalEngine";
+import useMinimalEngine from "../../../../engine/useMinimalEngine";
 import useFlow from "../../components/hooks/useFlow";
 import Material from "../nodes/Material";
 import TextureSample from "../nodes/TextureSample";
@@ -53,7 +53,6 @@ export default function useMaterialView(file,setAlert) {
         impactingChange, setImpactingChange,
     } = useFlow()
 
-    const [initialized, setInitialized] = useState(false)
     const [realTime, setRealTime] = useState(true)
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
@@ -62,7 +61,7 @@ export default function useMaterialView(file,setAlert) {
     useEffect(() => {
         load.pushEvent(EVENTS.LOADING_MATERIAL)
         if (engine.gpu && engine.meshes.length > 0)
-            parse(file, quickAccess, setNodes, setLinks, engine, load, setAlert, setInitialized)
+            parse(file, quickAccess, setNodes, setLinks, engine, load)
 
     }, [file, engine.gpu, engine.meshes])
 
