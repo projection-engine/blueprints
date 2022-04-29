@@ -10,7 +10,7 @@ import useHotKeys from "../../../pages/project/utils/hooks/useHotKeys";
 import {allNodes} from "./templates/AllNodes";
 import NodeEditor from "./components/NodeEditor";
 import Structure from "./components/Structure";
-import mapNodes from "./utils/mapNodes";
+import mapper from "./compiler/mapper";
 import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
 
@@ -47,13 +47,13 @@ export default function MinimalBlueprintView(props) {
                     onClick: () => {
                         hook.setChanged(false)
                         hook.setImpactingChange(false)
-                        props.submitPackage(mapNodes(hook, props.engine, {id: props.id, name: props.name}, true), false)
+                        props.submitPackage(mapper(hook, props.engine, {id: props.id, name: props.name}, true), false)
                     }
                 },
                 {
                     label: 'Save & close',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
-                    onClick: () => props.submitPackage(mapNodes(hook, props.engine, {
+                    onClick: () => props.submitPackage(mapper(hook, props.engine, {
                         id: props.id,
                         name: props.name
                     }, true), true)

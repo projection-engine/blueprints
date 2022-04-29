@@ -1,9 +1,9 @@
 import NODE_TYPES from "../../components/NODE_TYPES";
-import compile from "./compile";
+import organizer from "./organizer";
 import cloneClass from "../../../../engine/utils/cloneClass";
 import Setter from "../nodes/utils/Setter";
 
-export default function mapNodes(hook, engine, file, isLevelBp) {
+export default function mapper(hook, engine, file, isLevelBp) {
     const res = mapCompile(hook)
     const parsedNodes = hook.nodes.map(n => {
         const docNode = document.getElementById(n.id).parentNode
@@ -69,7 +69,7 @@ export function mapCompile(hook) {
 
 
             links.forEach(link => {
-                res.push({...compile(hook.nodes, hook.links, hook.variables, [], link), link})
+                res.push({...organizer(hook.nodes, hook.links, hook.variables, [], link), link})
 
             })
 

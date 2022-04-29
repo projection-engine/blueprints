@@ -5,7 +5,7 @@ import NODE_TYPES from "../../components/NODE_TYPES";
 import EntityReference from "../nodes/events/EntityReference";
 
 
-export default function compile(n, links, variables, alreadyCompiled = [], startPoint) {
+export default function organizer(n, links, variables, alreadyCompiled = [], startPoint) {
     let order = [], executors = {}, nodes = alreadyCompiled.length > 0 ? n : n.map(node => cloneClass(node))
 
 
@@ -97,7 +97,7 @@ export default function compile(n, links, variables, alreadyCompiled = [], start
                 const orderIndex = order.findIndex(oo => oo.nodeID === targetNode.id)
                 if (orderIndex > -1) {
                     branches.forEach((b, i) => {
-                        const bA = compile(nodes, links, variables, compiled, b)
+                        const bA = organizer(nodes, links, variables, compiled, b)
 
                         order[orderIndex][b.source.attribute.key] = bA.order
 

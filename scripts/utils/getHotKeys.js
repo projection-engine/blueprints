@@ -1,7 +1,7 @@
 import {KEYS} from "../../../../pages/project/utils/hooks/useHotKeys";
 import createGroupShortcut from "../../components/utils/createGroupShortcut";
-import mapNodes from "./mapNodes";
-import compile from "./compile";
+import mapper from "../compiler/mapper";
+import organizer from "../compiler/organizer";
 import EventTick from "../nodes/events/EventTick";
 import deleteNode from "../../components/utils/deleteNode";
 import cloneClass from "../../../../engine/utils/cloneClass";
@@ -24,7 +24,7 @@ export default function getHotKeys(hook, props, toCopy, setToCopy) {
             require: [KEYS.ControlLeft, KEYS.KeyS],
             callback: () => {
 
-                const response = mapNodes(compile(hook.nodes, hook.links, hook.variables))
+                const response = mapper(organizer(hook.nodes, hook.links, hook.variables))
                 props.submitPackage(
                     response,
                     false

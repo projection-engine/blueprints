@@ -10,7 +10,7 @@ import useHotKeys from "../../../pages/project/utils/hooks/useHotKeys";
 import {allNodes} from "./templates/AllNodes";
 import NodeEditor from "./components/NodeEditor";
 import Structure from "./components/Structure";
-import mapNodes from "./utils/mapNodes";
+import mapper from "./compiler/mapper";
 import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
 import {AlertProvider, Button} from "@f-ui/core";
@@ -63,7 +63,7 @@ export default function BlueprintView(props) {
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
                     disabled: true,
                     onClick: () => {
-                        const e = mapNodes(hook, engine, props.file)
+                        const e = mapper(hook, engine, props.file)
                         // TODO - find errors
                     }
                 },
@@ -74,14 +74,14 @@ export default function BlueprintView(props) {
                     onClick: () => {
                         hook.setChanged(false)
                         hook.setImpactingChange(false)
-                        props.submitPackage(mapNodes(hook, engine, props.file), false)
+                        props.submitPackage(mapper(hook, engine, props.file), false)
                     }
                 },
                 {
                     label: 'Save & close',
                     disabled: !hook.changed,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
-                    onClick: () => props.submitPackage(mapNodes(hook, engine, props.file), true)
+                    onClick: () => props.submitPackage(mapper(hook, engine, props.file), true)
                 }
             ],
             props.file.name,
