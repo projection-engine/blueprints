@@ -1,10 +1,10 @@
-import NODE_TYPES from "../../components/NODE_TYPES";
-import organizer from "./organizer";
 import cloneClass from "../../../../engine/utils/cloneClass";
 import Setter from "../nodes/utils/Setter";
+import compiler from "./compiler";
 
-export default function mapper(hook, engine, file, isLevelBp) {
-    const res = mapCompile(hook)
+export default async function mapper(hook, engine, file, isLevelBp) {
+    const res = await compiler(hook.nodes, hook.links, hook.variables, hook.quickAccess.fileSystem)
+
     const parsedNodes = hook.nodes.map(n => {
         const docNode = document.getElementById(n.id).parentNode
         const transformation = docNode
@@ -58,49 +58,4 @@ export default function mapper(hook, engine, file, isLevelBp) {
         }),
         name: file.name
     })
-}
-
-export function mapCompile(hook) {
-    let executionOrder = hook.nodes.filter(n => n.type === NODE_TYPES.START_POINT)
-    return executionOrder
-        .map(eOrder => {
-            const links = hook.links.filter(l => l.source.id === eOrder.id)
-            let res = []
-
-
-            links.forEach(link => {
-                res.push({...organizer(hook.nodes, hook.links, hook.variables, [], link), link})
-
-            })
-
-
-            let executors = {}
-            const bundledKeys = eOrder.inputs.filter(i => i.bundled)
-            bundledKeys
-                .forEach(bk => {
-                    const old = executors[eOrder.id]
-                    if (old)
-                        executors[eOrder.id] = {...old, [bk.key]: eOrder[bk.key]}
-                    else
-                        executors[eOrder.id] = {[bk.key]: eOrder[bk.key]}
-                })
-
-            const newRes = {
-                order: [{
-                    nodeID: eOrder.id,
-                    inputs: [],
-                    classExecutor: eOrder.constructor.name,
-                    isBranch: true,
-                }],
-                executors
-            }
-            res.forEach((l, i) => {
-                newRes.order[0][l.link.source.attribute.key] = l.order.filter(o => o.type !== NODE_TYPES.START_POINT)
-                newRes.executors = {...newRes.executors, ...l.executors}
-            })
-
-            res = [newRes]
-
-            return res
-        }).flat()
 }

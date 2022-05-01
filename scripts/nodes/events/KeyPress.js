@@ -35,26 +35,56 @@ export default class KeyPress extends Node {
         return NODE_TYPES.START_POINT
     }
 
-    static compile({
-                       object,
-                       nodeID,
-                       executors,
-                       keys,
-                       state,
-                       setState
-                   }) {
-        const isClicked = keys[executors[nodeID].key]
+    getFunctionCall() {
+        return `
+           if(params.pressedKeys['${this.key}'] && !this.state['${this.key}Pressed']){
+           
+                this.state['${this.key}Pressed'] = true
+                if( this.${this.onKeyDown})
+                this.${this.onKeyDown}(params)
+           }
+          else if(params.pressedKeys['${this.key}'] && this.state['${this.key}Pressed']){
+                if( this.${this.onHold})
+                    this.${this.onHold}(params)
+                }
+          else if(!params.pressedKeys['${this.key}'] && this.state['${this.key}Pressed'])    {
+                this.state['${this.key}Pressed'] = false
+                  if( this.${this.onRelease})
+                    this.${this.onRelease}(params)
+           }
+            
+        `
+    }
 
-        if (isClicked && !state.wasClicked) {
-            setState(true, 'wasClicked')
-            return object.pressed
-        } else if (isClicked && state.wasClicked)
-            return object.holding
-        else if (state.wasClicked) {
-            setState(false, 'wasClicked')
-            return object.released
+    async getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionInstance(content = '', index, entryPoint) {
+        this.onKeyDown = `onKeyDown${index}`
+        this.onHold = `onHold${index}`
+        this.onRelease = `onRelease${index}`
+        console.log(entryPoint)
+        switch (entryPoint.key) {
+            case 'holding':
+                return `
+            ${this.onHold}(params){
+                ${content}
+            }`
+            case 'pressed':
+                return `
+            ${this.onKeyDown}(params){
+                ${content}
+            }`
+            case 'released':
+                return `
+            ${this.onRelease}(params){
+                ${content}
+            }`
+            default:
+                return ''
         }
 
-        return []
     }
+
 }

@@ -1,17 +1,16 @@
 import {KEYS} from "../../../../pages/project/utils/hooks/useHotKeys";
 import createGroupShortcut from "../../components/utils/createGroupShortcut";
 import mapper from "../compiler/mapper";
-import organizer from "../compiler/organizer";
 import EventTick from "../nodes/events/EventTick";
 import deleteNode from "../../components/utils/deleteNode";
 import cloneClass from "../../../../engine/utils/cloneClass";
-import EntityReference from "../nodes/events/EntityReference";
+import EntityReference from "../nodes/utils/EntityReference";
 import Setter from "../nodes/utils/Setter";
 import Getter from "../nodes/utils/Getter";
 
 import {v4 as uuidv4} from 'uuid';
 
-export default function getHotKeys(hook, props, toCopy, setToCopy) {
+export default function getHotKeys(hook, props, toCopy, setToCopy, engine, file, isLevelBp) {
     return [
         {
             require: [KEYS.KeyG],
@@ -24,7 +23,7 @@ export default function getHotKeys(hook, props, toCopy, setToCopy) {
             require: [KEYS.ControlLeft, KEYS.KeyS],
             callback: () => {
 
-                const response = mapper(organizer(hook.nodes, hook.links, hook.variables))
+                const response = mapper(hook,engine, file, isLevelBp )
                 props.submitPackage(
                     response,
                     false

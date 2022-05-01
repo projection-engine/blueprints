@@ -24,7 +24,7 @@ export default function getAvailableNodes(hook){
                     type: 'setter'
                 }),
                 getNewInstance: () => new Setter(v.id + '/setter/' + uuidv4(), v.name, v.type)
-            }
+            },
         ]
     }).flat()]
 }

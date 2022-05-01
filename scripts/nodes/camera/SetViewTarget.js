@@ -21,23 +21,35 @@ export default class SetViewTarget extends Node {
         return NODE_TYPES.VOID_FUNCTION
     }
 
-    static compile(tick, {entity, cameraRoot}, entities, attributes, nodeID) {
-        const comp = entity.components[COMPONENTS.CAMERA]
-        const transform = entity.components[COMPONENTS.TRANSFORM]
 
-        cameraRoot.position = transform.translation
-        cameraRoot.rotation = transform.rotationQuat
+    getFunctionInstance() {
+        return ` 
+        `
+    }
 
-        cameraRoot.zFar = comp.zFar
-        cameraRoot.zNear = comp.zNear
+    async getInputInstance(index) {
+        return ''
+    }
 
-        cameraRoot.fov = comp.fov
-        cameraRoot.aspectRatio = comp.aspectRatio
-
-
-        cameraRoot.updateViewMatrix()
-        cameraRoot.updateProjection()
-
-        return attributes
+    getFunctionCall({entity}, index) {
+        const entityName = 'viewEntity'+index
+        const transformName = 'viewEntityTransform'+index
+        return `
+            const ${entityName} = ${entity.name}.components[params.COMPONENTS.CAMERA];
+            const ${transformName} = ${entity.name}.components[params.COMPONENTS.TRANSFORM];
+            
+            params.camera.position = ${transformName}.translation
+            params.camera.rotation = ${transformName}.rotationQuat
+    
+            params.camera.zFar = ${entityName}.zFar
+            params.camera.zNear = ${entityName}.zNear
+    
+            params.camera.fov = ${entityName}.fov
+            params.camera.aspectRatio = ${entityName}.aspectRatio
+    
+    
+            params.camera.updateViewMatrix()
+            params.camera.updateProjection()
+        `
     }
 }

@@ -18,16 +18,26 @@ export default class OnSpawn extends Node {
     get type() {
         return NODE_TYPES.START_POINT
     }
+    getFunctionCall() {
 
-    static compile({
-                       state,
-                       setState,
-        object
-                   }) {
-        if (!state.wasExecuted) {
-            setState(true, 'wasExecuted')
-            return object.execute
-        }
-        return []
+        return `
+            if(!this.state.spawned){
+                this.state.spawned = true
+                this.${this.classInstanceName}(params)
+            }  
+        `
+    }
+
+    async  getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionInstance( content='', index) {
+        this.classInstanceName = `onSpawn${index}`
+        return `
+            ${this.classInstanceName}(params){
+                ${content}
+            }
+        `
     }
 }

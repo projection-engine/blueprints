@@ -15,24 +15,7 @@ export default class EventTick extends Node {
     get type (){
         return NODE_TYPES.START_POINT
     }
-
-    getFunctionCall() {
-        return `
-           this.${this.classInstanceName}(params)
-        `
+    static compile({object}) {
+        return object.execute
     }
-
-    async  getInputInstance(index) {
-        return ''
-    }
-
-    getFunctionInstance( content='', index) {
-        this.classInstanceName = `eventTick${index}`
-        return `
-            eventTick${index}(params){
-                ${content}
-            }
-        `
-    }
-
 }

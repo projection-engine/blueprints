@@ -25,8 +25,9 @@ import handleDrop from "../../../pages/project/utils/utils/handleDrop";
 import {SHADING_MODELS} from "../../../pages/project/utils/hooks/useSettings";
 import CAMERA_TYPES from "../../../engine/editor/camera/CAMERA_TYPES";
 import ViewportOptions from "../../../components/viewport/ViewportOptions";
-import EntityReference from "./nodes/events/EntityReference";
+import EntityReference from "./nodes/utils/EntityReference";
 import LoaderProvider from "../../../components/loader/LoaderProvider";
+import compiler from "./compiler/compiler";
 
 export default function BlueprintView(props) {
     const settings = useContext(SettingsProvider)
@@ -63,8 +64,8 @@ export default function BlueprintView(props) {
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
                     disabled: true,
                     onClick: () => {
-                        const e = mapper(hook, engine, props.file)
-                        // TODO - find errors
+                        const e = compiler(hook.nodes, hook.links, hook.variables, hook.quickAccess.fileSystem)
+                        console.log(e)
                     }
                 },
                 {

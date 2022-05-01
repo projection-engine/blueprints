@@ -1,9 +1,10 @@
-import Node from '../../../components/Node'
+import Node from "../../../components/Node";
 import {DATA_TYPES} from "../../../components/DATA_TYPES";
 import NODE_TYPES from "../../../components/NODE_TYPES";
 
+
 export default class Print extends Node {
-    data = ''
+
     constructor() {
         super([
                 {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
@@ -17,16 +18,9 @@ export default class Print extends Node {
     get type() {
         return NODE_TYPES.VOID_FUNCTION
     }
-     getFunctionInstance() {
-        return ''
-    }
 
-    async  getInputInstance(index) {
-        return ''
+    static compile(tick, {data}, entities, attributes, nodeID, executors, setExecutors, renderTarget) {
+        renderTarget.innerText = JSON.stringify(data !== undefined ? data : executors[nodeID].data)
+        return attributes
     }
-
-    getFunctionCall({data}) {
-        return `console.log(${data ? data.name : this.data })`
-    }
-
 }

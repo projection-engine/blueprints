@@ -2,66 +2,24 @@ import {useContext, useEffect, useState} from "react";
 import QuickAccessProvider from "../../../../pages/project/utils/hooks/QuickAccessProvider";
 import EventTick from "../nodes/events/EventTick";
 import EVENTS from "../../../../pages/project/utils/utils/EVENTS";
-import GetWorldTranslation from "../nodes/transformation/GetWorldTranslation";
-import GetWorldRotation from "../nodes/transformation/GetWorldRotation";
-import SetWorldTranslation from "../nodes/transformation/SetWorldTranslation";
-import SetWorldRotation from "../nodes/transformation/SetWorldRotation";
-import QuaternionToEuler from "../nodes/transformation/QuaternionToEuler";
 import Getter from "../nodes/utils/Getter";
 import Setter from "../nodes/utils/Setter";
-import Add from "../nodes/operators/math/Add";
-import Subtract from "../nodes/operators/math/Subtract";
-import Divide from "../nodes/operators/math/Divide";
-import Multiply from "../nodes/operators/math/Multiply";
-import SetTransformationRelativeOrigin from "../nodes/transformation/SetTransformationRelativeOrigin";
-import SetLocalRotation from "../nodes/transformation/SetLocalRotation";
-import ToVector from "../nodes/operators/conversions/ToVector";
-import FromVector from "../nodes/operators/conversions/FromVector";
-import Print from "../nodes/utils/Print";
-import And from "../nodes/operators/boolean/And";
-import Branch from "../nodes/branches/Branch";
-import Equal from "../nodes/operators/boolean/Equal";
-import Greater from "../nodes/operators/boolean/Greater";
-import GreaterEqual from "../nodes/operators/boolean/GreaterEqual";
-import Less from "../nodes/operators/boolean/Less";
-import LessEqual from "../nodes/operators/boolean/LessEqual";
-import Nand from "../nodes/operators/boolean/Nand";
-import Nor from "../nodes/operators/boolean/Nor";
-import Not from "../nodes/operators/boolean/Not";
-import NotEqual from "../nodes/operators/boolean/NotEqual";
-import Or from "../nodes/operators/boolean/Or";
-import MouseX from "../nodes/events/MouseX";
-import MouseY from "../nodes/events/MouseY";
-import MousePosition from "../nodes/events/MousePosition";
-import EntityReference from "../nodes/events/EntityReference";
 import ProjectLoader from "../../../../pages/project/utils/workers/ProjectLoader";
 import COMPONENTS from "../../../../engine/templates/COMPONENTS";
 import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials";
-import Cos from "../nodes/operators/math/Cos";
-import Sin from "../nodes/operators/math/Sin";
-import ASin from "../nodes/operators/math/ASin";
-import ACos from "../nodes/operators/math/ACos";
-import ATan from "../nodes/operators/math/ATan";
-import Tan from "../nodes/operators/math/Tan";
-import Mod from "../nodes/operators/math/Mod";
-import Abs from "../nodes/operators/math/Abs";
-import KeyPress from "../nodes/events/KeyPress";
-import RotateVector from "../nodes/transformation/RotateVector";
-import GetCameraPosition from "../nodes/camera/GetCameraPosition";
-import GetCameraRotation from "../nodes/camera/GetCameraRotation";
-import SetCameraFOV from "../nodes/camera/SetCameraFOV";
-import SetCameraPosition from "../nodes/camera/SetCameraPosition";
-import SetCameraRotation from "../nodes/camera/SetCameraRotation";
-import UpdateCameraLookAt from "../nodes/camera/UpdateCameraLookAt";
-import UpdateCameraProjection from "../nodes/camera/UpdateCameraProjection";
 import SetViewTarget from "../nodes/camera/SetViewTarget";
 import OnSpawn from "../nodes/events/OnSpawn";
-import QuatRotateZ from "../nodes/operators/math/QuatRotateZ";
-import QuatRotateY from "../nodes/operators/math/QuatRotateY";
-import QuatRotateX from "../nodes/operators/math/QuatRotateX";
-import OnInterval from "../nodes/events/OnInterval";
-import FollowAround from "../nodes/camera/FollowAround";
 import useFlow from "../../components/hooks/useFlow";
+import EntityReference from "../nodes/utils/EntityReference";
+import Add from "../nodes/math/Add";
+import Print from "../nodes/utils/Print";
+import ConstantNumber from "../nodes/math/ConstantNumber";
+import GetCameraPosition from "../nodes/camera/GetCameraPosition";
+import SetCameraPosition from "../nodes/camera/SetCameraPosition";
+import Subtract from "../nodes/math/Subtract";
+import Multiply from "../nodes/math/Multiply";
+import Divide from "../nodes/math/Divide";
+import KeyPress from "../nodes/events/KeyPress";
 
 
 export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
@@ -100,75 +58,27 @@ export default function useScriptingView(file, engine = {}, load, isLevelBluepri
 
 
 const INSTANCES = {
-    [GetWorldTranslation.name]: () => new GetWorldTranslation(),
-    [GetWorldRotation.name]: () => new GetWorldRotation(),
-    [SetWorldTranslation.name]: () => new SetWorldTranslation(),
-    [SetWorldRotation.name]: () => new SetWorldRotation(),
 
-    [QuaternionToEuler.name]: () => new QuaternionToEuler(),
     [EventTick.name]: () => new EventTick(),
     [Getter.name]: () => new Getter(),
     [Setter.name]: () => new Setter(),
 
+
+    [SetViewTarget.name]: () => new SetViewTarget(),
+    [OnSpawn.name]: () => new OnSpawn(),
+    [EntityReference.name]: () => new EntityReference(),
+    [ConstantNumber.name]: () => new ConstantNumber(),
     [Add.name]: () => new Add(),
-    [Subtract.name]: () => new Subtract(),
-    [Divide.name]: () => new Divide(),
-    [Multiply.name]: () => new Multiply(),
-
-    [SetTransformationRelativeOrigin.name]: () => new SetTransformationRelativeOrigin(),
-    [SetLocalRotation.name]: () => new SetLocalRotation(),
-    [ToVector.name]: () => new ToVector(),
-    [FromVector.name]: () => new FromVector(),
-
     [Print.name]: () => new Print(),
 
 
-    [And.name]: () => new And(),
-    [Branch.name]: () => new Branch(),
-    [Equal.name]: () => new Equal(),
-    [Greater.name]: () => new Greater(),
-    [GreaterEqual.name]: () => new GreaterEqual(),
-    [Less.name]: () => new Less(),
-    [LessEqual.name]: () => new LessEqual(),
-    [Nand.name]: () => new Nand(),
-    [Nor.name]: () => new Nor(),
-    [Not.name]: () => new Not(),
-    [NotEqual.name]: () => new NotEqual(),
-    [Or.name]: () => new Or(),
-
-    [MouseX.name]: () => new MouseX(),
-    [MouseY.name]: () => new MouseY(),
-    [MousePosition.name]: () => new MousePosition(),
-    [EntityReference.name]: () => new EntityReference(),
-
-    [Cos.name]: () => new Cos(),
-    [Sin.name]: () => new Sin(),
-    [ASin.name]: () => new ASin(),
-    [ACos.name]: () => new ACos(),
-    [ATan.name]: () => new ATan(),
-    [Tan.name]: () => new Tan(),
-    [Mod.name]: () => new Mod(),
-    [Abs.name]: () => new Abs(),
-    [KeyPress.name]: () => new KeyPress(),
-    [RotateVector.name]: () => new RotateVector(),
     [GetCameraPosition.name]: () => new GetCameraPosition(),
-    [GetCameraRotation.name]: () => new GetCameraRotation(),
-    [SetCameraFOV.name]: () => new SetCameraFOV(),
     [SetCameraPosition.name]: () => new SetCameraPosition(),
-    [SetCameraRotation.name]: () => new SetCameraRotation(),
-    [UpdateCameraLookAt.name]: () => new UpdateCameraLookAt(),
-    [UpdateCameraProjection.name]: () => new UpdateCameraProjection(),
-    [SetViewTarget.name]: () => new SetViewTarget(),
-    [OnSpawn.name]: () => new OnSpawn(),
+    [Subtract.name]: () => new Subtract(),
+    [Multiply.name]: () => new Multiply(),
+    [Divide.name]: () => new Divide(),
 
-
-    [QuatRotateX.name]: () => new QuatRotateX(),
-    [QuatRotateY.name]: () => new QuatRotateY(),
-    [QuatRotateZ.name]: () => new QuatRotateZ(),
-
-    [OnInterval.name]: () => new OnInterval(),
-    [FollowAround.name]: () => new FollowAround()
-
+    [KeyPress.name]: () => new KeyPress(),
 }
 
 async function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, fileSystem, isLevelBlueprint) {

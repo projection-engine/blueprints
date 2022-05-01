@@ -13,7 +13,7 @@ export default class Setter extends Node {
             ],
             [
                 {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
-                {label: 'Value', key: 'setterValueRes', type: type}
+                {label: 'Value', key: 'newValue', type: type}
             ]);
         this.id = id
         this.size = 1
@@ -24,22 +24,6 @@ export default class Setter extends Node {
         return NODE_TYPES.SETTER
     }
 
-    getFunctionInstance() {
-        return ''
-    }
-
-    async  getInputInstance(index) {
-        return ''
-    }
-
-    getFunctionCall({value}, index) {
-        const id = this.id.split('/')[0]
-        this.setterValueRes = 'setterValueRes' + index
-        return `
-            this.state['${id}'] = ${value.name};
-            const ${this.setterValueRes} = this.state['${id}'];
-        `
-    }
     static compile(tick, {value}, entities, attributes, nodeID, executors, setExecutors) {
 
         setExecutors({

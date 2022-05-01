@@ -14,8 +14,10 @@ import mapper from "./compiler/mapper";
 import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
 
-import EntityReference from "./nodes/events/EntityReference";
+import EntityReference from "./nodes/utils/EntityReference";
 import LoaderProvider from "../../../components/loader/LoaderProvider";
+import compiler from "./compiler/compiler";
+import ScriptSystem from "../../../engine/ecs/systems/ScriptSystem";
 
 export default function MinimalBlueprintView(props) {
     const load = useContext(LoaderProvider)
@@ -37,26 +39,28 @@ export default function MinimalBlueprintView(props) {
                     label: 'Compile',
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
-                    onClick: () => {
-                        // TODO - find errors
+                    onClick: async () => {
+                        const e = await compiler(hook.nodes, hook.links, hook.variables, hook.quickAccess.fileSystem)
+                        try{
+                            ScriptSystem.parseScript(e)
+                        }catch (err){
+                            // TODO - SAVE ERROS AND DO ALERT
+                        }
                     }
                 },
                 {
                     label: 'Save',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
-                    onClick: () => {
+                    onClick: async () => {
                         hook.setChanged(false)
                         hook.setImpactingChange(false)
-                        props.submitPackage(mapper(hook, props.engine, {id: props.id, name: props.name}, true), false)
+                        props.submitPackage(await mapper(hook, props.engine, {id: props.id, name: props.name}, true), false)
                     }
                 },
                 {
                     label: 'Save & close',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
-                    onClick: () => props.submitPackage(mapper(hook, props.engine, {
-                        id: props.id,
-                        name: props.name
-                    }, true), true)
+                    onClick: async () => props.submitPackage(await mapper(hook, props.engine, {id: props.id, name: props.name}, true), true)
                 }
             ],
             props.name,
@@ -73,7 +77,7 @@ export default function MinimalBlueprintView(props) {
     useHotKeys({
         focusTarget: props.id + '-board-wrapper',
         disabled: controlProvider.tab !== props.index,
-        actions: getHotKeys(hook, props, toCopy, setToCopy)
+        actions: getHotKeys(hook, props, toCopy, setToCopy, props.engine, {id: props.id, name: props.name}, true)
     })
 
     const availableNodes = useMemo(() => {

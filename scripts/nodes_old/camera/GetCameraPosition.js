@@ -10,9 +10,9 @@ export default class GetCameraPosition extends Node {
             {label: 'Start', key: 'start', accept: [DATA_TYPES.EXECUTION]},
         ], [
             {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
-            {label: 'X', key: 'xRes', type: DATA_TYPES.NUMBER},
-            {label: 'Y', key: 'yRes', type: DATA_TYPES.NUMBER},
-            {label: 'Z', key: 'zRes', type: DATA_TYPES.NUMBER},
+            {label: 'X', key: 'x', type: DATA_TYPES.NUMBER},
+            {label: 'Y', key: 'y', type: DATA_TYPES.NUMBER},
+            {label: 'Z', key: 'z', type: DATA_TYPES.NUMBER},
         ]);
         this.name = 'GetCameraPosition'
         this.size = 2
@@ -22,19 +22,14 @@ export default class GetCameraPosition extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-    getFunctionInstance() {
-        return ''
-    }
+    static compile(tick, {cameraRoot}, entities, attributes, nodeID) {
 
-    async getInputInstance(index) {
-        return ''
-    }
 
-    getFunctionCall(_, index) {
-        this.xRes = 'xRes' + index
-        this.yRes = 'yRes' + index
-        this.zRes = 'zRes' + index
+        attributes[nodeID] = {}
+        attributes[nodeID].x = cameraRoot.position[0]
+        attributes[nodeID].y = cameraRoot.position[1]
+        attributes[nodeID].z = cameraRoot.position[2]
 
-        return `const [${this.xRes},${this.yRes},${this.zRes}] = params.camera.position;`
+        return attributes
     }
 }

@@ -21,19 +21,12 @@ export default class SetCameraPosition extends Node {
         return NODE_TYPES.VOID_FUNCTION
     }
 
-    getFunctionInstance() {
-        return ''
-    }
+    static compile(tick, {x, y, z, cameraRoot}, entities, attributes) {
 
-    async getInputInstance(index) {
-        return ''
-    }
+        cameraRoot.position[0] = x
+        cameraRoot.position[1] = y
+        cameraRoot.position[2] = z
 
-    getFunctionCall({x, y, z}) {
-        return `
-            params.camera.position = [${x.name},${y.name},${z.name}]
-            params.camera.updateViewMatrix()
-        `
+        return attributes
     }
-
 }
