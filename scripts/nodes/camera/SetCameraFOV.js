@@ -20,10 +20,19 @@ export default class SetCameraFOV extends Node {
     get type() {
         return NODE_TYPES.VOID_FUNCTION
     }
-
-    static compile(tick, {fov, cameraRoot}, entities, attributes) {
-        cameraRoot.fov = fov
-        cameraRoot.updateProjection()
-        return attributes
+    getFunctionInstance() {
+        return ''
     }
+
+    async getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionCall({fov}, index) {
+        return `
+        params.camera.fov = ${fov.name}
+        params.camera.updateProjection()
+        `
+    }
+
 }

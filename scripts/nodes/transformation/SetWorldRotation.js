@@ -20,9 +20,21 @@ export default class SetWorldRotation extends Node {
         return NODE_TYPES.VOID_FUNCTION
     }
 
-    static compile(tick, {rotation, entity}, entities, attributes, nodeID) {
 
-        entity.components[COMPONENTS.TRANSFORM].rotationQuat = rotation
-        return attributes
+
+    getFunctionInstance() {
+        return ''
+    }
+
+    async getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionCall({rotation, entity}) {
+        if (rotation && entity)
+            return `
+               ${entity.name}.components[params.COMPONENTS.TRANSFORM].rotationQuat = ${rotation.name}
+            `
+        return ''
     }
 }

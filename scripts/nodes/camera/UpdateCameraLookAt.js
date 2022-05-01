@@ -18,9 +18,17 @@ export default class UpdateCameraLookAt extends Node {
     get type() {
         return NODE_TYPES.VOID_FUNCTION
     }
+    getFunctionInstance() {
+        return ''
+    }
 
-    static compile(tick, {cameraRoot}, entities, attributes) {
-        cameraRoot.updateViewMatrix()
-        return attributes
+    async getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionCall() {
+        return `
+            params.camera.updateViewMatrix()
+        `
     }
 }

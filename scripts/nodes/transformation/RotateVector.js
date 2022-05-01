@@ -13,7 +13,7 @@ export default class RotateVector extends Node {
                 {label: 'Vector', key: 'b', accept: [DATA_TYPES.VEC3, DATA_TYPES.VEC4]}
             ],
             [
-                {label: 'Result', key: 'res', type: DATA_TYPES.BOOL}
+                {label: 'Result', key: 'resRotate', type: DATA_TYPES.VEC3}
             ],
         );
         this.name = 'RotateVector'
@@ -22,11 +22,22 @@ export default class RotateVector extends Node {
     get type (){
         return NODE_TYPES.FUNCTION
     }
-    static compile(tick, {a, b},  entities, attributes, nodeID) {
 
-        attributes[nodeID] = {}
-        attributes[nodeID].res = (b.length === 3 ? vec3 : vec4).transformQuat([], b, a)
 
-        return attributes
+    getFunctionInstance() {
+        return ''
+    }
+
+    async getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionCall({a, b}, index) {
+        this.resRotate = 'resRotate' + index
+        if (a && b)
+            return `
+                const ${this.resRotate} = params.glMatrix.vec3.transformQuat([], ${b.name}, ${a.name})
+            `
+        return ''
     }
 }

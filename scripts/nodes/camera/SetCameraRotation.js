@@ -20,9 +20,18 @@ export default class SetCameraRotation extends Node {
     get type() {
         return NODE_TYPES.VOID_FUNCTION
     }
+    getFunctionInstance() {
+        return ''
+    }
 
-    static compile(tick, {rot, cameraRoot}, entities, attributes) {
-        cameraRoot.rotation = quat.normalize([], rot)
-        return attributes
+    async getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionCall({rot}, index) {
+        return `
+        params.camera.rotation = params.glMatrix.quat.normalize([], ${rot.name})
+        params.camera.updateViewMatrix()
+        `
     }
 }

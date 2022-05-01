@@ -22,18 +22,26 @@ export default class OnInterval extends Node {
         return NODE_TYPES.START_POINT
     }
 
-    static compile({inputs, state, setState, object, executors, nodeID}) {
+    getFunctionCall() {
 
-        if (!state.timeoutSet) {
-            setState(true, 'timeoutSet')
+        return `
+            if(!this.state.spawnedInterval){
+                this.state.spawnedInterval = true
+                this.${this.classInstanceName}(params)
+            }  
+        `
+    }
 
-            setInterval(() => setState(true, 'canContinue'), [executors[nodeID].interval])
-        }
-        if (state.canContinue) {
-            setState(false, 'canContinue')
-            return object.execute
-        }
+    async  getInputInstance(index) {
+        return ''
+    }
 
-        return []
+    getFunctionInstance( content='', index) {
+        this.classInstanceName = `onInterval${index}`
+        return `
+            ${this.classInstanceName}(params){
+                ${content}
+            }
+        `
     }
 }

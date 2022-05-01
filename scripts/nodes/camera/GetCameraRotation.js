@@ -11,7 +11,7 @@ export default class GetCameraRotation extends Node {
 
         ], [
             {label: 'Execute', key: 'EXECUTION', type: DATA_TYPES.EXECUTION},
-            {label: 'Rotation', key: 'rot', type: DATA_TYPES.VEC4},
+            {label: 'Rotation', key: 'camRotRes', type: DATA_TYPES.VEC4},
 
         ]);
         this.name = 'GetCameraRotation'
@@ -21,11 +21,17 @@ export default class GetCameraRotation extends Node {
     get type() {
         return NODE_TYPES.FUNCTION
     }
-
-    static compile(tick, {cameraRoot}, entities, attributes, nodeID) {
-        attributes[nodeID] = {
-            rot: cameraRoot.rotation
-        }
-        return attributes
+    getFunctionInstance() {
+        return ''
     }
+
+    async getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionCall(_, index) {
+        this.camRotRes = 'camRotRes'+index
+        return `const ${this.camRotRes} = params.camera.rotation;`
+    }
+
 }

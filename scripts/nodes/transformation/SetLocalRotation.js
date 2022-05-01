@@ -22,6 +22,7 @@ export default class SetLocalRotation extends Node {
     get type() {
         return NODE_TYPES.VOID_FUNCTION
     }
+
     static  compile(tick, {quat, euler, entity}, entities, attributes, nodeID) {
         if (quat)
             entity.components[COMPONENTS.TRANSFORM].rotationQuat = quat

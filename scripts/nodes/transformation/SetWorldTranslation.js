@@ -24,8 +24,22 @@ export default class SetWorldTranslation extends Node {
         return NODE_TYPES.VOID_FUNCTION
     }
 
-    static compile(tick, {x, y, z, entity}, entities, attributes, nodeID) {
-        entity.components[COMPONENTS.TRANSFORM].translation = [x, y, z]
-        return attributes
+
+
+
+    getFunctionInstance() {
+        return ''
+    }
+
+    async getInputInstance(index) {
+        return ''
+    }
+
+    getFunctionCall({x, y, z, entity}) {
+        if (x && y && z && entity)
+            return `
+               ${entity.name}.components[params.COMPONENTS.TRANSFORM].translation = [${x.name}, ${y.name}, ${z.name}]
+            `
+        return ''
     }
 }
