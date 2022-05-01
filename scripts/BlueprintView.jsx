@@ -179,7 +179,8 @@ export default function BlueprintView(props) {
                         id={props.file.registryID}
                         showPosition={false}
                         handleDrop={event => handleDrop(event, hook.quickAccess.fileSystem, engine, setAlert, load, false, true)}
-                        engine={engine}/>
+                        engine={engine}
+                    />
                 </div>
 
                     <Board

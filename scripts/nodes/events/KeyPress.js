@@ -51,8 +51,7 @@ export default class KeyPress extends Node {
                 this.state['${this.key}Pressed'] = false
                   if( this.${this.onRelease})
                     this.${this.onRelease}(params)
-           }
-            
+           } 
         `
     }
 
