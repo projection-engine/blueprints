@@ -43,8 +43,16 @@ import DDX from "./nodes/math/DDX";
 import SineH from "./nodes/math/SineH";
 import CosineH from "./nodes/math/CosineH";
 import Cosine from "./nodes/math/Cosine";
+import MakeVector from "./nodes/vec/MakeVector";
 
 export const allNodes = [
+    {
+        label: 'MakeVector',
+        dataTransfer: 'MakeVector',
+        tooltip: 'MakeVector.',
+        icon: <span className={'material-icons-round'}>plus</span>,
+        getNewInstance: () => new MakeVector()
+    },
     {
         label: 'Cosine',
         dataTransfer: 'Cosine',

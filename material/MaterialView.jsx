@@ -18,6 +18,8 @@ import MaterialInstance from "../../../engine/instances/MaterialInstance";
 import {IDS} from "../../../engine/useMinimalEngine";
 import CompilationStatus from "./components/CompilationStatus";
 import {trimString} from "../../../engine/utils/Shader";
+import {vertex} from "../../../engine/shaders/mesh/meshDeferred.glsl";
+import {vertex as fwVertex} from "../../../engine/shaders/mesh/forwardMesh.glsl";
 
 
 export default function MaterialView(props) {
@@ -34,18 +36,19 @@ export default function MaterialView(props) {
         props.setAlert({message: 'Compiling shaders', type: 'info'})
         hook.setImpactingChange(false)
         compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
-            .then(({shader, uniforms, uniformData, settings, info}) => {
+            .then(({shader,  vertexShader, uniforms, uniformData, settings, info}) => {
+                const v = settings.isForwardShaded ? fwVertex : vertex
                 if (shader) {
                     const prev = hook.engine.material
                     let promise, newMat
                     if (!prev)
                         promise = new Promise(resolve => {
-                            newMat = new MaterialInstance(hook.engine.gpu, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
+                            newMat = new MaterialInstance(hook.engine.gpu, v, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
                         })
                     else {
                         newMat = prev
                         promise = new Promise(resolve => {
-                            newMat.shader = [shader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
+                            newMat.shader = [shader, v, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
                         })
                     }
                     promise.then((message) => {
@@ -68,7 +71,7 @@ export default function MaterialView(props) {
                                                     s.shift()
                                                     const [start, end] = s.join('').split(':')
                                                     if (!parsed.includes(end)) {
-                                                        console.log(shaderSplit)
+
                                                         data.lines = shaderSplit.slice(end - 9, end - 8)
                                                         parsed.push(end)
                                                         data.error = 'ERROR' + m

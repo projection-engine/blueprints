@@ -36,6 +36,7 @@ import Max from "../nodes/math/Max";
 import Min from "../nodes/math/Min";
 import OneMinus from "../nodes/math/OneMinus";
 import Clamp from "../nodes/math/Clamp";
+import MakeVector from "../nodes/vec/MakeVector";
 import Saturate from "../nodes/math/Saturate";
 import Saturation from "../nodes/math/Saturation";
 import Pow from "../nodes/math/Pow";
@@ -132,7 +133,9 @@ const INSTANCES = {
     [Clamp.name]: () => new Clamp(),
 
     [Saturation.name]: () => new Saturation(),
-    [Pow.name]: () => new Pow()
+    [Pow.name]: () => new Pow(),
+    [MakeVector.name]: () => new MakeVector(),
+
 }
 
 function parse(file, quickAccess, setNodes, setLinks, engine, load) {

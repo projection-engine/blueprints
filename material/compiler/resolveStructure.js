@@ -1,4 +1,4 @@
-export default function resolveStructure(currentNode, outputs, links, nodes, body) {
+export default function resolveStructure(currentNode, outputs, links, nodes, body, isVertex) {
     const inputs = {}
     const linksToResolve = links.filter(l => l.target.id === currentNode.id)
     linksToResolve.forEach(link => {
@@ -12,6 +12,6 @@ export default function resolveStructure(currentNode, outputs, links, nodes, bod
             type: link.source.attribute.type
         }
     })
-    body.push(currentNode.getFunctionCall(inputs, nodes.findIndex(n => n.id === currentNode.id), outputs, body))
+    body.push(currentNode.getFunctionCall(inputs, nodes.findIndex(n => n.id === currentNode.id), outputs, body, isVertex))
     currentNode.ready = true
 }

@@ -44,7 +44,6 @@ export default class Swizzle extends Node {
                 {label: 'Z', key: 'z', type: DATA_TYPES.FLOAT, color: 'blue', disabled: v === 'vec2'},
                 {label: 'W', key: 'w', type: DATA_TYPES.FLOAT, color: 'white', disabled: v === 'vec2' || v === 'vec3'},
             ]
-
         }
         this.name = 'Swizzle'
         this.size = 1
