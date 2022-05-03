@@ -1,7 +1,7 @@
 import Node from "../../../components/Node";
 import {DATA_TYPES} from "../../../components/DATA_TYPES";
 import NODE_TYPES from "../../../components/NODE_TYPES";
-import {KEYS} from "../../../../../pages/project/utils/hooks/useHotKeys";
+import {KEYS} from "../../../../../pages/project/hooks/useHotKeys";
 
 
 export default class KeyPress extends Node {

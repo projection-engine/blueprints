@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import styles from '../styles/Group.module.css'
 import React, {useEffect, useMemo, useState} from 'react'
 import useGroup from "../hooks/useGroup";
-import {KEYS} from "../../../../pages/project/utils/hooks/useHotKeys";
+import {KEYS} from "../../../../pages/project/hooks/useHotKeys";
 
 export default function Group(props) {
     const [onEdit, setOnEdit] = useState(false)

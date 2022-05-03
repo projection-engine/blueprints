@@ -37,18 +37,18 @@ export default function MaterialView(props) {
         hook.setImpactingChange(false)
         compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
             .then(({shader,  vertexShader, uniforms, uniformData, settings, info}) => {
-                const v = settings.isForwardShaded ? fwVertex : vertex
+
                 if (shader) {
                     const prev = hook.engine.material
                     let promise, newMat
                     if (!prev)
                         promise = new Promise(resolve => {
-                            newMat = new MaterialInstance(hook.engine.gpu, v, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
+                            newMat = new MaterialInstance(hook.engine.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
                         })
                     else {
                         newMat = prev
                         promise = new Promise(resolve => {
-                            newMat.shader = [shader, v, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
+                            newMat.shader = [shader, vertexShader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
                         })
                     }
                     promise.then((message) => {

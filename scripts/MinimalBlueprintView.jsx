@@ -6,7 +6,7 @@ import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import PropTypes from "prop-types";
 import ControlProvider from "../../../components/tabs/components/ControlProvider";
 import ResizableBar from "../../../components/resizable/ResizableBar";
-import useHotKeys from "../../../pages/project/utils/hooks/useHotKeys";
+import useHotKeys from "../../../pages/project/hooks/useHotKeys";
 import {allNodes} from "./templates/AllNodes";
 import NodeEditor from "./components/NodeEditor";
 import Structure from "./components/Structure";

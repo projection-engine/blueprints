@@ -1,4 +1,4 @@
-import {KEYS} from "../../../../pages/project/utils/hooks/useHotKeys";
+import {KEYS} from "../../../../pages/project/hooks/useHotKeys";
 import createGroupShortcut from "../../components/utils/createGroupShortcut";
 import mapper from "../compiler/mapper";
 import EventTick from "../nodes/events/EventTick";
