@@ -66,11 +66,7 @@ export default function useMaterialView(file,setAlert) {
 
     }, [file, engine.gpu, engine.meshes])
 
-    useEffect(() => {
 
-            setImpactingChange(true)
-
-    }, [links])
     return {
 
         realTime, setRealTime,

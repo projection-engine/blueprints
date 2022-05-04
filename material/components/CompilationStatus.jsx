@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {Tab, Tabs} from "@f-ui/core";
 import {useState} from "react";
 import AccordionTemplate from "../../../../components/accordion/AccordionTemplate";
+import React from 'react'
 
 export default function CompilationStatus(props) {
     const {status} = props
@@ -11,10 +12,12 @@ export default function CompilationStatus(props) {
         <div className={styles.wrapper}>
             <Tabs open={open} setOpen={setOpen} styles={{padding: '4px'}}>
                 <Tab label={'Information'} className={styles.content}>
-                    {status.info && status.info.length > 0 ? status.info.map(s => (
-                            <AccordionTemplate title={s?.label}>
-                                {s.data}
-                            </AccordionTemplate>
+                    {status.info && status.info.length > 0 ? status.info.map((s, i) => (
+                            <React.Fragment key={'line-status-data' + i}>
+                                <AccordionTemplate title={s?.label}>
+                                    {s.data}
+                                </AccordionTemplate>
+                            </React.Fragment>
                         ))
                         :
                         <div className={styles.empty}>
@@ -26,15 +29,15 @@ export default function CompilationStatus(props) {
                 <Tab label={'Errors'} className={styles.content}>
                     {status.messages && status.messages.length > 0 ? status.messages.map(s => (
                             <AccordionTemplate title={s?.label}>
-                                {s.lines.map(l => (
-                                    <>
+                                {s.lines.map((l, i) => (
+                                    <React.Fragment key={'line-status-' + i}>
                                         <div className={styles.row} style={{whiteSpace: 'nowrap', overflowX: 'auto'}}>
                                             {l}
                                         </div>
                                         <div className={styles.row} style={{background: 'unset'}}>
-                                        {s.error}
+                                            {s.error}
                                         </div>
-                                    </>
+                                    </React.Fragment>
                                 ))}
                             </AccordionTemplate>
                         )) :

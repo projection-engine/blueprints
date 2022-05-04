@@ -27,6 +27,7 @@ export default function MaterialView(props) {
     const [status, setStatus] = useState({})
 
     const hook = useMaterialView(props.file, props.setAlert)
+
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n instanceof Material)
     }, [hook.nodes])
@@ -35,8 +36,9 @@ export default function MaterialView(props) {
     const compileShaders = () => {
         props.setAlert({message: 'Compiling shaders', type: 'info'})
         hook.setImpactingChange(false)
+        console.log(hook.nodes, hook.links)
         compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
-            .then(({shader,  vertexShader, uniforms, uniformData, settings, info}) => {
+            .then(({shader, vertexShader, uniforms, uniformData, settings, info}) => {
 
                 if (shader) {
                     const prev = hook.engine.material
@@ -93,10 +95,14 @@ export default function MaterialView(props) {
                 }
             })
     }
+    const [init, setInit] = useState(false)
     useEffect(() => {
-        if (hook.impactingChange && hook.realTime && hook.engine.renderer)
+        if ((!init && hook.links.length > 0 || hook.impactingChange && hook.realTime) && hook.engine.renderer) {
+            if (!init)
+                setInit(true)
             compileShaders()
-    }, [hook.impactingChange, hook.engine.renderer, hook.realTime])
+        }
+    }, [hook.impactingChange, hook.engine.renderer, hook.realTime, hook.links])
     useEffect(() => {
         controlProvider.setTabAttributes([
                 {

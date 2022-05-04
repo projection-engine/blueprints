@@ -55,10 +55,14 @@ export default async function compiler(n, links, fileSystem) {
 
         let vertexBody = []
         nodes = n.map(nn => cloneClass(nn))
-        console.log(links.filter(l => l.target.id !== startPoint.id || l.target.id === startPoint.id && l.target.attribute.key === 'worldOffset'))
         resolveStructure(startPoint, [], links.filter(l => l.target.id !== startPoint.id || l.target.id === startPoint.id && l.target.attribute.key === 'worldOffset'), nodes, vertexBody, true)
         vertexBody = vertexBody.join('\n')
         const v = startPoint.isForwardShaded ? fwVertex : vertex
+
+        console.log(
+            uniforms,
+            uniformData,
+        )
         return {
             info: [{key: 'samplers', label: 'Texture samplers', data: samplers.length}, {
                 key: 'uniforms',

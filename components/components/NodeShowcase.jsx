@@ -16,31 +16,17 @@ export default function NodeShowcase(props) {
                 }
             else
                 return null
-        }).filter(n => n !== null)
+        }).filter(n => n !== null)[0]
     }, [props.node])
 
-    if (attributesToRender.length > 0)
+    if (attributesToRender > 0)
         return (
             <div className={styles.showcase}>
-                {attributesToRender.map((a, i) =>
-                    a.type === DATA_TYPES.TEXTURE ?
-                        <TexturePreview path={props.path} node={props.node} attribute={a}/>
-                        // <div className={styles.showcaseWrapper} key={props.node.id + '-input-' + i}
-                        //      style={{background: a.value?.preview ? undefined : 'black'}}>
-                        //
-                        //     {a.value?.preview ?
-                        //         <img ref={ref} src={a.value?.preview} alt={a.label}/>
-                        //
-                        //         :
-                        //         <div className={styles.error}>
-                        //             Missing texture
-                        //         </div>
-                        //     }
-                        // </div>
-                        :
-                        <div className={styles.showcaseWrapper} style={{background: a.value}}
-                             key={props.node.id + '-input-' + i}/>
-                )}
+                {attributesToRender.type === DATA_TYPES.TEXTURE ?
+                    <TexturePreview path={props.path} node={props.node} attribute={attributesToRender}/>
+                    :
+                    <div className={styles.showcaseWrapper} style={{background: attributesToRender.value}}/>
+                }
             </div>
         )
     else
@@ -63,7 +49,7 @@ function TexturePreview(props) {
                     Missing texture
                 </div>
             </Preview>
-            {/*<img ref={ref} src={undefined} alt={'Texture'}/>*/}
+
         </div>
     )
 }
