@@ -3,7 +3,9 @@ export default {
     
 precision highp float;
 // IN
+#define MAX_POINT_LIGHTS 24
 #define MAX_LIGHTS 2
+
 in vec4 vPosition;
 in  vec2 texCoord;
 in mat3 toTangentSpace;
@@ -13,10 +15,15 @@ in mat4 dirLightPOV[MAX_LIGHTS];
 
 uniform vec3 cameraVec;
 
-uniform vec3 lightPosition[MAX_LIGHTS];
-uniform vec3 lightColor[MAX_LIGHTS];
-uniform vec3 lightAttenuationFactors[MAX_LIGHTS];
+// [
+//    POSITION [0][0] [0][1] [0][2] EMPTY
+//    COLOR [1][0] [1][1] [1][2]  EMPTY
+//    ATTENUATION [2][0] [2][1] [2][2] EMPTY
+//    zFar [3][0] zNear [3][1] hasShadowMap [3][2] EMPTY
+// ] = mat4
+uniform mat4 pointLightData[MAX_POINT_LIGHTS];
 uniform int lightQuantity;
+
 struct DirectionalLight {
     vec3 direction;
     vec3 ambient;
@@ -47,6 +54,10 @@ const float PI = 3.14159265359;
 @import(computeDirectionalLight)
         `,
     wrapper: (body, ambient) => `
+
+
+@import(computePointLight)
+
 void main(){
     ${body}
     vec3 fragPosition = vPosition.xyz;  
@@ -85,30 +96,11 @@ void main(){
     }
  
     for (int i = 0; i < lightQuantity; ++i){
-        vec3 L = normalize(lightPosition[i] - fragPosition);
-        vec3 H = normalize(V + L);
-        float distance    = length(lightPosition[i] - fragPosition);
-        float attFactor = 1.0 / (lightAttenuationFactors[i].x + (lightAttenuationFactors[i].y * distance) + (lightAttenuationFactors[i].z * distance * distance));
-        vec3 radiance     = lightColor[i] * attFactor;
-
-        float NDF = distributionGGX(normal, H, roughness);
-        float G   = geometrySmith(normal, V, L, roughness);
-        vec3 F    = fresnelSchlick(max(dot(H, V), 0.0), F0);
-
-        vec3 kS = F;
-        vec3 kD = vec3(1.0) - kS;
-        kD *= 1.0 - metallic;
-
-        vec3 numerator    = NDF * G * F;
-        float denominator = 4.0 * max(dot(normal, V), 0.0) * max(dot(normal, L), 0.0) + 0.0001;
-        vec3 specular     = numerator / denominator;
-
-        float NdotL = max(dot(normal, L), 0.0);
-        
-        Lo += (kD * albedo / PI + specular) * radiance * NdotL;
+            vec4 currentLightData = computePointLights(pointLightData[i],  fragPosition, V, N, quantityToDivide, roughness, metallic, albedo, F0, i);
+            Lo += currentLightData.rgb;
+            shadows += currentLightData.a;    
     }
 
-    
    ${ambient ? `
     vec3 diffuse = vec3(0.);
     vec3 specular = vec3(0.);

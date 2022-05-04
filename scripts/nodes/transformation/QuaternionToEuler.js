@@ -1,5 +1,5 @@
 import Node from "../../../components/Node";
-import Transformation from "../../../../../engine/utils/Transformation";
+import Transformation from "../../../../../engine/instances/Transformation";
 import {DATA_TYPES} from "../../../components/DATA_TYPES";
 import NODE_TYPES from "../../../components/NODE_TYPES";
 
