@@ -15,7 +15,7 @@ import Make from "./utils/Make";
 import Material from "./nodes/Material";
 
 import MaterialInstance from "../../../engine/instances/MaterialInstance";
-import {IDS} from "../../../engine/useMinimalEngine";
+import {IDS} from "../../../engine/hooks/useMinimalEngine";
 import CompilationStatus from "./components/CompilationStatus";
 import {trimString} from "../../../engine/utils/Shader";
 import {vertex} from "../../../engine/shaders/mesh/meshDeferred.glsl";
