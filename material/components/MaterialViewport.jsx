@@ -3,7 +3,7 @@ import {useRef, useState} from "react";
 import styles from "../styles/MaterialViewport.module.css";
 import {Button, ToolTip} from "@f-ui/core";
 import {ENTITY_ACTIONS} from "../../../../engine/hooks/useEngineEssentials";
-import MeshComponent from "../../../../engine/ecs/components/MeshComponent";
+import MeshComponent from "../../../../engine/components/MeshComponent";
 import PropTypes from "prop-types";
 import Viewport from "../../../../components/viewport/Viewport";
 

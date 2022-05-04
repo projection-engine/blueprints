@@ -17,7 +17,7 @@ import getAvailableNodes from "./utils/getAvailableNodes";
 import EntityReference from "./nodes/utils/EntityReference";
 import LoaderProvider from "../../../components/loader/LoaderProvider";
 import compiler from "./compiler/compiler";
-import ScriptSystem from "../../../engine/ecs/systems/ScriptSystem";
+import ScriptSystem from "../../../engine/systems/ScriptSystem";
 
 export default function MinimalBlueprintView(props) {
     const load = useContext(LoaderProvider)
