@@ -7,7 +7,7 @@ import {DATA_TYPES} from "../../components/DATA_TYPES";
 import deleteNode from "../../components/utils/deleteNode";
 import NODE_TYPES from "../../components/NODE_TYPES";
 import mapToView from "../../../scene/utils/mapToView";
-import {ENTITY_ACTIONS} from "../../../../engine/hooks/useEngineEssentials";
+import {ENTITY_ACTIONS} from "../../../../pages/project/hooks/useEngineEssentials";
 import TreeView from "../../../../components/tree/TreeView";
 
 import {v4 as uuidv4} from 'uuid';

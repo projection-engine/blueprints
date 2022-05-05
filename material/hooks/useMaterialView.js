@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import QuickAccessProvider from "../../../../pages/project/hooks/QuickAccessProvider";
 import EVENTS from "../../../../pages/project/utils/EVENTS";
-import useMinimalEngine from "../../../../engine/hooks/useMinimalEngine";
+import useMinimalEngine from "../../../../pages/project/hooks/useMinimalEngine";
 import useFlow from "../../components/hooks/useFlow";
 import Material from "../nodes/Material";
 import TextureSample from "../nodes/TextureSample";

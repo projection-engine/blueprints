@@ -6,7 +6,7 @@ import Getter from "../nodes/utils/Getter";
 import Setter from "../nodes/utils/Setter";
 import ProjectLoader from "../../../../pages/project/workers/ProjectLoader";
 import COMPONENTS from "../../../../engine/templates/COMPONENTS";
-import {ENTITY_ACTIONS} from "../../../../engine/hooks/useEngineEssentials";
+import {ENTITY_ACTIONS} from "../../../../pages/project/hooks/useEngineEssentials";
 import SetViewTarget from "../nodes/camera/SetViewTarget";
 import OnSpawn from "../nodes/events/OnSpawn";
 import useFlow from "../../components/hooks/useFlow";
