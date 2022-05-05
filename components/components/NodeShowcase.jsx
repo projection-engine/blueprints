@@ -14,12 +14,11 @@ export default function NodeShowcase(props) {
                     label: n.label,
                     value: props.node[n.key]
                 }
-            else
-                return null
+            return null
         }).filter(n => n !== null)[0]
     }, [props.node])
 
-    if (attributesToRender > 0)
+    if (attributesToRender !== undefined)
         return (
             <div className={styles.showcase}>
                 {attributesToRender.type === DATA_TYPES.TEXTURE ?

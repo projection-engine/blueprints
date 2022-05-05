@@ -1,6 +1,11 @@
 import Node from '../../components/Node'
 import {DATA_TYPES} from "../../components/DATA_TYPES";
 import NODE_TYPES from "../../components/NODE_TYPES";
+import MATERIAL_TYPES from "../../../../engine/templates/MATERIAL_TYPES";
+import MATERIAL_RENDERING_TYPES from "../../../../engine/templates/MATERIAL_RENDERING_TYPES";
+import forwardTemplate from "../compiler/forwardTemplate";
+import deferredTemplate from "../compiler/deferredTemplate";
+import unlitTemplate from "../compiler/unlitTemplate";
 
 const blendOptions = [
     {label: 'ZERO', data: 'ZERO'},
@@ -22,7 +27,7 @@ const blendOptions = [
 const cullFaceOptions = [{data: 'FRONT', label: 'FRONT',}, {data: 'BACK', label: 'BACK',}]
 export default class Material extends Node {
     ambientInfluence = true
-    isForwardShaded = false
+    shadingType = MATERIAL_RENDERING_TYPES.DEFERRED
     rsmAlbedo
 
     canBeDeleted = false
@@ -54,9 +59,13 @@ export default class Material extends Node {
 
             {
                 label: 'Rendering type',
-                key: 'isForwardShaded',
+                key: 'shadingType',
                 type: DATA_TYPES.OPTIONS,
-                options: [{label: 'Forward rendering', data: true}, {label: 'Deferred rendering', data: false}]
+                options: [
+                    {label: 'Forward lit', data: MATERIAL_RENDERING_TYPES.FORWARD},
+                    {label: 'Deferred lit', data: MATERIAL_RENDERING_TYPES.DEFERRED},
+                    {label: 'Unlit', data: MATERIAL_RENDERING_TYPES.UNLIT}
+                ]
             },
 
 
@@ -69,9 +78,30 @@ export default class Material extends Node {
             {label: 'Blend function source', key: 'blendFuncSource', type: DATA_TYPES.OPTIONS, options: blendOptions.filter(f => f.data.includes('SRC') || !f.data.includes('DST'))},
             {label: 'CullFace', key: 'cullFace', type: DATA_TYPES.OPTIONS, options: cullFaceOptions}
         ], []);
-        this.inputs.find(i => i.key === 'isForwardShaded').onChange = (v) => {
-            this.inputs.find(i => i.key === 'refraction').disabled = !v
-            this.inputs.find(i => i.key === 'opacity').disabled = !v
+        this.inputs.find(i => i.key === 'shadingType').onChange = (v) => {
+            switch (v){
+                case MATERIAL_RENDERING_TYPES.FORWARD:
+                    this.inputs.find(i => i.key === 'refraction').disabled = false
+                    this.inputs.find(i => i.key === 'opacity').disabled = false
+                    this.inputs.find(i => i.key === 'roughness').disabled =false
+                    this.inputs.find(i => i.key === 'metallic').disabled = false
+                    this.inputs.find(i => i.key === 'normal').disabled = false
+                    break
+                case MATERIAL_RENDERING_TYPES.DEFERRED:
+                    this.inputs.find(i => i.key === 'refraction').disabled = true
+                    this.inputs.find(i => i.key === 'opacity').disabled = true
+
+                    this.inputs.find(i => i.key === 'roughness').disabled =false
+                    this.inputs.find(i => i.key === 'metallic').disabled = false
+                    this.inputs.find(i => i.key === 'normal').disabled = false
+                    break
+                default:
+                    this.inputs.find(i => i.key === 'refraction').disabled = true
+                    this.inputs.find(i => i.key === 'roughness').disabled = true
+                    this.inputs.find(i => i.key === 'metallic').disabled = true
+                    this.inputs.find(i => i.key === 'normal').disabled = true
+                    break
+            }
         }
         this.inputs.find(i => i.key === 'depthTest').onChange = (v) => {
             this.inputs.find(i => i.key === 'depthMask').disabled = v
@@ -134,12 +164,12 @@ export default class Material extends Node {
 
         if (!isVertex)
             return `
-            ${this.isForwardShaded ? 'vec4' : ''} gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
-            ${this.isForwardShaded ? 'vec4' : ''} gNormal = vec4(normalize(toTangentSpace * ((${normal ? this._getData(normal) : 'vec3(.5, .5, 1.)'} * 2.0)- 1.0)), 1.);
-            ${this.isForwardShaded ? 'vec4' : ''} gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao) : '1.'},${roughness ? this._getDataBehaviour(roughness) : '1.'},${metallic ? this._getDataBehaviour(metallic) : '0.'}, 1.);
-            ${this.isForwardShaded ? `float opacity = ${opacity ? this._getDataBehaviour(opacity) : '1.'};` : ''}
-            ${this.isForwardShaded ? `float refraction = ${refraction ? this._getDataBehaviour(refraction) : '0.'};` : ''}
-            ${this.isForwardShaded ? 'vec4' : ''} gEmissive = vec4(${emissive ? this._getData(emissive) : 'vec3(.0)'}, 1.);
+            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
+            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gNormal = vec4(normalize(toTangentSpace * ((${normal ? this._getData(normal) : 'vec3(.5, .5, 1.)'} * 2.0)- 1.0)), 1.);
+            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao) : '1.'},${roughness ? this._getDataBehaviour(roughness) : '1.'},${metallic ? this._getDataBehaviour(metallic) : '0.'}, 1.);
+            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `float opacity = ${opacity ? this._getDataBehaviour(opacity) : '1.'};` : ''}
+            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `float refraction = ${refraction ? this._getDataBehaviour(refraction) : '0.'};` : ''}
+            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gEmissive = vec4(${emissive ? this._getData(emissive) : 'vec3(.0)'}, 1.);
         `
         else if (worldOffset)
             return `

@@ -1,8 +1,7 @@
 export default {
     static: `#version 300 es
-    
+  
 precision highp float;
-// IN
 #define MAX_POINT_LIGHTS 24
 #define MAX_LIGHTS 2
 #define PI  3.14159265359 
@@ -10,27 +9,11 @@ precision highp float;
 in vec4 vPosition;
 in  vec2 texCoord;
 in mat3 toTangentSpace;
-uniform int dirLightQuantity;
-uniform mat4 dirLightPOV[MAX_LIGHTS];
-
+uniform int directionalLightsQuantity;
+uniform mat3 directionalLightsData[MAX_LIGHTS];
 uniform vec3 cameraVec;
-
-// [
-//    POSITION [0][0] [0][1] [0][2] EMPTY
-//    COLOR [1][0] [1][1] [1][2]  EMPTY
-//    ATTENUATION [2][0] [2][1] [2][2] EMPTY
-//    zFar [3][0] zNear [3][1] hasShadowMap [3][2] EMPTY
-// ] = mat4
 uniform mat4 pointLightData[MAX_POINT_LIGHTS];
 uniform int lightQuantity;
-
-struct DirectionalLight {
-    vec3 direction;
-    vec3 ambient;
-    vec2 atlasFace;
-};
-uniform DirectionalLight directionalLights[MAX_LIGHTS];
-
 
 in vec3 normalVec;
 in mat4 normalMatrix; 
@@ -44,19 +27,18 @@ uniform sampler2D sceneColor;
 
 // OUTPUTS
 out vec4 finalColor;
+        `,
+    wrapper: (body, ambient) => `
 
- 
 @import(fresnelSchlickRoughness)
 @import(fresnelSchlick)
 @import(geometrySchlickGGX)
 @import(distributionGGX)
 @import(geometrySmith)
-@import(computeDirectionalLight)
-        `,
-    wrapper: (body, ambient) => `
-
-
+@import(computeDirectionalLight) 
 @import(computePointLight)
+
+
 
 void main(){
     ${body}
@@ -67,38 +49,34 @@ void main(){
     float roughness = gBehaviour.g;
     float metallic = gBehaviour.b;
     float ao = gBehaviour.r;
-    vec3 normal = gNormal.rgb; 
+    vec3 N = vec3(gNormal); 
     
     
     vec3 V = normalize(cameraVec - fragPosition);
-    float NdotV    = max(dot(normal, V), 0.000001);
+    float NdotV    = max(dot(N, V), 0.000001);
     vec3 F0 = vec3(0.04);
     vec3 Lo = vec3(0.0);
     F0 = mix(F0, albedo, metallic);
     
-    // DIRECTIONAL LIGHT
-    float quantityToDivide = float(dirLightQuantity) + float(lightQuantity);
-    for (int i = 0; i < dirLightQuantity; i++){
-        vec4  fragPosLightSpace  = dirLightPOV[i] * vec4(fragPosition, 1.0);
-        vec3 lightDir =  normalize(directionalLights[i].direction);
-
-        Lo += computeDirectionalLight(
-            V,
-            F0,
-            lightDir,
-            directionalLights[i].ambient,
-            fragPosition,
-            roughness,
-            metallic,
-            normal,
-            albedo
-        );
+     for (int i = 0; i < directionalLightsQuantity; i++){
+            vec3 lightDir =  normalize(vec3(directionalLightsData[i][0][0], directionalLightsData[i][0][1],directionalLightsData[i][0][2]));
+            vec3 lightColor =  vec3(directionalLightsData[i][1][0], directionalLightsData[i][1][1],directionalLightsData[i][1][2]);    
+            Lo += computeDirectionalLight(
+                V,
+                F0,
+                lightDir,
+                lightColor,
+                fragPosition,
+                roughness,
+                metallic,
+                N,
+                albedo
+            );
     }
  
     for (int i = 0; i < lightQuantity; ++i){
-            vec4 currentLightData = computePointLights(pointLightData[i],  fragPosition, V, N, quantityToDivide, roughness, metallic, albedo, F0, i);
-            Lo += currentLightData.rgb;
-            shadows += currentLightData.a;    
+        vec4 currentLightData = computePointLights(pointLightData[i],  fragPosition, V, N, 1., roughness, metallic, albedo, F0, i);
+        Lo += currentLightData.rgb;    
     }
 
    ${ambient ? `
@@ -106,15 +84,15 @@ void main(){
     vec3 specular = vec3(0.);
     vec3 F    = fresnelSchlickRoughness(NdotV, F0, roughness);
     vec3 kD = (1.0 - F) * (1.0 - metallic);
-    diffuse = texture(irradianceMap, vec3(normal.x, -normal.y, normal.z)).rgb * gAlbedo.rgb * kD;
+    diffuse = texture(irradianceMap, vec3(N.x, -N.y, N.z)).rgb * gAlbedo.rgb * kD;
     
-    vec3 prefilteredColor = textureLod(prefilteredMapSampler, reflect(-V, normal.rgb), gBehaviour.g * ambientLODSamples).rgb;
+    vec3 prefilteredColor = textureLod(prefilteredMapSampler, reflect(-V, N.rgb), gBehaviour.g * ambientLODSamples).rgb;
     vec2 brdf = texture(brdfSampler, vec2(NdotV, roughness)).rg;
     specular = prefilteredColor * (F * brdf.r + brdf.g);
     Lo += (diffuse + specular);
     ` : ``}
     
-    Lo = Lo / (Lo + vec3(1.0));
+
     vec3 color;
     if(length(gEmissive) <= 1.)
         color = Lo + gEmissive.rgb;
@@ -142,7 +120,7 @@ uniform mat4 transformMatrix;
 uniform mat3 normalMatrix;
 uniform mat4 projectionMatrix;
 uniform vec3 cameraVec; 
-uniform int dirLightQuantity;
+
 
 
 out vec4 vPosition;

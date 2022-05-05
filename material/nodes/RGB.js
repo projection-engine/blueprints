@@ -28,7 +28,10 @@ export default class RGB extends Node {
     }
 
     get type() {
-        return NODE_TYPES.VARIABLE
+        if (this.uniform)
+            return NODE_TYPES.VARIABLE
+        else
+            return NODE_TYPES.STATIC
     }
 
     getFunctionInstance() {
