@@ -1,8 +1,8 @@
 import cloneClass from "../../../../engine/utils/cloneClass";
 
 import NODE_TYPES from "../../components/NODE_TYPES";
-import deferredTemplate, {vertex as deferredVertex} from "./deferredTemplate";
-import forwardTemplate, {vertex as forwardVertex} from "./forwardTemplate";
+import deferredTemplate from "./deferredTemplate";
+import forwardTemplate from "./forwardTemplate";
 import resolveStructure from "./resolveStructure";
 import TextureSample from "../nodes/TextureSample";
 import {vertex as fwVertex} from "../../../../engine/shaders/mesh/forwardMesh.glsl";
@@ -59,10 +59,6 @@ export default async function compiler(n, links, fileSystem) {
         vertexBody = vertexBody.join('\n')
         const v = startPoint.isForwardShaded ? fwVertex : vertex
 
-        console.log(
-            uniforms,
-            uniformData,
-        )
         return {
             info: [{key: 'samplers', label: 'Texture samplers', data: samplers.length}, {
                 key: 'uniforms',

@@ -1,7 +1,6 @@
 import Node from "../../../components/Node";
 import {DATA_TYPES} from "../../../components/DATA_TYPES";
 import NODE_TYPES from "../../../components/NODE_TYPES";
-import {vec3, vec4} from "gl-matrix";
 
 
 export default class RotateVector extends Node {

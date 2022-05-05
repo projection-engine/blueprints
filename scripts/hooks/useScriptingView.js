@@ -131,14 +131,12 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
         if (file.entities && !isLevelBlueprint) {
             ProjectLoader.loadMeshes(file.entities.map(e => e.components[COMPONENTS.MESH].meshID), fileSystem, engine.gpu)
                 .then(async meshes => {
-                    console.log(meshes)
                     engine.setMeshes(meshes.filter(m => m))
                     const entities = []
                     for (let i = 0; i < file.entities.length; i++) {
                         const e = file.entities[i]
                         entities.push(await ProjectLoader.mapEntity(e, i, fileSystem, engine.gpu))
                     }
-                    console.log(entities)
                     engine.dispatchEntities({
                         type: ENTITY_ACTIONS.DISPATCH_BLOCK,
                         payload: entities

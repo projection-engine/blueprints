@@ -1,9 +1,8 @@
 import styles from '../styles/Compilation.module.css'
 import PropTypes from "prop-types";
 import {Tab, Tabs} from "@f-ui/core";
-import {useState} from "react";
+import React, {useState} from "react";
 import AccordionTemplate from "../../../../components/accordion/AccordionTemplate";
-import React from 'react'
 
 export default function CompilationStatus(props) {
     const {status} = props

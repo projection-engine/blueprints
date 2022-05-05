@@ -5,13 +5,13 @@ precision highp float;
 // IN
 #define MAX_POINT_LIGHTS 24
 #define MAX_LIGHTS 2
+#define PI  3.14159265359 
 
 in vec4 vPosition;
 in  vec2 texCoord;
 in mat3 toTangentSpace;
-flat in int dirLightsQuantity;
-in mat4 dirLightPOV[MAX_LIGHTS];
- 
+uniform int dirLightQuantity;
+uniform mat4 dirLightPOV[MAX_LIGHTS];
 
 uniform vec3 cameraVec;
 
@@ -45,7 +45,7 @@ uniform sampler2D sceneColor;
 // OUTPUTS
 out vec4 finalColor;
 
-const float PI = 3.14159265359;
+ 
 @import(fresnelSchlickRoughness)
 @import(fresnelSchlick)
 @import(geometrySchlickGGX)
@@ -77,8 +77,8 @@ void main(){
     F0 = mix(F0, albedo, metallic);
     
     // DIRECTIONAL LIGHT
-    float quantityToDivide = float(dirLightsQuantity) + float(lightQuantity);
-    for (int i = 0; i < dirLightsQuantity; i++){
+    float quantityToDivide = float(dirLightQuantity) + float(lightQuantity);
+    for (int i = 0; i < dirLightQuantity; i++){
         vec4  fragPosLightSpace  = dirLightPOV[i] * vec4(fragPosition, 1.0);
         vec3 lightDir =  normalize(directionalLights[i].direction);
 
@@ -130,6 +130,8 @@ void main(){
 export const vertex = (bodyOperations, inputs, functions) => {
    return `#version 300 es
 #define MAX_LIGHTS 2
+#define PI  3.14159265359 
+
 layout (location = 1) in vec3 position;
 layout (location = 2) in vec3 normal;
 layout (location = 3) in vec2 uvTexture;
@@ -140,21 +142,14 @@ uniform mat4 transformMatrix;
 uniform mat3 normalMatrix;
 uniform mat4 projectionMatrix;
 uniform vec3 cameraVec; 
-
-struct DirectionalLightPOV {
-    mat4 lightProjectionMatrix;
-    mat4 lightViewMatrix;
-};
-uniform DirectionalLightPOV directionalLightsPOV[MAX_LIGHTS];
 uniform int dirLightQuantity;
 
 
 out vec4 vPosition;
 out vec2 texCoord;
 out mat3 toTangentSpace;
-out vec3 normalVec; 
-out mat4 dirLightPOV[MAX_LIGHTS];
-flat out int dirLightsQuantity;
+out vec3 normalVec;  
+ 
 ${inputs}
 ${functions}
  
@@ -178,11 +173,6 @@ void main(){
     ${bodyOperations}
     
     gl_Position *= projectionMatrix * viewMatrix; 
-
-    dirLightsQuantity = dirLightQuantity;
-    for (int i = 0; i< dirLightQuantity; i++){
-        dirLightPOV[i] = directionalLightsPOV[i].lightProjectionMatrix * directionalLightsPOV[i].lightViewMatrix;
-    }
 }
 `
 }

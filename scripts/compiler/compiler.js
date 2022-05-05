@@ -25,7 +25,7 @@ async function compile(startPoint, nodes, links, fileSystem) {
         inputs = [],
         inputsData = []
     const {root, previousLink} = traceEndpoint(startPoint, nodes, links)
-    // console.log(root)
+
     let toJoin = [], typesInstantiated = {}
     nodes.forEach(n => {
         if (n.type === NODE_TYPES.FUNCTION && !typesInstantiated[n.constructor.name]) {
@@ -69,9 +69,7 @@ export default async function compiler(n, links, variables, fileSystem, ) {
     const nodes = n.map(nn => cloneClass(nn))
     const nodesNotLinked = nodes.filter(nn => nn.output.find(o => o.type === DATA_TYPES.EXECUTION) && !links.find(l => l.source.id === nn.id && l.source.attribute.type === DATA_TYPES.EXECUTION))
     const result = []
-    console.log(nodesNotLinked)
     for(const ln in nodesNotLinked) {
-        // console.log(nodesNotLinked[ln])
         const r = await compile(nodesNotLinked[ln], nodes, links, fileSystem)
         result.push(r)
     }
@@ -80,23 +78,12 @@ export default async function compiler(n, links, variables, fileSystem, ) {
         state[v.id] = v.value
     })
     const entryPoints = nodes.filter(n => n.type === NODE_TYPES.START_POINT)
-    console.log(`
-        {
-            state = ${JSON.stringify(state)}
-            constructor(){
-                console.log(this.state)
-            }
-            execute(params){
-                ${entryPoints.map(e => e.getFunctionCall()).join('\n')}
-            }
-            ${result.map(r => r.code).join('\n')}
-        } 
-    `)
+
     return `
         {
             state = ${JSON.stringify(state)}
             constructor(){
-                console.log(this.state)
+                 
             }
             execute(params){
                 ${entryPoints.map(e => e.getFunctionCall()).join('\n')}

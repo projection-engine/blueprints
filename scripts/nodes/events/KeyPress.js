@@ -63,7 +63,6 @@ export default class KeyPress extends Node {
         this.onKeyDown = `onKeyDown${index}`
         this.onHold = `onHold${index}`
         this.onRelease = `onRelease${index}`
-        console.log(entryPoint)
         switch (entryPoint.key) {
             case 'holding':
                 return `

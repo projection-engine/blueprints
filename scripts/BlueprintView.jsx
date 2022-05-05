@@ -27,7 +27,6 @@ import CAMERA_TYPES from "../../../engine/editor/camera/CAMERA_TYPES";
 import ViewportOptions from "../../../components/viewport/ViewportOptions";
 import EntityReference from "./nodes/utils/EntityReference";
 import LoaderProvider from "../../../components/loader/LoaderProvider";
-import compiler from "./compiler/compiler";
 
 export default function BlueprintView(props) {
     const settings = useContext(SettingsProvider)
@@ -63,10 +62,7 @@ export default function BlueprintView(props) {
                     group: 'b',
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>check</span>,
                     disabled: true,
-                    onClick: () => {
-                        const e = compiler(hook.nodes, hook.links, hook.variables, hook.quickAccess.fileSystem)
-                        console.log(e)
-                    }
+                    onClick: () => null
                 },
                 {
                     label: 'Save',

@@ -222,7 +222,7 @@ export default function NodeEditor(props) {
                                                 const clone = cloneClass(prev[classLocation])
                                                 clone[attr.key] = event
                                                 const input = clone.inputs.find(i => i.key === attr.key)
-                                                console.log(attr)
+
                                                 if(input.onChange)
                                                     input.onChange(event)
 

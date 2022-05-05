@@ -148,7 +148,6 @@ export default function NodeIO(props) {
                     onDrag={props.handleLinkDrag}
                     onDragStart={e => {
                         if (props.type !== 'input') {
-                            console.log(props.data.type)
                             const nType = props.data.type === DATA_TYPES.UNDEFINED ? (props.inputLinks.length === 1 ? props.inputLinks[0]?.sourceType : getPredominant(props.inputLinks) ): undefined
                             const attribute = props.data.type === DATA_TYPES.UNDEFINED ? {
                                 ...props.data,

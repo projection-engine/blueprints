@@ -18,8 +18,6 @@ import MaterialInstance from "../../../engine/instances/MaterialInstance";
 import {IDS} from "../../../engine/hooks/useMinimalEngine";
 import CompilationStatus from "./components/CompilationStatus";
 import {trimString} from "../../../engine/instances/ShaderInstance";
-import {vertex} from "../../../engine/shaders/mesh/meshDeferred.glsl";
-import {vertex as fwVertex} from "../../../engine/shaders/mesh/forwardMesh.glsl";
 
 
 export default function MaterialView(props) {
@@ -36,7 +34,7 @@ export default function MaterialView(props) {
     const compileShaders = () => {
         props.setAlert({message: 'Compiling shaders', type: 'info'})
         hook.setImpactingChange(false)
-        console.log(hook.nodes, hook.links)
+
         compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
             .then(({shader, vertexShader, uniforms, uniformData, settings, info}) => {
 
