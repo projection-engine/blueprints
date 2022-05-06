@@ -1,11 +1,7 @@
 import Node from '../../components/Node'
 import {DATA_TYPES} from "../../components/DATA_TYPES";
 import NODE_TYPES from "../../components/NODE_TYPES";
-import MATERIAL_TYPES from "../../../../engine/templates/MATERIAL_TYPES";
 import MATERIAL_RENDERING_TYPES from "../../../../engine/templates/MATERIAL_RENDERING_TYPES";
-import forwardTemplate from "../compiler/forwardTemplate";
-import deferredTemplate from "../compiler/deferredTemplate";
-import unlitTemplate from "../compiler/unlitTemplate";
 
 const blendOptions = [
     {label: 'ZERO', data: 'ZERO'},
