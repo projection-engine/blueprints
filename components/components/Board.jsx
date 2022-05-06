@@ -9,11 +9,11 @@ import useBoard from "../hooks/useBoard";
 import {ContextWrapper} from "@f-ui/core";
 import getBoardOptions from "../utils/getBoardOptions";
 import OnDragProvider from "../hooks/DragProvider";
-import SelectBox from "../../../../components/selectbox/SelectBox";
+import SelectBox from "../../../../../components/selectbox/SelectBox";
 import Context from "./Context";
 import deleteNode from "../utils/deleteNode";
 import Group from "./Group";
-import QuickAccessProvider from "../../../../pages/project/hooks/QuickAccessProvider";
+import QuickAccessProvider from "../../../../hooks/QuickAccessProvider";
 
 export default function Board(props) {
     const {scale, setScale} = props

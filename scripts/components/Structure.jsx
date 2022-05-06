@@ -8,10 +8,10 @@ import deleteNode from "../../components/utils/deleteNode";
 import NODE_TYPES from "../../components/NODE_TYPES";
 import mapToView from "../../../scene/utils/mapToView";
 import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials";
-import TreeView from "../../../../components/tree/TreeView";
+import TreeView from "../../../../../components/tree/TreeView";
 
 import {v4 as uuidv4} from 'uuid';
-import AccordionTemplate from "../../../../components/accordion/AccordionTemplate";
+import AccordionTemplate from "../../../../../components/accordion/AccordionTemplate";
 
 export default function Structure(props) {
     const {

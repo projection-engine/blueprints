@@ -4,9 +4,9 @@ import Available from "../components/components/Available";
 import styles from '../components/styles/Board.module.css'
 import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import PropTypes from "prop-types";
-import ControlProvider from "../../../components/tabs/components/ControlProvider";
-import ResizableBar from "../../../components/resizable/ResizableBar";
-import useHotKeys from "../../../pages/project/hooks/useHotKeys";
+import ControlProvider from "../../../../components/tabs/components/ControlProvider";
+import ResizableBar from "../../../../components/resizable/ResizableBar";
+import useHotKeys from "../../../hooks/useHotKeys";
 import {allNodes} from "./templates/AllNodes";
 import NodeEditor from "./components/NodeEditor";
 import Structure from "./components/Structure";
@@ -15,7 +15,7 @@ import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
 
 import EntityReference from "./nodes/utils/EntityReference";
-import LoaderProvider from "../../../components/loader/LoaderProvider";
+import LoaderProvider from "../../../../components/loader/LoaderProvider";
 import compiler from "./compiler/compiler";
 import ScriptSystem from "../../../engine/systems/ScriptSystem";
 

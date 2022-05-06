@@ -1,10 +1,10 @@
 import {useContext, useEffect, useState} from "react";
-import QuickAccessProvider from "../../../../pages/project/hooks/QuickAccessProvider";
+import QuickAccessProvider from "../../../../hooks/QuickAccessProvider";
 import EventTick from "../nodes/events/EventTick";
-import EVENTS from "../../../../pages/project/utils/EVENTS";
+import EVENTS from "../../../../utils/EVENTS";
 import Getter from "../nodes/utils/Getter";
 import Setter from "../nodes/utils/Setter";
-import ProjectLoader from "../../../../pages/project/workers/ProjectLoader";
+import ProjectLoader from "../../../../utils/workers/ProjectLoader";
 import COMPONENTS from "../../../../engine/templates/COMPONENTS";
 import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials";
 import SetViewTarget from "../nodes/camera/SetViewTarget";

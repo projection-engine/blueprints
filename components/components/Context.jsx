@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import {useEffect, useMemo, useState} from "react";
 import styles from '../styles/Context.module.css'
-import Search from "../../../../components/search/Search";
+import Search from "../../../../../components/search/Search";
 
 export default function Context(props) {
     const [searchString, setSearchString] = useState('')

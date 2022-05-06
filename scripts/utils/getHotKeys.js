@@ -1,4 +1,4 @@
-import {KEYS} from "../../../../pages/project/hooks/useHotKeys";
+
 import createGroupShortcut from "../../components/utils/createGroupShortcut";
 import mapper from "../compiler/mapper";
 import EventTick from "../nodes/events/EventTick";
@@ -9,6 +9,7 @@ import Setter from "../nodes/utils/Setter";
 import Getter from "../nodes/utils/Getter";
 
 import {v4 as uuidv4} from 'uuid';
+import KEYS from "../../../../engine/templates/KEYS";
 
 export default function getHotKeys(hook, props, toCopy, setToCopy, engine, file, isLevelBp) {
     return [

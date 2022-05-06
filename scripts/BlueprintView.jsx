@@ -4,9 +4,9 @@ import Available from "../components/components/Available";
 import styles from '../components/styles/Board.module.css'
 import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import PropTypes from "prop-types";
-import ControlProvider from "../../../components/tabs/components/ControlProvider";
-import ResizableBar from "../../../components/resizable/ResizableBar";
-import useHotKeys from "../../../pages/project/hooks/useHotKeys";
+import ControlProvider from "../../../../components/tabs/components/ControlProvider";
+import ResizableBar from "../../../../components/resizable/ResizableBar";
+import useHotKeys from "../../../hooks/useHotKeys";
 import {allNodes} from "./templates/AllNodes";
 import NodeEditor from "./components/NodeEditor";
 import Structure from "./components/Structure";
@@ -15,18 +15,19 @@ import getHotKeys from "./utils/getHotKeys";
 import getAvailableNodes from "./utils/getAvailableNodes";
 import {AlertProvider, Button} from "@f-ui/core";
 import MinimalTabs from "./components/MinimalTabs";
-import SettingsProvider from "../../../pages/project/hooks/SettingsProvider";
-import useEditorEngine from "../../../pages/project/hooks/useEditorEngine";
-import Viewport from "../../../components/viewport/Viewport";
+import SettingsProvider from "../../../hooks/SettingsProvider";
+import useEditorEngine from "../../../hooks/useEditorEngine";
+import Viewport from "../../../../components/viewport/Viewport";
 import FormTabs from "../../scene/forms/FormTabs";
 import useForm from "../../scene/utils/useForm";
 import sceneStyles from '../../scene/styles/Scene.module.css'
-import handleDrop from "../../../pages/project/utils/handleDrop";
-import {SHADING_MODELS} from "../../../pages/project/hooks/useSettings";
+import handleDrop from "../../../utils/handleDrop";
+
 import CAMERA_TYPES from "../../../engine/editor/camera/CAMERA_TYPES";
-import ViewportOptions from "../../../components/viewport/ViewportOptions";
+import ViewportOptions from "../../../../components/viewport/ViewportOptions";
 import EntityReference from "./nodes/utils/EntityReference";
-import LoaderProvider from "../../../components/loader/LoaderProvider";
+import LoaderProvider from "../../../../components/loader/LoaderProvider";
+import SHADING_MODELS from "../../../engine/templates/SHADING_MODELS";
 
 export default function BlueprintView(props) {
     const settings = useContext(SettingsProvider)

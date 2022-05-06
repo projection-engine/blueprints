@@ -7,8 +7,8 @@ import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
 import Getter from "../nodes/utils/Getter";
 import {startKey} from "../nodes/utils/Setter";
 import getInput from "../utils/getInput";
-import ColorPicker from "../../../../components/color/ColorPicker";
-import AccordionTemplate from "../../../../components/accordion/AccordionTemplate";
+import ColorPicker from "../../../../../components/color/ColorPicker";
+import AccordionTemplate from "../../../../../components/accordion/AccordionTemplate";
 
 export default function NodeEditor(props) {
     const {

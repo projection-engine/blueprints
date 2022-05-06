@@ -1,6 +1,6 @@
 import styles from '../styles/Available.module.css'
 
-import Search from "../../../../components/search/Search";
+import Search from "../../../../../components/search/Search";
 import {useMemo, useState} from "react";
 import PropTypes from "prop-types";
 import {Button} from "@f-ui/core";

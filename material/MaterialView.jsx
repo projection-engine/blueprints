@@ -3,8 +3,8 @@ import Board from "../components/components/Board";
 import s from './styles/MaterialView.module.css'
 import {useContext, useEffect, useMemo, useState} from "react";
 import PropTypes from "prop-types";
-import ControlProvider from "../../../components/tabs/components/ControlProvider";
-import ResizableBar from "../../../components/resizable/ResizableBar";
+import ControlProvider from "../../../../components/tabs/components/ControlProvider";
+import ResizableBar from "../../../../components/resizable/ResizableBar";
 import Available from "../components/components/Available";
 import compiler from "./compiler/compiler";
 import NodeEditor from "./components/NodeEditor";
@@ -15,7 +15,7 @@ import Make from "./utils/Make";
 import Material from "./nodes/Material";
 
 import MaterialInstance from "../../../engine/instances/MaterialInstance";
-import {IDS} from "../../../pages/project/hooks/useMinimalEngine";
+import {IDS} from "../../../hooks/useMinimalEngine";
 import CompilationStatus from "./components/CompilationStatus";
 import {trimString} from "../../../engine/instances/ShaderInstance";
 

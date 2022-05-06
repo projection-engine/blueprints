@@ -1,5 +1,5 @@
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
-import Range from "../../../../components/range/Range";
+import Range from "../../../../../components/range/Range";
 import styles from "../styles/NodeEditor.module.css";
 import {Checkbox, Dropdown, DropdownOption, DropdownOptions} from "@f-ui/core";
 import React from "react";
