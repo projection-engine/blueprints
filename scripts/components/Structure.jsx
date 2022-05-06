@@ -3,7 +3,7 @@ import styles from '../styles/Structure.module.css'
 import PropTypes from "prop-types";
 
 import {Button, ContextMenu, Ripple,} from "@f-ui/core";
-import {DATA_TYPES} from "../../components/DATA_TYPES";
+import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
 import deleteNode from "../../components/utils/deleteNode";
 import NODE_TYPES from "../../components/NODE_TYPES";
 import mapToView from "../../../scene/utils/mapToView";

@@ -1,7 +1,7 @@
 import cloneClass from "../../../../engine/utils/cloneClass";
 import NODE_TYPES from "../../components/NODE_TYPES";
 import resolveStructure from "./resolveStructure";
-import {DATA_TYPES} from "../../components/DATA_TYPES";
+import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
 
 export function traceEndpoint(startPoint, nodes, links, previousLink) {
     const s = links.find(l => l.target.id === startPoint.id && l.source.attribute.type === DATA_TYPES.EXECUTION)

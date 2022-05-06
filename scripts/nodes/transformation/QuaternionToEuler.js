@@ -1,6 +1,6 @@
 import Node from "../../../components/Node";
 import Transformation from "../../../../../engine/instances/Transformation";
-import {DATA_TYPES} from "../../../components/DATA_TYPES";
+import {DATA_TYPES} from "../../../../../engine/templates/DATA_TYPES";
 import NODE_TYPES from "../../../components/NODE_TYPES";
 
 export default class QuaternionToEuler extends Node {

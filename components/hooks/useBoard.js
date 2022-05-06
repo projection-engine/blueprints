@@ -1,6 +1,6 @@
 import {useContext, useEffect, useMemo, useRef, useState} from "react";
 import getBezierCurve from "../utils/bezierCurve";
-import {DATA_TYPES} from "../DATA_TYPES";
+import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
 import TYPES_INFO from "../DATA_INFO";
 import {AlertProvider} from "@f-ui/core";
 
