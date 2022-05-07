@@ -1,4 +1,3 @@
-
 import createGroupShortcut from "../../components/utils/createGroupShortcut";
 import mapper from "../compiler/mapper";
 import EventTick from "../nodes/events/EventTick";

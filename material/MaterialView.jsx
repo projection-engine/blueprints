@@ -34,7 +34,6 @@ export default function MaterialView(props) {
     const compileShaders = () => {
         props.setAlert({message: 'Compiling shaders', type: 'info'})
         hook.setImpactingChange(false)
-
         compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
             .then(({shader, vertexShader, uniforms, uniformData, settings, info}) => {
 
@@ -102,6 +101,7 @@ export default function MaterialView(props) {
         }
     }, [hook.impactingChange, hook.engine.renderer, hook.realTime, hook.links])
     useEffect(() => {
+
         controlProvider.setTabAttributes([
                 {
                     label: 'Compile',
