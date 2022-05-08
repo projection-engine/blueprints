@@ -16,7 +16,7 @@ import getAvailableNodes from "./utils/getAvailableNodes";
 import {AlertProvider, Button} from "@f-ui/core";
 import MinimalTabs from "./components/MinimalTabs";
 import SettingsProvider from "../../../hooks/SettingsProvider";
-import useEditorEngine from "../../../hooks/useEditorEngine";
+import useEditorEngine from "../../../engine-editor/useEditorEngine";
 import Viewport from "../../../../components/viewport/Viewport";
 import FormTabs from "../../scene/forms/FormTabs";
 import useForm from "../../scene/utils/useForm";
@@ -87,10 +87,8 @@ export default function BlueprintView(props) {
                 style={{fontSize: '1.2rem'}}
                 className={`material-icons-round`}>engineering</span>,
             (newTab) => {
-                if (newTab === props.index)
-                    engine.setCanRender(true)
-                else
-                    engine.setCanRender(false)
+                    if(newTab === props.index)
+                        engine.setInitialized(false)
             },
             true,
 
@@ -158,9 +156,9 @@ export default function BlueprintView(props) {
                 setOpen={setOpen}
                 onTabSwitch={i => {
                     if (i === 0)
-                        engine.setCanRender(true)
+                        engine.setInitialized(true)
                     else
-                        engine.setCanRender(false)
+                        engine.setInitialized(false)
                 }}
             >
                 <div style={{

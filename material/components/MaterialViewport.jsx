@@ -1,4 +1,4 @@
-import {IDS} from "../../../../hooks/useMinimalEngine";
+import {IDS} from "../../../../engine-editor/useMinimalEngine";
 import {useRef, useState} from "react";
 import styles from "../styles/MaterialViewport.module.css";
 import {Button, ToolTip} from "@f-ui/core";

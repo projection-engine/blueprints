@@ -15,7 +15,7 @@ import Make from "./utils/Make";
 import Material from "./nodes/Material";
 
 import MaterialInstance from "../../../engine/instances/MaterialInstance";
-import {IDS} from "../../../hooks/useMinimalEngine";
+import {IDS} from "../../../engine-editor/useMinimalEngine";
 import CompilationStatus from "./components/CompilationStatus";
 import {trimString} from "../../../engine/instances/ShaderInstance";
 
@@ -152,10 +152,8 @@ export default function MaterialView(props) {
                 style={{fontSize: '1.2rem'}}
                 className={`material-icons-round`}>texture</span>,
             (newTab) => {
-                if (newTab === props.index)
-                    hook.engine.setCanRender(true)
-                else
-                    hook.engine.setCanRender(false)
+                if(newTab === props.index)
+                    engine.setInitialized(false)
             },
             true,
             props.index
