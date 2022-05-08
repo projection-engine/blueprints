@@ -23,7 +23,7 @@ import useForm from "../../scene/utils/useForm";
 import sceneStyles from '../../scene/styles/Scene.module.css'
 import handleDrop from "../../../utils/handleDrop";
 
-import CAMERA_TYPES from "../../../engine/editor/camera/CAMERA_TYPES";
+import CAMERA_TYPES from "../../../engine-editor/camera/CAMERA_TYPES";
 import ViewportOptions from "../../../../components/viewport/ViewportOptions";
 import EntityReference from "./nodes/utils/EntityReference";
 import LoaderProvider from "../../../../components/loader/LoaderProvider";

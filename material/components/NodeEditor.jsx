@@ -21,8 +21,6 @@ export default function NodeEditor(props) {
         else
             return undefined
     }, [props.selected, props.hook.nodes])
-
-
     const attributes = useMemo(() => {
         let res = []
         if (selected) {
@@ -35,27 +33,26 @@ export default function NodeEditor(props) {
         }
         return res
     }, [selected])
-
     const getNewVec = (value, v, index, type) => {
-    switch (type){
-        case  DATA_TYPES.VEC2:
-            return [index === 0 ? v : value[0], index === 1 ? v : value[1]]
-        case  DATA_TYPES.VEC3:
-            return [
-                index === 0 ? v : value[0],
-                index === 1 ? v : value[1],
-                index === 2 ? v : value[2]
-            ]
-        case  DATA_TYPES.VEC4:
-            return [
-                index === 0 ? v : value[0],
-                index === 1 ? v : value[1],
-                index === 2 ? v : value[2],
-                index === 3 ? v : value[3]
-            ]
-        default:
-            return value
-    }
+        switch (type) {
+            case  DATA_TYPES.VEC2:
+                return [index === 0 ? v : value[0], index === 1 ? v : value[1]]
+            case  DATA_TYPES.VEC3:
+                return [
+                    index === 0 ? v : value[0],
+                    index === 1 ? v : value[1],
+                    index === 2 ? v : value[2]
+                ]
+            case  DATA_TYPES.VEC4:
+                return [
+                    index === 0 ? v : value[0],
+                    index === 1 ? v : value[1],
+                    index === 2 ? v : value[2],
+                    index === 3 ? v : value[3]
+                ]
+            default:
+                return value
+        }
     }
 
     const getInput = (label, type, value, submit, obj) => {
@@ -120,13 +117,13 @@ export default function NodeEditor(props) {
                                 value={value ? value[2] : undefined}
                                 handleChange={v => submit(getNewVec(value, v, 2, type))} label={label}/>
                         ) : null}
-                        {type === DATA_TYPES.VEC4? (
+                        {type === DATA_TYPES.VEC4 ? (
                             <Range
                                 accentColor={'blue'}
                                 maxValue={obj.max}
                                 minValue={obj.min}
                                 onFinish={(v) => {
-                                    submit([value[0], value[1],value[2], parseFloat(v)], true)
+                                    submit([value[0], value[1], value[2], parseFloat(v)], true)
                                     props.hook.setChanged(true)
                                     if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                         props.hook.setImpactingChange(true)
@@ -223,7 +220,7 @@ export default function NodeEditor(props) {
                                                 clone[attr.key] = event
                                                 const input = clone.inputs.find(i => i.key === attr.key)
 
-                                                if(input.onChange)
+                                                if (input.onChange)
                                                     input.onChange(event)
 
                                                 n[classLocation] = clone
@@ -237,7 +234,7 @@ export default function NodeEditor(props) {
                                             props.engine.material.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
                                         if (attr.key === 'tilingY')
                                             props.engine.material.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
-                                        
+
 
                                         const input = selected.inputs.find(i => i.key === attr.key)
 

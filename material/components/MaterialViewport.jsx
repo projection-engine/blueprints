@@ -11,7 +11,6 @@ export default function MaterialViewport(props) {
     const viewportRef = useRef()
     const [currentMesh, setCurrentMesh] = useState(IDS.SPHERE)
     return (
-
         <div ref={viewportRef}
              className={styles.wrapper}>
             <Viewport allowDrop={false} engine={props.engine} id={props.engine.id}/>
