@@ -21,7 +21,7 @@ layout (location = 1) out vec4 gNormal;
 layout (location = 2) out vec4 gAlbedo;    // R  G         B
 layout (location = 3) out vec4 gBehaviour; // AO ROUGHNESS METALLIC
 layout (location = 4) out vec4 gAmbient;
-layout (location = 5) out vec4 gEmissive;
+// layout (location = 5) out vec4 gEmissive;
 
 
 `,

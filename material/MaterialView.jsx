@@ -1,159 +1,50 @@
 import Board from "../components/components/Board";
-
 import s from './styles/MaterialView.module.css'
 import {useContext, useEffect, useMemo, useState} from "react";
 import PropTypes from "prop-types";
 import ControlProvider from "../../../../components/tabs/components/ControlProvider";
 import ResizableBar from "../../../../components/resizable/ResizableBar";
 import Available from "../components/components/Available";
-import compiler from "./compiler/compiler";
 import NodeEditor from "./components/NodeEditor";
 import MaterialViewport from "./components/MaterialViewport";
 import {allNodes} from "./AllNodes";
 import useMaterialView from "./hooks/useMaterialView";
-import Make from "./utils/Make";
 import Material from "./nodes/Material";
-
-import MaterialInstance from "../../../engine/instances/MaterialInstance";
-import {IDS} from "../../../engine-editor/useMinimalEngine";
 import CompilationStatus from "./components/CompilationStatus";
-import {trimString} from "../../../engine/instances/ShaderInstance";
+import options from './utils/options'
+import compileShaders from "./utils/compileShaders";
+import {v4} from "uuid";
 
-
+const id = v4().toString()
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
     const [status, setStatus] = useState({})
-
     const hook = useMaterialView(props.file, props.setAlert)
-
     const fallbackSelected = useMemo(() => {
         return hook.nodes.find(n => n instanceof Material)
     }, [hook.nodes])
-
     const controlProvider = useContext(ControlProvider)
-    const compileShaders = () => {
-        props.setAlert({message: 'Compiling shaders', type: 'info'})
-        hook.setImpactingChange(false)
-        compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
-            .then(({shader, vertexShader, uniforms, uniformData, settings, info}) => {
-
-                if (shader) {
-                    const prev = hook.engine.material
-                    let promise, newMat
-                    if (!prev)
-                        promise = new Promise(resolve => {
-                            newMat = new MaterialInstance(hook.engine.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
-                        })
-                    else {
-                        newMat = prev
-                        promise = new Promise(resolve => {
-                            newMat.shader = [shader, vertexShader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
-                        })
-                    }
-                    promise.then((message) => {
-                        const shaderSplit = trimString(shader).split(';')
-                        let parsed = []
-                        setStatus({
-                            ...{
-                                ...message,
-                                messages:
-                                    message.messages
-                                        .map(m => m.split('ERROR'))
-                                        .flat()
-                                        .map(m => {
-                                            const data = {lines: []}
-                                            if (m.length > 0) {
-                                                const match = m.match(/:\s([0-9]+):([0-9]+)/gm),
-                                                    matchS = m.match(/:\s([0-9]+):([0-9]+)/m)
-                                                if (matchS) {
-                                                    let s = matchS[0].split('')
-                                                    s.shift()
-                                                    const [start, end] = s.join('').split(':')
-                                                    if (!parsed.includes(end)) {
-
-                                                        data.lines = shaderSplit.slice(end - 9, end - 8)
-                                                        parsed.push(end)
-                                                        data.error = 'ERROR' + m
-                                                        data.label = 'ERROR' + match[0]
-                                                        return data
-                                                    }
-                                                    return undefined
-                                                }
-                                            } else
-                                                return undefined
-                                        })
-                                        .filter(e => e)
-                            },
-                            info
-                        })
-                        if (!message.hasError)
-                            hook.engine.setMaterial(newMat)
-                    })
-                }
-            })
-    }
     const [init, setInit] = useState(false)
+
     useEffect(() => {
         if ((!init && hook.links.length > 0 || hook.impactingChange && hook.realTime) && hook.engine.renderer) {
-            if (!init)
-                setInit(true)
-            compileShaders()
+            setInit(true)
+            compileShaders(props.setAlert, hook, setStatus).catch()
         }
-    }, [hook.impactingChange, hook.engine.renderer, hook.realTime, hook.links])
+    }, [hook.impactingChange, hook.engine.renderer, hook.realTime, hook.links, init])
     useEffect(() => {
-
-        controlProvider.setTabAttributes([
-                {
-                    label: 'Compile',
-                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>code</span>,
-                    onClick: () => compileShaders()
-                },
-                {
-                    label: 'Save',
-                    disabled: !hook.changed,
-                    group: 'b',
-                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
-                    onClick: async () => {
-                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
-                        props.submitPackage(
-                            response.preview,
-                            response.data,
-                            false
-                        )
-                        hook.setChanged(false)
-                        hook.setImpactingChange(false)
-                    }
-                },
-                {
-                    label: 'Save & close',
-                    disabled: !hook.changed,
-                    group: 'b',
-                    icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
-                    onClick: async () => {
-                        const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
-                        props.submitPackage(
-                            response.preview,
-                            response.data,
-                            true
-                        )
-                        hook.setChanged(false)
-                        hook.setImpactingChange(false)
-                    }
-                },
-                {
-                    label: 'Real time',
-                    group: 'c',
-                    icon: <span className={'material-icons-round'}
-                                style={{fontSize: '1.2rem'}}>{hook.realTime ? 'live_tv' : 'tv_off'}</span>,
-                    onClick: () => hook.setRealTime(!hook.realTime)
-                },],
+        controlProvider.setTabAttributes(
+            options(() => compileShaders(props.setAlert, hook, setStatus).catch(),
+                hook, props.submitPackage),
             props.file.name,
             <span
                 style={{fontSize: '1.2rem'}}
                 className={`material-icons-round`}>texture</span>,
             (newTab) => {
-                if(newTab === props.index)
-                    engine.setInitialized(false)
+                if (props.index === newTab)
+                    hook.engine.setFocused(true)
+                else
+                    hook.engine.setFocused(false)
             },
             true,
             props.index

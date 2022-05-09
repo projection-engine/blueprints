@@ -42,6 +42,7 @@ import Saturation from "../nodes/math/Saturation";
 import Pow from "../nodes/math/Pow";
 import SceneColor from "../nodes/SceneColor";
 import LoaderProvider from "../../../../../components/loader/LoaderProvider";
+import getNewInstance from "../utils/getNewInstance";
 
 
 export default function useMaterialView(file,setAlert) {
@@ -68,7 +69,6 @@ export default function useMaterialView(file,setAlert) {
 
 
     return {
-
         realTime, setRealTime,
         impactingChange, setImpactingChange,
         nodes, setNodes,
@@ -81,59 +81,6 @@ export default function useMaterialView(file,setAlert) {
     }
 }
 
-
-const INSTANCES = {
-    [Material.name]: () => new Material(),
-    [SceneColor.name]: () => new SceneColor(),
-
-    [Add.name]: () => new Add(),
-    [TextureSample.name]: () => new TextureSample(),
-    [TextureCoords.name]: () => new TextureCoords(),
-    [Float.name]: () => new Float(),
-
-    [Divide.name]: () => new Divide(),
-    [Sine.name]: () => new Sine(),
-    [NormalVector.name]: () => new NormalVector(),
-    [ParallaxOcclusionMapping.name]: () => new ParallaxOcclusionMapping(),
-    [RGB.name]: () => new RGB(),
-    [ToTangentSpace.name]: () => new ToTangentSpace(),
-    [AbsoluteWorldPosition.name]: () => new AbsoluteWorldPosition(),
-    [ViewDirection.name]: () => new ViewDirection(),
-
-    [CameraCoords.name]: () => new CameraCoords(),
-    [ElapsedTime.name]: () => new ElapsedTime(),
-    [Multiply.name]: () => new Multiply(),
-    [PerlinNoise.name]: () => new PerlinNoise(),
-
-
-    [BreakVec2.name]: () => new BreakVec2(),
-    [BreakVec3.name]: () => new BreakVec3(),
-    [BreakVec4.name]: () => new BreakVec4(),
-    [DotVec2.name]: () => new DotVec2(),
-    [DotVec3.name]: () => new DotVec3(),
-    [DotVec4.name]: () => new DotVec4(),
-    [LerpVec2.name]: () => new LerpVec2(),
-    [LerpVec3.name]: () => new LerpVec3(),
-    [LerpVec4.name]: () => new LerpVec4(),
-
-
-    [Max.name]: () => new Max(),
-    [Min.name]: () => new Min(),
-
-    [Vec2.name]: () => new Vec2(),
-    [Vec3.name]: () => new Vec3(),
-    [Vec4.name]: () => new Vec4(),
-
-    [OneMinus.name]: () => new OneMinus(),
-    [Saturate.name]: () => new Saturate(),
-    [Clamp.name]: () => new Clamp(),
-
-    [Saturation.name]: () => new Saturation(),
-    [Pow.name]: () => new Pow(),
-    [MakeVector.name]: () => new MakeVector(),
-
-}
-
 function parse(file, quickAccess, setNodes, setLinks, engine, load) {
     quickAccess.fileSystem
         .readRegistryFile(file.registryID)
@@ -144,17 +91,18 @@ function parse(file, quickAccess, setNodes, setLinks, engine, load) {
                     .then(file => {
                         if (file && Object.keys(file).length > 0) {
                             const newNodes = file.nodes.map(f => {
-                                const i = INSTANCES[f.instance]()
-                                Object.keys(f).forEach(o => {
-                                    if(o !== 'inputs' && o !== 'output') {
-                                        if (o === 'texture' && i instanceof TextureSample)
-                                            i[o] = quickAccess.images.find(i => i.registryID === f[o].registryID)
-                                        else
-                                            i[o] = f[o]
-                                    }
-                                })
+                                const i = getNewInstance(f.instance)
+                                if(i)
+                                    Object.keys(f).forEach(o => {
+                                        if(o !== 'inputs' && o !== 'output') {
+                                            if (o === 'texture' && i instanceof TextureSample)
+                                                i[o] = quickAccess.images.find(i => i.registryID === f[o].registryID)
+                                            else
+                                                i[o] = f[o]
+                                        }
+                                    })
                                 return i
-                            })
+                            }).filter(e => e !== null && e !== undefined)
                             // applyViewport(file.response, engine, setAlert)
                             setNodes(newNodes)
                             setLinks(file.links)

@@ -1,3 +1,5 @@
+import getInstanceName from "./getInstanceName";
+
 export default async function Make(hook, result) {
     const parsedNodes = hook.nodes.map(n => {
         const docNode = document.getElementById(n.id).parentNode
@@ -11,7 +13,7 @@ export default async function Make(hook, result) {
             ...n,
             x: parseFloat(transformation[0]),
             y: parseFloat(transformation[1]),
-            instance: n.constructor.name,
+            instance: getInstanceName(n),
             texture: n.texture && typeof n.texture === 'object' ? {registryID: n.texture.registryID} : undefined
         }
     })

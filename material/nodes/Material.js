@@ -160,12 +160,12 @@ export default class Material extends Node {
 
         if (!isVertex)
             return `
-            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.);
+            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gAlbedo = vec4(${al ? this._getData(al) : 'vec3(.5, .5, .5)'}, 1.) + vec4(${emissive ? this._getData(emissive) : 'vec3(.0)'}, 0.);
             ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gNormal = vec4(normalize(toTangentSpace * ((${normal ? this._getData(normal) : 'vec3(.5, .5, 1.)'} * 2.0)- 1.0)), 1.);
             ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao) : '1.'},${roughness ? this._getDataBehaviour(roughness) : '1.'},${metallic ? this._getDataBehaviour(metallic) : '0.'}, 1.);
             ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `float opacity = ${opacity ? this._getDataBehaviour(opacity) : '1.'};` : ''}
             ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `float refraction = ${refraction ? this._getDataBehaviour(refraction) : '0.'};` : ''}
-            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? 'vec4' : ''} gEmissive = vec4(${emissive ? this._getData(emissive) : 'vec3(.0)'}, 1.);
+            ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `vec4 gEmissive = vec4(${emissive ? this._getData(emissive) : 'vec3(.0)'}, 1.);` : ''}
         `
         else if (worldOffset)
             return `
