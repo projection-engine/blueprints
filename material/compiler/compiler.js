@@ -36,7 +36,22 @@ export default async function compiler(n, links, fileSystem) {
         } = await compileFrag(startPoint, n, links, fileSystem, startPoint.shadingType)
         const vertexBody = compileVertex(startPoint, n, links)
         const v = startPoint.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? fwVertex : vertex
-        const cubeMapShader = startPoint.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED  ? {} : await compileFrag(startPoint, n, links, fileSystem, MATERIAL_RENDERING_TYPES.FORWARD)
+        const cubeMapShader = await compileFrag(
+            startPoint,
+            n,
+            links,
+            fileSystem,
+            MATERIAL_RENDERING_TYPES.FORWARD,
+            [
+                'al',
+                'normal',
+                'ao',
+                'roughness',
+                'metallic',
+                'opacity',
+                'emissive',
+                'worldOffset'
+            ], false)
 
         return {
             info: [{key: 'samplers', label: 'Texture samplers', data: samplers.length}, {
@@ -74,7 +89,7 @@ function compileVertex(startPoint, n, links) {
     return vertexBody.join('\n')
 }
 
-async function compileFrag(startPoint, n, links, fileSystem, shadingType) {
+async function compileFrag(startPoint, n, links, fileSystem, shadingType, discardedLinks=['worldOffset'], ambient = startPoint.ambientInfluence) {
     const nodes = n.map(nn => cloneClass(nn))
     const codeString = getShadingTemplate(shadingType),
         uniforms = [],
@@ -102,13 +117,13 @@ async function compileFrag(startPoint, n, links, fileSystem, shadingType) {
 
 
     let body = []
-    resolveStructure(startPoint, [], links.filter(l => l.target.id !== startPoint.id || l.target.id === startPoint.id && l.target.key !== 'worldOffset'), nodes, body, false)
+    resolveStructure(startPoint, [], links.filter(l => l.target.id !== startPoint.id || l.target.id === startPoint.id && !discardedLinks.includes(l.target.key)), nodes, body, false)
     return {
         code: `
             ${codeString.static}
             ${codeString.inputs}
             ${codeString.functions}
-            ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
+            ${codeString.wrapper(body.join('\n'), ambient)}
         `,
         uniforms,
         uniformData

@@ -11,8 +11,10 @@ export default async function compileShaders(setAlert, hook,setStatus ){
         vertexShader,
         uniformData,
         settings,
-        info
+        info,
+        cubeMapShader
     } = await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
+
     if (shader) {
         const prev = hook.engine.material
         let promise, newMat
