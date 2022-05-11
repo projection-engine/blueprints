@@ -96,7 +96,7 @@ async function parse(file, quickAccess, setNodes, setLinks, setVariables, setGro
     } else {
         const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow')
         if (!res)
-            await quickAccess.fileSystem.createFile('levelBlueprint.flow', JSON.stringify({
+            await quickAccess.fileSystem.writeFile('\\levelBlueprint.flow', JSON.stringify({
                 nodes: [],
                 links: [],
                 variables: [],
