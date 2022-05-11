@@ -33,11 +33,12 @@ export default async function compiler(n, links, fileSystem) {
             code,
             uniforms,
             uniformData
-        } = await compileFrag(startPoint, n, links, fileSystem, startPoint.shadingType)
+        } = await compileFrag(n, links, fileSystem, startPoint.shadingType)
         const vertexBody = compileVertex(startPoint, n, links)
         const v = startPoint.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? fwVertex : vertex
+
+
         const cubeMapShader = await compileFrag(
-            startPoint,
             n,
             links,
             fileSystem,
@@ -89,8 +90,14 @@ function compileVertex(startPoint, n, links) {
     return vertexBody.join('\n')
 }
 
-async function compileFrag(startPoint, n, links, fileSystem, shadingType, discardedLinks=['worldOffset'], ambient = startPoint.ambientInfluence) {
+async function compileFrag(n, links, fileSystem, shadingType, discardedLinks=['worldOffset'], noAmbient) {
     const nodes = n.map(nn => cloneClass(nn))
+    const startPoint = nodes.find(n => {
+        return n.type === NODE_TYPES.OUTPUT
+    })
+    startPoint.shadingType = shadingType
+    if(noAmbient)
+        startPoint.ambientInfluence = false
     const codeString = getShadingTemplate(shadingType),
         uniforms = [],
         uniformData = []
@@ -123,7 +130,7 @@ async function compileFrag(startPoint, n, links, fileSystem, shadingType, discar
             ${codeString.static}
             ${codeString.inputs}
             ${codeString.functions}
-            ${codeString.wrapper(body.join('\n'), ambient)}
+            ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
         `,
         uniforms,
         uniformData

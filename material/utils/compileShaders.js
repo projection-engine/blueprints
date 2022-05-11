@@ -20,12 +20,13 @@ export default async function compileShaders(setAlert, hook,setStatus ){
         let promise, newMat
         if (!prev)
             promise = new Promise(resolve => {
-                newMat = new MaterialInstance(hook.engine.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL)
+                newMat = new MaterialInstance(hook.engine.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL, cubeMapShader.code)
             })
         else {
             newMat = prev
             promise = new Promise(resolve => {
                 newMat.shader = [shader, vertexShader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
+                newMat.cubeMapShader = [cubeMapShader.code, vertexShader]
             })
         }
         const message = await promise
