@@ -5,8 +5,8 @@ import deferredTemplate from "./deferredTemplate";
 import forwardTemplate from "./forwardTemplate";
 import resolveStructure from "./resolveStructure";
 import TextureSample from "../nodes/TextureSample";
-import {vertex as fwVertex} from "../../../../engine/shaders/mesh/forwardMesh.glsl";
-import {vertex} from "../../../../engine/shaders/mesh/meshDeferred.glsl";
+import {vertex as fwVertex} from "../../../../engine/shaders/mesh/FORWARD.glsl";
+import {vertex} from "../../../../engine/shaders/mesh/FALLBACK.glsl";
 import MATERIAL_RENDERING_TYPES from "../../../../engine/templates/MATERIAL_RENDERING_TYPES";
 import unlitTemplate from "./unlitTemplate";
 

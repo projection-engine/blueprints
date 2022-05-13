@@ -46,7 +46,18 @@ export default class SetViewTarget extends Node {
     
             params.camera.fov = ${entityName}.fov
             params.camera.aspectRatio = ${entityName}.aspectRatio
+            params.camera.distortion =   ${entityName}.distortion
+            params.camera.distortionStrength = ${entityName}.distortionStrength
+            params.camera.chromaticAberration = ${entityName}.chromaticAberration
+            params.camera.chromaticAberrationStrength = ${entityName}.chromaticAberrationStrength
     
+            params.camera.filmGrain = ${entityName}.filmGrain
+            params.camera.filmGrainStrength = ${entityName}.filmGrainStrength
+            params.camera.bloom = ${entityName}.bloom
+            params.camera.bloomStrength = ${entityName}.bloomStrength
+            params.camera.bloomThreshold = ${entityName}.bloomThreshold
+            params.camera.gamma = ${entityName}.gamma
+            params.camera.exposure = ${entityName}.exposure
     
             params.camera.updateViewMatrix()
             params.camera.updateProjection()
