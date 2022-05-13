@@ -11,7 +11,7 @@ import ColorPicker from "../../../../../components/color/ColorPicker";
 
 import cloneClass from "../../../../engine/utils/cloneClass";
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
-import AccordionTemplate from "../../../../../components/accordion/AccordionTemplate";
+import AccordionTemplate from "../../../../../components/templates/AccordionTemplate";
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {

@@ -8,7 +8,7 @@ import Getter from "../nodes/utils/Getter";
 import {startKey} from "../nodes/utils/Setter";
 import getInput from "../utils/getInput";
 import ColorPicker from "../../../../../components/color/ColorPicker";
-import AccordionTemplate from "../../../../../components/accordion/AccordionTemplate";
+import AccordionTemplate from "../../../../../components/templates/AccordionTemplate";
 
 export default function NodeEditor(props) {
     const {

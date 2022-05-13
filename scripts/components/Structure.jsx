@@ -11,7 +11,7 @@ import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials";
 import TreeView from "../../../../../components/tree/TreeView";
 
 import {v4 as uuidv4} from 'uuid';
-import AccordionTemplate from "../../../../../components/accordion/AccordionTemplate";
+import AccordionTemplate from "../../../../../components/templates/AccordionTemplate";
 
 export default function Structure(props) {
     const {
