@@ -19,10 +19,9 @@ in vec3 normalVec;
 in mat4 normalMatrix; 
 in vec3 viewDirection;  
 uniform float elapsedTime;
-uniform sampler2D brdfSampler;
-uniform samplerCube irradianceMap;
-uniform samplerCube prefilteredMapSampler;
-uniform float ambientLODSamples; 
+
+@import(ambientUniforms)
+
 uniform sampler2D sceneColor;
 
 // OUTPUTS
@@ -30,7 +29,13 @@ out vec4 finalColor;
         `,
     wrapper: (body, ambient) => `
 
+
+${ambient ? `
 @import(fresnelSchlickRoughness)
+@import(forwardAmbient)
+` : ''}
+ 
+  
 @import(fresnelSchlick)
 @import(geometrySchlickGGX)
 @import(distributionGGX)
@@ -80,16 +85,7 @@ void main(){
     }
 
    ${ambient ? `
-    vec3 diffuse = vec3(0.);
-    vec3 specular = vec3(0.);
-    vec3 F    = fresnelSchlickRoughness(NdotV, F0, roughness);
-    vec3 kD = (1.0 - F) * (1.0 - metallic);
-    diffuse = texture(irradianceMap, vec3(N.x, -N.y, N.z)).rgb * gAlbedo.rgb * kD;
-    
-    vec3 prefilteredColor = textureLod(prefilteredMapSampler, reflect(-V, N.rgb), gBehaviour.g * ambientLODSamples).rgb;
-    vec2 brdf = texture(brdfSampler, vec2(NdotV, roughness)).rg;
-    specular = prefilteredColor * (F * brdf.r + brdf.g);
-    Lo += (diffuse + specular);
+    Lo += computeAmbient(NdotV, metallic, roughness, albedo, F0, V, N, ambientLODSamples, brdfSampler);
     ` : ``}
     
 
