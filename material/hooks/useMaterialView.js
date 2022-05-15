@@ -25,7 +25,6 @@ export default function useMaterialView(file,setAlert) {
     const engine = useMinimalEngine(true, true, true, true)
 
     useEffect(() => {
-        load.pushEvent(EVENTS.LOADING_MATERIAL)
         if (engine.gpu && engine.meshes.length > 0)
             parse(file, quickAccess, setNodes, setLinks, engine, load)
 
