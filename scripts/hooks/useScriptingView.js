@@ -20,6 +20,7 @@ import Subtract from "../nodes/math/Subtract";
 import Multiply from "../nodes/math/Multiply";
 import Divide from "../nodes/math/Divide";
 import KeyPress from "../nodes/events/KeyPress";
+import FILE_TYPES from "../../../../../../public/glTF/FILE_TYPES";
 
 
 export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
@@ -94,16 +95,16 @@ async function parse(file, quickAccess, setNodes, setLinks, setVariables, setGro
         } else
             load.finishEvent(EVENTS.LOADING_MATERIAL)
     } else {
-        const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow')
+        const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint'+FILE_TYPES.SCRIPT)
         if (!res)
-            await quickAccess.fileSystem.writeFile('\\levelBlueprint.flow', JSON.stringify({
+            await quickAccess.fileSystem.writeFile('\\levelBlueprint'+FILE_TYPES.SCRIPT, JSON.stringify({
                 nodes: [],
                 links: [],
                 variables: [],
                 groups: []
             }))
         else {
-            const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint.flow', 'json')
+            const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint'+FILE_TYPES.SCRIPT, 'json')
 
             parseFile(f, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
         }
