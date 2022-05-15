@@ -18,9 +18,9 @@ import MinimalTabs from "./components/MinimalTabs";
 import SettingsProvider from "../../../hooks/SettingsProvider";
 import useEditorEngine from "../../../engine-editor/useEditorEngine";
 import Viewport from "../../../../components/viewport/Viewport";
-import FormTabs from "../../scene/forms/FormTabs";
-import useForm from "../../scene/utils/useForm";
-import sceneStyles from '../../scene/styles/Scene.module.css'
+import FormTabs from "../../../components/scene/forms/FormTabs";
+import useForm from "../../../components/scene/utils/useForm";
+import sceneStyles from '../../../components/scene/styles/Scene.module.css'
 import handleDrop from "../../../utils/handleDrop";
 
 import CAMERA_TYPES from "../../../engine-editor/camera/CAMERA_TYPES";

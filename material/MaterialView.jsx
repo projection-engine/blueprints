@@ -13,9 +13,8 @@ import Material from "./nodes/Material";
 import CompilationStatus from "./components/CompilationStatus";
 import options from './utils/options'
 import compileShaders from "./utils/compileShaders";
-import {v4} from "uuid";
 
-const id = v4().toString()
+
 export default function MaterialView(props) {
     const [scale, setScale] = useState(1)
     const [status, setStatus] = useState({})

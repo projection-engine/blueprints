@@ -6,7 +6,7 @@ import {Button, ContextMenu, Ripple,} from "@f-ui/core";
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
 import deleteNode from "../../components/utils/deleteNode";
 import NODE_TYPES from "../../components/NODE_TYPES";
-import mapToView from "../../../scene/utils/mapToView";
+import mapToView from "../../../../components/scene/utils/mapToView";
 import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials";
 import TreeView from "../../../../../components/tree/TreeView";
 

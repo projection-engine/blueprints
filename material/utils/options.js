@@ -19,9 +19,9 @@ export default function options(compileShaders, hook, submitPackage) {
                     await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
                 )
                 submitPackage(
-                    response.preview,
                     response.data,
-                    false
+                    false,
+                    response.preview,
                 )
                 hook.setChanged(false)
                 hook.setImpactingChange(false)
@@ -35,9 +35,10 @@ export default function options(compileShaders, hook, submitPackage) {
             onClick: async () => {
                 const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                 submitPackage(
-                    response.preview,
+
                     response.data,
-                    true
+                    true,
+                    response.preview,
                 )
                 hook.setChanged(false)
                 hook.setImpactingChange(false)
