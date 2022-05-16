@@ -1,6 +1,6 @@
 import compiler from "../compiler/compiler";
 import MaterialInstance from "../../../../engine/instances/MaterialInstance";
-import {IDS} from "../../../../engine-editor/useMinimalEngine";
+import {IDS} from "../../../../utils/extension/useMinimalEngine";
 import {trimString} from "../../../../engine/instances/ShaderInstance";
 
 export default async function compileShaders(setAlert, hook,setStatus ){

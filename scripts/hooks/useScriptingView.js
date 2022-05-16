@@ -20,7 +20,7 @@ import Subtract from "../nodes/math/Subtract";
 import Multiply from "../nodes/math/Multiply";
 import Divide from "../nodes/math/Divide";
 import KeyPress from "../nodes/events/KeyPress";
-import FILE_TYPES from "../../../../../../public/glTF/FILE_TYPES";
+import FILE_TYPES from "../../../../../../public/project/glTF/FILE_TYPES";
 
 
 export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
