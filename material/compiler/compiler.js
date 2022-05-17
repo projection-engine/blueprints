@@ -5,7 +5,6 @@ import deferredTemplate from "./deferredTemplate";
 import forwardTemplate from "./forwardTemplate";
 import resolveStructure from "./resolveStructure";
 import TextureSample from "../nodes/TextureSample";
-import {vertex as fwVertex} from "../../../../engine/shaders/mesh/FORWARD.glsl";
 import {vertex} from "../../../../engine/shaders/mesh/FALLBACK.glsl";
 import MATERIAL_RENDERING_TYPES from "../../../../engine/templates/MATERIAL_RENDERING_TYPES";
 import unlitTemplate from "./unlitTemplate";
@@ -35,7 +34,7 @@ export default async function compiler(n, links, fileSystem) {
             uniformData
         } = await compileFrag(n, links, fileSystem, startPoint.shadingType)
         const vertexBody = compileVertex(startPoint, n, links)
-        const v = startPoint.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? fwVertex : vertex
+
 
 
         const cubeMapShader = await compileFrag(
@@ -62,7 +61,7 @@ export default async function compiler(n, links, fileSystem) {
             },],
             cubeMapShader,
             shader: code,
-            vertexShader: v,
+            vertexShader: vertex,
             uniforms,
             uniformData,
             settings: {

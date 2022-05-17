@@ -30,13 +30,18 @@ import LoaderProvider from "../../../../components/loader/LoaderProvider";
 import SHADING_MODELS from "../../../engine/templates/SHADING_MODELS";
 
 export default function BlueprintView(props) {
+    const setAlert = ({type, message}) => {
+        alert.pushAlert(message, type)
+    }
     const settings = useContext(SettingsProvider)
     const load = useContext(LoaderProvider)
-    const engine = useEditorEngine(props.file.registryID, false, {
-        ...settings,
-        shadingModel: SHADING_MODELS.FLAT,
-        cameraType: CAMERA_TYPES.SPHERICAL
-    }, load, true)
+    const engine = useEditorEngine(
+        false,
+        {
+            ...settings,
+            shadingModel: SHADING_MODELS.DETAIL,
+            cameraType: CAMERA_TYPES.SPHERICAL
+        }, load, setAlert)
 
     const hook = useScriptingView(props.file, engine, load)
     const ref = useRef()
@@ -48,11 +53,9 @@ export default function BlueprintView(props) {
     const [open, setOpen] = useState(0)
     const [currentTab, setCurrentTab] = useState(0)
     const alert = useContext(AlertProvider)
-    const setAlert = ({type, message}) => {
-        alert.pushAlert(message, type)
-    }
+
     useEffect(() => {
-        if(hook.selected.length > 0)
+        if (hook.selected.length > 0)
             setSelectedVariable(undefined)
     }, [hook.selected])
     useEffect(() => {
@@ -87,8 +90,8 @@ export default function BlueprintView(props) {
                 style={{fontSize: '1.2rem'}}
                 className={`material-icons-round`}>engineering</span>,
             (newTab) => {
-                    if(newTab === props.index)
-                        engine.setInitialized(false)
+                if (newTab === props.index)
+                    engine.setInitialized(false)
             },
             true,
 
@@ -178,28 +181,28 @@ export default function BlueprintView(props) {
                     />
                 </div>
 
-                    <Board
-                        id={props.file.registryID}
-                        hide={open === 0}
-                        allNodes={availableNodes}
-                        setAlert={props.setAlert}
-                        parentRef={ref}
-                        onEmptyClick={() => setSelectedVariable(undefined)}
-                        onDrop={(ev) => {
-                            const dt = ev.dataTransfer.getData('text')
-                            const entity = engine.entities.find(e => e.id === dt)
+                <Board
+                    id={props.file.registryID}
+                    hide={open === 0}
+                    allNodes={availableNodes}
+                    setAlert={props.setAlert}
+                    parentRef={ref}
+                    onEmptyClick={() => setSelectedVariable(undefined)}
+                    onDrop={(ev) => {
+                        const dt = ev.dataTransfer.getData('text')
+                        const entity = engine.entities.find(e => e.id === dt)
 
-                            if(entity)
-                                return [true, new EntityReference(dt, entity?.name, Object.keys(entity.components))]
-                            else
-                                return [true]
-                        }}
-                        hook={hook}
-                        selected={hook.selected}
-                        setSelected={hook.setSelected}
-                        scale={scale}
-                        setScale={setScale}
-                    />
+                        if (entity)
+                            return [true, new EntityReference(dt, entity?.name, Object.keys(entity.components))]
+                        else
+                            return [true]
+                    }}
+                    hook={hook}
+                    selected={hook.selected}
+                    setSelected={hook.setSelected}
+                    scale={scale}
+                    setScale={setScale}
+                />
 
 
             </MinimalTabs>
