@@ -11,7 +11,6 @@ in vec3 viewDirection;
 in vec2 texCoord;
 in vec4 vPosition;
 uniform float elapsedTime;
-
 @import(ambientUniforms)
 
 uniform vec3 cameraVec;
