@@ -34,7 +34,7 @@ void main(){
     ${body}
     
    ${ambient ? `        
-        gAmbient = vec4( computeAmbient(cameraVec, gAlbedo.rgb,  vPosition.rgb, gNormal.rgb, gBehaviour.g, gBehaviour.b, ambientLODSamples, brdfSampler), 1.);
+        gAmbient = vec4( computeAmbient(cameraVec, gAlbedo.rgb,  vPosition.rgb, gNormal.rgb, gBehaviour.g, gBehaviour.b, ambientLODSamples, brdfSampler, vPosition.rgb), 1.);
     ` : `gAmbient = vec4(vec3(0.), 1.);`}
 }
         `,

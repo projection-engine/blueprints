@@ -84,7 +84,7 @@ void main(){
         }
     
        ${ambient ? `
-        Lo += computeAmbient(NdotV, metallic, roughness, albedo, F0, V, N, ambientLODSamples, brdfSampler);
+        Lo += computeAmbient(NdotV, metallic, roughness, albedo, F0, V, N, ambientLODSamples, brdfSampler, vPosition.rgb);
         ` : ``}
     
         finalColor = vec4(Lo, opacity);
