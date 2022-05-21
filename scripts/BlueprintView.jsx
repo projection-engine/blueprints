@@ -16,14 +16,14 @@ import getAvailableNodes from "./utils/getAvailableNodes";
 import {AlertProvider, Button} from "@f-ui/core";
 import MinimalTabs from "./components/MinimalTabs";
 import SettingsProvider from "../../../hooks/SettingsProvider";
-import useEditorEngine from "../../../utils/extension/useEditorEngine";
+import useEditorEngine from "../../../extension/useEditorEngine";
 import Viewport from "../../../../components/viewport/Viewport";
-import FormTabs from "../../../components/scene/forms/FormTabs";
+import FormTabs from "../../scene/components/FormTabs";
 import useForm from "../../../components/scene/utils/useForm";
 import sceneStyles from '../../../components/scene/styles/Scene.module.css'
 import handleDrop from "../../../utils/importer/import";
 
-import CAMERA_TYPES from "../../../utils/extension/camera/CAMERA_TYPES";
+import CAMERA_TYPES from "../../../extension/camera/CAMERA_TYPES";
 import ViewportOptions from "../../../../components/viewport/ViewportOptions";
 import EntityReference from "./nodes/utils/EntityReference";
 import LoaderProvider from "../../../../components/loader/LoaderProvider";
