@@ -23,7 +23,6 @@ import useForm from "../../../components/scene/utils/useForm";
 import sceneStyles from '../../../components/scene/styles/Scene.module.css'
 import handleDrop from "../../../utils/importer/import";
 
-import CAMERA_TYPES from "../../../extension/camera/CAMERA_TYPES";
 import ViewportOptions from "../../../../components/viewport/ViewportOptions";
 import EntityReference from "./nodes/utils/EntityReference";
 import LoaderProvider from "../../../../components/loader/LoaderProvider";
@@ -39,8 +38,7 @@ export default function BlueprintView(props) {
         false,
         {
             ...settings,
-            shadingModel: SHADING_MODELS.DETAIL,
-            cameraType: CAMERA_TYPES.SPHERICAL
+            shadingModel: SHADING_MODELS.DETAIL
         }, load, setAlert)
 
     const hook = useScriptingView(props.file, engine, load)
