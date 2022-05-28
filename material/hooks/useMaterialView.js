@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import QuickAccessProvider from "../../../../hooks/QuickAccessProvider";
 import EVENTS from "../../../../utils/EVENTS";
 import useMinimalEngine from "../../../../extension/useMinimalEngine";
@@ -7,6 +7,7 @@ import Material from "../nodes/Material";
 import TextureSample from "../nodes/TextureSample";
 import LoaderProvider from "../../../../../components/loader/LoaderProvider";
 import getNewInstance from "../utils/getNewInstance";
+import FileSystem from "../../../../utils/files/FileSystem";
 
 
 export default function useMaterialView(file,setAlert) {
@@ -22,12 +23,14 @@ export default function useMaterialView(file,setAlert) {
     const [realTime, setRealTime] = useState(true)
     const quickAccess = useContext(QuickAccessProvider)
     const load = useContext(LoaderProvider)
-    const engine = useMinimalEngine(true, true, true, true)
+    const engine = useMinimalEngine()
 
+    const loaded = useRef(false)
     useEffect(() => {
-        if (engine.gpu && engine.meshes.length > 0)
+        if (engine.gpu && engine.meshes.length > 0 && !loaded.current) {
+            loaded.current = true
             parse(file, quickAccess, setNodes, setLinks, engine, load)
-
+        }
     }, [file, engine.gpu, engine.meshes])
 
 
@@ -50,8 +53,9 @@ function parse(file, quickAccess, setNodes, setLinks, engine, load) {
         .then(res => {
             if (res) {
                 quickAccess.fileSystem
-                    .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
+                    .readFile(quickAccess.fileSystem.path + FileSystem.sep + 'assets' +FileSystem.sep +  res.path, 'json')
                     .then(file => {
+                        console.log(file)
                         if (file && Object.keys(file).length > 0) {
                             const newNodes = file.nodes.map(f => {
                                 const i = getNewInstance(f.instance)

@@ -3,6 +3,7 @@ import {useMemo} from "react";
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
 import styles from '../styles/Node.module.css'
 import Preview from "../../../../../components/preview/Preview";
+import FileSystem from "../../../../utils/files/FileSystem";
 
 export default function NodeShowcase(props) {
     const attributesToRender = useMemo(() => {
@@ -38,7 +39,7 @@ NodeShowcase.propTypes = {
 
 function TexturePreview(props) {
     const p = useMemo(() => {
-        return props.path + '\\previews\\' + props.attribute.value?.registryID + '.preview'
+        return props.path + FileSystem.sep + 'previews' +FileSystem.sep +  props.attribute.value?.registryID + '.preview'
     }, [props.attribute.value])
 
     return (

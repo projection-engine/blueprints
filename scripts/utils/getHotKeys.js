@@ -10,7 +10,7 @@ import Getter from "../nodes/utils/Getter";
 import {v4 as uuidv4} from 'uuid';
 import KEYS from "../../../../engine/templates/KEYS";
 
-export default function getHotKeys(hook, props, toCopy, setToCopy, engine, file, isLevelBp) {
+export default function getHotKeys(hook, submitPackage, setAlert, toCopy, setToCopy, engine, file, isLevelBp) {
     return [
         {
             require: [KEYS.KeyG],
@@ -24,7 +24,7 @@ export default function getHotKeys(hook, props, toCopy, setToCopy, engine, file,
             callback: () => {
 
                 const response = mapper(hook,engine, file, isLevelBp )
-                props.submitPackage(
+                submitPackage(
                     response,
                     false
                 )
@@ -35,7 +35,7 @@ export default function getHotKeys(hook, props, toCopy, setToCopy, engine, file,
             callback: () => {
                 setToCopy(hook.selected)
                 if (hook.selected.length > 0)
-                    props.setAlert({
+                    setAlert({
                         type: 'success',
                         message: 'Entities copied.'
                     })

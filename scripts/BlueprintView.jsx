@@ -4,7 +4,7 @@ import Available from "../components/components/Available";
 import styles from '../components/styles/Board.module.css'
 import React, {useContext, useEffect, useMemo, useRef, useState} from "react";
 import PropTypes from "prop-types";
-import ControlProvider from "../../../../components/tabs/components/ControlProvider";
+import ControlProvider from "../../router/components/ControlProvider";
 import ResizableBar from "../../../../components/resizable/ResizableBar";
 import useHotKeys from "../../../hooks/useHotKeys";
 import {allNodes} from "./templates/AllNodes";
@@ -17,18 +17,24 @@ import {AlertProvider, Button} from "@f-ui/core";
 import MinimalTabs from "./components/MinimalTabs";
 import SettingsProvider from "../../../hooks/SettingsProvider";
 import useEditorEngine from "../../../extension/useEditorEngine";
-import Viewport from "../../../../components/viewport/Viewport";
+import Viewport from "../../viewport/Viewport";
 import FormTabs from "../../scene/components/FormTabs";
 import useForm from "../../../components/scene/utils/useForm";
 import sceneStyles from '../../../components/scene/styles/Scene.module.css'
 import handleDrop from "../../../utils/importer/import";
 
-import ViewportOptions from "../../../../components/viewport/ViewportOptions";
+import ViewportOptions from "../../viewport/ViewportOptions";
 import EntityReference from "./nodes/utils/EntityReference";
 import LoaderProvider from "../../../../components/loader/LoaderProvider";
 import SHADING_MODELS from "../../../engine/templates/SHADING_MODELS";
+import {useParams} from "react-router-dom";
+import {ROUTER_TYPES} from "../../router/TabRouter";
 
 export default function BlueprintView(props) {
+    const {submitPackage} = props
+    const {registryID, name} = useParams()
+    const file = {registryID, name}
+    const alert = useContext(AlertProvider)
     const setAlert = ({type, message}) => {
         alert.pushAlert(message, type)
     }
@@ -41,7 +47,7 @@ export default function BlueprintView(props) {
             shadingModel: SHADING_MODELS.DETAIL
         }, load, setAlert)
 
-    const hook = useScriptingView(props.file, engine, load)
+    const hook = useScriptingView(file, engine, load)
     const ref = useRef()
     const wrapperRef = useRef()
     const controlProvider = useContext(ControlProvider)
@@ -50,7 +56,7 @@ export default function BlueprintView(props) {
     const [scale, setScale] = useState(1)
     const [open, setOpen] = useState(0)
     const [currentTab, setCurrentTab] = useState(0)
-    const alert = useContext(AlertProvider)
+
 
     useEffect(() => {
         if (hook.selected.length > 0)
@@ -73,35 +79,32 @@ export default function BlueprintView(props) {
                     onClick: () => {
                         hook.setChanged(false)
                         hook.setImpactingChange(false)
-                        props.submitPackage(mapper(hook, engine, props.file), false)
+                        submitPackage(mapper(hook, engine, file), false)
                     }
                 },
                 {
                     label: 'Save & close',
                     disabled: !hook.changed,
                     icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
-                    onClick: () => props.submitPackage(mapper(hook, engine, props.file), true)
+                    onClick: () => submitPackage(mapper(hook, engine, file), true)
                 }
             ],
-            props.file.name,
+            file.name,
             <span
                 style={{fontSize: '1.2rem'}}
-                className={`material-icons-round`}>engineering</span>,
-            (newTab) => {
-                if (newTab === props.index)
-                    engine.setInitialized(false)
-            },
-            true,
-
-            props.index
+                className={`material-icons-round`}
+            >
+                engineering
+            </span>,
+            ROUTER_TYPES.BLUEPRINT,
+            registryID
         )
 
     }, [hook.nodes, hook.links, hook.variables, hook.groups, engine.entities, hook.changed, hook.impactingChange])
 
     useHotKeys({
-        focusTarget: props.file.registryID + '-board-wrapper',
-        disabled: controlProvider.tab !== props.index,
-        actions: getHotKeys(hook, props, toCopy, setToCopy)
+        focusTarget: file.registryID + '-board-wrapper',
+        actions: getHotKeys(hook, submitPackage, setAlert, toCopy, setToCopy)
     }, [hook.selected, hook.links, hook.nodes, toCopy])
 
 
@@ -111,10 +114,8 @@ export default function BlueprintView(props) {
 
     const currentForm = useForm(
         engine,
-
         setAlert,
         false,
-
         hook.quickAccess,
         load,
         currentTab
@@ -122,7 +123,7 @@ export default function BlueprintView(props) {
 
 
     return (
-        <div className={styles.prototypeWrapper} ref={ref} id={props.file.registryID + '-board-wrapper'}>
+        <div className={styles.prototypeWrapper} ref={ref} id={registryID + '-board-wrapper'}>
 
             <Structure
                 hook={hook}
@@ -169,10 +170,10 @@ export default function BlueprintView(props) {
                     position: 'relative',
                     overflow: 'hidden'
                 }}>
-                    <ViewportOptions engine={engine} id={props.file.fileID} minimal={true}/>
+                    <ViewportOptions engine={engine} id={registryID} minimal={true}/>
                     <Viewport
                         allowDrop={true}
-                        id={props.file.registryID}
+                        id={registryID}
                         showPosition={false}
                         handleDrop={event => handleDrop(event, hook.quickAccess.fileSystem, engine, setAlert, load, false, true)}
                         engine={engine}
@@ -180,10 +181,10 @@ export default function BlueprintView(props) {
                 </div>
 
                 <Board
-                    id={props.file.registryID}
+                    id={registryID}
                     hide={open === 0}
                     allNodes={availableNodes}
-                    setAlert={props.setAlert}
+                    setAlert={setAlert}
                     parentRef={ref}
                     onEmptyClick={() => setSelectedVariable(undefined)}
                     onDrop={(ev) => {
@@ -269,16 +270,5 @@ export default function BlueprintView(props) {
 }
 
 BlueprintView.propTypes = {
-    isLevelBlueprint: PropTypes.bool,
-
-    index: PropTypes.number.isRequired,
-    setAlert: PropTypes.func.isRequired,
-    file: PropTypes.shape({
-        registryID: PropTypes.string,
-        name: PropTypes.string,
-        blob: PropTypes.any,
-        type: PropTypes.string,
-    }),
     submitPackage: PropTypes.func.isRequired
-
 }

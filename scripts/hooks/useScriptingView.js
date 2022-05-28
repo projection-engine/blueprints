@@ -21,6 +21,7 @@ import Multiply from "../nodes/math/Multiply";
 import Divide from "../nodes/math/Divide";
 import KeyPress from "../nodes/events/KeyPress";
 import FILE_TYPES from "../../../../../../public/project/glTF/FILE_TYPES";
+import FileSystem from "../../../../utils/files/FileSystem";
 
 
 export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
@@ -89,22 +90,22 @@ async function parse(file, quickAccess, setNodes, setLinks, setVariables, setGro
 
         if (res) {
             const file = await quickAccess.fileSystem
-                .readFile(quickAccess.fileSystem.path + '\\assets\\' + res.path, 'json')
+                .readFile(quickAccess.fileSystem.path + FileSystem.sep + 'assets' +FileSystem.sep +  res.path, 'json')
             parseFile(file, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
 
         } else
             load.finishEvent(EVENTS.LOADING_MATERIAL)
     } else {
-        const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint'+FILE_TYPES.SCRIPT)
+        const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + 'levelBlueprint'+FILE_TYPES.SCRIPT)
         if (!res)
-            await quickAccess.fileSystem.writeFile('\\levelBlueprint'+FILE_TYPES.SCRIPT, JSON.stringify({
+            await quickAccess.fileSystem.writeFile(FileSystem.sep + 'levelBlueprint'+FILE_TYPES.SCRIPT, JSON.stringify({
                 nodes: [],
                 links: [],
                 variables: [],
                 groups: []
             }))
         else {
-            const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + '\\levelBlueprint'+FILE_TYPES.SCRIPT, 'json')
+            const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + 'levelBlueprint'+FILE_TYPES.SCRIPT, 'json')
 
             parseFile(f, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
         }
