@@ -19,14 +19,12 @@ export default async function Make(hook, result) {
     })
 
     return {
-
-        preview: await hook.engine.toImage(),
+        // preview: await hook.engine.toImage(),
         data: JSON.stringify({
             nodes: parsedNodes,
             links: hook.links,
             response: result,
             type: result.variant
-
         })
     }
 }

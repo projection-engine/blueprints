@@ -1,4 +1,4 @@
-import compiler from "../compiler/compiler";
+import compiler from "./compiler/compiler";
 import MaterialInstance from "../../../../engine/instances/MaterialInstance";
 import {IDS} from "../../../../extension/useMinimalEngine";
 import {trimString} from "../../../../engine/instances/ShaderInstance";
@@ -16,11 +16,11 @@ export default async function compileShaders(setAlert, hook,setStatus ){
     } = await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
 
     if (shader) {
-        const prev = hook.engine.material
+        const prev = hook.renderer.overrideMaterial
         let promise, newMat
         if (!prev)
             promise = new Promise(resolve => {
-                newMat = new MaterialInstance(hook.engine.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL, cubeMapShader.code)
+                newMat = new MaterialInstance(hook.renderer.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL, cubeMapShader.code)
             })
         else {
             newMat = prev
@@ -66,6 +66,6 @@ export default async function compileShaders(setAlert, hook,setStatus ){
             info
         })
         if (!message.hasError)
-            hook.engine.setMaterial(newMat)
+            hook.renderer.overrideMaterial = newMat
     }
 }

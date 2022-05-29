@@ -1,7 +1,7 @@
 import React, {useMemo} from "react";
 import styles from '../styles/NodeEditor.module.css'
 import PropTypes from "prop-types";
-import Material from "../nodes/Material";
+import Material from "../utils/nodes/Material";
 
 import {Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
 import Range from "../../../../../components/range/Range";
@@ -159,7 +159,7 @@ export default function NodeEditor(props) {
                         {obj.options.find(o => o.data === selected[obj.key])?.label}
                         <DropdownOptions>
                             {obj.options?.map((o, i) => (
-                                <React.Fragment key={'options-' + i}>
+                                <React.Fragment key={'header-' + i}>
                                     <DropdownOption option={{
                                         ...o,
                                         icon: o.data === selected[obj.key] ? <span style={{fontSize: '1.1rem'}}
@@ -229,15 +229,11 @@ export default function NodeEditor(props) {
                                         else
                                             selected[attr.key] = event
                                     } else {
-
+                                        // TODO - FIND AND UPDATE CURRENT MATERIAL
                                         if (attr.key === 'tilingX')
-                                            props.engine.material.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
+                                            props.hook.renderer.overrideMaterial.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
                                         if (attr.key === 'tilingY')
-                                            props.engine.material.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
-
-
-                                        const input = selected.inputs.find(i => i.key === attr.key)
-
+                                            props.hook.renderer.overrideMaterial.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
                                         selected[attr.key] = event
                                     }
                                 },
@@ -255,8 +251,6 @@ export default function NodeEditor(props) {
 }
 
 NodeEditor.propTypes = {
-    engine: PropTypes.object.isRequired,
-
     selected: PropTypes.string,
     hook: PropTypes.object
 }

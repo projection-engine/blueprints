@@ -6,9 +6,6 @@ import {Button, ContextMenu, Ripple,} from "@f-ui/core";
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
 import deleteNode from "../../components/utils/deleteNode";
 import NODE_TYPES from "../../components/NODE_TYPES";
-import mapToView from "../../../../components/scene/utils/mapToView";
-import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials";
-import TreeView from "../../../../../components/tree/TreeView";
 
 import {v4 as uuidv4} from 'uuid';
 import AccordionTemplate from "../../../../../components/templates/AccordionTemplate";
@@ -52,70 +49,10 @@ export default function Structure(props) {
         }
     }
 
-    const data = useMemo(() => {
-        let toFilter = props.engine.entities.filter(d => !d.linkedTo && !d.components.Grid)
-        return [{
-            id: 0,
-            label: 'Blueprint',
-            children: toFilter.map(f => {
-                return mapToView(f, props.engine.entities, (el, e) => {
-                    if (e && e.ctrlKey) {
-                        props.engine.setSelected(prev => {
-                            const indexFound = prev.findIndex(f => f === el)
-                            if (indexFound === -1)
-                                return [...prev, el]
-                            else {
-                                let n = [...prev]
-                                n.splice(indexFound, 1)
-                                return n
-                            }
-                        })
-                    } else
-                        props.engine.setSelected([el])
-                }, props.engine)
-            }),
-            icon: <span className={'material-icons-round'} style={{fontSize: '1rem'}}>inventory_2</span>,
-            type: 'Scene',
-            phantomNode: true
-        }]
-    }, [props.engine.entities])
-
 
     return (
         <div className={styles.wrapper} style={{width: '275px'}}>
-            <TreeView
-                contextTriggers={[
-                    'data-node',
-                    'data-self'
-                ]}
-                draggable={props.openTab === 1 || props.isLevelBlueprint}
-                searchable={true}
-                options={[
-                    {
-                        requiredTrigger: 'data-node',
-                        label: 'Remove entity',
-                        icon: <span className={'material-icons-round'}>delete</span>,
-                        onClick: (node) => {
-                            const toDelete = [...props.engine.selected, node.getAttribute('data-node')]
-                            props.engine.setSelected([])
-                            props.engine.dispatchEntities({
-                                type: ENTITY_ACTIONS.REMOVE_BLOCK,
-                                payload: toDelete
-                            })
 
-                        }
-                    }
-                ]}
-                selected={props.engine.selected}
-                nodes={data}
-                styles={{maxHeight: '50%'}}
-                handleRename={(treeNode, newName) => {
-                    props.engine.dispatchEntities({
-                        type: ENTITY_ACTIONS.UPDATE,
-                        payload: {entityID: treeNode.id, key: 'name', data: newName}
-                    })
-                }}
-            />
             <AccordionTemplate title={'Events'}>
                 {events.map(g => (
                     <div className={styles.option} onDoubleClick={() => {

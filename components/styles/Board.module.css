@@ -26,10 +26,11 @@
 }
 
 .prototypeWrapper {
-    padding: 3px 0 0 0;
+
     display: flex;
 
 
+    max-height: 50vh;
     height: 100%;
     width: 100%;
     overflow: hidden;

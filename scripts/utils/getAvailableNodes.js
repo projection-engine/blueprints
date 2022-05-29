@@ -1,7 +1,7 @@
-import {allNodes} from "../templates/AllNodes";
+import {allNodes} from "./AllNodes";
 import styles from "../../components/styles/Board.module.css";
-import Getter from "../nodes/utils/Getter";
-import Setter from "../nodes/utils/Setter";
+import Getter from "./nodes/utils/Getter";
+import Setter from "./nodes/utils/Setter";
 import React from "react";
 
 import {v4 as uuidv4} from 'uuid';

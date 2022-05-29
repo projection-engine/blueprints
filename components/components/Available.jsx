@@ -3,7 +3,6 @@ import styles from '../styles/Available.module.css'
 import Search from "../../../../../components/search/Search";
 import {useMemo, useState} from "react";
 import PropTypes from "prop-types";
-import {Button} from "@f-ui/core";
 
 export default function Available(props) {
     const [searchString, setSearchString] = useState('')
@@ -15,32 +14,21 @@ export default function Available(props) {
                 return i.label.includes(searchString)
         })
     }, [searchString])
-    const [hidden, setHidden] = useState(false)
 
+    console.log(props.styles)
     return (
-        <div className={styles.wrapper} style={{width: hidden ? '35px' : undefined, minWidth: hidden ? undefined : '250px'}}>
-            <div className={styles.header} style={{justifyItems: hidden ? 'center' : 'flex-start'}}>
-                {props.canBeHidden ? (
-                        <div style={{display: 'flex', flexDirection: hidden ? 'column' : undefined, alignItems: 'center'}}>
-                            <Button onClick={() => setHidden(!hidden)} className={styles.hideButton}>
-                                <div
-                                    className={'material-icons-round'}
-                                    style={{fontSize: '1rem'}}>{!hidden ? 'menu_open' : 'menu'}</div>
-                            </Button>
-                            <label className={hidden ? styles.vertLabel : undefined}>
-                                Available nodes
-                            </label>
-                        </div>
-                    )
-                    :
-                    'Available nodes'
-                }
-                {hidden ? null : <Search width={'100%'} noPadding={true} height={'20px'} searchString={searchString}
-                                         setSearchString={setSearchString}/>}
-
+        <div className={styles.wrapper} style={props.styles}>
+            <div className={styles.header} style={{justifyItems: 'flex-start'}}>
+                Available nodes
+                <Search
+                    width={'100%'}
+                    noPadding={true}
+                    height={'20px'}
+                    searchString={searchString}
+                    setSearchString={setSearchString}
+                />
             </div>
-
-            <div className={styles.content} style={{display: hidden ? 'none' : undefined}}>
+            <div className={styles.content}>
                 {nodes.map((d, i) => (
                     <div
                         className={styles.option}
@@ -62,6 +50,6 @@ export default function Available(props) {
 }
 
 Available.propTypes = {
-    canBeHidden: PropTypes.bool,
-    allNodes: PropTypes.array
+    allNodes: PropTypes.array,
+    styles: PropTypes.object
 }

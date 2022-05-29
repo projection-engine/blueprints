@@ -1,24 +1,14 @@
 .wrapper {
     width: 100%;
-
     height: 100%;
-
     overflow-y: auto;
     background-color: var(--fabric-background-primary);
-
-
-
     border-radius: 5px;
-
-
     display: flex;
     flex-direction: column;
     align-content: flex-start;
-
     gap: 8px;
-
     overflow-x: hidden;
-
 }
 
 .vertLabel{

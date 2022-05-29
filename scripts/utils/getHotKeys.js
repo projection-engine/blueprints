@@ -1,11 +1,11 @@
 import createGroupShortcut from "../../components/utils/createGroupShortcut";
-import mapper from "../compiler/mapper";
-import EventTick from "../nodes/events/EventTick";
+import mapper from "./compiler/mapper";
+import EventTick from "./nodes/events/EventTick";
 import deleteNode from "../../components/utils/deleteNode";
 import cloneClass from "../../../../engine/utils/cloneClass";
-import EntityReference from "../nodes/utils/EntityReference";
-import Setter from "../nodes/utils/Setter";
-import Getter from "../nodes/utils/Getter";
+import EntityReference from "./nodes/utils/EntityReference";
+import Setter from "./nodes/utils/Setter";
+import Getter from "./nodes/utils/Getter";
 
 import {v4 as uuidv4} from 'uuid';
 import KEYS from "../../../../engine/templates/KEYS";

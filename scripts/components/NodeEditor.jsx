@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 
 import {TextField,} from "@f-ui/core";
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
-import Getter from "../nodes/utils/Getter";
-import {startKey} from "../nodes/utils/Setter";
+import Getter from "../utils/nodes/utils/Getter";
+import {startKey} from "../utils/nodes/utils/Setter";
 import getInput from "../utils/getInput";
 import ColorPicker from "../../../../../components/color/ColorPicker";
 import AccordionTemplate from "../../../../../components/templates/AccordionTemplate";

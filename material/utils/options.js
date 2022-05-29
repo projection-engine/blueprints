@@ -1,5 +1,5 @@
 import Make from "./Make";
-import compiler from "../compiler/compiler";
+import compiler from "./compiler/compiler";
 
 export default function options(compileShaders, hook, submitPackage) {
     return [

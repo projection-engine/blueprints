@@ -88,7 +88,7 @@ export default function getInput(label, type, value, submit, obj, hook, selected
                     {obj.options.find(o => o.data === hook.variables[selected][obj.key])?.label}
                     <DropdownOptions>
                         {obj.options?.map((o, i) => (
-                            <React.Fragment key={'options-' + i}>
+                            <React.Fragment key={'header-' + i}>
                                 <DropdownOption option={{
                                     ...o,
                                     icon: o.data === hook.variables[selected][obj.key] ?

@@ -53,10 +53,5 @@ export default function CompilationStatus(props) {
 }
 
 CompilationStatus.propTypes = {
-    status: PropTypes.shape({
-        info: PropTypes.array,
-        error: PropTypes.number,
-        messages: PropTypes.array,
-        hasError: PropTypes.bool
-    })
+    status: PropTypes.object
 }
