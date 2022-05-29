@@ -2,6 +2,7 @@ import compiler from "./compiler/compiler";
 import MaterialInstance from "../../../../engine/instances/MaterialInstance";
 import {IDS} from "../../../../extension/useMinimalEngine";
 import {trimString} from "../../../../engine/instances/ShaderInstance";
+import {v4} from "uuid";
 
 export default async function compileShaders(setAlert, hook,setStatus ){
     setAlert({message: 'Compiling shaders', type: 'info'})
@@ -20,7 +21,7 @@ export default async function compileShaders(setAlert, hook,setStatus ){
         let promise, newMat
         if (!prev)
             promise = new Promise(resolve => {
-                newMat = new MaterialInstance(hook.renderer.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), IDS.MATERIAL, cubeMapShader.code)
+                newMat = new MaterialInstance(hook.renderer.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), v4().toString(), cubeMapShader.code)
             })
         else {
             newMat = prev
