@@ -3,7 +3,7 @@ import MaterialInstance from "../../../../engine/instances/MaterialInstance";
 import {trimString} from "../../../../engine/instances/ShaderInstance";
 import {v4} from "uuid";
 
-export default async function compileShaders(setAlert, hook,setStatus ){
+export default async function compileShaders(setAlert, hook,setStatus, mat, setMat ){
     setAlert({message: 'Compiling shaders', type: 'info'})
     hook.setImpactingChange(false)
     const {
@@ -16,14 +16,14 @@ export default async function compileShaders(setAlert, hook,setStatus ){
     } = await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
 
     if (shader) {
-        const prev = hook.renderer.overrideMaterial
+        const onOverride = mat
         let promise, newMat
-        if (!prev)
+        if (!onOverride)
             promise = new Promise(resolve => {
                 newMat = new MaterialInstance(hook.renderer.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), v4().toString(), cubeMapShader.code)
             })
         else {
-            newMat = prev
+            newMat = onOverride
             promise = new Promise(resolve => {
                 newMat.shader = [shader, vertexShader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
                 newMat.cubeMapShader = [cubeMapShader.code, vertexShader]
@@ -65,6 +65,7 @@ export default async function compileShaders(setAlert, hook,setStatus ){
             },
             info
         })
+        setMat(newMat)
         if (!message.hasError)
             hook.renderer.overrideMaterial = newMat
     }

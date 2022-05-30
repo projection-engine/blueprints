@@ -22,7 +22,6 @@ export default function Context(props) {
                 t = props.selected.getAttribute('data-group')
                 type = 3
             }
-
             if (!t)
                 type = -1
             else if (t && type === -1) type = 0

@@ -33,8 +33,9 @@
 
     gap: 0;
     overflow: hidden;
-    width: clamp(250px, 20vw, 325px);
     background: var(--fabric-background-primary);
     border-radius: 5px;
+    min-width: 250px;
+
 
 }

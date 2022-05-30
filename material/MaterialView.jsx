@@ -25,15 +25,18 @@ export default function MaterialView(props) {
     const hook = useMaterialView({registryID, name}, setAlert)
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof MaterialView), [hook.nodes])
     const [init, setInit] = useState(false)
-
+    const [mat, setMat] = useState()
+    useEffect(() => {
+        setInit(false)
+    }, [props.open])
     useEffect(() => {
         if ((!init && hook.links.length > 0 || hook.impactingChange && hook.realTime) && engine.renderer) {
+            compileShaders(!init ? () => null : setAlert, hook, setStatus, mat, setMat).catch()
             setInit(true)
-            compileShaders(setAlert, hook, setStatus).catch()
         }
     }, [hook.impactingChange, engine.renderer, hook.realTime, hook.links, init])
     const optionsData = useMemo(() => {
-        return options(() => compileShaders(setAlert, hook, setStatus).catch(), hook, submitPackage)
+        return options(() => compileShaders(setAlert, hook, setStatus, mat, setMat).catch(), hook, submitPackage, mat)
     }, [hook.nodes, hook.links, engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
     const [toCopy, setToCopy] = useState([])
     useHotKeys({
@@ -82,5 +85,6 @@ MaterialView.propTypes = {
     submitPackage: PropTypes.func.isRequired,
     registryID: PropTypes.string,
     name: PropTypes.string,
-    engine: PropTypes.object
+    engine: PropTypes.object,
+    open: PropTypes.bool
 }
