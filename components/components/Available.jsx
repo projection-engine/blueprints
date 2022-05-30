@@ -15,7 +15,6 @@ export default function Available(props) {
         })
     }, [searchString])
 
-    console.log(props.styles)
     return (
         <div className={styles.wrapper} style={props.styles}>
             <div className={styles.header} style={{justifyItems: 'flex-start'}}>

@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import QuickAccessProvider from "../../../../hooks/QuickAccessProvider";
+import QuickAccessProvider from "../../../../utils/hooks/QuickAccessProvider";
 import EventTick from "./nodes/events/EventTick";
 import EVENTS from "../../../../utils/EVENTS";
 import Getter from "./nodes/utils/Getter";

@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import QuickAccessProvider from "../../../../hooks/QuickAccessProvider";
+import QuickAccessProvider from "../../../../utils/hooks/QuickAccessProvider";
 import EVENTS from "../../../../utils/EVENTS";
 import useFlow from "../../components/hooks/useFlow";
 import Material from "./nodes/Material";

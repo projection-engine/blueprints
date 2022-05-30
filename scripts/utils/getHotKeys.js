@@ -10,25 +10,19 @@ import Getter from "./nodes/utils/Getter";
 import {v4 as uuidv4} from 'uuid';
 import KEYS from "../../../../engine/templates/KEYS";
 
-export default function getHotKeys(hook, submitPackage, setAlert, toCopy, setToCopy, engine, file, isLevelBp) {
+export default function getHotKeys(hook, setAlert, toCopy, setToCopy, save) {
     return [
         {
             require: [KEYS.KeyG],
             callback: () => {
+                console.log(hook.selected)
                 if (hook.selected.length > 0)
                     createGroupShortcut(hook)
             }
         },
         {
             require: [KEYS.ControlLeft, KEYS.KeyS],
-            callback: () => {
-
-                const response = mapper(hook,engine, file, isLevelBp )
-                submitPackage(
-                    response,
-                    false
-                )
-            }
+            callback: save
         },
         {
             require: [KEYS.ControlLeft, KEYS.KeyC],
@@ -44,14 +38,13 @@ export default function getHotKeys(hook, submitPackage, setAlert, toCopy, setToC
         {
             require: [KEYS.Delete],
             callback: () => {
+                // TODO - REWORK
                 const clone = [...hook.selected]
                 hook.setSelected([])
                 clone.forEach(n => {
                     if (!(hook.nodes.find(nod => nod.id === n) instanceof EventTick))
                         deleteNode(n, hook)
                 })
-
-
             }
         },
         {

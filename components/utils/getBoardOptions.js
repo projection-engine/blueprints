@@ -5,7 +5,7 @@ export default function getBoardOptions(pushNode,setSelected, hook, links, allNo
 
     return [...allNodes.map(o => {
         return {
-            requiredTrigger: 'data-board',
+            requiredTrigger: 'data-self',
             label: o.label,
             icon: o.icon,
             onClick: (_, mouseInfo) => {

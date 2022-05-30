@@ -12,6 +12,8 @@ import options from './utils/options'
 import compileShaders from "./utils/compileShaders";
 import {AlertProvider} from "@f-ui/core";
 import FileOptions from "../../../../components/file-options/FileOptions";
+import useHotKeys from "../../../utils/hooks/useHotKeys";
+import getHotKeys from "../scripts/utils/getHotKeys";
 
 export default function MaterialView(props) {
     const {engine, submitPackage} = props
@@ -33,7 +35,11 @@ export default function MaterialView(props) {
     const optionsData = useMemo(() => {
         return options(() => compileShaders(setAlert, hook, setStatus).catch(), hook, submitPackage)
     }, [hook.nodes, hook.links, engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
-
+    const [toCopy, setToCopy] = useState([])
+    useHotKeys({
+        focusTarget: registryID + '-board',
+        actions: getHotKeys(hook, setAlert, toCopy, setToCopy, () => optionsData[1].onClick())
+    })
     return (<div style={{display: 'flex', overflow: 'hidden', height: '100%'}}>
         <FileOptions options={optionsData}/>
         <div className={s.wrapper} id={registryID + '-board'}>

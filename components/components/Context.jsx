@@ -30,9 +30,7 @@ export default function Context(props) {
         return type
     }, [props.selected])
     const nodes = useMemo(() => {
-
         return props.availableNodes.filter(a => {
-
             if (typeof a.label === "object") {
                 return (typeof a.label.props.children === "object" ? a.label.props.children.join('') : a.label.props.children).toLowerCase().includes(searchString.toLowerCase())
             } else
