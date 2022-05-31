@@ -1,27 +1,27 @@
-import {useContext, useEffect, useState} from "react";
-import QuickAccessProvider from "../../../../utils/hooks/QuickAccessProvider";
-import EventTick from "./nodes/events/EventTick";
-import EVENTS from "../../../../utils/EVENTS";
-import Getter from "./nodes/utils/Getter";
-import Setter from "./nodes/utils/Setter";
-import ProjectLoader from "../../../../utils/workers/ProjectLoader";
-import COMPONENTS from "../../../../engine/templates/COMPONENTS";
-import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials";
-import SetViewTarget from "./nodes/camera/SetViewTarget";
-import OnSpawn from "./nodes/events/OnSpawn";
-import useFlow from "../../components/hooks/useFlow";
-import EntityReference from "./nodes/utils/EntityReference";
-import Add from "./nodes/math/Add";
-import Print from "./nodes/utils/Print";
-import ConstantNumber from "./nodes/math/ConstantNumber";
-import GetCameraPosition from "./nodes/camera/GetCameraPosition";
-import SetCameraPosition from "./nodes/camera/SetCameraPosition";
-import Subtract from "./nodes/math/Subtract";
-import Multiply from "./nodes/math/Multiply";
-import Divide from "./nodes/math/Divide";
-import KeyPress from "./nodes/events/KeyPress";
-import FILE_TYPES from "../../../../../../public/project/glTF/FILE_TYPES";
-import FileSystem from "../../../../utils/files/FileSystem";
+import {useContext, useEffect, useState} from "react"
+import QuickAccessProvider from "../../../../utils/hooks/QuickAccessProvider"
+import EventTick from "./nodes/events/EventTick"
+import EVENTS from "../../../../utils/EVENTS"
+import Getter from "./nodes/utils/Getter"
+import Setter from "./nodes/utils/Setter"
+import ProjectLoader from "../../../../utils/workers/ProjectLoader"
+import COMPONENTS from "../../../../engine/templates/COMPONENTS"
+import {ENTITY_ACTIONS} from "../../../../engine/useEngineEssentials"
+import SetViewTarget from "./nodes/camera/SetViewTarget"
+import OnSpawn from "./nodes/events/OnSpawn"
+import useFlow from "../../components/hooks/useFlow"
+import EntityReference from "./nodes/utils/EntityReference"
+import Add from "./nodes/math/Add"
+import Print from "./nodes/utils/Print"
+import ConstantNumber from "./nodes/math/ConstantNumber"
+import GetCameraPosition from "./nodes/camera/GetCameraPosition"
+import SetCameraPosition from "./nodes/camera/SetCameraPosition"
+import Subtract from "./nodes/math/Subtract"
+import Multiply from "./nodes/math/Multiply"
+import Divide from "./nodes/math/Divide"
+import KeyPress from "./nodes/events/KeyPress"
+import FILE_TYPES from "../../../../../../public/project/glTF/FILE_TYPES"
+import FileSystem from "../../../../utils/files/FileSystem"
 
 
 export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
@@ -90,23 +90,22 @@ async function parse(file, quickAccess, setNodes, setLinks, setVariables, setGro
 
         if (res) {
             const file = await quickAccess.fileSystem
-                .readFile(quickAccess.fileSystem.path + FileSystem.sep + 'assets' +FileSystem.sep +  res.path, 'json')
+                .readFile(quickAccess.fileSystem.path + FileSystem.sep + "assets" +FileSystem.sep +  res.path, "json")
             parseFile(file, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
 
         } else
             load.finishEvent(EVENTS.LOADING_MATERIAL)
     } else {
-        const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + 'levelBlueprint'+FILE_TYPES.SCRIPT)
+        const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT)
         if (!res)
-            await quickAccess.fileSystem.writeFile(FileSystem.sep + 'levelBlueprint'+FILE_TYPES.SCRIPT, JSON.stringify({
+            await quickAccess.fileSystem.writeFile(FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT, JSON.stringify({
                 nodes: [],
                 links: [],
                 variables: [],
                 groups: []
             }))
         else {
-            const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + 'levelBlueprint'+FILE_TYPES.SCRIPT, 'json')
-
+            const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT, "json")
             parseFile(f, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
         }
     }
@@ -118,7 +117,7 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
         const newNodes = file.nodes.map(f => {
             const i = INSTANCES[f.instance]()
             Object.keys(f).forEach(o => {
-                if (o !== 'size')
+                if (o !== "size")
                     i[o] = f[o]
             })
             return i

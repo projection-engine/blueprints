@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import {useMemo} from "react";
-import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
-import styles from '../styles/Node.module.css'
-import Preview from "../../../../../components/preview/Preview";
-import FileSystem from "../../../../utils/files/FileSystem";
+import PropTypes from "prop-types"
+import {useMemo} from "react"
+import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
+import styles from "../styles/Node.module.css"
+import Preview from "../../../../../components/preview/Preview"
+import FileSystem from "../../../../utils/files/FileSystem"
 
 export default function NodeShowcase(props) {
     const attributesToRender = useMemo(() => {

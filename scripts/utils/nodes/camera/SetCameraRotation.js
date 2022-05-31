@@ -1,6 +1,6 @@
-import Node from "../../../../components/Node";
-import NODE_TYPES from "../../../../components/NODE_TYPES";
-import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES";
+import Node from "../../../../components/Node"
+import NODE_TYPES from "../../../../components/NODE_TYPES"
+import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES"
 
 export default class SetCameraRotation extends Node {
 

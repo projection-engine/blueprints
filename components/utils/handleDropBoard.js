@@ -3,7 +3,6 @@ export default function handleDropBoard(data, allNodes) {
         let n = current.find(el => el.dataTransfer === data)
         if (n)
             n = n.getNewInstance()
-
         return n
     }
 

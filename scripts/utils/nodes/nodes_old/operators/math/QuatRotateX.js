@@ -1,7 +1,7 @@
-import Node from "../../../../../../components/Node";
-import {DATA_TYPES} from "../../../../../../../../engine/templates/DATA_TYPES";
-import NODE_TYPES from "../../../../../../components/NODE_TYPES";
-import {quat} from "gl-matrix";
+import Node from "../../../../../../components/Node"
+import {DATA_TYPES} from "../../../../../../../../engine/templates/DATA_TYPES"
+import NODE_TYPES from "../../../../../../components/NODE_TYPES"
+import {quat} from "gl-matrix"
 
 
 export default class QuatRotateX extends Node {

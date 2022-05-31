@@ -1,7 +1,7 @@
-import styles from '../styles/Tabs.module.css'
-import React from "react";
-import {Button} from "@f-ui/core";
-import PropTypes from "prop-types";
+import styles from "../styles/Tabs.module.css"
+import React from "react"
+import {Button} from "@f-ui/core"
+import PropTypes from "prop-types"
 
 export default function MinimalTabs(props) {
     const {open, setOpen} = props

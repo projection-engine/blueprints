@@ -1,5 +1,5 @@
-import Node from "../../../../components/Node";
-import NODE_TYPES from "../../../../components/NODE_TYPES";
+import Node from "../../../../components/Node"
+import NODE_TYPES from "../../../../components/NODE_TYPES"
 
 
 export default class Getter extends Node {

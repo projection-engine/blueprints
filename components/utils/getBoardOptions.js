@@ -1,5 +1,5 @@
-import handleDropBoard from "./handleDropBoard";
-import deleteNode from "./deleteNode";
+import handleDropBoard from "./handleDropBoard"
+import deleteNode from "./deleteNode"
 
 export default function getBoardOptions(pushNode,setSelected, hook, links, allNodes) {
 

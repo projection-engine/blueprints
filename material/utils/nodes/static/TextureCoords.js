@@ -1,6 +1,6 @@
-import Node from '../../../../components/Node'
-import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES";
-import NODE_TYPES from "../../../../components/NODE_TYPES";
+import Node from "../../../../components/Node"
+import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES"
+import NODE_TYPES from "../../../../components/NODE_TYPES"
 
 
 export default class TextureCoords extends Node {

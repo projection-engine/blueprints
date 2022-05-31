@@ -1,25 +1,25 @@
-import PropTypes from "prop-types";
-import {useEffect, useMemo, useState} from "react";
-import styles from '../styles/Context.module.css'
-import Search from "../../../../../components/search/Search";
+import PropTypes from "prop-types"
+import React, {useEffect, useMemo, useState} from "react"
+import styles from "../styles/Context.module.css"
+import Search from "../../../../../components/search/Search"
 
 export default function Context(props) {
-    const [searchString, setSearchString] = useState('')
+    const [searchString, setSearchString] = useState("")
 
     const trigger = useMemo(() => {
         let type = -1
         if (props.selected) {
-            let t = props.selected.getAttribute('data-board')
+            let t = props.selected.getAttribute("data-board")
             if (!t) {
-                t = props.selected.getAttribute('data-node')
+                t = props.selected.getAttribute("data-node")
                 type = 1
             }
             if (!t) {
-                t = props.selected.getAttribute('data-link')
+                t = props.selected.getAttribute("data-link")
                 type = 2
             }
             if (!t) {
-                t = props.selected.getAttribute('data-group')
+                t = props.selected.getAttribute("data-group")
                 type = 3
             }
             if (!t)
@@ -31,7 +31,7 @@ export default function Context(props) {
     const nodes = useMemo(() => {
         return props.availableNodes.filter(a => {
             if (typeof a.label === "object") {
-                return (typeof a.label.props.children === "object" ? a.label.props.children.join('') : a.label.props.children).toLowerCase().includes(searchString.toLowerCase())
+                return (typeof a.label.props.children === "object" ? a.label.props.children.join("") : a.label.props.children).toLowerCase().includes(searchString.toLowerCase())
             } else
                 return a.label.toLowerCase().includes(searchString.toLowerCase())
         })
@@ -44,13 +44,13 @@ export default function Context(props) {
     useEffect(() => {
         if (props.selected) {
             if (trigger === 3)
-                props.setSelected([props.selected.getAttribute('data-group')])
+                props.setSelected([props.selected.getAttribute("data-group")])
             else
-                props.setSelected([props.selected.getAttribute('data-node')])
+                props.setSelected([props.selected.getAttribute("data-node")])
         }
     }, [props.selected])
     return (
-        <div className={styles.wrapper} style={{height: trigger === 0 ? '650px' : undefined}}>
+        <div className={styles.wrapper} style={{height: trigger === 0 ? "650px" : undefined}}>
             {trigger >= 0 ?
                 trigger === 0 ?
                     <>
@@ -59,13 +59,13 @@ export default function Context(props) {
                                 Available nodes
 
                             </h1>
-                            <Search width={'100%'} searchString={searchString} setSearchString={setSearchString}/>
+                            <Search width={"100%"} searchString={searchString} setSearchString={setSearchString}/>
                         </header>
                         {nodes.map((a, i) => (
                             <button
-                                key={a.dataTransfer + '-option-context'}
+                                key={a.dataTransfer + "-option-context"}
                                 className={styles.option}
-                                style={{background: i % 2 === 0 ? 'var(--fabric-background-secondary)' : undefined}}
+                                style={{background: i % 2 === 0 ? "var(--fabric-background-secondary)" : undefined}}
                                 onClick={() => {
                                     props.onSelect(a.dataTransfer)
 
@@ -80,7 +80,7 @@ export default function Context(props) {
                     <>
                         <button
                             className={styles.option}
-                            style={{border: 'none', display: trigger === 2 ? 'none' : undefined}}
+                            style={{border: "none", display: trigger === 2 ? "none" : undefined}}
                             onClick={() => {
                                 if (trigger === 3) {
                                     props.deleteGroup()
@@ -90,19 +90,19 @@ export default function Context(props) {
 
                                 props.handleClose()
                             }}>
-                            <span className={'material-icons-round'}>delete</span>
-                            {trigger === 1 ? 'Delete Node' : 'Delete comment'}
+                            <span className={"material-icons-round"}>delete</span>
+                            {trigger === 1 ? "Delete Node" : "Delete comment"}
                         </button>
 
                         <button
                             className={styles.option}
-                            style={{border: 'none', display: trigger === 1 || trigger === 3 ? 'none' : undefined}}
+                            style={{border: "none", display: trigger === 1 || trigger === 3 ? "none" : undefined}}
                             onClick={() => {
 
                                 props.deleteLink()
                                 props.handleClose()
                             }}>
-                            <span className={'material-icons-round'}>link_off</span>
+                            <span className={"material-icons-round"}>link_off</span>
                             Break link
                         </button>
                     </>

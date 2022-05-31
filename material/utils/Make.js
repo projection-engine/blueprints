@@ -1,4 +1,4 @@
-import getInstanceName from "./getInstanceName";
+import getInstanceName from "./getInstanceName"
 
 export default async function Make(hook, result) {
     const parsedNodes = hook.nodes.map(n => {

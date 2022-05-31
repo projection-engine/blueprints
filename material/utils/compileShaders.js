@@ -1,7 +1,7 @@
-import compiler from "./compiler/compiler";
-import MaterialInstance from "../../../../engine/instances/MaterialInstance";
-import {trimString} from "../../../../engine/instances/ShaderInstance";
-import {v4} from "uuid";
+import compiler from "./compiler/compiler"
+import MaterialInstance from "../../../../engine/instances/MaterialInstance"
+import {trimString} from "../../../../engine/instances/ShaderInstance"
+import {v4} from "uuid"
 
 export default async function compileShaders(setAlert, hook,setStatus, mat, setMat ){
     setAlert({message: 'Compiling shaders', type: 'info'})

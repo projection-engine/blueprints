@@ -1,17 +1,17 @@
-import React, {useMemo} from "react";
-import styles from '../styles/NodeEditor.module.css'
-import PropTypes from "prop-types";
-import Material from "../utils/nodes/Material";
+import React, {useMemo} from "react"
+import styles from "../styles/NodeEditor.module.css"
+import PropTypes from "prop-types"
+import Material from "../utils/nodes/Material"
 
-import {Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core";
-import Range from "../../../../../components/range/Range";
-import Selector from "../../../../../components/selector/Selector";
+import {Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core"
+import Range from "../../../../../components/range/Range"
+import Selector from "../../../../../components/selector/Selector"
 
-import ColorPicker from "../../../../../components/color/ColorPicker";
+import ColorPicker from "../../../../../components/color/ColorPicker"
 
-import cloneClass from "../../../../engine/utils/cloneClass";
-import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
-import AccordionTemplate from "../../../../../components/templates/AccordionTemplate";
+import cloneClass from "../../../../engine/utils/cloneClass"
+import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
+import AccordionTemplate from "../../../../../components/templates/AccordionTemplate"
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {

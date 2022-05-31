@@ -1,5 +1,5 @@
-import {useEffect, useMemo, useRef, useState} from "react";
-import getBezierCurve from "../utils/bezierCurve";
+import {useEffect, useMemo, useRef, useState} from "react"
+import getBezierCurve from "../utils/bezierCurve"
 
 export default function useNode(props, selected, hidden) {
     const ref = useRef()

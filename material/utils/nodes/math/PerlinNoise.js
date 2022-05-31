@@ -1,7 +1,7 @@
-import Node from '../../../../components/Node'
-import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES";
-import NODE_TYPES from "../../../../components/NODE_TYPES";
-import checkFloat from "../../checkFloat";
+import Node from "../../../../components/Node"
+import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES"
+import NODE_TYPES from "../../../../components/NODE_TYPES"
+import checkFloat from "../../checkFloat"
 
 
 export default class PerlinNoise extends Node {

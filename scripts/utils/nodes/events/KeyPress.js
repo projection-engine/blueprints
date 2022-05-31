@@ -1,7 +1,7 @@
-import Node from "../../../../components/Node";
-import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES";
-import NODE_TYPES from "../../../../components/NODE_TYPES";
-import KEYS from "../../../../../../engine/templates/KEYS";
+import Node from "../../../../components/Node"
+import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES"
+import NODE_TYPES from "../../../../components/NODE_TYPES"
+import KEYS from "../../../../../../engine/templates/KEYS"
 
 
 export default class KeyPress extends Node {

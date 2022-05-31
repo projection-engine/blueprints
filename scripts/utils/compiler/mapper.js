@@ -1,6 +1,6 @@
-import cloneClass from "../../../../../engine/utils/cloneClass";
-import Setter from "../nodes/utils/Setter";
-import compiler from "./compiler";
+import cloneClass from "../../../../../engine/utils/cloneClass"
+import Setter from "../nodes/utils/Setter"
+import compiler from "./compiler"
 
 export default async function mapper(hook, engine, file, isLevelBp) {
     const res = await compiler(hook.nodes, hook.links, hook.variables, hook.quickAccess.fileSystem)
@@ -8,10 +8,10 @@ export default async function mapper(hook, engine, file, isLevelBp) {
     const parsedNodes = hook.nodes.map(n => {
         const docNode = document.getElementById(n.id).parentNode
         const transformation = docNode
-            .getAttribute('transform')
-            .replace('translate(', '')
-            .replace(')', '')
-            .split(' ')
+            .getAttribute("transform")
+            .replace("translate(", "")
+            .replace(")", "")
+            .split(" ")
 
         const copy = cloneClass(n)
         if (!(copy instanceof Setter)) {
@@ -29,15 +29,15 @@ export default async function mapper(hook, engine, file, isLevelBp) {
     const parsedGroups = hook.groups.map(n => {
         const docNode = document.getElementById(n.id).parentNode
         const transformation = docNode
-            .getAttribute('transform')
-            .replace('translate(', '')
-            .replace(')', '')
-            .split(' ')
+            .getAttribute("transform")
+            .replace("translate(", "")
+            .replace(")", "")
+            .split(" ")
 
         return {
             ...n,
-            width: parseFloat(docNode.firstChild.style.width.replace('px', '')),
-            height: parseFloat(docNode.firstChild.style.height.replace('px', '')),
+            width: parseFloat(docNode.firstChild.style.width.replace("px", "")),
+            height: parseFloat(docNode.firstChild.style.height.replace("px", "")),
             x: parseFloat(transformation[0]),
             y: parseFloat(transformation[1]),
 

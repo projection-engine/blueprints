@@ -1,8 +1,8 @@
-import Node from '../../../components/Node'
-import {DATA_TYPES} from "../../../../../engine/templates/DATA_TYPES";
-import NODE_TYPES from "../../../components/NODE_TYPES";
-import ImageProcessor from "../../../../../engine/utils/image/ImageProcessor";
-import FileSystem from "../../../../../utils/files/FileSystem";
+import Node from "../../../components/Node"
+import {DATA_TYPES} from "../../../../../engine/templates/DATA_TYPES"
+import NODE_TYPES from "../../../components/NODE_TYPES"
+import ImageProcessor from "../../../../../engine/utils/image/ImageProcessor"
+import FileSystem from "../../../../../utils/files/FileSystem"
 
 
 export const TEXTURE_TYPES = {

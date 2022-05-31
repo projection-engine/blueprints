@@ -1,13 +1,13 @@
-import cloneClass from "../../../../../engine/utils/cloneClass";
+import cloneClass from "../../../../../engine/utils/cloneClass"
 
-import NODE_TYPES from "../../../components/NODE_TYPES";
-import deferredTemplate from "./deferredTemplate";
-import forwardTemplate from "./forwardTemplate";
-import resolveStructure from "./resolveStructure";
-import TextureSample from "../nodes/TextureSample";
-import {vertex} from "../../../../../engine/shaders/mesh/FALLBACK.glsl";
-import MATERIAL_RENDERING_TYPES from "../../../../../engine/templates/MATERIAL_RENDERING_TYPES";
-import unlitTemplate from "./unlitTemplate";
+import NODE_TYPES from "../../../components/NODE_TYPES"
+import deferredTemplate from "./deferredTemplate"
+import forwardTemplate from "./forwardTemplate"
+import resolveStructure from "./resolveStructure"
+import TextureSample from "../nodes/TextureSample"
+import {vertex} from "../../../../../engine/shaders/mesh/FALLBACK.glsl"
+import MATERIAL_RENDERING_TYPES from "../../../../../engine/templates/MATERIAL_RENDERING_TYPES"
+import unlitTemplate from "./unlitTemplate"
 
 function getShadingTemplate(type) {
     switch (type) {

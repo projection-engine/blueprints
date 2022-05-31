@@ -1,7 +1,7 @@
-import Node from '../../../components/Node'
-import {DATA_TYPES} from "../../../../../engine/templates/DATA_TYPES";
-import NODE_TYPES from "../../../components/NODE_TYPES";
-import MATERIAL_RENDERING_TYPES from "../../../../../engine/templates/MATERIAL_RENDERING_TYPES";
+import Node from "../../../components/Node"
+import {DATA_TYPES} from "../../../../../engine/templates/DATA_TYPES"
+import NODE_TYPES from "../../../components/NODE_TYPES"
+import MATERIAL_RENDERING_TYPES from "../../../../../engine/templates/MATERIAL_RENDERING_TYPES"
 
 const blendOptions = [
     {label: 'ZERO', data: 'ZERO'},

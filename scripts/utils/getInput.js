@@ -1,8 +1,8 @@
-import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
-import Range from "../../../../../components/range/Range";
-import styles from "../styles/NodeEditor.module.css";
-import {Checkbox, Dropdown, DropdownOption, DropdownOptions} from "@f-ui/core";
-import React from "react";
+import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
+import Range from "../../../../../components/range/Range"
+import styles from "../styles/NodeEditor.module.css"
+import {Checkbox, Dropdown, DropdownOption, DropdownOptions} from "@f-ui/core"
+import React from "react"
 
 export default function getInput(label, type, value, submit, obj, hook, selected){
     switch (type) {

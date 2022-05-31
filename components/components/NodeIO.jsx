@@ -1,10 +1,10 @@
-import styles from "../styles/Node.module.css";
-import PropTypes from "prop-types";
-import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES";
-import React, {useContext, useEffect, useMemo, useRef} from "react";
-import OnDragProvider from "../hooks/DragProvider";
+import styles from "../styles/Node.module.css"
+import PropTypes from "prop-types"
+import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
+import React, {useContext, useEffect, useMemo, useRef} from "react"
+import OnDragProvider from "../hooks/DragProvider"
 
-import EmbeddedInput from "./EmbeddedInput";
+import EmbeddedInput from "./EmbeddedInput"
 
 export default function NodeIO(props) {
     const isExecution = useMemo(() => {

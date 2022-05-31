@@ -1,16 +1,16 @@
-import EventTick from "./nodes/events/EventTick";
+import EventTick from "./nodes/events/EventTick"
 
-import Print from "./nodes/utils/Print";
-import Add from "./nodes/math/Add";
-import ConstantNumber from './nodes/math/ConstantNumber'
-import OnSpawn from "./nodes/events/OnSpawn";
-import SetViewTarget from "./nodes/camera/SetViewTarget";
-import GetCameraPosition from "./nodes/camera/GetCameraPosition";
-import SetCameraPosition from "./nodes/camera/SetCameraPosition";
-import Multiply from "./nodes/math/Multiply";
-import Divide from "./nodes/math/Divide";
-import Subtract from "./nodes/math/Subtract";
-import KeyPress from "./nodes/events/KeyPress";
+import Print from "./nodes/utils/Print"
+import Add from "./nodes/math/Add"
+import ConstantNumber from "./nodes/math/ConstantNumber"
+import OnSpawn from "./nodes/events/OnSpawn"
+import SetViewTarget from "./nodes/camera/SetViewTarget"
+import GetCameraPosition from "./nodes/camera/GetCameraPosition"
+import SetCameraPosition from "./nodes/camera/SetCameraPosition"
+import Multiply from "./nodes/math/Multiply"
+import Divide from "./nodes/math/Divide"
+import Subtract from "./nodes/math/Subtract"
+import KeyPress from "./nodes/events/KeyPress"
 
 export const allNodes = [
 

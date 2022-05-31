@@ -1,11 +1,11 @@
-import styles from '../styles/Available.module.css'
+import styles from "../styles/Available.module.css"
 
-import Search from "../../../../../components/search/Search";
-import {useMemo, useState} from "react";
-import PropTypes from "prop-types";
+import Search from "../../../../../components/search/Search"
+import React, {useMemo, useState} from "react"
+import PropTypes from "prop-types"
 
 export default function Available(props) {
-    const [searchString, setSearchString] = useState('')
+    const [searchString, setSearchString] = useState("")
     const nodes = useMemo(() => {
         return props.allNodes.filter(i => {
             if (typeof i.label === "object")
@@ -17,12 +17,12 @@ export default function Available(props) {
 
     return (
         <div className={styles.wrapper} style={props.styles}>
-            <div className={styles.header} style={{justifyItems: 'flex-start'}}>
+            <div className={styles.header} style={{justifyItems: "flex-start"}}>
                 Available nodes
                 <Search
-                    width={'100%'}
+                    width={"100%"}
                     noPadding={true}
-                    height={'20px'}
+                    height={"20px"}
                     searchString={searchString}
                     setSearchString={setSearchString}
                 />
@@ -33,9 +33,9 @@ export default function Available(props) {
                         className={styles.option}
                         draggable={true}
                         title={d.tooltip}
-                        style={{background: i % 2 === 0 ? 'var(--fabric-background-secondary)' : undefined}}
-                        onDragStart={e => e.dataTransfer.setData('text', d.dataTransfer)}
-                        key={d.dataTransfer + '-' + i}
+                        style={{background: i % 2 === 0 ? "var(--fabric-background-secondary)" : undefined}}
+                        onDragStart={e => e.dataTransfer.setData("text", d.dataTransfer)}
+                        key={d.dataTransfer + "-" + i}
                     >
                         <div className={styles.icon}>
                             {d.icon}

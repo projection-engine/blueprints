@@ -1,110 +1,107 @@
 .background {
-    background: var(--fabric-background-tertiary) radial-gradient(var(--fabric-border-primary) 1px, transparent 0);
-    background-size: 20px 20px;
-    overflow: hidden;
+  background: var(--fabric-background-tertiary) radial-gradient(var(--fabric-border-primary) 1px, transparent 0);
+  background-size: 20px 20px;
+  overflow: hidden;
 }
 
 .wrapper {
-    left: 0;
-    top: 0;
-    z-index: 0;
-    border-radius: 5px;
-    position: relative;
-
-    box-shadow: var(--fabric-boxshadow);
-    color-rendering: optimizeSpeed
+  left: 0;
+  top: 0;
+  z-index: 0;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: var(--fabric-boxshadow);
+  color-rendering: optimizespeed;
 }
 
 .prototypeWrapperBoard {
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .prototypeWrapper {
-
-    display: flex;
-
-
-    max-height: 50vh;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-
+  display: flex;
+  max-height: 50vh;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 .link > * {
-    transition: opacity 150ms linear, stroke-width 150ms linear;
-    stroke-width: 2;
-    opacity: .7;
-    pointer-events: all;
+  transition: opacity 150ms linear, stroke-width 150ms linear;
+  stroke-width: 2;
+  opacity: 0.7;
+  pointer-events: all;
 }
 
 .link:hover > * {
-    opacity: 1;
-    stroke-width: 10 !important;
+  opacity: 1;
+  stroke-width: 10 !important;
 }
 
 .label {
-    font-weight: 550;
-    font-size: .7rem;
-    overflow: hidden;
-    max-width: 100%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  font-weight: 550;
+  font-size: 0.7rem;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .contextWrapper {
-    position: absolute;
-    width: fit-content !important;
-    height: fit-content !important;
-    min-height: unset !important;
-    max-height: unset !important;
-
+  position: absolute;
+  width: fit-content !important;
+  height: fit-content !important;
+  min-height: unset !important;
+  max-height: unset !important;
 }
 
 .scaleGroup {
-    position: absolute !important;
-    top: 4px;
-    left: 4px;
-
-    z-index: 99;
-
-    height: fit-content;
-    width: fit-content;
-
-    display: flex;
-    align-items: center;
-    gap: 4px;
-
+  position: absolute !important;
+  top: 4px;
+  left: 4px;
+  z-index: 99;
+  height: fit-content;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .scaleGroupInternal {
-    backdrop-filter: blur(10px) brightness(.8);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    border-radius: 5px;
+  backdrop-filter: blur(10px) brightness(0.8);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 5px;
 }
 
 .context {
-    overflow: hidden !important;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-
-    background: var(--fabric-background-quaternary);
-
-
+  overflow: hidden !important;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  background: var(--fabric-background-quaternary);
 }
 
 .input {
-    color: var(--fabric-color-secondary);
-    padding: 4px;
-    font-size: .7rem;
-    font-weight: 550;
+  color: var(--fabric-color-secondary);
+  padding: 4px;
+  font-size: 0.7rem;
+  font-weight: 550;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+  background: var(--fabric-background-primary);
+  border-radius: 5px;
+  min-width: 250px;
+  position: relative;
 }

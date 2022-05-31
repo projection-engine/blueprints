@@ -1,6 +1,6 @@
-import Node from "../../../../components/Node";
-import NODE_TYPES from "../../../../components/NODE_TYPES";
-import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES";
+import Node from "../../../../components/Node"
+import NODE_TYPES from "../../../../components/NODE_TYPES"
+import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES"
 
 const toDeg = 57.29
 export default class GetCameraRotation extends Node {

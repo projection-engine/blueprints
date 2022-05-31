@@ -1,19 +1,19 @@
-import Board from "../components/components/Board";
-import s from './styles/MaterialView.module.css'
-import {useContext, useEffect, useMemo, useState} from "react";
-import PropTypes from "prop-types";
-import ResizableBar from "../../../../components/resizable/ResizableBar";
-import Available from "../components/components/Available";
-import NodeEditor from "./components/NodeEditor";
-import {allNodes} from "./utils/AllNodes";
-import useMaterialView from "./utils/useMaterialView";
-import CompilationStatus from "./components/CompilationStatus";
-import options from './utils/options'
-import compileShaders from "./utils/compileShaders";
-import {AlertProvider} from "@f-ui/core";
-import FileOptions from "../../../../components/file-options/FileOptions";
-import useHotKeys from "../../../utils/hooks/useHotKeys";
-import getHotKeys from "../scripts/utils/getHotKeys";
+import Board from "../components/components/Board"
+import s from "./styles/MaterialView.module.css"
+import {useContext, useEffect, useMemo, useState} from "react"
+import PropTypes from "prop-types"
+import ResizableBar from "../../../../components/resizable/ResizableBar"
+import Available from "../components/components/Available"
+import NodeEditor from "./components/NodeEditor"
+import {allNodes} from "./utils/AllNodes"
+import useMaterialView from "./utils/useMaterialView"
+import CompilationStatus from "./components/CompilationStatus"
+import options from "./utils/options"
+import compileShaders from "./utils/compileShaders"
+import {AlertProvider} from "@f-ui/core"
+import FileOptions from "../../../../components/file-options/FileOptions"
+import useHotKeys from "../../../utils/hooks/useHotKeys"
+import getHotKeys from "../scripts/utils/getHotKeys"
 
 export default function MaterialView(props) {
     const {engine, submitPackage} = props

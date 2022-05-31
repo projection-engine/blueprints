@@ -1,13 +1,13 @@
-import {useContext, useEffect, useState} from "react";
-import QuickAccessProvider from "../../../../utils/hooks/QuickAccessProvider";
-import EVENTS from "../../../../utils/EVENTS";
-import useFlow from "../../components/hooks/useFlow";
-import Material from "./nodes/Material";
-import TextureSample from "./nodes/TextureSample";
-import LoaderProvider from "../../../../../components/loader/LoaderProvider";
-import getNewInstance from "./getNewInstance";
-import FileSystem from "../../../../utils/files/FileSystem";
-import GPUContextProvider from "../../../viewport/hooks/GPUContextProvider";
+import {useContext, useEffect, useState} from "react"
+import QuickAccessProvider from "../../../../utils/hooks/QuickAccessProvider"
+import EVENTS from "../../../../utils/EVENTS"
+import useFlow from "../../components/hooks/useFlow"
+import Material from "./nodes/Material"
+import TextureSample from "./nodes/TextureSample"
+import LoaderProvider from "../../../../../components/loader/LoaderProvider"
+import getNewInstance from "./getNewInstance"
+import FileSystem from "../../../../utils/files/FileSystem"
+import GPUContextProvider from "../../../viewport/hooks/GPUContextProvider"
 
 
 export default function useMaterialView(file, setAlert) {

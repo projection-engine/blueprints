@@ -1,4 +1,4 @@
-import NODE_TYPES from "../../../components/NODE_TYPES";
+import NODE_TYPES from "../../../components/NODE_TYPES"
 
 export default function resolveStructure(currentNode, outputs, links, nodes, body) {
     const inputs = {}
