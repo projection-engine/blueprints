@@ -1,90 +1,83 @@
 .wrapper {
-    height: 100%;
-    max-width: 100%;
-    width: 100%;
+  height: 100%;
+  max-width: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 
-    background-color: var(--fabric-background-primary);
-    border-radius: 0 5px 5px 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-    outline: transparent 2px solid;
 }
 
-
-
 .form {
-
-    height: fit-content;
-    width: 100%;
-    padding: 4px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
+  height: fit-content;
+  width: 100%;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .formFieldWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
 }
 
 .label {
-    color: var(--fabric-color-secondary);
-    font-weight: 600;
-
+  color: var(--fabric-color-secondary);
+  font-weight: 600;
 }
 
-.floating{
-    position: absolute !important;
-
+.floating {
+  position: absolute !important;
 }
-.button{
-    backdrop-filter: blur(20px) brightness(.8) !important;
-    border-radius: 5px;
-    width: fit-content;
-    height: fit-content;
-    padding: 2px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.button {
+  backdrop-filter: blur(20px) brightness(0.8) !important;
+  border-radius: 5px;
+  width: fit-content;
+  height: fit-content;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.buttonGroup{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
+
+.buttonGroup {
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .refresh::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: .3;
-    background-color: var(--fabric-background-primary) !important;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+  background-color: var(--fabric-background-primary) !important;
 }
 
-.content{
-    padding: 2px;
-    overflow:hidden;
-    display: flex;
-    flex-direction: column;
+.content {
+  padding: 2px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
 
+.summary {
+  background-color: var(--fabric-border-primary) !important;
+  border-radius: 5px 5px 0 0;
 }
-.summary{
-    background-color: var(--fabric-border-primary) !important;
-    border-radius: 5px 5px 0 0;
-}
-.vecWrapper{
-    display: flex;
-    gap: 4px;
+
+.vecWrapper {
+  display: flex;
+  gap: 4px;
 }

@@ -10,11 +10,11 @@ import useMaterialView from "./utils/useMaterialView"
 import CompilationStatus from "./components/CompilationStatus"
 import options from "./utils/options"
 import compileShaders from "./utils/compileShaders"
-import {AlertProvider} from "@f-ui/core"
+import {AlertProvider, Tab, Tabs} from "@f-ui/core"
 import FileOptions from "../../../../components/file-options/FileOptions"
 import useHotKeys from "../../../utils/hooks/useHotKeys"
 import getHotKeys from "../scripts/utils/getHotKeys"
-
+import React from "react"
 export default function MaterialView(props) {
     const {engine, submitPackage} = props
     const alert = useContext(AlertProvider)
@@ -26,6 +26,7 @@ export default function MaterialView(props) {
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof MaterialView), [hook.nodes])
     const [init, setInit] = useState(false)
     const [mat, setMat] = useState()
+    const [open, setOpen] = useState(0)
     useEffect(() => {
         setInit(false)
     }, [props.open])
@@ -40,19 +41,19 @@ export default function MaterialView(props) {
     }, [hook.nodes, hook.links, engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
     const [toCopy, setToCopy] = useState([])
     useHotKeys({
-        focusTarget: registryID + '-board',
+        focusTarget: registryID + "-board",
         actions: getHotKeys(hook, setAlert, toCopy, setToCopy, () => optionsData[1].onClick())
     })
-    return (<div style={{display: 'flex', overflow: 'hidden', height: '100%'}}>
+    return (<div style={{display: "flex", overflow: "hidden", height: "100%"}}>
         <FileOptions options={optionsData}/>
-        <div className={s.wrapper} id={registryID + '-board'}>
+        <div className={s.wrapper} id={registryID + "-board"}>
             <Available
                 allNodes={allNodes}
                 styles={{
-                    borderRadius: '0px',
-                    borderBottomRightRadius: '5px',
-                    borderTopRightRadius: '5px',
-                    width: '250px'
+                    borderRadius: "0px",
+                    borderBottomRightRadius: "5px",
+                    borderTopRightRadius: "5px",
+                    width: "250px"
                 }}
             />
             <ResizableBar type={"width"}/>
@@ -67,14 +68,18 @@ export default function MaterialView(props) {
                         setSelected={hook.setSelected}
                     />
                     <ResizableBar type={"width"}/>
-                    <div className={s.content}>
-                        <NodeEditor
-                            hook={hook}
-                            engine={engine}
-                            selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
-                        <ResizableBar type={'height'} color={'var(--fabric-border-primary)'}/>
-                        <CompilationStatus status={status}/>
-                    </div>
+
+                    <Tabs open={open} setOpen={setOpen} className={s.content}>
+                        <Tab label={"Node attributes"} styles={{overflowY: 'auto'}}>
+                            <NodeEditor
+                                hook={hook}
+                                engine={engine}
+                                selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}/>
+                        </Tab>
+                        <Tab label={"Compilation status"}>
+                            <CompilationStatus status={status}/>
+                        </Tab>
+                    </Tabs>
                 </div>
             </div>
         </div>

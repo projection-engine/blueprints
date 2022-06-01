@@ -33,7 +33,7 @@ out vec4 finalColor;
 ${ambient ? `
 @import(fresnelSchlickRoughness)
 @import(forwardAmbient)
-` : ''}
+` : ""}
  
   
 @import(fresnelSchlick)
@@ -85,7 +85,7 @@ void main(){
     
        ${ambient ? `
         Lo += computeAmbient(NdotV, metallic, roughness, albedo, F0, V, N, ambientLODSamples, brdfSampler, vPosition.rgb);
-        ` : ``}
+        ` : ""}
     
         finalColor = vec4(Lo, opacity);
     }
@@ -93,12 +93,12 @@ void main(){
        finalColor = vec4(albedo, opacity);        
 }
         `,
-    inputs: ``,
-    functions: ``
+    inputs: "",
+    functions: ""
 }
 
 export const vertex = (bodyOperations, inputs, functions) => {
-   return `#version 300 es
+    return `#version 300 es
 #define MAX_LIGHTS 2
 #define PI  3.14159265359 
 

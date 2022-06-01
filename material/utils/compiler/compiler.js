@@ -11,12 +11,12 @@ import unlitTemplate from "./unlitTemplate"
 
 function getShadingTemplate(type) {
     switch (type) {
-        case MATERIAL_RENDERING_TYPES.FORWARD:
-            return forwardTemplate
-        case MATERIAL_RENDERING_TYPES.DEFERRED:
-            return deferredTemplate
-        default:
-            return unlitTemplate
+    case MATERIAL_RENDERING_TYPES.FORWARD:
+        return forwardTemplate
+    case MATERIAL_RENDERING_TYPES.DEFERRED:
+        return deferredTemplate
+    default:
+        return unlitTemplate
     }
 }
 
@@ -34,29 +34,26 @@ export default async function compiler(n, links, fileSystem) {
             uniformData
         } = await compileFrag(n, links, fileSystem, startPoint.shadingType)
         const vertexBody = compileVertex(startPoint, n, links)
-
-
-
         const cubeMapShader = await compileFrag(
             n,
             links,
             fileSystem,
             MATERIAL_RENDERING_TYPES.FORWARD,
             [
-                'al',
-                'normal',
-                'ao',
-                'roughness',
-                'metallic',
-                'opacity',
-                'emissive',
-                'worldOffset'
+                "al",
+                "normal",
+                "ao",
+                "roughness",
+                "metallic",
+                "opacity",
+                "emissive",
+                "worldOffset"
             ], false)
 
         return {
-            info: [{key: 'samplers', label: 'Texture samplers', data: samplers.length}, {
-                key: 'uniforms',
-                label: 'Uniform quantity',
+            info: [{key: "samplers", label: "Texture samplers", data: samplers.length}, {
+                key: "uniforms",
+                label: "Uniform quantity",
                 data: uniformNodes.length
             },],
             cubeMapShader,
@@ -85,11 +82,11 @@ export default async function compiler(n, links, fileSystem) {
 function compileVertex(startPoint, n, links) {
     let vertexBody = []
     const nodes = n.map(nn => cloneClass(nn))
-    resolveStructure(startPoint, [], links.filter(l => l.target.id !== startPoint.id || l.target.id === startPoint.id && l.target.attribute.key === 'worldOffset'), nodes, vertexBody, true)
-    return vertexBody.join('\n')
+    resolveStructure(startPoint, [], links.filter(l => l.target.id !== startPoint.id || l.target.id === startPoint.id && l.target.attribute.key === "worldOffset"), nodes, vertexBody, true)
+    return vertexBody.join("\n")
 }
 
-async function compileFrag(n, links, fileSystem, shadingType, discardedLinks=['worldOffset'], noAmbient) {
+async function compileFrag(n, links, fileSystem, shadingType, discardedLinks=["worldOffset"], noAmbient) {
     const nodes = n.map(nn => cloneClass(nn))
     const startPoint = nodes.find(n => {
         return n.type === NODE_TYPES.OUTPUT
@@ -108,18 +105,18 @@ async function compileFrag(n, links, fileSystem, shadingType, discardedLinks=['w
             typesInstantiated[n.constructor.name] = true
         }
     })
-    codeString.functions = toJoin.join('\n')
+    codeString.functions = toJoin.join("\n")
     toJoin = []
     typesInstantiated = {}
     await Promise.all(nodes.map((n, i) => new Promise(async resolve => {
-        if (typeof n.getInputInstance === 'function' && !typesInstantiated[n.id]) {
+        if (typeof n.getInputInstance === "function" && !typesInstantiated[n.id]) {
             const res = await n.getInputInstance(i, uniforms, uniformData, fileSystem)
             toJoin.push(res)
             resolve()
             typesInstantiated[n.id] = true
         } else resolve()
     })))
-    codeString.inputs = toJoin.join('\n')
+    codeString.inputs = toJoin.join("\n")
 
 
     let body = []
@@ -129,7 +126,7 @@ async function compileFrag(n, links, fileSystem, shadingType, discardedLinks=['w
             ${codeString.static}
             ${codeString.inputs}
             ${codeString.functions}
-            ${codeString.wrapper(body.join('\n'), startPoint.ambientInfluence)}
+            ${codeString.wrapper(body.join("\n"), startPoint.ambientInfluence)}
         `,
         uniforms,
         uniformData

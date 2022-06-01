@@ -26,7 +26,7 @@ layout (location = 4) out vec4 gAmbient;
 ${ambient ? `
 @import(fresnelSchlickRoughness)
 @import(ambient)
-` : ''}
+` : ""}
  
 void main(){
     gPosition = vPosition;
@@ -34,11 +34,11 @@ void main(){
     
    ${ambient ? `        
         gAmbient = vec4( computeAmbient(cameraVec, gAlbedo.rgb,  vPosition.rgb, gNormal.rgb, gBehaviour.g, gBehaviour.b, ambientLODSamples, brdfSampler, vPosition.rgb), 1.);
-    ` : `gAmbient = vec4(vec3(0.), 1.);`}
+    ` : "gAmbient = vec4(vec3(0.), 1.);"}
 }
         `,
-    inputs: ``,
-    functions: ``
+    inputs: "",
+    functions: ""
 }
 
 
