@@ -1,6 +1,6 @@
 import Board from "../components/components/Board"
 import s from "./styles/MaterialView.module.css"
-import {useContext, useEffect, useMemo, useState} from "react"
+import React, {useContext, useEffect, useMemo, useState} from "react"
 import PropTypes from "prop-types"
 import ResizableBar from "../../../../components/resizable/ResizableBar"
 import Available from "../components/components/Available"
@@ -14,7 +14,7 @@ import {AlertProvider, Tab, Tabs} from "@f-ui/core"
 import FileOptions from "../../../../components/file-options/FileOptions"
 import useHotKeys from "../../../utils/hooks/useHotKeys"
 import getHotKeys from "../scripts/utils/getHotKeys"
-import React from "react"
+
 export default function MaterialView(props) {
     const {engine, submitPackage} = props
     const alert = useContext(AlertProvider)
