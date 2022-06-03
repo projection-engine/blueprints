@@ -38,7 +38,7 @@ export default function Available(props) {
                         key={d.dataTransfer + "-" + i}
                     >
                         <div className={styles.icon}>
-                            {d.icon}
+                            <span className={"material-icons-round"}>drag_indicator</span>
                         </div>
                         {d.label}
                     </div>
