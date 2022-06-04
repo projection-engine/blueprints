@@ -13,7 +13,7 @@ import SelectBox from "../../../../../components/selectbox/SelectBox"
 import Context from "./Context"
 import deleteNode from "../utils/deleteNode"
 import Group from "./Group"
-import QuickAccessProvider from "../../../../utils/hooks/QuickAccessProvider"
+import QuickAccessProvider from "../../../../hooks/QuickAccessProvider"
 
 export default function Board(props) {
     const {scale, setScale} = props

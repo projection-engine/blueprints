@@ -6,14 +6,15 @@ import ResizableBar from "../../../../components/resizable/ResizableBar"
 import Available from "../components/components/Available"
 import NodeEditor from "./components/NodeEditor"
 import {allNodes} from "./utils/AllNodes"
-import useMaterialView from "./utils/useMaterialView"
+import useMaterialView from "./hooks/useMaterialView"
 import CompilationStatus from "./components/CompilationStatus"
 import options from "./utils/options"
 import compileShaders from "./utils/compileShaders"
 import {AlertProvider, Tab, Tabs} from "@f-ui/core"
 import FileOptions from "../../../../components/file-options/FileOptions"
-import useHotKeys from "../../../utils/hot-keys/useHotKeys"
+import useHotKeys from "../../../../components/hot-keys/useHotKeys"
 import getHotKeys from "../scripts/utils/getHotKeys"
+import useShortcuts from "./hooks/useShortcuts"
 
 export default function MaterialView(props) {
     const {engine, submitPackage} = props
@@ -36,14 +37,10 @@ export default function MaterialView(props) {
             setInit(true)
         }
     }, [hook.impactingChange, engine.renderer, hook.realTime, hook.links, init])
-    const optionsData = useMemo(() => {
-        return options(() => compileShaders(setAlert, hook, setStatus, mat, setMat).catch(), hook, submitPackage, mat)
-    }, [hook.nodes, hook.links, engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
-    const [toCopy, setToCopy] = useState([])
-    useHotKeys({
-        focusTarget: registryID + "-board",
-        actions: getHotKeys(hook, setAlert, toCopy, setToCopy, () => optionsData[1].onClick())
-    })
+    const optionsData = useMemo(() => options(() => compileShaders(setAlert, hook, setStatus, mat, setMat).catch(), hook, submitPackage, mat), [hook.nodes, hook.links, engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
+
+    useShortcuts(hook, setAlert, optionsData, registryID)
+
     return (<div style={{display: "flex", overflow: "hidden", height: "100%"}}>
         <FileOptions options={optionsData}/>
         <div className={s.wrapper} id={registryID + "-board"}>
@@ -70,7 +67,7 @@ export default function MaterialView(props) {
                     <ResizableBar type={"width"}/>
 
                     <Tabs open={open} setOpen={setOpen} className={s.content}>
-                        <Tab label={"Node attributes"} styles={{overflowY: 'auto'}}>
+                        <Tab label={"Node attributes"} styles={{overflowY: "auto"}}>
                             <NodeEditor
                                 hook={hook}
                                 engine={engine}

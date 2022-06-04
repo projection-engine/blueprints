@@ -1,19 +1,19 @@
 import Make from "./Make"
 import compiler from "./compiler/compiler"
-
+import React from "react"
 export default function options(compileShaders, hook, submitPackage, mat) {
     return [
         {
-            label: 'Compile',
-            icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>code</span>,
+            label: "Compile",
+            icon: <span className={"material-icons-round"} style={{fontSize: "1.2rem"}}>code</span>,
             onClick: () => compileShaders()
         },
         {divider: true},
         {
-            label: 'Save',
+            label: "Save",
             disabled: !hook.changed,
-            group: 'b',
-            icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save</span>,
+            group: "b",
+            icon: <span className={"material-icons-round"} style={{fontSize: "1.2rem"}}>save</span>,
             onClick: async () => {
                 const response = await Make(
                     hook,
@@ -31,10 +31,10 @@ export default function options(compileShaders, hook, submitPackage, mat) {
             }
         },
         {
-            label: 'Save & close',
+            label: "Save & close",
             disabled: !hook.changed,
-            group: 'b',
-            icon: <span className={'material-icons-round'} style={{fontSize: '1.2rem'}}>save_alt</span>,
+            group: "b",
+            icon: <span className={"material-icons-round"} style={{fontSize: "1.2rem"}}>save_alt</span>,
             onClick: async () => {
                 const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
                 submitPackage(
@@ -50,10 +50,10 @@ export default function options(compileShaders, hook, submitPackage, mat) {
         },
         {divider: true},
         {
-            label: 'Real time',
+            label: "Real time",
 
-            icon: <span className={'material-icons-round'}
-                        style={{fontSize: '1.2rem'}}>{hook.realTime ? 'live_tv' : 'tv_off'}</span>,
+            icon: <span className={"material-icons-round"}
+                style={{fontSize: "1.2rem"}}>{hook.realTime ? "live_tv" : "tv_off"}</span>,
             onClick: () => hook.setRealTime(!hook.realTime)
         },]
 }
