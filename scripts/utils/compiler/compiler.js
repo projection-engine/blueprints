@@ -1,5 +1,5 @@
 import cloneClass from "../../../../../engine/utils/cloneClass"
-import NODE_TYPES from "../../../components/NODE_TYPES"
+import NODE_TYPES from "../../../components/templates/NODE_TYPES"
 import resolveStructure from "./resolveStructure"
 import {DATA_TYPES} from "../../../../../engine/templates/DATA_TYPES"
 

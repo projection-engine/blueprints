@@ -1,6 +1,6 @@
-import Node from "../../../../components/Node"
+import Node from "../../../../components/templates/Node"
 import COMPONENTS from "../../../../../../engine/templates/COMPONENTS"
-import NODE_TYPES from "../../../../components/NODE_TYPES"
+import NODE_TYPES from "../../../../components/templates/NODE_TYPES"
 import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES"
 
 export default class SetWorldRotation extends Node {

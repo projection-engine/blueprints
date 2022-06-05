@@ -1,6 +1,6 @@
-import Node from "../../../../components/Node"
+import Node from "../../../../components/templates/Node"
 import {DATA_TYPES} from "../../../../../../engine/templates/DATA_TYPES"
-import NODE_TYPES from "../../../../components/NODE_TYPES"
+import NODE_TYPES from "../../../../components/templates/NODE_TYPES"
 
 import {v4 as uuidv4} from "uuid"
 

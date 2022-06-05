@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react"
 import QuickAccessProvider from "../../../../hooks/QuickAccessProvider"
-import EVENTS from "../../../../templates/EVENTS"
+import EVENTS from "../../../../../static/misc/EVENTS"
 import useFlow from "../../components/hooks/useFlow"
 import Material from "../utils/nodes/Material"
 import TextureSample from "../utils/nodes/TextureSample"

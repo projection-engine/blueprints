@@ -11,7 +11,7 @@ import CompilationStatus from "./components/CompilationStatus"
 import options from "./utils/options"
 import compileShaders from "./utils/compileShaders"
 import {AlertProvider, Tab, Tabs} from "@f-ui/core"
-import FileOptions from "../../../../components/file-options/FileOptions"
+import FileOptions from "../components/components/FileOptions"
 import useShortcuts from "./hooks/useShortcuts"
 
 export default function MaterialView(props) {

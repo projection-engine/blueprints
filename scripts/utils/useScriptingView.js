@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react"
 import QuickAccessProvider from "../../../../hooks/QuickAccessProvider"
 import EventTick from "./nodes/events/EventTick"
-import EVENTS from "../../../../templates/EVENTS"
+import EVENTS from "../../../../../static/misc/EVENTS"
 import Getter from "./nodes/utils/Getter"
 import Setter from "./nodes/utils/Setter"
 import ProjectLoader from "../../../../templates/ProjectLoader"

@@ -18,7 +18,7 @@ import LoaderProvider from "../../../../components/loader/LoaderProvider"
 import compiler from "./utils/compiler/compiler"
 import ScriptSystem from "../../../engine/systems/ScriptSystem"
 import {AlertProvider, Tab, Tabs} from "@f-ui/core"
-import FileOptions from "../../../../components/file-options/FileOptions"
+import FileOptions from "../components/components/FileOptions"
 
 const NAME = "Level blueprint"
 

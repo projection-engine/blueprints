@@ -4,8 +4,8 @@ import React, {useEffect, useMemo} from "react"
 import useNode from "../hooks/useNode"
 import NodeIO from "./NodeIO"
 import NodeShowcase from "./NodeShowcase"
-import NODE_TYPES from "../NODE_TYPES"
-import NODE_INFO from "../NODE_INFO"
+import NODE_TYPES from "../templates/NODE_TYPES"
+import NODE_INFO from "../templates/NODE_INFO"
 
 export default function Node(props) {
     const selected = useMemo(() => {

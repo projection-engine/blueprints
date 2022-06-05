@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 import {Button, ContextMenu, Tab, Tabs,} from "@f-ui/core"
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
 import deleteNode from "../../components/utils/deleteNode"
-import NODE_TYPES from "../../components/NODE_TYPES"
+import NODE_TYPES from "../../components/templates/NODE_TYPES"
 import shared from "../../components/styles/Board.module.css"
 import {v4 as uuidv4} from "uuid"
 
