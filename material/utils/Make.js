@@ -4,17 +4,17 @@ export default async function Make(hook, result) {
     const parsedNodes = hook.nodes.map(n => {
         const docNode = document.getElementById(n.id).parentNode
         const transformation = docNode
-            .getAttribute('transform')
-            .replace('translate(', '')
-            .replace(')', '')
-            .split(' ')
+            .getAttribute("transform")
+            .replace("translate(", "")
+            .replace(")", "")
+            .split(" ")
 
         return {
             ...n,
             x: parseFloat(transformation[0]),
             y: parseFloat(transformation[1]),
-            instance: getInstanceName(n),
-            texture: n.texture && typeof n.texture === 'object' ? {registryID: n.texture.registryID} : undefined
+            instance: n.constructor.name,
+            texture: n.texture && typeof n.texture === "object" ? {registryID: n.texture.registryID} : undefined
         }
     })
 

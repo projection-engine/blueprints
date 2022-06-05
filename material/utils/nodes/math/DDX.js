@@ -6,11 +6,11 @@ import NODE_TYPES from "../../../../components/NODE_TYPES"
 export default class DDX extends Node {
     constructor() {
         super([
-            {label: 'X', key: 'a', accept: [DATA_TYPES.FLOAT]}
+            {label: "X", key: "a", accept: [DATA_TYPES.FLOAT]}
         ], [
-            {label: 'Result', key: 'ddxRes', type: DATA_TYPES.FLOAT}
-        ]);
-        this.name = 'DDX'
+            {label: "Result", key: "ddxRes", type: DATA_TYPES.FLOAT}
+        ])
+        this.name = "DDX"
         this.size = 2
     }
 
@@ -20,15 +20,15 @@ export default class DDX extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async  getInputInstance(index) {
-        return ''
+        return ""
     }
 
     getFunctionCall({a}, index) {
-        this.ddxRes = 'ddxRes' + index
+        this.ddxRes = "ddxRes" + index
 
         if(a)
             return `float ${this.ddxRes} = dFdx(${a.name});`

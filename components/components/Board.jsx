@@ -45,7 +45,6 @@ export default function Board(props) {
             } else
                 props.setAlert({message: "Cannot add two instances of " + n.name, type: "error"})
         }
-        console.log(dataToPush)
         if(Array.isArray(dataToPush)) {
             const result = dataToPush.map(d => doIt(d, e)).flat()
             console.log(result)

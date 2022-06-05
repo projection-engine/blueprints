@@ -6,11 +6,11 @@ import NODE_TYPES from "../../../../components/NODE_TYPES"
 export default class DDY extends Node {
     constructor() {
         super([
-            {label: 'Y', key: 'a', accept: [DATA_TYPES.FLOAT]}
+            {label: "Y", key: "a", accept: [DATA_TYPES.FLOAT]}
         ], [
-            {label: 'Result', key: 'ddyRes', type: DATA_TYPES.FLOAT}
-        ]);
-        this.name = 'DDY'
+            {label: "Result", key: "ddyRes", type: DATA_TYPES.FLOAT}
+        ])
+        this.name = "DDY"
         this.size = 2
     }
 
@@ -20,15 +20,15 @@ export default class DDY extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async  getInputInstance(index) {
-        return ''
+    async  getInputInstance() {
+        return ""
     }
 
     getFunctionCall({a}, index) {
-        this.ddyRes = 'ddyRes' + index
+        this.ddyRes = "ddyRes" + index
 
         if(a)
             return `float ${this.ddyRes} = dFdy(${a.name});`

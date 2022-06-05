@@ -1,10 +1,10 @@
-import createGroupShortcut from "../../components/utils/createGroupShortcut"
-import EventTick from "./nodes/events/EventTick"
-import deleteNode from "../../components/utils/deleteNode"
+import createGroupShortcut from "./createGroupShortcut"
+import EventTick from "../../scripts/utils/nodes/events/EventTick"
+import deleteNode from "./deleteNode"
 import cloneClass from "../../../../engine/utils/cloneClass"
-import EntityReference from "./nodes/utils/EntityReference"
-import Setter from "./nodes/utils/Setter"
-import Getter from "./nodes/utils/Getter"
+import EntityReference from "../../scripts/utils/nodes/utils/EntityReference"
+import Setter from "../../scripts/utils/nodes/utils/Setter"
+import Getter from "../../scripts/utils/nodes/utils/Getter"
 
 import {v4 as uuidv4} from "uuid"
 import KEYS from "../../../../engine/templates/KEYS"
@@ -13,26 +13,44 @@ export default function getHotKeys(hook, setAlert, toCopy, setToCopy, save) {
     return [
         {
             label: "Select",
-            require: [KEYS.Mouse0],
-            callback: () => null
+            require: [KEYS.Mouse0]
         },
         {
             label: "Select multiple",
-            require: [KEYS.ControlLeft, KEYS.Mouse0],
-            callback: () => null
+            require: [KEYS.ControlLeft, KEYS.Mouse0]
+        },
+        {
+            label: "Select all",
+            require: [KEYS.KeyA],
+            callback: () => hook.setSelected(hook.nodes.map(e => e.id))
+        },
+        {
+            label: "Invert selection",
+            require: [KEYS.ControlLeft, KEYS.KeyI],
+            callback: () => {
+                const newArr = []
+                const notValid = {}
+                for(let i in hook.selected){
+                    notValid[ hook.selected[i]] = true
+                }
+                for(let i in  hook.nodes){
+                    const id = hook.nodes[i].id
+                    if(!notValid[id])
+                        newArr.push(id)
+                }
+                hook.setSelected(newArr)
+            }
         },
         {
             label: "Move multiple",
             disabled: hook.selected.length === 0,
-            require: [KEYS.ControlLeft, KEYS.Mouse0],
-            callback: () => null
+            require: [KEYS.ControlLeft, KEYS.Mouse0]
         },
         {
             label: "Group",
             disabled: hook.selected.length === 0,
             require: [KEYS.KeyG],
             callback: () => {
-                console.log(hook.selected)
                 if (hook.selected.length > 0)
                     createGroupShortcut(hook)
             }
@@ -61,13 +79,12 @@ export default function getHotKeys(hook, setAlert, toCopy, setToCopy, save) {
             disabled: hook.selected.length === 0,
             require: [KEYS.Delete],
             callback: () => {
-                // TODO - REWORK
                 const clone = [...hook.selected]
+                const newNodes= hook.nodes.filter(currentNode => !clone.find(e => e === currentNode.id)),
+                    newLinks = hook.links.filter(currentLink => !clone.find(e => e === currentLink.target.id || e === currentLink.source.id))
                 hook.setSelected([])
-                clone.forEach(n => {
-                    if (!(hook.nodes.find(nod => nod.id === n) instanceof EventTick))
-                        deleteNode(n, hook)
-                })
+                hook.setLinks(newLinks)
+                hook.setNodes(newNodes)
             }
         },
         {

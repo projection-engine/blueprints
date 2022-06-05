@@ -36,86 +36,115 @@ import Clamp from "./nodes/math/Clamp"
 import Saturation from "./nodes/math/Saturation"
 import Pow from "./nodes/math/Pow"
 import MakeVector from "./nodes/vec/MakeVector"
+import Cosine from "./nodes/math/Cosine"
+import SineH from "./nodes/math/SineH"
+import CosineH from "./nodes/math/CosineH"
+import Tan from "../../scripts/utils/nodes/nodes_old/operators/math/Tan"
+import DDX from "./nodes/math/DDX"
+import DDY from "./nodes/math/DDY"
+import Normalize from "./nodes/math/Normalize"
+import Reflect from "./nodes/math/Reflect"
+import Refract from "./nodes/math/Refract"
 
 export default function getNewInstance(name) {
+
     switch (name) {
-        case 'Material':
-            return new Material()
-        case 'SceneColor':
-            return new SceneColor()
-        case 'Add':
-            return new Add()
-        case 'TextureSample':
-            return new TextureSample()
-        case 'TextureCoords':
-            return new TextureCoords()
-        case 'Float':
-            return new Float()
-        case 'Divide':
-            return new Divide()
-        case 'Sine':
-            return new Sine()
-        case 'NormalVector':
-            return new NormalVector()
-        case 'ParallaxOcclusionMapping':
-            return new ParallaxOcclusionMapping()
-        case 'RGB':
-            return new RGB()
-        case 'ToTangentSpace':
-            return new ToTangentSpace()
-        case 'AbsoluteWorldPosition':
-            return new AbsoluteWorldPosition()
-        case 'ViewDirection':
-            return new ViewDirection()
-        case 'CameraCoords':
-            return new CameraCoords()
-        case 'ElapsedTime':
-            return new ElapsedTime()
-        case 'Multiply':
-            return new Multiply()
-        case 'PerlinNoise':
-            return new PerlinNoise()
-        case 'BreakVec2':
-            return new BreakVec2()
-        case 'BreakVec3':
-            return new BreakVec3()
-        case 'BreakVec4':
-            return new BreakVec4()
-        case 'DotVec2':
-            return new DotVec2()
-        case 'DotVec3':
-            return new DotVec3()
-        case 'DotVec4':
-            return new DotVec4()
-        case 'LerpVec2':
-            return new LerpVec2()
-        case 'LerpVec3':
-            return new LerpVec3()
-        case 'LerpVec4':
-            return new LerpVec4()
-        case 'Max':
-            return new Max()
-        case 'Min':
-            return new Min()
-        case 'Vec2':
-            return new Vec2()
-        case 'Vec3':
-            return new Vec3()
-        case 'Vec4':
-            return new Vec4()
-        case 'OneMinus':
-            return new OneMinus()
-        case 'Saturate':
-            return new Saturate()
-        case 'Clamp':
-            return new Clamp()
-        case 'Saturation':
-            return new Saturation()
-        case 'Pow':
-            return new Pow()
-        case 'MakeVector':
-            return new MakeVector()
-        default:
-            return null
+    case Cosine.name:
+        return new Cosine()
+    case Sine.name:
+        return new Sine()
+    case SineH.name:
+        return new SineH()
+    case CosineH.name:
+        return new CosineH()
+    case Tan.name:
+        return new Tan()
+    case DDX.name:
+        return new DDX()
+    case DDY.name:
+        return new DDY()
+    case Reflect.name:
+        return new Reflect()
+    case Refract.name:
+        return new Refract()
+    case Normalize.name:
+        return new Normalize()
+
+    case Material.name:
+        return new Material()
+    case SceneColor:
+        return new SceneColor()
+    case Add:
+        return new Add()
+    case TextureSample.name:
+        return new TextureSample()
+    case TextureCoords.name:
+        return new TextureCoords()
+    case Float.name:
+        return new Float()
+    case Divide.name:
+        return new Divide()
+    case NormalVector.name:
+        return new NormalVector()
+    case ParallaxOcclusionMapping.name:
+        return new ParallaxOcclusionMapping()
+    case RGB.name:
+        return new RGB()
+    case ToTangentSpace.name:
+        return new ToTangentSpace()
+    case AbsoluteWorldPosition.name:
+        return new AbsoluteWorldPosition()
+    case ViewDirection.name:
+        return new ViewDirection()
+    case CameraCoords.name:
+        return new CameraCoords()
+    case ElapsedTime.name:
+        return new ElapsedTime()
+    case Multiply.name:
+        return new Multiply()
+    case PerlinNoise.name:
+        return new PerlinNoise()
+    case BreakVec2.name:
+        return new BreakVec2()
+    case BreakVec3.name:
+        return new BreakVec3()
+    case BreakVec4.name:
+        return new BreakVec4()
+    case DotVec2.name:
+        return new DotVec2()
+    case DotVec3.name:
+        return new DotVec3()
+    case DotVec4.name:
+        return new DotVec4()
+    case LerpVec2.name:
+        return new LerpVec2()
+    case LerpVec3.name:
+        return new LerpVec3()
+    case LerpVec4.name:
+        return new LerpVec4()
+    case Max.name:
+        return new Max()
+    case Min.name:
+        return new Min()
+    case Vec2.name:
+        return new Vec2()
+    case Vec3.name:
+        return new Vec3()
+    case Vec4.name:
+        return new Vec4()
+    case OneMinus.name:
+        return new OneMinus()
+    case Saturate.name:
+        return new Saturate()
+    case Clamp.name:
+        return new Clamp()
+    case Saturation.name:
+        return new Saturation()
+    case Pow.name:
+        return new Pow()
+    case MakeVector.name:
+        return new MakeVector()
+    default:
+        return null
     }
 }

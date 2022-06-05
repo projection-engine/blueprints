@@ -39,83 +39,83 @@ import MakeVector from "./nodes/vec/MakeVector"
 
 export default function getInstanceName(instance) {
     switch (true) {
-        case instance instanceof Material:
-            return 'Material'
-        case instance instanceof SceneColor:
-            return 'SceneColor'
-        case instance instanceof Add:
-            return 'Add'
-        case instance instanceof TextureSample:
-            return 'TextureSample'
-        case instance instanceof TextureCoords:
-            return 'TextureCoords'
-        case instance instanceof Float:
-            return 'Float'
-        case instance instanceof Divide:
-            return 'Divide'
-        case instance instanceof Sine:
-            return 'Sine'
-        case instance instanceof NormalVector:
-            return 'NormalVector'
-        case instance instanceof ParallaxOcclusionMapping:
-            return 'ParallaxOcclusionMapping'
-        case instance instanceof RGB:
-            return 'RGB'
-        case instance instanceof ToTangentSpace:
-            return 'ToTangentSpace'
-        case instance instanceof AbsoluteWorldPosition:
-            return 'AbsoluteWorldPosition'
-        case instance instanceof ViewDirection:
-            return 'ViewDirection'
-        case instance instanceof CameraCoords:
-            return 'CameraCoords'
-        case instance instanceof ElapsedTime:
-            return 'ElapsedTime'
-        case instance instanceof Multiply:
-            return 'Multiply'
-        case instance instanceof PerlinNoise:
-            return 'PerlinNoise'
-        case instance instanceof BreakVec2:
-            return 'BreakVec2'
-        case instance instanceof BreakVec3:
-            return 'BreakVec3'
-        case instance instanceof BreakVec4:
-            return 'BreakVec4'
-        case instance instanceof DotVec2:
-            return 'DotVec2'
-        case instance instanceof DotVec3:
-            return 'DotVec3'
-        case instance instanceof DotVec4:
-            return 'DotVec4'
-        case instance instanceof LerpVec2:
-            return 'LerpVec2'
-        case instance instanceof LerpVec3:
-            return 'LerpVec3'
-        case instance instanceof LerpVec4:
-            return 'LerpVec4'
-        case instance instanceof Max:
-            return 'Max'
-        case instance instanceof Min:
-            return 'Min'
-        case instance instanceof Vec2:
-            return 'Vec2'
-        case instance instanceof Vec3:
-            return 'Vec3'
-        case instance instanceof Vec4:
-            return 'Vec4'
-        case instance instanceof OneMinus:
-            return 'OneMinus'
-        case instance instanceof Saturate:
-            return 'Saturate'
-        case instance instanceof Clamp:
-            return 'Clamp'
-        case instance instanceof Saturation:
-            return 'Saturation'
-        case instance instanceof Pow:
-            return 'Pow'
-        case instance instanceof MakeVector:
-            return 'MakeVector'
-        default:
-            return null
+    case instance instanceof Material:
+        return "Material"
+    case instance instanceof SceneColor:
+        return "SceneColor"
+    case instance instanceof Add:
+        return "Add"
+    case instance instanceof TextureSample:
+        return "TextureSample"
+    case instance instanceof TextureCoords:
+        return "TextureCoords"
+    case instance instanceof Float:
+        return "Float"
+    case instance instanceof Divide:
+        return "Divide"
+    case instance instanceof Sine:
+        return "Sine"
+    case instance instanceof NormalVector:
+        return "NormalVector"
+    case instance instanceof ParallaxOcclusionMapping:
+        return "ParallaxOcclusionMapping"
+    case instance instanceof RGB:
+        return "RGB"
+    case instance instanceof ToTangentSpace:
+        return "ToTangentSpace"
+    case instance instanceof AbsoluteWorldPosition:
+        return "AbsoluteWorldPosition"
+    case instance instanceof ViewDirection:
+        return "ViewDirection"
+    case instance instanceof CameraCoords:
+        return "CameraCoords"
+    case instance instanceof ElapsedTime:
+        return "ElapsedTime"
+    case instance instanceof Multiply:
+        return "Multiply"
+    case instance instanceof PerlinNoise:
+        return "PerlinNoise"
+    case instance instanceof BreakVec2:
+        return "BreakVec2"
+    case instance instanceof BreakVec3:
+        return "BreakVec3"
+    case instance instanceof BreakVec4:
+        return "BreakVec4"
+    case instance instanceof DotVec2:
+        return "DotVec2"
+    case instance instanceof DotVec3:
+        return "DotVec3"
+    case instance instanceof DotVec4:
+        return "DotVec4"
+    case instance instanceof LerpVec2:
+        return "LerpVec2"
+    case instance instanceof LerpVec3:
+        return "LerpVec3"
+    case instance instanceof LerpVec4:
+        return "LerpVec4"
+    case instance instanceof Max:
+        return "Max"
+    case instance instanceof Min:
+        return "Min"
+    case instance instanceof Vec2:
+        return "Vec2"
+    case instance instanceof Vec3:
+        return "Vec3"
+    case instance instanceof Vec4:
+        return "Vec4"
+    case instance instanceof OneMinus:
+        return "OneMinus"
+    case instance instanceof Saturate:
+        return "Saturate"
+    case instance instanceof Clamp:
+        return "Clamp"
+    case instance instanceof Saturation:
+        return "Saturation"
+    case instance instanceof Pow:
+        return "Pow"
+    case instance instanceof MakeVector:
+        return "MakeVector"
+    default:
+        return null
     }
 }

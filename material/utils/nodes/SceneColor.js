@@ -6,16 +6,16 @@ export default class SceneColor extends Node {
 
     constructor() {
         super([
-            {label: 'UV', key: 'uv', accept: [DATA_TYPES.VEC2]},
+            {label: "UV", key: "uv", accept: [DATA_TYPES.VEC2]},
         ], [
-            {label: 'RGB', key: 'rgb', type: DATA_TYPES.VEC3},
-            {label: 'R', key: 'r', type: DATA_TYPES.FLOAT, color: 'red'},
-            {label: 'G', key: 'g', type: DATA_TYPES.FLOAT, color: 'green'},
-            {label: 'B', key: 'b', type: DATA_TYPES.FLOAT, color: 'blue'},
-            {label: 'Alpha', key: 'a', type: DATA_TYPES.FLOAT, color: 'white'}
-        ]);
+            {label: "RGB", key: "rgb", type: DATA_TYPES.VEC3},
+            {label: "R", key: "r", type: DATA_TYPES.FLOAT, color: "red"},
+            {label: "G", key: "g", type: DATA_TYPES.FLOAT, color: "green"},
+            {label: "B", key: "b", type: DATA_TYPES.FLOAT, color: "blue"},
+            {label: "Alpha", key: "a", type: DATA_TYPES.FLOAT, color: "white"}
+        ])
 
-        this.name = 'SceneColor'
+        this.name = "SceneColor"
     }
 
     get type() {
@@ -23,16 +23,16 @@ export default class SceneColor extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall({uv}, index, outputs) {
         let response = [
-            `vec4 samplerSceneColor = texture(sceneColor, ${uv !== undefined ? uv.name : 'texCoord'});`
+            `vec4 samplerSceneColor = texture(sceneColor, ${uv !== undefined ? uv.name : "texCoord"});`
         ]
 
         outputs.forEach(o => {
@@ -42,6 +42,6 @@ export default class SceneColor extends Node {
                 response.push(`${outputKey.type} ${this[o]} = samplerSceneColor.${o};`)
             }
         })
-        return response.join('\n')
+        return response.join("\n")
     }
 }

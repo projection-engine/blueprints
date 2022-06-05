@@ -12,8 +12,6 @@ import options from "./utils/options"
 import compileShaders from "./utils/compileShaders"
 import {AlertProvider, Tab, Tabs} from "@f-ui/core"
 import FileOptions from "../../../../components/file-options/FileOptions"
-import useHotKeys from "../../../../components/hot-keys/useHotKeys"
-import getHotKeys from "../scripts/utils/getHotKeys"
 import useShortcuts from "./hooks/useShortcuts"
 
 export default function MaterialView(props) {
