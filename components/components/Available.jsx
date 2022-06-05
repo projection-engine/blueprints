@@ -33,7 +33,7 @@ export default function Available(props) {
                         className={styles.option}
                         draggable={true}
                         title={d.tooltip}
-                        style={{background: i % 2 === 0 ? "var(--fabric-background-secondary)" : undefined}}
+                        style={{background: i % 2 === 0 ? "var(--pj-background-secondary)" : undefined}}
                         onDragStart={e => e.dataTransfer.setData("text", d.dataTransfer)}
                         key={d.dataTransfer + "-" + i}
                     >

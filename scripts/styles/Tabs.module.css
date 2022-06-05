@@ -17,8 +17,8 @@
     height: 25px;
     padding: 2px 16px !important;
     border-radius: 5px 5px 0 0 !important;
-    background: var(--fabric-background-tertiary) !important;
-    color: var(--fabric-color-secondary);
+    background: var(--pj-background-tertiary) !important;
+    color: var(--pj-color-secondary);
     opacity: .8;
     font-size: .7rem;
 
@@ -28,6 +28,6 @@
 .option[data-selected='true'] {
     opacity: 1;
     font-weight: 550;
-    background: var(--fabric-background-primary) !important;
-    color: var(--fabric-accent-color);
+    background: var(--pj-background-primary) !important;
+    color: var(--pj-accent-color);
 }

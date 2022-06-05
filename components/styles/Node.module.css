@@ -1,7 +1,7 @@
 .wrapper {
 
     overflow: visible;
-    box-shadow: var(--fabric-boxshadow);
+    box-shadow: var(--pj-boxshadow);
     transition: outline 150ms linear;
     outline: transparent 2px solid;
     cursor: pointer;
@@ -15,7 +15,7 @@ border-radius: 3px;
     width: 100%;
     font-size: .7rem;
     font-weight: 550;
-    color: var(--fabric-color-secondary);
+    color: var(--pj-color-secondary);
 
     display: flex;
     align-items: center;
@@ -38,11 +38,11 @@ border-radius: 3px;
 .executionConnection {
     width: 20px;
     height: 20px;
-    background-color: var(--fabric-background-secondary);
+    background-color: var(--pj-background-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: var(--fabric-border-primary) 1px solid;
+    border: var(--pj-border-primary) 1px solid;
     transition: 150ms linear;
     border-radius: 3px;
 }
@@ -57,7 +57,7 @@ border-radius: 3px;
     height: 12px;
     border-radius: 50%;
 
-    background-color: var(--fabric-border-secondary);
+    background-color: var(--pj-border-secondary);
     position:relative;
     cursor: grab;
 }
@@ -66,11 +66,11 @@ border-radius: 3px;
     cursor: default;
 }
 .executionConnection:hover {
-    border-color: var(--fabric-accent-color);
+    border-color: var(--pj-accent-color);
 }
 
 .connection:hover, .executionConnection:hover {
-    border-color: var(--fabric-accent-color);
+    border-color: var(--pj-accent-color);
 }
 
 
@@ -87,11 +87,11 @@ border-radius: 3px;
     padding: 0 4px;
     font-weight: 550;
     font-size: .7rem;
-    color: var(--fabric-color-secondary);
+    color: var(--pj-color-secondary);
 
     border-left: transparent 3px solid;
 
-    background: var(--fabric-background-tertiary);
+    background: var(--pj-background-tertiary);
     transition: color 150ms linear;
 
 }
@@ -116,7 +116,7 @@ border-radius: 3px;
 
     border-radius: 0 0 3px 3px ;
 
-    background-color: var(--fabric-background-primary);
+    background-color: var(--pj-background-primary);
 }
 
 .overflow {
@@ -138,10 +138,10 @@ border-radius: 3px;
     border-radius: 5px;
     overflow: hidden;
     width: 100px;
-    color: var(--fabric-color-primary);
+    color: var(--pj-color-primary);
     font-size: .7rem;
     font-weight: 550;
-    background-color: var(--fabric-background-tertiary);
+    background-color: var(--pj-background-tertiary);
 }
 
 .error {
@@ -173,7 +173,7 @@ border-radius: 3px;
 
 .ioKey {
     width: 100%;
-    border-top: var(--fabric-border-primary) 1px solid;
+    border-top: var(--pj-border-primary) 1px solid;
 
     white-space: nowrap;
     overflow: hidden;
@@ -193,7 +193,7 @@ border-radius: 3px;
 
     position: absolute;
     z-index: 10;
-    box-shadow: var(--fabric-boxshadow);
+    box-shadow: var(--pj-boxshadow);
 
     text-align: left;
 
@@ -223,7 +223,7 @@ border-radius: 3px;
 
     max-width: 50px;
     border-radius: 3px;
-    background: var(--fabric-background-secondary);
+    background: var(--pj-background-secondary);
     padding: 2px 4px !important;
 
     font-size: .65rem !important;
@@ -237,14 +237,14 @@ border-radius: 3px;
 .header {
     position: sticky;
     top: 0;
-    background: var(--fabric-background-primary);
+    background: var(--pj-background-primary);
     z-index: 10;
-    border-bottom: var(--fabric-border-primary) 1px solid;
+    border-bottom: var(--pj-border-primary) 1px solid;
 
 }
 
 .wrapperContent {
-    background: var(--fabric-background-secondary);
+    background: var(--pj-background-secondary);
 }
 
 .wrapperInput {

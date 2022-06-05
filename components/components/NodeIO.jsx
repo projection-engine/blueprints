@@ -15,7 +15,7 @@ export default function NodeIO(props) {
     const asInput = (e) => {
         e.preventDefault()
         const data = JSON.parse(e.dataTransfer.getData('text'))
-        e.currentTarget.style.background = 'var(--fabric-background-primary)'
+        e.currentTarget.style.background = 'var(--pj-background-primary)'
 
         if (data.type === 'output' && (props.data.accept.includes(data.attribute.type) || props.data.accept.includes(DATA_TYPES.ANY)))
             props.handleLink(data, {
@@ -127,7 +127,7 @@ export default function NodeIO(props) {
                     data-dtype={props.type}
                     data-disabled={`${props.data.type === DATA_TYPES.UNDEFINED && (props.inputLinks.length === 0 && props.node.inputs.length > 0)}`}
                     style={{
-                        '--fabric-accent-color': isExecution ? '#0095ff' : '#999999',
+                        '--pj-accent-color': isExecution ? '#0095ff' : '#999999',
                         background: linkColor && !props.data.disabled ? linkColor : undefined,
                         display: props.data.bundled && !props.data.accept ? 'none' : undefined,
                     }}

@@ -1,7 +1,7 @@
 .wrapper {
   width: 100%;
   padding: 4px;
-  background-color: var(--fabric-background-primary);
+  background-color: var(--pj-background-primary);
   border-radius: 5px;
   outline: transparent 2px solid;
   height: 100%;
@@ -24,7 +24,7 @@
   overflow: hidden;
   font-size: 0.7rem;
   font-weight: 550;
-  color: var(--fabric-color-secondary);
+  color: var(--pj-color-secondary);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,7 +36,7 @@
 }
 
 .option[data-highlight="true"] {
-  color: var(--fabric-accent-color);
+  color: var(--pj-accent-color);
 }
 
 .options {
@@ -48,10 +48,10 @@
   display: grid;
   justify-items: center;
   align-items: center;
-  background: var(--fabric-border-primary);
+  background: var(--pj-border-primary);
   border-radius: 5px;
   padding: 4px;
-  color: var(--fabric-color-secondary);
+  color: var(--pj-color-secondary);
   font-size: 0.7rem;
   font-weight: 550;
   width: 75%;
@@ -64,6 +64,6 @@
 
 .variables{
   height: 100%;
-  background: var(--fabric-background-secondary);
+  background: var(--pj-background-secondary);
   padding: 4px;
 }

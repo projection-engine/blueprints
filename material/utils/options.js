@@ -1,6 +1,7 @@
 import Make from "./Make"
 import compiler from "./compiler/compiler"
 import React from "react"
+
 export default function options(compileShaders, hook, submitPackage, mat) {
     return [
         {

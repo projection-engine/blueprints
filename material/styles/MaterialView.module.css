@@ -27,7 +27,7 @@
   flex-direction: column;
   gap: 0;
   overflow: hidden;
-  background: var(--fabric-background-primary);
+  background: var(--pj-background-primary);
   border-radius: 5px;
   min-width: 250px;
 }

@@ -125,7 +125,7 @@ export default function Node(props) {
             <path
                 ref={pathRef}
                 fill={"none"}
-                stroke={"var(--fabric-accent-color)"}
+                stroke={"var(--pj-accent-color)"}
                 strokeWidth={"2"}
                 strokeDasharray={"3,3"}
             />

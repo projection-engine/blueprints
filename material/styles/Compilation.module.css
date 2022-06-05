@@ -3,7 +3,7 @@
     max-width: 100%;
     width: 100%;
 
-    background-color: var(--fabric-background-primary);
+    background-color: var(--pj-background-primary);
     border-radius: 5px;
 
     overflow-x: hidden;
@@ -23,12 +23,12 @@ padding-top: 8px;
 
 }
 .row{
-    color: var(--fabric-color-secondary);
+    color: var(--pj-color-secondary);
     font-size: .8rem;
 
     padding: 4px 6px;
 
-    background-color: var(--fabric-background-primary);
+    background-color: var(--pj-background-primary);
     border-radius: 5px;
 }
 
@@ -45,7 +45,7 @@ padding-top: 8px;
 
 
     text-align: center;
-    color: var(--fabric-color-primary);
+    color: var(--pj-color-primary);
     font-size: .75rem;
     font-weight: 550;
 

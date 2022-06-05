@@ -1,6 +1,5 @@
 import createGroupShortcut from "./createGroupShortcut"
 import EventTick from "../../scripts/utils/nodes/events/EventTick"
-import deleteNode from "./deleteNode"
 import cloneClass from "../../../../engine/utils/cloneClass"
 import EntityReference from "../../scripts/utils/nodes/utils/EntityReference"
 import Setter from "../../scripts/utils/nodes/utils/Setter"
@@ -38,6 +37,7 @@ export default function getHotKeys(hook, setAlert, toCopy, setToCopy, save) {
                     if(!notValid[id])
                         newArr.push(id)
                 }
+                console.log(newArr)
                 hook.setSelected(newArr)
             }
         },

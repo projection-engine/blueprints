@@ -65,7 +65,7 @@ export default function Context(props) {
                             <button
                                 key={a.dataTransfer + "-option-context"}
                                 className={styles.option}
-                                style={{background: i % 2 === 0 ? "var(--fabric-background-secondary)" : undefined}}
+                                style={{background: i % 2 === 0 ? "var(--pj-background-secondary)" : undefined}}
                                 onClick={() => {
                                     props.onSelect(a.dataTransfer)
 

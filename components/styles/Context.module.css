@@ -10,7 +10,7 @@
 
 .header{
     margin: 0;
-    color: var(--fabric-color-secondary);
+    color: var(--pj-color-secondary);
 
     font-size: .8rem;
     font-weight: 550;
@@ -19,7 +19,7 @@
     position: sticky;
     top: 0;
 
-    background: var(--fabric-background-primary);
+    background: var(--pj-background-primary);
 
 }
 
@@ -33,9 +33,9 @@
     outline: none;
     border: none;
 
-    color: var(--fabric-color-tertiary);
-    border-top: var(--fabric-border-primary) 1px solid;
-    background: var(--fabric-background-primary);
+    color: var(--pj-color-tertiary);
+    border-top: var(--pj-border-primary) 1px solid;
+    background: var(--pj-background-primary);
 
     cursor: pointer !important;
     height: 25px;
@@ -52,10 +52,10 @@
 }
 .option:active{
     color: white;
-    background-color: var(--fabric-accent-color);
+    background-color: var(--pj-accent-color);
 }
 .option:hover{
-    color: var(--fabric-accent-color);
+    color: var(--pj-accent-color);
 }
 .overflow{
     overflow: hidden;

@@ -1,6 +1,6 @@
 .wrapper {
   width: 100%;
-  background-color: var(--fabric-background-primary);
+  background-color: var(--pj-background-primary);
   border-radius: 5px;
   outline: transparent 2px solid;
   padding: 4px;
@@ -43,21 +43,21 @@
   font-weight: 550;
   width: 100%;
   border-radius: 5px;
-  color: var(--fabric-color-quaternary);
+  color: var(--pj-color-quaternary);
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 4px;
-  border: var(--fabric-border-primary) 1px solid;
-  background: var(--fabric-background-secondary);
+  border: var(--pj-border-primary) 1px solid;
+  background: var(--pj-background-secondary);
 }
 
 .option:hover {
-  border-color: var(--fabric-accent-color);
+  border-color: var(--pj-accent-color);
 }
 
 .option:active {
-  border-color: var(--fabric-accent-color);
+  border-color: var(--pj-accent-color);
   cursor: grabbing;
 }
 
@@ -71,7 +71,7 @@
   align-content: center;
   justify-content: center;
   justify-items: center;
-  color: var(--fabric-color-quaternary);
+  color: var(--pj-color-quaternary);
   font-size: 0.75rem;
   font-weight: 550;
 }

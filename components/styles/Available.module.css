@@ -2,7 +2,7 @@
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  background-color: var(--fabric-background-primary);
+  background-color: var(--pj-background-primary);
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -50,18 +50,18 @@
   gap: 4px;
   font-size: 0.7rem;
   font-weight: 550;
-  background-color: var(--fabric-background-primary);
+  background-color: var(--pj-background-primary);
   border: transparent 1px dashed;
-  color: var(--fabric-color-secondary);
+  color: var(--pj-color-secondary);
 }
 
 .option:hover {
-  color: var(--fabric-accent-color);
+  color: var(--pj-accent-color);
 }
 
 .option:active {
   cursor: grabbing;
-  border-color: var(--fabric-accent-color);
+  border-color: var(--pj-accent-color);
 }
 
 .summary {
@@ -95,7 +95,7 @@
 
 .header {
   padding: 3px;
-  color: var(--fabric-color-secondary);
+  color: var(--pj-color-secondary);
   font-size: 0.8rem;
   font-weight: 550;
   display: flex;
