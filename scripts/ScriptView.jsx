@@ -85,6 +85,7 @@ export default function ScriptView(props) {
             <FileOptions options={options}/>
             <div className={styles.prototypeWrapper} ref={ref} id={id + "-board"}>
                 <Structure
+                    id={id}
                     hook={hook}
                     engine={engine}
                     setOpenTab={setOpenTab}

@@ -57,7 +57,6 @@ export default function Context(props) {
                         <header className={styles.headerWrapper}>
                             <h1 className={styles.header}>
                                 Available nodes
-
                             </h1>
                             <Search width={"100%"} searchString={searchString} setSearchString={setSearchString}/>
                         </header>

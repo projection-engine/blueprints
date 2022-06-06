@@ -6,15 +6,19 @@ import handleDropBoard from "../utils/handleDropBoard"
 
 import handleBoardScroll from "../utils/handleBoardScroll"
 import useBoard from "../hooks/useBoard"
-import {ContextWrapper} from "@f-ui/core"
 import getBoardOptions from "../utils/getBoardOptions"
 import OnDragProvider from "../hooks/DragProvider"
 import SelectBox from "../../../../../components/select-box/SelectBox"
-import Context from "./Context"
-import deleteNode from "../utils/deleteNode"
 import Group from "./Group"
 import QuickAccessProvider from "../../../../hooks/QuickAccessProvider"
+import useContextTarget from "../../../../../components/context/hooks/useContextTarget"
 
+const TRIGGERS = [
+    "data-node",
+    "data-board",
+    "data-link",
+    "data-group"
+]
 export default function Board(props) {
     const {scale, setScale} = props
     const {
@@ -61,9 +65,30 @@ export default function Board(props) {
         }
     }
     const boardOptions = useMemo(() => {
-        return getBoardOptions((n, mouseInfo) => {
-            handleDropNode(n, mouseInfo)
-        }, props.setSelected, props.hook, links, props.allNodes)
+        return getBoardOptions(
+            (n, mouseInfo) => handleDropNode(n, mouseInfo),
+            props.setSelected, 
+            props.hook, 
+            links,
+            props.allNodes,
+            (t) => {
+                props.hook.setChanged(true)
+                props.hook.setImpactingChange(true)
+                props.hook.setLinks(prev => {
+                    return prev.filter(l => {
+                        const test = {
+                            t: l.target.id + l.target.attribute.key,
+                            s: l.source.id + l.source.attribute.key,
+                        }
+                        return (test.t + "-" + test.s) !== t
+                    })
+                })
+            },
+            (attr) => {
+                props.hook.setChanged(true)
+                props.hook.setGroups(prev => prev.filter(pr => pr.id !== attr))
+            }
+        )
     }, [props.hook.nodes, props.hook.links, links])
 
     const [dragType, setDragType] = useState()
@@ -81,68 +106,29 @@ export default function Board(props) {
     }
 
     const coords = useRef({clientX: 0, clientY: 0})
-
+    useContextTarget(
+        {ref: ref.current},
+        boardOptions,
+        TRIGGERS
+    )
     return (
         <OnDragProvider.Provider value={{setDragType, dragType}}>
-            <ContextWrapper
-                styles={{display: props.hide ? "none" : undefined}}
-                options={boardOptions}
-                wrapperClassName={styles.contextWrapper}
-                content={(s, handleClose) => (
-                    <Context
-                        deleteNode={() => {
-                            deleteNode(s.getAttribute("data-node"), props.hook, props.setSelected)
-                        }}
-                        handleClose={handleClose}
-                        scale={scale}
-                        deleteGroup={() => {
-                            const attr = s.getAttribute("data-group")
-                            props.hook.setChanged(true)
-                            props.hook.setGroups(prev => prev.filter(pr => pr.id !== attr))
-                        }}
-                        deleteLink={() => {
-                            props.hook.setChanged(true)
-                            props.hook.setImpactingChange(true)
-                            const t = s.getAttribute("data-link")
-
-                            props.hook.setLinks(prev => {
-                                return prev.filter(l => {
-                                    const test = {
-                                        t: l.target.id + l.target.attribute.key,
-                                        s: l.source.id + l.source.attribute.key,
-                                    }
-                                    return (test.t + "-" + test.s) !== t
-                                })
-                            })
-                        }}
-                        availableNodes={props.allNodes}
-                        onSelect={(dataTransfer) => {
-                            handleDropNode(handleDropBoard(dataTransfer, props.allNodes), coords.current)
-                        }}
-                        selected={s}
-                        setSelected={props.setSelected}
-                    />
-                )}
-                triggers={[
-                    "data-node",
-                    "data-board",
-                    "data-link",
-                    "data-group"
-                ]}
+            <div
+                style={{display: props.hide ? "none" : undefined}}
                 className={styles.context}
-            >
 
+            >
                 <SelectBox nodes={[...props.hook.groups, ...props.hook.nodes]} selected={props.selected}
                     setSelected={props.setSelected}/>
                 <svg
                     onDragOver={e => e.preventDefault()}
+                    data-board={"BOARD"}
                     style={{
                         transform: `scale(${scale})`,
                         transformOrigin: "top left",
                         height: "10000px",
                         width: "10000px",
                     }}
-                    data-board={"self"}
                     onContextMenu={e => e.preventDefault()}
                     onDrop={e => {
                         e.preventDefault()
@@ -246,7 +232,7 @@ export default function Board(props) {
                         </React.Fragment>
                     ))}
                 </svg>
-            </ContextWrapper>
+            </div>
         </OnDragProvider.Provider>
     )
 }

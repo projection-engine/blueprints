@@ -58,6 +58,9 @@ export default function Node(props) {
                 <foreignObject
                     data-node={props.node.canBeDeleted ? props.node.id : undefined}
                     id={props.node.id}
+                    onContextMenu={() => {
+                        props.setSelected(props.node.id)
+                    }}
 
                     className={styles.wrapper}
 

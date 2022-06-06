@@ -47,198 +47,198 @@ import MakeVector from "./nodes/vec/MakeVector"
 
 export const allNodes = [
     {
-        label: 'MakeVector',
-        dataTransfer: 'MakeVector',
-        tooltip: 'MakeVector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "MakeVector",
+        dataTransfer: "MakeVector",
+        tooltip: "MakeVector.",
+        
         getNewInstance: () => new MakeVector()
     },
     {
-        label: 'Cosine',
-        dataTransfer: 'Cosine',
-        tooltip: 'Cosine.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Cosine",
+        dataTransfer: "Cosine",
+        tooltip: "Cosine.",
+        
         getNewInstance: () => new Cosine()
     },
     {
-        label: 'CosineH',
-        dataTransfer: 'CosineH',
-        tooltip: 'Hyperbolic cosine.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "CosineH",
+        dataTransfer: "CosineH",
+        tooltip: "Hyperbolic cosine.",
+        
         getNewInstance: () => new CosineH()
     },
     {
-        label: 'SineH',
-        dataTransfer: 'SineH',
-        tooltip: 'Hyperbolic sine.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "SineH",
+        dataTransfer: "SineH",
+        tooltip: "Hyperbolic sine.",
+        
         getNewInstance: () => new SineH()
     },
     {
-        label: 'DDX',
-        dataTransfer: 'DDX',
-        tooltip: 'Partial derivative X.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "DDX",
+        dataTransfer: "DDX",
+        tooltip: "Partial derivative X.",
+        
         getNewInstance: () => new DDX()
     },
     {
-        label: 'DDY',
-        dataTransfer: 'DDY',
-        tooltip: 'Partial derivative Y.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "DDY",
+        dataTransfer: "DDY",
+        tooltip: "Partial derivative Y.",
+        
         getNewInstance: () => new DDY()
     },
     {
-        label: 'Normalize',
-        dataTransfer: 'Normalize',
-        tooltip: 'Normalize vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Normalize",
+        dataTransfer: "Normalize",
+        tooltip: "Normalize vector.",
+        
         getNewInstance: () => new Normalize()
     },
     {
-        label: 'Reflect',
-        dataTransfer: 'Reflect',
-        tooltip: 'Reflect vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Reflect",
+        dataTransfer: "Reflect",
+        tooltip: "Reflect vector.",
+        
         getNewInstance: () => new Reflect()
     },
     {
-        label: 'Refract',
-        dataTransfer: 'Refract',
-        tooltip: 'Refract vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Refract",
+        dataTransfer: "Refract",
+        tooltip: "Refract vector.",
+        
         getNewInstance: () => new Refract()
     },
 
 
 
     {
-        label: 'SceneColor',
-        dataTransfer: 'SceneColor',
-        tooltip: 'Scene color.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "SceneColor",
+        dataTransfer: "SceneColor",
+        tooltip: "Scene color.",
+        
         getNewInstance: () => new SceneColor()
     },
     {
-        label: 'Pow',
-        dataTransfer: 'Pow',
-        tooltip: 'Power to exponent.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Pow",
+        dataTransfer: "Pow",
+        tooltip: "Power to exponent.",
+        
         getNewInstance: () => new Pow()
     },
     {
-        label: 'Saturation',
-        dataTransfer: 'Saturation',
-        tooltip: 'Adjust saturation.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Saturation",
+        dataTransfer: "Saturation",
+        tooltip: "Adjust saturation.",
+        
         getNewInstance: () => new Saturation()
     },
     {
-        label: 'Saturate',
-        dataTransfer: 'Saturate',
-        tooltip: 'Clamp between 0 and 1.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Saturate",
+        dataTransfer: "Saturate",
+        tooltip: "Clamp between 0 and 1.",
+        
         getNewInstance: () => new Saturate()
     },
     {
-        label: 'Clamp',
-        dataTransfer: 'Clamp',
-        tooltip: 'One minus X.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Clamp",
+        dataTransfer: "Clamp",
+        tooltip: "One minus X.",
+        
         getNewInstance: () => new Clamp()
     },
     {
-        label: '1-X (OneMinusX)',
-        dataTransfer: 'OneMinus',
-        tooltip: 'One minus X.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "1-X (OneMinusX)",
+        dataTransfer: "OneMinus",
+        tooltip: "One minus X.",
+        
         getNewInstance: () => new OneMinus()
     },
     {
-        label: 'Vec2',
-        dataTransfer: 'Vec2',
-        tooltip: '2D vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Vec2",
+        dataTransfer: "Vec2",
+        tooltip: "2D vector.",
+        
         getNewInstance: () => new Vec2()
     },
     {
-        label: 'Vec3',
-        dataTransfer: 'Vec3',
-        tooltip: '3D vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Vec3",
+        dataTransfer: "Vec3",
+        tooltip: "3D vector.",
+        
         getNewInstance: () => new Vec3()
     },
     {
-        label: 'Vec4',
-        dataTransfer: 'Vec4',
-        tooltip: '4D vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Vec4",
+        dataTransfer: "Vec4",
+        tooltip: "4D vector.",
+        
         getNewInstance: () => new Vec4()
     },
 
 
     {
-        label: 'BreakVec2',
-        dataTransfer: 'BreakVec2',
-        tooltip: 'Break vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "BreakVec2",
+        dataTransfer: "BreakVec2",
+        tooltip: "Break vector.",
+        
         getNewInstance: () => new BreakVec2()
     },
     {
-        label: 'BreakVec3',
-        dataTransfer: 'BreakVec3',
-        tooltip: 'Break vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "BreakVec3",
+        dataTransfer: "BreakVec3",
+        tooltip: "Break vector.",
+        
         getNewInstance: () => new BreakVec3()
     },
     {
-        label: 'BreakVec4',
-        dataTransfer: 'BreakVec4',
-        tooltip: 'Break vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "BreakVec4",
+        dataTransfer: "BreakVec4",
+        tooltip: "Break vector.",
+        
         getNewInstance: () => new BreakVec4()
     },
     {
-        label: 'DotVec2',
-        dataTransfer: 'DotVec2',
-        tooltip: 'Dot product vec2',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "DotVec2",
+        dataTransfer: "DotVec2",
+        tooltip: "Dot product vec2",
+        
         getNewInstance: () => new DotVec2()
     },
     {
-        label: 'DotVec3',
-        dataTransfer: 'DotVec3',
-        tooltip: 'Dot product vec3',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "DotVec3",
+        dataTransfer: "DotVec3",
+        tooltip: "Dot product vec3",
+        
         getNewInstance: () => new DotVec3()
     },
     {
-        label: 'DotVec4',
-        dataTransfer: 'DotVec4',
-        tooltip: 'Dot product vec4',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "DotVec4",
+        dataTransfer: "DotVec4",
+        tooltip: "Dot product vec4",
+        
         getNewInstance: () => new DotVec4()
     },
 
     {
-        label: 'LerpVec2',
-        dataTransfer: 'LerpVec2',
-        tooltip: 'Linear interpolate vec2.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "LerpVec2",
+        dataTransfer: "LerpVec2",
+        tooltip: "Linear interpolate vec2.",
+        
         getNewInstance: () => new LerpVec2()
     },
     {
-        label: 'LerpVec3',
-        dataTransfer: 'LerpVec3',
-        tooltip: 'Linear interpolate vec3.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "LerpVec3",
+        dataTransfer: "LerpVec3",
+        tooltip: "Linear interpolate vec3.",
+        
         getNewInstance: () => new LerpVec3()
     },
     {
-        label: 'LerpVec4',
-        dataTransfer: 'LerpVec4',
-        tooltip: 'Linear interpolate vec4.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "LerpVec4",
+        dataTransfer: "LerpVec4",
+        tooltip: "Linear interpolate vec4.",
+        
         getNewInstance: () => new LerpVec4()
     },
 
@@ -247,126 +247,126 @@ export const allNodes = [
 
 
     {
-        label: 'PerlinNoise',
-        dataTransfer: 'PerlinNoise',
-        tooltip: 'Perlin Noise.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "PerlinNoise",
+        dataTransfer: "PerlinNoise",
+        tooltip: "Perlin Noise.",
+        
         getNewInstance: () => new PerlinNoise()
     },
     {
-        label: 'TextureCoords',
-        dataTransfer: 'TextureCoords',
-        tooltip: 'Fragment texture coordinates.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "TextureCoords",
+        dataTransfer: "TextureCoords",
+        tooltip: "Fragment texture coordinates.",
+        
         getNewInstance: () => new TextureCoords()
     },
     {
-        label: 'CameraCoords',
-        dataTransfer: 'CameraCoords',
-        tooltip: 'Camera coordinates.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "CameraCoords",
+        dataTransfer: "CameraCoords",
+        tooltip: "Camera coordinates.",
+        
         getNewInstance: () => new CameraCoords()
     },
     {
-        label: 'AbsoluteWorldPosition',
-        dataTransfer: 'AbsoluteWorldPosition',
-        tooltip: 'Vertex coordinates.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "AbsoluteWorldPosition",
+        dataTransfer: "AbsoluteWorldPosition",
+        tooltip: "Vertex coordinates.",
+        
         getNewInstance: () => new AbsoluteWorldPosition()
     },
     {
-        label: 'NormalVector',
-        dataTransfer: 'NormalVector',
-        tooltip: 'Surface normal.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "NormalVector",
+        dataTransfer: "NormalVector",
+        tooltip: "Surface normal.",
+        
         getNewInstance: () => new NormalVector()
     },
     {
-        label: 'ToTangentSpace',
-        dataTransfer: 'ToTangentSpace',
-        tooltip: 'To tangent space matrix.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "ToTangentSpace",
+        dataTransfer: "ToTangentSpace",
+        tooltip: "To tangent space matrix.",
+        
         getNewInstance: () => new ToTangentSpace()
     },
     {
-        label: 'ViewDirection',
-        dataTransfer: 'ViewDirection',
-        tooltip: 'View direction vector.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "ViewDirection",
+        dataTransfer: "ViewDirection",
+        tooltip: "View direction vector.",
+        
         getNewInstance: () => new ViewDirection()
     },
     {
-        label: 'ParallaxOcclusionMapping',
-        dataTransfer: 'ParallaxOcclusionMapping',
-        tooltip: 'Parallax occlusion mapping.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "ParallaxOcclusionMapping",
+        dataTransfer: "ParallaxOcclusionMapping",
+        tooltip: "Parallax occlusion mapping.",
+        
         getNewInstance: () => new ParallaxOcclusionMapping()
     },
 
 
     {
-        label: 'Add',
-        dataTransfer: 'Add',
-        tooltip: 'Adds two values (float, int, vec2, vec3, vec4)',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Add",
+        dataTransfer: "Add",
+        tooltip: "Adds two values (float, int, vec2, vec3, vec4)",
+        
         getNewInstance: () => new Add()
     },
     {
-        label: 'TextureSample',
-        dataTransfer: 'TextureSample',
-        tooltip: 'Gets texture value (sampler 2d)',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "TextureSample",
+        dataTransfer: "TextureSample",
+        tooltip: "Gets texture value (sampler 2d)",
+        
         getNewInstance: () => new TextureSample()
     },
 
     {
-        label: 'Float',
-        dataTransfer: 'Float',
-        tooltip: 'Float uniform.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Float",
+        dataTransfer: "Float",
+        tooltip: "Float uniform.",
+        
         getNewInstance: () => new Float()
     },  {
-        label: 'Elapsed',
-        dataTransfer: 'ElapsedTime',
-        tooltip: 'Elapsed time.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Elapsed",
+        dataTransfer: "ElapsedTime",
+        tooltip: "Elapsed time.",
+        
         getNewInstance: () => new ElapsedTime()
     }, {
-        label: 'Multiply',
-        dataTransfer: 'Multiply',
-        tooltip: 'Multiplies two values.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Multiply",
+        dataTransfer: "Multiply",
+        tooltip: "Multiplies two values.",
+        
         getNewInstance: () => new Multiply()
     },
     {
-        label: 'Sine',
-        dataTransfer: 'Sine',
-        tooltip: 'Sine of a value.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Sine",
+        dataTransfer: "Sine",
+        tooltip: "Sine of a value.",
+        
         getNewInstance: () => new Sine()
     },    {
-        label: 'Divide',
-        dataTransfer: 'Divide',
-        tooltip: 'Divides two values.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Divide",
+        dataTransfer: "Divide",
+        tooltip: "Divides two values.",
+        
         getNewInstance: () => new Divide()
     },{
-        label: 'Min',
-        dataTransfer: 'Min',
-        tooltip: 'Min between two values.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Min",
+        dataTransfer: "Min",
+        tooltip: "Min between two values.",
+        
         getNewInstance: () => new Min()
     },{
-        label: 'Max',
-        dataTransfer: 'Max',
-        tooltip: 'Max between two values.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "Max",
+        dataTransfer: "Max",
+        tooltip: "Max between two values.",
+        
         getNewInstance: () => new Max()
     },{
-        label: 'RGB',
-        dataTransfer: 'RGB',
-        tooltip: 'RGB color.',
-        icon: <span className={'material-icons-round'}>plus</span>,
+        label: "RGB",
+        dataTransfer: "RGB",
+        tooltip: "RGB color.",
+        
         getNewInstance: () => new RGB()
     },
 ]

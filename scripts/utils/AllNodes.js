@@ -15,92 +15,92 @@ import KeyPress from "./nodes/events/KeyPress"
 export const allNodes = [
 
     {
-        label: 'OnSpawn',
-        dataTransfer: 'OnSpawn',
-        tooltip: 'TODO',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "OnSpawn",
+        dataTransfer: "OnSpawn",
+        tooltip: "TODO",
+        
         getNewInstance: () => new OnSpawn()
     },
     {
-        label: 'SetViewTarget',
-        dataTransfer: 'SetViewTarget',
-        tooltip: 'TODO',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "SetViewTarget",
+        dataTransfer: "SetViewTarget",
+        tooltip: "TODO",
+        
         getNewInstance: () => new SetViewTarget()
     },
 
     {
-        label: 'GetCameraPosition',
-        dataTransfer: 'GetCameraPosition',
-        tooltip: 'TODO',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "GetCameraPosition",
+        dataTransfer: "GetCameraPosition",
+        tooltip: "TODO",
+        
         getNewInstance: () => new GetCameraPosition()
     },
 
     {
-        label: 'SetCameraPosition',
-        dataTransfer: 'SetCameraPosition',
-        tooltip: 'TODO',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "SetCameraPosition",
+        dataTransfer: "SetCameraPosition",
+        tooltip: "TODO",
+        
         getNewInstance: () => new SetCameraPosition()
     },
     {
-        label: 'EventTick',
-        dataTransfer: 'EventTick',
-        tooltip: 'Runs method every frame.',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "EventTick",
+        dataTransfer: "EventTick",
+        tooltip: "Runs method every frame.",
+        
         getNewInstance: () => new EventTick()
     },
 
     {
-        label: 'Add',
-        dataTransfer: 'Add',
-        tooltip: 'Adds two numeric values',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "Add",
+        dataTransfer: "Add",
+        tooltip: "Adds two numeric values",
+        
         getNewInstance: () => new Add()
     },
     {
-        label: 'KeyPress',
-        dataTransfer: 'KeyPress',
-        tooltip: 'Executes on key down, key up and hold',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "KeyPress",
+        dataTransfer: "KeyPress",
+        tooltip: "Executes on key down, key up and hold",
+        
         getNewInstance: () => new KeyPress()
     },
 
     {
-        label: 'Subtract',
-        dataTransfer: 'Subtract',
-        tooltip: 'Subtracts two numeric values',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "Subtract",
+        dataTransfer: "Subtract",
+        tooltip: "Subtracts two numeric values",
+        
         getNewInstance: () => new Subtract()
     },
     {
-        label: 'Multiply',
-        dataTransfer: 'Multiply',
-        tooltip: 'Multiplies two numeric values',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "Multiply",
+        dataTransfer: "Multiply",
+        tooltip: "Multiplies two numeric values",
+        
         getNewInstance: () => new Multiply()
     },
     {
-        label: 'Divide',
-        dataTransfer: 'Divide',
-        tooltip: 'Divides two numeric values',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "Divide",
+        dataTransfer: "Divide",
+        tooltip: "Divides two numeric values",
+        
         getNewInstance: () => new Divide()
     },
 
     {
-        label: 'Print',
-        dataTransfer: 'Print',
-        tooltip: 'Prints value to console',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "Print",
+        dataTransfer: "Print",
+        tooltip: "Prints value to console",
+        
         getNewInstance: () => new Print()
     },
     {
-        label: 'Number',
-        dataTransfer: 'Number',
-        tooltip: 'Adds number to script state',
-        icon: <span className={'material-icons-round'}>functions</span>,
+        label: "Number",
+        dataTransfer: "Number",
+        tooltip: "Adds number to script state",
+        
         getNewInstance: () => new ConstantNumber()
     },
 
