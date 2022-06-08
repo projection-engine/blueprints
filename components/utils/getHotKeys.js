@@ -37,7 +37,6 @@ export default function getHotKeys(hook, setAlert, toCopy, setToCopy, save) {
                     if(!notValid[id])
                         newArr.push(id)
                 }
-                console.log(newArr)
                 hook.setSelected(newArr)
             }
         },

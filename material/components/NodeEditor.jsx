@@ -3,7 +3,7 @@ import styles from "../styles/NodeEditor.module.css"
 import PropTypes from "prop-types"
 import Material from "../utils/nodes/Material"
 
-import {Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core"
+import {Checkbox, Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core"
 import Range from "../../../../../components/range/Range"
 import Selector from "../../../../../components/selector/Selector"
 
@@ -12,6 +12,7 @@ import ColorPicker from "../../../../../components/color/ColorPicker"
 import cloneClass from "../../../../engine/utils/cloneClass"
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
 import AccordionTemplate from "../../../../../components/templates/AccordionTemplate"
+import Float from "../utils/nodes/math/Float"
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {
@@ -54,8 +55,35 @@ export default function NodeEditor(props) {
             return value
         }
     }
+    function submitNodeVariable(event, submit, attr) {
 
-    const getInput = (label, type, value, submit, obj) => {
+        if (props.hook.selected.length > 0 || submit) {
+            if (submit)
+                props.hook.setNodes(prev => {
+                    const n = [...prev]
+                    const classLocation = n.findIndex(e => e.id === selected.id)
+                    const clone = cloneClass(prev[classLocation])
+                    clone[attr.key] = event
+                    const input = clone.inputs.find(i => i.key === attr.key)
+
+                    if (input.onChange)
+                        input.onChange(event)
+
+                    n[classLocation] = clone
+                    return n
+                })
+            else
+                selected[attr.key] = event
+        } else {
+            // TODO - FIND AND UPDATE CURRENT MATERIAL
+            if (attr.key === "tilingX")
+                props.hook.renderer.overrideMaterial.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
+            if (attr.key === "tilingY")
+                props.hook.renderer.overrideMaterial.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
+            selected[attr.key] = event
+        }
+    }
+    const getInput = (label, type, value, obj) => {
         switch (type) {
         case DATA_TYPES.INT:
         case DATA_TYPES.FLOAT:
@@ -66,12 +94,12 @@ export default function NodeEditor(props) {
                     maxValue={obj.max} incrementPercentage={type === DATA_TYPES.FLOAT ? .001 : 1} minValue={obj.min}
                     value={value !== undefined ? value : 0}
                     onFinish={(v) => {
-                        submit(type === DATA_TYPES.FLOAT ? v : parseInt(v), true)
+                        submitNodeVariable(type === DATA_TYPES.FLOAT ? v : parseInt(v), true, obj)
                         props.hook.setChanged(true)
                         if (props.hook.selected.length > 0 && !(selected instanceof Material))
                             props.hook.setImpactingChange(true)
                     }}
-                    handleChange={submit} label={label}
+                    handleChange={(v) => submitNodeVariable(v,false, obj)} label={label}
                 />
             )
         case DATA_TYPES.VEC4:
@@ -85,37 +113,37 @@ export default function NodeEditor(props) {
                         minValue={obj.min}
                         value={value ? value[0] : undefined}
                         onFinish={(v) => {
-                            submit(getNewVec(value, v, 0, type), true)
+                            submitNodeVariable(getNewVec(value, v, 0, type), true, obj)
                             props.hook.setChanged(true)
                             if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                 props.hook.setImpactingChange(true)
                         }}
-                        handleChange={v => submit(getNewVec(value, v, 0, type))} label={label}/>
+                        handleChange={v => submitNodeVariable(getNewVec(value, v, 0, type), false, obj)} label={label}/>
                     <Range
                         accentColor={"green"}
                         maxValue={obj.max}
                         minValue={obj.min}
                         onFinish={(v) => {
-                            submit(getNewVec(value, v, 1, type), true)
+                            submitNodeVariable(getNewVec(value, v, 1, type), true, obj)
                             props.hook.setChanged(true)
                             if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                 props.hook.setImpactingChange(true)
                         }}
                         value={value ? value[1] : undefined}
-                        handleChange={v => submit(getNewVec(value, v, 1, type))} label={label}/>
+                        handleChange={v => submitNodeVariable(getNewVec(value, v, 1, type), false, obj)} label={label}/>
                     {type === DATA_TYPES.VEC4 || type === DATA_TYPES.VEC3 ? (
                         <Range
                             accentColor={"blue"}
                             maxValue={obj.max}
                             minValue={obj.min}
                             onFinish={(v) => {
-                                submit(getNewVec(value, v, 2, type), true)
+                                submitNodeVariable(getNewVec(value, v, 2, type), true, obj)
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
                             }}
                             value={value ? value[2] : undefined}
-                            handleChange={v => submit(getNewVec(value, v, 2, type))} label={label}/>
+                            handleChange={v => submitNodeVariable(getNewVec(value, v, 2, type),false, obj)} label={label}/>
                     ) : null}
                     {type === DATA_TYPES.VEC4 ? (
                         <Range
@@ -123,20 +151,20 @@ export default function NodeEditor(props) {
                             maxValue={obj.max}
                             minValue={obj.min}
                             onFinish={(v) => {
-                                submit([value[0], value[1], value[2], parseFloat(v)], true)
+                                submitNodeVariable([value[0], value[1], value[2], parseFloat(v)], true, obj)
                                 props.hook.setChanged(true)
                                 if (props.hook.selected.length > 0 && !(selected instanceof Material))
                                     props.hook.setImpactingChange(true)
                             }}
                             value={value ? value[3] : undefined}
-                            handleChange={v => submit(getNewVec(value, v, 3, type))} label={label}/>
+                            handleChange={v => submitNodeVariable(getNewVec(value, v, 3, type), false, obj)} label={label}/>
                     ) : null}
                 </div>
             )
         case DATA_TYPES.COLOR:
             return <ColorPicker
                 submit={c => {
-                    submit(c, true)
+                    submitNodeVariable(c, true, obj)
                     props.hook.setChanged(true)
                     props.hook.setImpactingChange(true)
                 }}
@@ -146,7 +174,7 @@ export default function NodeEditor(props) {
                 <Selector
                     type={"image"}
                     handleChange={ev => {
-                        submit(ev, true)
+                        submitNodeVariable(ev, true, obj)
                         props.hook.setChanged(true)
                         props.hook.setImpactingChange(true)
                     }}
@@ -168,7 +196,7 @@ export default function NodeEditor(props) {
                                         props.hook.setChanged(true)
                                         props.hook.setImpactingChange(true)
 
-                                        submit(o.data, true)
+                                        submitNodeVariable(o.data, true, obj)
                                     }
                                 }}/>
                             </React.Fragment>
@@ -176,18 +204,37 @@ export default function NodeEditor(props) {
                     </DropdownOptions>
                 </Dropdown>
             )
+        case DATA_TYPES.CHECKBOX:
+            return (
+                <Checkbox
+                    label={obj.label}
+                    disabled={obj.disabled}
+                    width={"100%"}
+                    checked={selected[obj.key]}
+                    handleCheck={() => {
+                        props.hook.setChanged(true)
+                        props.hook.setImpactingChange(true)
+
+                        submitNodeVariable(!selected[obj.key], true, obj)
+                    }}
+                    height={"35px"}
+                    noMargin={true}
+                />
+            )
         default:
             return
         }
     }
 
 
+
     return (
         <div className={styles.wrapper}>
             <div className={styles.form}>
-                {selected ?
+                {selected instanceof Float ?
                     <TextField
-                        value={selected.name} width={"100%"} size={"small"}
+                        value={selected.name} width={"100%"}
+                        height={"35px"}
                         handleChange={ev => {
                             props.hook.setNodes(prev => {
                                 const n = [...prev],
@@ -204,44 +251,23 @@ export default function NodeEditor(props) {
                     : null}
                 {attributes.map((attr, i) => (
                     <React.Fragment key={attr.label + "-attribute-" + i}>
-                        <AccordionTemplate title={attr.label}>
-                            {getInput(
+                        {attr.type === DATA_TYPES.CHECKBOX ?
+                            getInput(
                                 attr.label,
                                 attr.type,
                                 selected[attr.key],
-                                (event, submit) => {
-
-                                    if (props.hook.selected.length > 0 || submit) {
-                                        if (submit)
-                                            props.hook.setNodes(prev => {
-                                                const n = [...prev]
-                                                const classLocation = n.findIndex(e => e.id === selected.id)
-                                                const clone = cloneClass(prev[classLocation])
-                                                clone[attr.key] = event
-                                                const input = clone.inputs.find(i => i.key === attr.key)
-
-                                                if (input.onChange)
-                                                    input.onChange(event)
-
-                                                n[classLocation] = clone
-                                                return n
-                                            })
-                                        else
-                                            selected[attr.key] = event
-                                    } else {
-                                        // TODO - FIND AND UPDATE CURRENT MATERIAL
-                                        if (attr.key === "tilingX")
-                                            props.hook.renderer.overrideMaterial.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
-                                        if (attr.key === "tilingY")
-                                            props.hook.renderer.overrideMaterial.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
-                                        selected[attr.key] = event
-                                    }
-                                },
-                                attr)
-
-                            }
-
-                        </AccordionTemplate>
+                                attr
+                            )
+                            :
+                            <AccordionTemplate title={attr.label}>
+                                {getInput(
+                                    attr.label,
+                                    attr.type,
+                                    selected[attr.key],
+                                    attr
+                                )}
+                            </AccordionTemplate>
+                        }
                     </React.Fragment>
                 ))}
             </div>

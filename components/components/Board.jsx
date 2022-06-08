@@ -51,7 +51,6 @@ export default function Board(props) {
         }
         if(Array.isArray(dataToPush)) {
             const result = dataToPush.map(d => doIt(d, e)).flat()
-            console.log(result)
             props.hook.setChanged(true)
             props.hook.setNodes(prev => {
                 return [...prev, ...result]
