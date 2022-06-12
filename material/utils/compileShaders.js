@@ -4,7 +4,7 @@ import {trimString} from "../../../../engine/instances/ShaderInstance"
 import {v4} from "uuid"
 
 export default async function compileShaders(setAlert, hook,setStatus, mat, setMat ){
-    setAlert({message: 'Compiling shaders', type: 'info'})
+    setAlert({message: "Compiling shaders", type: "info"})
     hook.setImpactingChange(false)
     const {
         shader,
@@ -30,14 +30,14 @@ export default async function compileShaders(setAlert, hook,setStatus, mat, setM
             })
         }
         const message = await promise
-        const shaderSplit = trimString(shader).split(';')
+        const shaderSplit = trimString(shader).split(";")
         let parsed = []
         setStatus({
             ...{
                 ...message,
                 messages:
                     message.messages
-                        .map(m => m.split('ERROR'))
+                        .map(m => m.split("ERROR"))
                         .flat()
                         .map(m => {
                             const data = {lines: []}
@@ -45,15 +45,15 @@ export default async function compileShaders(setAlert, hook,setStatus, mat, setM
                                 const match = m.match(/:\s([0-9]+):([0-9]+)/gm),
                                     matchS = m.match(/:\s([0-9]+):([0-9]+)/m)
                                 if (matchS) {
-                                    let s = matchS[0].split('')
+                                    let s = matchS[0].split("")
                                     s.shift()
-                                    const [start, end] = s.join('').split(':')
+                                    const [start, end] = s.join("").split(":")
                                     if (!parsed.includes(end)) {
 
                                         data.lines = shaderSplit.slice(end - 9, end - 8)
                                         parsed.push(end)
-                                        data.error = 'ERROR' + m
-                                        data.label = 'ERROR' + match[0]
+                                        data.error = "ERROR" + m
+                                        data.label = "ERROR" + match[0]
                                         return data
                                     }
                                     return undefined
@@ -68,5 +68,6 @@ export default async function compileShaders(setAlert, hook,setStatus, mat, setM
         setMat(newMat)
         if (!message.hasError)
             hook.renderer.overrideMaterial = newMat
+        console.log(hook.renderer, message)
     }
 }
