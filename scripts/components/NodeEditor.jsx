@@ -2,7 +2,7 @@ import React, {useMemo} from "react"
 import styles from "../styles/NodeEditor.module.css"
 import PropTypes from "prop-types"
 
-import {TextField,} from "@f-ui/core"
+import {Icon, TextField,} from "@f-ui/core"
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
 import Getter from "../utils/nodes/utils/Getter"
 import {startKey} from "../utils/nodes/utils/Setter"
@@ -169,8 +169,8 @@ export default function NodeEditor(props) {
                                     type: "getter"
                                 }))}
                             >
-                                <span style={{fontSize: "1.1rem"}}
-                                    className={"material-icons-round"}>drag_indicator</span>
+                                <Icon styles={{fontSize: "1.1rem"}}
+                                    >drag_indicator</Icon>
                                 Getter
                             </div>
                             <div
@@ -181,8 +181,8 @@ export default function NodeEditor(props) {
                                     type: "setter"
                                 }))}
                             >
-                                <span style={{fontSize: "1.1rem"}}
-                                    className={"material-icons-round"}>drag_indicator</span>
+                                <Icon styles={{fontSize: "1.1rem"}}
+                                    >drag_indicator</Icon>
                                 Setter
                             </div>
                         </div>
@@ -211,7 +211,7 @@ export default function NodeEditor(props) {
                     :
                     (
                         <div className={styles.emptyWrapper}>
-                            <div style={{fontSize: "90px"}} className={"material-icons-round"}>category</div>
+                            <Icon styles={{fontSize: "90px"}} >category</Icon>
                             Select a variable or comment to edit it.
                         </div>
                     )

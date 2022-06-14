@@ -3,6 +3,7 @@ import styles from "../styles/Available.module.css"
 import Search from "../../../../../components/search/Search"
 import React, {useMemo, useState} from "react"
 import PropTypes from "prop-types"
+import {Icon} from "@f-ui/core"
 
 export default function Available(props) {
     const [searchString, setSearchString] = useState("")
@@ -38,7 +39,7 @@ export default function Available(props) {
                         key={d.dataTransfer + "-" + i}
                     >
                         <div className={styles.icon}>
-                            <span className={"material-icons-round"}>drag_indicator</span>
+                            <Icon >drag_indicator</Icon>
                         </div>
                         {d.label}
                     </div>

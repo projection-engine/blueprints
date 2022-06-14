@@ -1,6 +1,6 @@
 import Board from "../components/components/Board"
 import s from "./styles/MaterialView.module.css"
-import React, {useContext, useEffect, useMemo, useState} from "react"
+import React, {useEffect, useMemo, useState} from "react"
 import PropTypes from "prop-types"
 import ResizableBar from "../../../../components/resizable/ResizableBar"
 import Available from "../components/components/Available"
@@ -10,18 +10,16 @@ import useMaterialView from "./hooks/useMaterialView"
 import CompilationStatus from "./components/CompilationStatus"
 import options from "./utils/options"
 import compileShaders from "./utils/compileShaders"
-import {AlertProvider, Tab, Tabs} from "@f-ui/core"
+import {Tab, Tabs} from "@f-ui/core"
 import FileOptions from "../components/components/FileOptions"
 import useShortcuts from "./hooks/useShortcuts"
 
 export default function MaterialView(props) {
     const {engine, submitPackage} = props
-    const alert = useContext(AlertProvider)
-    const setAlert = ({message, type}) => alert.pushAlert(message, type)
     const {registryID, name} = props
     const [scale, setScale] = useState(1)
     const [status, setStatus] = useState({})
-    const hook = useMaterialView({registryID, name}, setAlert)
+    const hook = useMaterialView({registryID, name})
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof MaterialView), [hook.nodes])
     const [init, setInit] = useState(false)
     const [mat, setMat] = useState()
@@ -31,13 +29,13 @@ export default function MaterialView(props) {
     }, [props.open])
     useEffect(() => {
         if ((!init && hook.links.length > 0 || hook.impactingChange && hook.realTime) && engine.renderer) {
-            compileShaders(!init ? () => null : setAlert, hook, setStatus, mat, setMat).catch()
+            compileShaders(hook, setStatus, mat, setMat).catch()
             setInit(true)
         }
     }, [hook.impactingChange, engine.renderer, hook.realTime, hook.links, init])
-    const optionsData = useMemo(() => options(() => compileShaders(setAlert, hook, setStatus, mat, setMat).catch(), hook, submitPackage, mat), [hook.nodes, hook.links, engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
+    const optionsData = useMemo(() => options(() => compileShaders(hook, setStatus, mat, setMat).catch(), hook, submitPackage, mat), [hook.nodes, hook.links, engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
 
-    useShortcuts(hook, setAlert, optionsData, registryID)
+    useShortcuts(hook, optionsData, registryID)
 
     return (<div style={{display: "flex", overflow: "hidden", height: "100%"}}>
         <FileOptions options={optionsData}/>
@@ -57,7 +55,6 @@ export default function MaterialView(props) {
                     <Board
                         scale={scale} setScale={setScale}
                         allNodes={allNodes}
-                        setAlert={setAlert}
                         hook={hook}
                         selected={hook.selected}
                         setSelected={hook.setSelected}

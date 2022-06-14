@@ -1,6 +1,6 @@
 import styles from "../styles/FileOptions.module.css"
 import PropTypes from "prop-types"
-import {Button} from "@f-ui/core"
+import {Button, Icon} from "@f-ui/core"
 import React from "react"
 
 export default function FileOptions(props){
@@ -10,7 +10,7 @@ export default function FileOptions(props){
                 <React.Fragment key={"file-options-"+i}>
                     {o.divider ? <div className={styles.divider}/>:
                         <Button onClick={o.onClick} disabled={o.disabled} className={styles.button} attributes={{title: o.label}}>
-                            <span className={"material-icons-round"} style={{fontSize: "1.2rem"}}>{o.icon}</span>
+                            <Icon   styles={{fontSize: "1.2rem"}}>{o.icon}</Icon>
                         </Button>
                     }
                 </React.Fragment>

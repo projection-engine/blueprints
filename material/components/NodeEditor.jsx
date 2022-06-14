@@ -3,7 +3,7 @@ import styles from "../styles/NodeEditor.module.css"
 import PropTypes from "prop-types"
 import Material from "../utils/nodes/Material"
 
-import {Checkbox, Dropdown, DropdownOption, DropdownOptions, TextField} from "@f-ui/core"
+import {Checkbox, Dropdown, DropdownOption, DropdownOptions, Icon, TextField} from "@f-ui/core"
 import Range from "../../../../../components/range/Range"
 import Selector from "../../../../../components/selector/Selector"
 
@@ -190,8 +190,8 @@ export default function NodeEditor(props) {
                             <React.Fragment key={"header-" + i}>
                                 <DropdownOption option={{
                                     ...o,
-                                    icon: o.data === selected[obj.key] ? <span style={{fontSize: "1.1rem"}}
-                                        className={"material-icons-round"}>check</span> : null,
+                                    icon: o.data === selected[obj.key] ? <Icon styles={{fontSize: "1.1rem"}}
+                                    >check</Icon> : null,
                                     onClick: () => {
                                         props.hook.setChanged(true)
                                         props.hook.setImpactingChange(true)

@@ -3,8 +3,8 @@ import MaterialInstance from "../../../../engine/instances/MaterialInstance"
 import {trimString} from "../../../../engine/instances/ShaderInstance"
 import {v4} from "uuid"
 
-export default async function compileShaders(setAlert, hook,setStatus, mat, setMat ){
-    setAlert({message: "Compiling shaders", type: "info"})
+export default async function compileShaders(hook,setStatus, mat, setMat ){
+    alert.pushAlert("Compiling shaders", "info")
     hook.setImpactingChange(false)
     const {
         shader,
@@ -47,7 +47,7 @@ export default async function compileShaders(setAlert, hook,setStatus, mat, setM
                                 if (matchS) {
                                     let s = matchS[0].split("")
                                     s.shift()
-                                    const [start, end] = s.join("").split(":")
+                                    const [, end] = s.join("").split(":")
                                     if (!parsed.includes(end)) {
 
                                         data.lines = shaderSplit.slice(end - 9, end - 8)

@@ -8,7 +8,7 @@ import Getter from "../../scripts/utils/nodes/utils/Getter"
 import {v4 as uuidv4} from "uuid"
 import KEYS from "../../../../engine/templates/KEYS"
 
-export default function getHotKeys(hook, setAlert, toCopy, setToCopy, save) {
+export default function getHotKeys(hook, toCopy, setToCopy, save) {
     return [
         {
             label: "Select",
@@ -67,10 +67,8 @@ export default function getHotKeys(hook, setAlert, toCopy, setToCopy, save) {
             callback: () => {
                 setToCopy(hook.selected)
                 if (hook.selected.length > 0)
-                    setAlert({
-                        type: "success",
-                        message: "Entities copied."
-                    })
+                    alert.pushAlert( "success",
+                        "Entities copied." )
             }
         },
         {

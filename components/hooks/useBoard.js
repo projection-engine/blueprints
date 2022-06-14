@@ -1,16 +1,13 @@
-import {useContext, useEffect, useMemo, useRef, useState} from "react"
+import {useEffect, useMemo, useRef, useState} from "react"
 import getBezierCurve from "../utils/bezierCurve"
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
 import TYPES_INFO from "../templates/DATA_INFO"
-import {AlertProvider} from "@f-ui/core"
 
 
 export default function useBoard(hook, scale, setScale) {
     const ref = useRef()
-    const alert = useContext(AlertProvider)
     const handleWheel = (e) => {
         e.preventDefault()
-
         if (e.wheelDelta > 0 && scale < 3)
             setScale(scale + scale * .1)
         else if (e.wheelDelta < 0 && scale >= .5)
@@ -50,9 +47,9 @@ export default function useBoard(hook, scale, setScale) {
         }
     }, [scrolled, hook.nodes])
     useEffect(() => {
-        ref.current?.parentNode.addEventListener('wheel', handleWheel, {passive: false})
+        ref.current?.parentNode.addEventListener("wheel", handleWheel, {passive: false})
         return () => {
-            ref.current?.parentNode.removeEventListener('wheel', handleWheel, {passive: false})
+            ref.current?.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
         }
     }, [scale])
 
@@ -72,7 +69,7 @@ export default function useBoard(hook, scale, setScale) {
                     target: target
                 })
             } else
-                alert.pushAlert('Missing component on entity', 'error')
+                alert.pushAlert("Missing component on entity", "error")
             return c
         })
     }
@@ -106,7 +103,7 @@ export default function useBoard(hook, scale, setScale) {
     useEffect(() => {
         if (mappedLinks.length !== links.length)
             mappedLinks = links.map(l => {
-                const linkPath = document.getElementById(l.target + '-' + l.source)
+                const linkPath = document.getElementById(l.target + "-" + l.source)
                 return {
                     target: document.getElementById(l.target),
                     source: document.getElementById(l.source),
@@ -142,10 +139,10 @@ export default function useBoard(hook, scale, setScale) {
                                 x1: (targetBBox.x + bounding.x + 7.5) / scale,
                                 y1: (targetBBox.y + bounding.y + 7.5) / scale
                             })
-                        if (supplementary.getAttribute('d') !== curve)
-                            supplementary.setAttribute('d', curve)
-                        if (linkPath.getAttribute('d') !== curve)
-                            linkPath.setAttribute('d', curve)
+                        if (supplementary.getAttribute("d") !== curve)
+                            supplementary.setAttribute("d", curve)
+                        if (linkPath.getAttribute("d") !== curve)
+                            linkPath.setAttribute("d", curve)
                     }
                 }
 

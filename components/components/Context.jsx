@@ -2,6 +2,7 @@ import PropTypes from "prop-types"
 import React, {useEffect, useMemo, useState} from "react"
 import styles from "../styles/Context.module.css"
 import Search from "../../../../../components/search/Search"
+import {Icon} from "@f-ui/core"
 
 export default function Context(props) {
     const [searchString, setSearchString] = useState("")
@@ -89,7 +90,7 @@ export default function Context(props) {
 
                                 props.handleClose()
                             }}>
-                            <span className={"material-icons-round"}>delete</span>
+                            <Icon>delete</Icon>
                             {trigger === 1 ? "Delete Node" : "Delete comment"}
                         </button>
 
@@ -101,7 +102,7 @@ export default function Context(props) {
                                 props.deleteLink()
                                 props.handleClose()
                             }}>
-                            <span className={"material-icons-round"}>link_off</span>
+                            <Icon>link_off</Icon>
                             Break link
                         </button>
                     </>

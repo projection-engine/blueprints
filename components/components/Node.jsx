@@ -6,6 +6,7 @@ import NodeIO from "./NodeIO"
 import NodeShowcase from "./NodeShowcase"
 import NODE_TYPES from "../templates/NODE_TYPES"
 import NODE_INFO from "../templates/NODE_INFO"
+import {Icon} from "@f-ui/core"
 
 export default function Node(props) {
     const selected = useMemo(() => {
@@ -31,7 +32,7 @@ export default function Node(props) {
     }, [props.node, props.selected, selected, props.scale])
 
     const nodeInfo = useMemo(() => {
-        let key = (Object.entries(NODE_TYPES).find(([_, value]) => value === props.node.type))
+        let key = (Object.entries(NODE_TYPES).find(([, value]) => value === props.node.type))
         if (key)
             key = key[0]
 
@@ -75,7 +76,7 @@ export default function Node(props) {
                         id={props.node.id + "-node"}
                         title={nodeInfo.LABEL}
                     >
-                        <span style={{fontSize: "1rem", transform: nodeInfo.ROTATE ? `rotate(${nodeInfo.ROTATE}`: undefined}} className={"material-icons-round"}>{nodeInfo.ICON}</span>
+                        <Icon styles={{fontSize: "1rem", transform: nodeInfo.ROTATE ? `rotate(${nodeInfo.ROTATE}`: undefined}}>{nodeInfo.ICON}</Icon>
                         {props.node.name}
                     </div>
                     <div className={styles.content}>
@@ -85,7 +86,6 @@ export default function Node(props) {
                                     <NodeIO
                                         submitBundledVariable={data => props.submitBundledVariable(a.key, data)}
                                         handleLink={props.handleLink}
-                                        setAlert={props.setAlert}
                                         nodeID={props.node.id}
                                         node={props.node}
                                         onDragEnd={() => {
@@ -106,7 +106,6 @@ export default function Node(props) {
                                 <React.Fragment key={a.key + "-output-" + i}>
                                     <NodeIO
                                         node={props.node}
-                                        setAlert={props.setAlert}
                                         nodeID={props.node.id}
                                         onDragEnd={() => {
                                             pathRef.current.setAttribute("d", undefined)
@@ -136,8 +135,8 @@ export default function Node(props) {
     )
 }
 Node.propTypes = {
+    submitBundledVariable: PropTypes.func,
     links: PropTypes.array,
-    setAlert: PropTypes.func,
     node: PropTypes.object.isRequired,
     scale: PropTypes.number,
     handleLink: PropTypes.func,

@@ -2,7 +2,7 @@ import React, {useMemo, useState} from "react"
 import styles from "../styles/Structure.module.css"
 import PropTypes from "prop-types"
 
-import {Button, Tab, Tabs,} from "@f-ui/core"
+import {Button, Icon, Tab, Tabs,} from "@f-ui/core"
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
 import deleteNode from "../../components/utils/deleteNode"
 import NODE_TYPES from "../../components/templates/NODE_TYPES"
@@ -82,8 +82,8 @@ export default function Structure(props) {
                         onDoubleClick={() => {
                             props.focusNode(g.id)
                         }}>
-                        <span className={"material-icons-round"}
-                            style={{fontSize: "1.1rem"}}>output</span>
+                        <Icon
+                            styles={{fontSize: "1.1rem"}}>output</Icon>
                         {g.name}
                     </div>
                 )) :  <Empty label={"event triggers"}/>}
@@ -104,7 +104,7 @@ export default function Structure(props) {
                             })
                         }}>
 
-                        <span className={"material-icons-round"} style={{fontSize: "1.1rem"}}>add</span>
+                        <Icon  styles={{fontSize: "1.1rem"}}>add</Icon>
                             Add new variable
                     </Button>
                     {props.hook.variables.length > 0 ? props.hook.variables.map(g => (
@@ -154,7 +154,7 @@ Structure.propTypes = {
 function Empty ({label}){
     return (
         <div className={styles.empty}>
-            <span className={"material-icons-round"} style={{fontSize: "50px"}}>folder</span>
+            <Icon  styles={{fontSize: "50px"}}>folder</Icon>
             No {label} found.
         </div>
     )

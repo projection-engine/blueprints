@@ -15,7 +15,7 @@ import EntityReference from "./utils/nodes/utils/EntityReference"
 import LoaderProvider from "../../../../components/loader/LoaderProvider"
 import compiler from "./utils/compiler/compiler"
 import ScriptSystem from "../../../engine/systems/ScriptSystem"
-import {AlertProvider, Tab, Tabs} from "@f-ui/core"
+import {Icon, Tab, Tabs} from "@f-ui/core"
 import FileOptions from "../components/components/FileOptions"
 import useShortcuts from "../material/hooks/useShortcuts"
 
@@ -23,8 +23,6 @@ const NAME = "Level blueprint"
 
 export default function ScriptView(props) {
     const {submitPackage, engine, id, isLevelBp} = props
-    const alert = useContext(AlertProvider)
-    const setAlert = ({message, type}) => alert.pushAlert(message, type)
     const load = useContext(LoaderProvider)
     const hook = useScriptingView(undefined, undefined, load, true)
     const ref = useRef()
@@ -42,14 +40,14 @@ export default function ScriptView(props) {
             {
                 label: "Compile",
                 group: "b",
-                icon: <span className={"material-icons-round"} style={{fontSize: "1.2rem"}}>check</span>,
+                icon: <Icon styles={{fontSize: "1.2rem"}}>check</Icon>,
                 onClick: async () => {
                     const e = await compiler(hook.nodes, hook.links, hook.variables, hook.quickAccess.fileSystem)
                     ScriptSystem.parseScript(e)
                 }
             }, {
                 label: "Save",
-                icon: <span className={"material-icons-round"} style={{fontSize: "1.2rem"}}>save</span>,
+                icon: <Icon styles={{fontSize: "1.2rem"}}>save</Icon>,
                 onClick: async () => {
                     hook.setChanged(false)
                     hook.setImpactingChange(false)
@@ -78,7 +76,7 @@ export default function ScriptView(props) {
         }
         return {allow: true, entities: toAdd}
     }, [engine.entities])
-    useShortcuts(hook, setAlert, options, id, true)
+    useShortcuts(hook, options, id, true)
 
     return (
         <div style={{display: "flex", overflow: "hidden", height: "100%"}}>
@@ -110,7 +108,6 @@ export default function ScriptView(props) {
                     <Board
                         id={id}
                         allNodes={availableNodes}
-                        setAlert={setAlert}
                         parentRef={ref}
                         onEmptyClick={() => setSelectedVariable(undefined)}
                         onDrop={onDrop}

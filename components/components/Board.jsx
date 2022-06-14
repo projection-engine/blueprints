@@ -47,7 +47,7 @@ export default function Board(props) {
                 n.y = (current.y - 25) / scale
                 return n
             } else
-                props.setAlert({message: "Cannot add two instances of " + n.name, type: "error"})
+                alert.pushAlert( "Cannot add two instances of " + n.name, "error")
         }
         if(Array.isArray(dataToPush)) {
             const result = dataToPush.map(d => doIt(d, e)).flat()
@@ -205,7 +205,6 @@ export default function Board(props) {
                         <React.Fragment key={node.id}>
                             <Node
                                 links={links} path={quickAccess.fileSystem.path}
-                                setAlert={props.setAlert}
                                 hidden={props.hide}
                                 submitBundledVariable={(key, value) => {
                                     props.hook.setChanged(true)
@@ -246,7 +245,6 @@ Board.propTypes = {
         getNewInstance: PropTypes.func
     })).isRequired,
     onEmptyClick: PropTypes.func,
-    setAlert: PropTypes.func.isRequired,
     hook: PropTypes.object,
     selected: PropTypes.arrayOf(PropTypes.string).isRequired,
     setSelected: PropTypes.func,

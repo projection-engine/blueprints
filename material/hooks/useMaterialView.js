@@ -10,7 +10,7 @@ import FileSystem from "../../../../utils/files/FileSystem"
 import GPUContextProvider from "../../../viewport/hooks/GPUContextProvider"
 
 
-export default function useMaterialView(file, setAlert) {
+export default function useMaterialView(file) {
     const {
         nodes,
         setNodes,
@@ -59,8 +59,7 @@ export default function useMaterialView(file, setAlert) {
         selected,
         setSelected,
         quickAccess,
-        load,
-        setAlert
+        load
     }
 }
 
