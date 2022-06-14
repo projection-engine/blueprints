@@ -2,7 +2,7 @@ import Board from "../components/components/Board"
 import useScriptingView from "./utils/useScriptingView"
 import Available from "../components/components/Available"
 import styles from "../components/styles/Board.module.css"
-import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from "react"
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react"
 import PropTypes from "prop-types"
 import ResizableBar from "../../../../components/resizable/ResizableBar"
 import {allNodes} from "./utils/AllNodes"
@@ -12,7 +12,6 @@ import mapper from "./utils/compiler/mapper"
 import getAvailableNodes from "./utils/getAvailableNodes"
 
 import EntityReference from "./utils/nodes/utils/EntityReference"
-import LoaderProvider from "../../../../components/loader/LoaderProvider"
 import compiler from "./utils/compiler/compiler"
 import ScriptSystem from "../../../engine/systems/ScriptSystem"
 import {Icon, Tab, Tabs} from "@f-ui/core"
@@ -22,9 +21,8 @@ import useShortcuts from "../material/hooks/useShortcuts"
 const NAME = "Level blueprint"
 
 export default function ScriptView(props) {
-    const {submitPackage, engine, id, isLevelBp} = props
-    const load = useContext(LoaderProvider)
-    const hook = useScriptingView(undefined, undefined, load, true)
+    const {submitPackage, engine, id, file, isLevelBp} = props
+    const hook = useScriptingView(file, isLevelBp)
     const ref = useRef()
     const wrapperRef = useRef()
     const [selectedVariable, setSelectedVariable] = useState()
@@ -42,7 +40,7 @@ export default function ScriptView(props) {
                 group: "b",
                 icon: <Icon styles={{fontSize: "1.2rem"}}>check</Icon>,
                 onClick: async () => {
-                    const e = await compiler(hook.nodes, hook.links, hook.variables, hook.quickAccess.fileSystem)
+                    const e = await compiler(hook.nodes, hook.links, hook.variables)
                     ScriptSystem.parseScript(e)
                 }
             }, {
@@ -137,6 +135,7 @@ export default function ScriptView(props) {
 }
 
 ScriptView.propTypes = {
+    file: PropTypes.object,
     engine: PropTypes.object,
     id: PropTypes.string,
     name: PropTypes.string,

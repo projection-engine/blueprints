@@ -19,7 +19,7 @@ export default function options(compileShaders, hook, submitPackage, mat) {
             onClick: async () => {
                 const response = await Make(
                     hook,
-                    await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
+                    await compiler(hook.nodes, hook.links, document.fileSystem)
                 )
                 submitPackage(
                     response.data,
@@ -38,7 +38,7 @@ export default function options(compileShaders, hook, submitPackage, mat) {
             group: "b",
             icon: <Icon  styles={{fontSize: "1.2rem"}}>save_alt</Icon>,
             onClick: async () => {
-                const response = await Make(hook, await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem))
+                const response = await Make(hook, await compiler(hook.nodes, hook.links, document.fileSystem))
                 submitPackage(
                     response.data,
                     true,

@@ -3,7 +3,7 @@ import Setter from "../nodes/utils/Setter"
 import compiler from "./compiler"
 
 export default async function mapper(hook, engine, file, isLevelBp) {
-    const res = await compiler(hook.nodes, hook.links, hook.variables, hook.quickAccess.fileSystem)
+    const res = await compiler(hook.nodes, hook.links, hook.variables, document.fileSystem)
 
     const parsedNodes = hook.nodes.map(n => {
         const docNode = document.getElementById(n.id).parentNode

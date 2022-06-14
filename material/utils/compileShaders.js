@@ -13,7 +13,7 @@ export default async function compileShaders(hook,setStatus, mat, setMat ){
         settings,
         info,
         cubeMapShader
-    } = await compiler(hook.nodes, hook.links, hook.quickAccess.fileSystem)
+    } = await compiler(hook.nodes, hook.links, document.fileSystem)
 
     if (shader) {
         const onOverride = mat
@@ -68,6 +68,5 @@ export default async function compileShaders(hook,setStatus, mat, setMat ){
         setMat(newMat)
         if (!message.hasError)
             hook.renderer.overrideMaterial = newMat
-        console.log(hook.renderer, message)
     }
 }

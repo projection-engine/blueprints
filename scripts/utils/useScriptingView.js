@@ -1,12 +1,7 @@
-import {useContext, useEffect, useState} from "react"
-import QuickAccessProvider from "../../../../hooks/QuickAccessProvider"
+import {useEffect, useState} from "react"
 import EventTick from "./nodes/events/EventTick"
-import EVENTS from "../../../../../static/misc/EVENTS"
 import Getter from "./nodes/utils/Getter"
 import Setter from "./nodes/utils/Setter"
-import ProjectLoader from "../../../../templates/ProjectLoader"
-import COMPONENTS from "../../../../engine/templates/COMPONENTS"
-import {ENTITY_ACTIONS} from "../../../../engine-extension/entityReducer"
 import SetViewTarget from "./nodes/camera/SetViewTarget"
 import OnSpawn from "./nodes/events/OnSpawn"
 import useFlow from "../../components/hooks/useFlow"
@@ -24,7 +19,7 @@ import FILE_TYPES from "../../../../../../public/project/glTF/FILE_TYPES"
 import FileSystem from "../../../../utils/files/FileSystem"
 
 
-export default function useScriptingView(file, engine = {}, load, isLevelBlueprint) {
+export default function useScriptingView(file, isLevelBlueprint) {
     const {
         nodes, setNodes,
         links, setLinks,
@@ -35,14 +30,11 @@ export default function useScriptingView(file, engine = {}, load, isLevelBluepri
     } = useFlow()
 
     const [variables, setVariables] = useState([])
-    const quickAccess = useContext(QuickAccessProvider)
 
 
     useEffect(() => {
-        load.pushEvent(EVENTS.LOADING)
-        if (engine.gpu || isLevelBlueprint)
-            parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, quickAccess.fileSystem, isLevelBlueprint).then(() => load.finishEvent(EVENTS.LOADING))
-    }, [file, engine.gpu])
+        parse(file,  setNodes, setLinks, setVariables, setGroups, isLevelBlueprint).catch()
+    }, [])
 
 
     return {
@@ -53,8 +45,7 @@ export default function useScriptingView(file, engine = {}, load, isLevelBluepri
         selected, setSelected,
         impactingChange, setImpactingChange,
 
-        variables, setVariables,
-        quickAccess, load
+        variables, setVariables
     }
 }
 
@@ -83,35 +74,34 @@ const INSTANCES = {
     [KeyPress.name]: () => new KeyPress(),
 }
 
-async function parse(file, quickAccess, setNodes, setLinks, setVariables, setGroups, load, engine, fileSystem, isLevelBlueprint) {
+async function parse(file,  setNodes, setLinks, setVariables, setGroups, isLevelBlueprint) {
     if (!isLevelBlueprint) {
-        const res = await quickAccess.fileSystem
+        const res = await document.fileSystem
             .readRegistryFile(file.registryID)
 
         if (res) {
-            const file = await quickAccess.fileSystem
-                .readFile(quickAccess.fileSystem.path + FileSystem.sep + "assets" +FileSystem.sep +  res.path, "json")
-            parseFile(file, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
+            const file = await document.fileSystem
+                .readFile(document.fileSystem.path + FileSystem.sep + "assets" +FileSystem.sep +  res.path, "json")
+            parseFile(file, setLinks, setNodes, setVariables, setGroups)
 
-        } else
-            load.finishEvent(EVENTS.LOADING_MATERIAL)
+        } 
     } else {
-        const res = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT)
+        const res = await document.fileSystem.readFile(document.fileSystem.path + FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT)
         if (!res)
-            await quickAccess.fileSystem.writeFile(FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT, JSON.stringify({
+            await document.fileSystem.writeFile(FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT, JSON.stringify({
                 nodes: [],
                 links: [],
                 variables: [],
                 groups: []
             }))
         else {
-            const f = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT, "json")
-            parseFile(f, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint)
+            const f = await document.fileSystem.readFile(document.fileSystem.path + FileSystem.sep + "levelBlueprint"+FILE_TYPES.SCRIPT, "json")
+            parseFile(f,  setLinks, setNodes, setVariables, setGroups)
         }
     }
 }
 
-function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGroups, fileSystem, isLevelBlueprint) {
+function parseFile(file, setLinks, setNodes, setVariables, setGroups) {
 
     if (file && Object.keys(file).length > 0) {
         const newNodes = file.nodes.map(f => {
@@ -129,25 +119,6 @@ function parseFile(file, load, engine, setLinks, setNodes, setVariables, setGrou
             setGroups(file.groups)
         if (file.variables)
             setVariables(file.variables)
-        if (file.entities && !isLevelBlueprint) {
-            ProjectLoader.loadMeshes(file.entities.map(e => e.components[COMPONENTS.MESH].meshID), fileSystem, engine.gpu)
-                .then(async meshes => {
-                    engine.setMeshes(meshes.filter(m => m))
-                    const entities = []
-                    for (let i = 0; i < file.entities.length; i++) {
-                        const e = file.entities[i]
-                        entities.push(await ProjectLoader.mapEntity(e, i, fileSystem, engine.gpu))
-                    }
-                    engine.dispatchEntities({
-                        type: ENTITY_ACTIONS.DISPATCH_BLOCK,
-                        payload: entities
-                    })
-                })
-        }
-
-
-        load.finishEvent(EVENTS.LOAD_FILE)
-    } else
-        load.finishEvent(EVENTS.LOAD_FILE)
+    }
 
 }

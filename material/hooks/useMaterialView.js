@@ -1,10 +1,7 @@
 import {useContext, useEffect, useState} from "react"
-import QuickAccessProvider from "../../../../hooks/QuickAccessProvider"
-import EVENTS from "../../../../../static/misc/EVENTS"
 import useFlow from "../../components/hooks/useFlow"
 import Material from "../utils/nodes/Material"
 import TextureSample from "../utils/nodes/TextureSample"
-import LoaderProvider from "../../../../../components/loader/LoaderProvider"
 import getNewInstance from "../utils/getNewInstance"
 import FileSystem from "../../../../utils/files/FileSystem"
 import GPUContextProvider from "../../../viewport/hooks/GPUContextProvider"
@@ -28,18 +25,16 @@ export default function useMaterialView(file) {
 
     const {renderer} = useContext(GPUContextProvider)
     const [realTime, setRealTime] = useState(true)
-    const quickAccess = useContext(QuickAccessProvider)
-    const load = useContext(LoaderProvider)
 
     useEffect(() => {
-        parse(file, quickAccess, (d) => {
+        parse(file, (d) => {
             const found = d.find(dd => dd instanceof Material)
 
             if (found)
                 setNodes(d)
             else
                 setNodes([...d, new Material()])
-        }, setLinks, load).catch()
+        }, setLinks).catch()
     }, [])
 
     return {
@@ -57,16 +52,14 @@ export default function useMaterialView(file) {
         changed,
         setChanged,
         selected,
-        setSelected,
-        quickAccess,
-        load
+        setSelected
     }
 }
 
-async function parse(file, quickAccess, setNodes, setLinks, load) {
-    const res = await quickAccess.fileSystem.readRegistryFile(file.registryID)
+async function parse(file, setNodes, setLinks,) {
+    const res = await document.fileSystem.readRegistryFile(file.registryID)
     if (res) {
-        const file = await quickAccess.fileSystem.readFile(quickAccess.fileSystem.path + FileSystem.sep + "assets" + FileSystem.sep + res.path, "json")
+        const file = await document.fileSystem.readFile(document.fileSystem.path + FileSystem.sep + "assets" + FileSystem.sep + res.path, "json")
         if (file && Object.keys(file).length > 0) {
             const newNodes = file.nodes.map(f => {
                 const i = getNewInstance(f.instance)
@@ -80,15 +73,10 @@ async function parse(file, quickAccess, setNodes, setLinks, load) {
             }).filter(e => e !== null && e !== undefined)
             setNodes(newNodes)
             setLinks(file.links)
-
-            load.finishEvent(EVENTS.LOADING_MATERIAL)
-        } else {
+        } else
             setNodes([])
-            load.finishEvent(EVENTS.LOADING_MATERIAL)
-        }
-    } else {
+
+    } else
         setNodes([])
-        load.finishEvent(EVENTS.LOADING_MATERIAL)
-    }
 
 }

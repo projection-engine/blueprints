@@ -6,9 +6,9 @@ import FileSystem from "../../../../../utils/files/FileSystem"
 
 
 export const TEXTURE_TYPES = {
-    RGB: 'RGB',
-    RGBA: 'RGBA',
-    SRGB8_ALPHA8: 'SRGB8_ALPHA8'
+    RGB: "RGB",
+    RGBA: "RGBA",
+    SRGB8_ALPHA8: "SRGB8_ALPHA8"
 }
 export default class TextureSample extends Node {
     uniform = true
@@ -19,7 +19,7 @@ export default class TextureSample extends Node {
         format: TEXTURE_TYPES.RGB,
         internalFormat: TEXTURE_TYPES.RGB,
 
-        label: 'RGB'
+        label: "RGB"
     }
 
     get ft() {
@@ -28,69 +28,69 @@ export default class TextureSample extends Node {
 
     set ft(data) {
         switch (data) {
-            case 'RGB':
-                this.format = {
-                    format: TEXTURE_TYPES.RGB,
-                    internalFormat: TEXTURE_TYPES.RGB,
-                    label: data
-                }
-                break
-            case 'RGBA':
-                this.format = {
-                    format: TEXTURE_TYPES.RGBA,
-                    internalFormat: TEXTURE_TYPES.RGBA
-                }
-                break
-            case 'SRGBA':
-                this.format = {
-                    format: TEXTURE_TYPES.RGBA,
-                    internalFormat: TEXTURE_TYPES.SRGB8_ALPHA8
-                }
-                break
-            default:
-                break
+        case "RGB":
+            this.format = {
+                format: TEXTURE_TYPES.RGB,
+                internalFormat: TEXTURE_TYPES.RGB,
+                label: data
+            }
+            break
+        case "RGBA":
+            this.format = {
+                format: TEXTURE_TYPES.RGBA,
+                internalFormat: TEXTURE_TYPES.RGBA
+            }
+            break
+        case "SRGBA":
+            this.format = {
+                format: TEXTURE_TYPES.RGBA,
+                internalFormat: TEXTURE_TYPES.SRGB8_ALPHA8
+            }
+            break
+        default:
+            break
         }
     }
 
     constructor() {
         super([
             {
-                label: 'Texture format',
-                key: 'format',
+                label: "Texture format",
+                key: "format",
                 type: DATA_TYPES.OPTIONS,
                 options: [
-                    {label: 'RGB', data: 'RGB'},
-                    {label: 'RGBA', data: 'RGBA'},
-                    {label: 'sRGBA', data: 'SRGBA'}
+                    {label: "RGB", data: "RGB"},
+                    {label: "RGBA", data: "RGBA"},
+                    {label: "sRGBA", data: "SRGBA"}
                 ]
             },
 
             {
-                label: 'Flip Y',
-                key: 'yFlip',
+                label: "Flip Y",
+                key: "yFlip",
                 type: DATA_TYPES.OPTIONS,
                 options: [
                     {
-                        label: 'Yes', data: true
+                        label: "Yes", data: true
                     },
                     {
-                        label: 'No', data: false
+                        label: "No", data: false
                     },
                 ]
             },
 
-            {label: 'Texture', key: 'texture', type: DATA_TYPES.TEXTURE},
-            {label: 'UV', key: 'uv', accept: [DATA_TYPES.VEC2]},
+            {label: "Texture", key: "texture", type: DATA_TYPES.TEXTURE},
+            {label: "UV", key: "uv", accept: [DATA_TYPES.VEC2]},
         ], [
-            {label: 'Sampler', key: 'sampler', type: DATA_TYPES.TEXTURE},
-            {label: 'RGB', key: 'rgb', type: DATA_TYPES.VEC3},
-            {label: 'R', key: 'r', type: DATA_TYPES.FLOAT, color: 'red'},
-            {label: 'G', key: 'g', type: DATA_TYPES.FLOAT, color: 'green'},
-            {label: 'B', key: 'b', type: DATA_TYPES.FLOAT, color: 'blue'},
-            {label: 'Alpha', key: 'a', type: DATA_TYPES.FLOAT, color: 'white'}
-        ]);
+            {label: "Sampler", key: "sampler", type: DATA_TYPES.TEXTURE},
+            {label: "RGB", key: "rgb", type: DATA_TYPES.VEC3},
+            {label: "R", key: "r", type: DATA_TYPES.FLOAT, color: "red"},
+            {label: "G", key: "g", type: DATA_TYPES.FLOAT, color: "green"},
+            {label: "B", key: "b", type: DATA_TYPES.FLOAT, color: "blue"},
+            {label: "Alpha", key: "a", type: DATA_TYPES.FLOAT, color: "white"}
+        ])
 
-        this.name = 'TextureSample'
+        this.name = "TextureSample"
     }
 
     get type() {
@@ -98,16 +98,16 @@ export default class TextureSample extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async getInputInstance(index, uniforms, uniformData, fileSystem) {
+    async getInputInstance(index, uniforms, uniformData) {
         this.uniformName = `sampler${index}`
         if (this.texture?.registryID) {
             try {
-                const res = await fileSystem.readRegistryFile(this.texture?.registryID)
+                const res = await document.fileSystem.readRegistryFile(this.texture?.registryID)
                 if (res) {
-                    const file = await fileSystem.readFile(fileSystem.path + FileSystem.sep + 'assets' +FileSystem.sep +  res.path, true)
+                    const file = await document.fileSystem.readFile(document.fileSystem.path + FileSystem.sep + "assets" +FileSystem.sep +  res.path, true)
                     uniforms.push({
                         label: this.name,
                         key: this.uniformName,
@@ -126,30 +126,30 @@ export default class TextureSample extends Node {
                 } else
                     uniformData.push({
                         key: this.uniformName,
-                        data: await ImageProcessor.colorToImage('rgba(255, 128, 128, 1)', 32),
+                        data: await ImageProcessor.colorToImage("rgba(255, 128, 128, 1)", 32),
                         type: DATA_TYPES.TEXTURE,
                         format: this.format
                     })
             } catch (error) {
+                console.error(error)
             }
         } else
             uniformData.push({
                 key: this.uniformName,
-                data: await ImageProcessor.colorToImage('rgba(255, 128, 128, 1)', 32),
+                data: await ImageProcessor.colorToImage("rgba(255, 128, 128, 1)", 32),
                 type: DATA_TYPES.TEXTURE,
                 format: this.format
             })
         return `uniform sampler2D sampler${index};`
     }
 
-    // texture and uv = {name: variable name, value: variable value if static}
-    getFunctionCall({uv}, index, outputs, body) {
-        const samplerName = this.name + '_' + index + '_S'
+    getFunctionCall({uv}, index, outputs) {
+        const samplerName = this.name + "_" + index + "_S"
         let response = [
-            `vec4 ${samplerName} = texture(${this.uniformName}, ${uv !== undefined ? uv.name : 'texCoord'});`
+            `vec4 ${samplerName} = texture(${this.uniformName}, ${uv !== undefined ? uv.name : "texCoord"});`
         ]
         outputs.forEach(o => {
-            if (o !== 'sampler') {
+            if (o !== "sampler") {
                 if (!this[o]) {
                     this[o] = o + `${index}`
                     const outputKey = this.output.find(oo => oo.key === o)
@@ -159,6 +159,6 @@ export default class TextureSample extends Node {
                 this[o] = o + `${index}`
         })
 
-        return response.join('\n')
+        return response.join("\n")
     }
 }

@@ -204,7 +204,7 @@ export default function Board(props) {
                     {props.hook.nodes.map(node => (
                         <React.Fragment key={node.id}>
                             <Node
-                                links={links} path={quickAccess.fileSystem.path}
+                                links={links} path={document.fileSystem.path}
                                 hidden={props.hide}
                                 submitBundledVariable={(key, value) => {
                                     props.hook.setChanged(true)

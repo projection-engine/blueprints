@@ -20,7 +20,7 @@ function getShadingTemplate(type) {
     }
 }
 
-export default async function compiler(n, links, fileSystem) {
+export default async function compiler(n, links) {
     let nodes = n.map(nn => cloneClass(nn))
 
     const startPoint = nodes.find(n => {
@@ -32,12 +32,11 @@ export default async function compiler(n, links, fileSystem) {
             code,
             uniforms,
             uniformData
-        } = await compileFrag(n, links, fileSystem, startPoint.shadingType)
-        const vertexBody = compileVertex(startPoint, n, links)
+        } = await compileFrag(n, links, startPoint.shadingType)
+        // const vertexBody = compileVertex(startPoint, n, links)
         const cubeMapShader = await compileFrag(
             n,
             links,
-            fileSystem,
             MATERIAL_RENDERING_TYPES.FORWARD,
             [
                 "al",
@@ -86,7 +85,7 @@ function compileVertex(startPoint, n, links) {
     return vertexBody.join("\n")
 }
 
-async function compileFrag(n, links, fileSystem, shadingType, discardedLinks=["worldOffset"], noAmbient) {
+async function compileFrag(n, links,  shadingType, discardedLinks=["worldOffset"], noAmbient) {
     const nodes = n.map(nn => cloneClass(nn))
     const startPoint = nodes.find(n => {
         return n.type === NODE_TYPES.OUTPUT
@@ -110,7 +109,7 @@ async function compileFrag(n, links, fileSystem, shadingType, discardedLinks=["w
     typesInstantiated = {}
     await Promise.all(nodes.map((n, i) => new Promise(async resolve => {
         if (typeof n.getInputInstance === "function" && !typesInstantiated[n.id]) {
-            const res = await n.getInputInstance(i, uniforms, uniformData, fileSystem)
+            const res = await n.getInputInstance(i, uniforms, uniformData, document.fileSystem)
             toJoin.push(res)
             resolve()
             typesInstantiated[n.id] = true

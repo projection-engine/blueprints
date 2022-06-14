@@ -17,7 +17,7 @@ export function traceEndpoint(startPoint, nodes, links, previousLink) {
 
 }
 
-async function compile(startPoint, nodes, links, fileSystem) {
+async function compile(startPoint, nodes, links) {
     const codeString = {
             functions: "",
             inputs: ""
@@ -39,7 +39,7 @@ async function compile(startPoint, nodes, links, fileSystem) {
         typesInstantiated = {}
         await Promise.all(nodes.map((n, i) => new Promise(async resolve => {
             if (typeof n.getInputInstance === "function" && !typesInstantiated[n.id]) {
-                const res = await n.getInputInstance(i, inputs, inputsData, fileSystem)
+                const res = await n.getInputInstance(i, inputs, inputsData)
                 toJoin.push(res)
                 resolve()
                 typesInstantiated[n.id] = true
@@ -69,12 +69,12 @@ async function compile(startPoint, nodes, links, fileSystem) {
         return undefined
 }
 
-export default async function compiler(n, links, variables, fileSystem) {
+export default async function compiler(n, links, variables) {
     const nodes = n.map(nn => cloneClass(nn))
     const nodesNotLinked = nodes.filter(nn => nn.output.find(o => o.type === DATA_TYPES.EXECUTION) && !links.find(l => l.source.id === nn.id && l.source.attribute.type === DATA_TYPES.EXECUTION))
     const result = []
     for(const ln in nodesNotLinked) {
-        const r = await compile(nodesNotLinked[ln], nodes, links, fileSystem)
+        const r = await compile(nodesNotLinked[ln], nodes, links)
         result.push(r)
     }
     const state = {}
