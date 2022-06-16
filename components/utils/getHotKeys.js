@@ -1,9 +1,9 @@
 import createGroupShortcut from "./createGroupShortcut"
-import EventTick from "../../scripts/utils/nodes/events/EventTick"
+import EventTick from "../../script-editor/utils/nodes/events/EventTick"
 import cloneClass from "../../../../engine/utils/cloneClass"
-import EntityReference from "../../scripts/utils/nodes/utils/EntityReference"
-import Setter from "../../scripts/utils/nodes/utils/Setter"
-import Getter from "../../scripts/utils/nodes/utils/Getter"
+import EntityReference from "../../script-editor/utils/nodes/utils/EntityReference"
+import Setter from "../../script-editor/utils/nodes/utils/Setter"
+import Getter from "../../script-editor/utils/nodes/utils/Getter"
 
 import {v4 as uuidv4} from "uuid"
 import KEYS from "../../../../engine/templates/KEYS"

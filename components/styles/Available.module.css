@@ -3,7 +3,6 @@
   height: 100%;
   overflow-y: auto;
   background-color: var(--pj-background-primary);
-  border-radius: 5px;
   display: flex;
   flex-direction: column;
   align-content: flex-start;

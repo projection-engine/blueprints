@@ -66,7 +66,6 @@ export default async function compileShaders(hook,setStatus, mat, setMat ){
             info
         })
         setMat(newMat)
-        if (!message.hasError)
-            hook.renderer.overrideMaterial = newMat
+
     }
 }

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import React, {useContext, useMemo, useRef, useState} from "react"
+import React, {useMemo, useRef, useState} from "react"
 import Node from "./Node"
 import styles from "../styles/Board.module.css"
 import handleDropBoard from "../utils/handleDropBoard"
@@ -10,7 +10,6 @@ import getBoardOptions from "../utils/getBoardOptions"
 import OnDragProvider from "../hooks/DragProvider"
 import SelectBox from "../../../../../components/select-box/SelectBox"
 import Group from "./Group"
-import QuickAccessProvider from "../../../../hooks/QuickAccessProvider"
 import useContextTarget from "../../../../../components/context/hooks/useContextTarget"
 
 const TRIGGERS = [
@@ -26,7 +25,6 @@ export default function Board(props) {
         ref,
         handleLink
     } = useBoard(props.hook, scale, setScale)
-    const quickAccess=  useContext(QuickAccessProvider)
     const handleDropNode = (dataToPush, e) => {
 
         const doIt=  (n, e) => {
@@ -115,7 +113,6 @@ export default function Board(props) {
             <div
                 style={{display: props.hide ? "none" : undefined}}
                 className={styles.context}
-
             >
                 <SelectBox nodes={[...props.hook.groups, ...props.hook.nodes]} selected={props.selected}
                     setSelected={props.setSelected}/>

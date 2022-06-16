@@ -9,7 +9,7 @@ export default function FileOptions(props){
             {props.options.map((o, i) => (
                 <React.Fragment key={"file-options-"+i}>
                     {o.divider ? <div className={styles.divider}/>:
-                        <Button onClick={o.onClick} disabled={o.disabled} className={styles.button} attributes={{title: o.label}}>
+                        <Button onClick={o.onClick} disabled={o.disabled} attributes={{title: o.label}}>
                             <Icon   styles={{fontSize: "1.2rem"}}>{o.icon}</Icon>
                         </Button>
                     }

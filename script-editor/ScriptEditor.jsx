@@ -16,11 +16,11 @@ import compiler from "./utils/compiler/compiler"
 import ScriptSystem from "../../../engine/systems/ScriptSystem"
 import {Icon, Tab, Tabs} from "@f-ui/core"
 import FileOptions from "../components/components/FileOptions"
-import useShortcuts from "../material/hooks/useShortcuts"
+import useShortcuts from "../shader-editor/hooks/useShortcuts"
 
 const NAME = "Level blueprint"
 
-export default function ScriptView(props) {
+export default function ScriptEditor(props) {
     const {submitPackage, engine, id, file, isLevelBp} = props
     const hook = useScriptingView(file, isLevelBp)
     const ref = useRef()
@@ -134,7 +134,7 @@ export default function ScriptView(props) {
         </div>)
 }
 
-ScriptView.propTypes = {
+ScriptEditor.propTypes = {
     file: PropTypes.object,
     engine: PropTypes.object,
     id: PropTypes.string,
