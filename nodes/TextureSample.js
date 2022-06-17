@@ -149,7 +149,7 @@ export default class TextureSample extends Node {
                         format: this.format
                     })
             } catch (error) {
-                console.error(error)
+                alert.pushAlert("Error compiling texture", "error")
             }
         } else
             uniformData.push({

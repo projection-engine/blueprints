@@ -8,7 +8,7 @@ export default function CompilationStatus(props) {
     const {status} = props
     const [open, setOpen] = useState(0)
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper}  style={{width: "250px"}}>
             <Tabs open={open} setOpen={setOpen} styles={{padding: "4px"}}>
                 <Tab label={"Information"} className={styles.content}>
                     {status.info && status.info.length > 0 ? status.info.map((s, i) => (

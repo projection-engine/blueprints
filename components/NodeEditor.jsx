@@ -229,7 +229,7 @@ export default function NodeEditor(props) {
 
 
     return (
-        <div className={styles.wrapper}>
+        <div className={styles.wrapper} style={{width: "250px"}}>
             <div className={styles.form}>
                 {selected instanceof Float ?
                     <TextField

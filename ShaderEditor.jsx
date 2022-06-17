@@ -13,6 +13,12 @@ import compileShaders from "./utils/compileShaders"
 import {Tab, Tabs} from "@f-ui/core"
 import FileOptions from "./components/FileOptions"
 import useShortcuts from "./hooks/useShortcuts"
+import VerticalTabs from "../../../components/vertical-tab/VerticalTabs"
+import CameraTab from "../viewport/components/CameraTab"
+import ViewportTab from "../viewport/components/ViewportTab"
+import Transform from "../component/components/Transform"
+import COMPONENTS from "../../engine/templates/COMPONENTS"
+import {updateTransform} from "../component/hooks/useForm"
 
 export default function ShaderEditor(props) {
     const {registryID, name} = props
@@ -23,6 +29,7 @@ export default function ShaderEditor(props) {
     const [init, setInit] = useState(false)
     const [mat, setMat] = useState()
     const [open, setOpen] = useState(0)
+    const [openSideBar, setOpenSideBar] = useState(false)
 
     useEffect(() => {
         if(props.engine.selectedEntity && mat && !status.hasError)
@@ -62,20 +69,29 @@ export default function ShaderEditor(props) {
                         selected={hook.selected}
                         setSelected={hook.setSelected}
                     />
-                    <ResizableBar type={"width"}/>
 
-                    <Tabs open={open} setOpen={setOpen} className={s.content}>
-                        <Tab label={"Node attributes"} styles={{overflowY: "auto"}}>
-                            <NodeEditor
-                                hook={hook}
-                                engine={props.engine}
-                                selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
-                            />
-                        </Tab>
-                        <Tab label={"Compilation status"}>
-                            <CompilationStatus status={status}/>
-                        </Tab>
-                    </Tabs>
+                    <VerticalTabs
+                        open={openSideBar}
+                        setOpen={setOpenSideBar}
+                        tabs={[
+                            {
+                                label: "Node",
+                                content: (
+                                    <NodeEditor
+                                        hook={hook}
+                                        engine={props.engine}
+                                        selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
+                                    />
+                                )
+                            },
+                            {
+                                label: "Status",
+                                content: (
+                                    <CompilationStatus status={status}/>
+                                )
+                            }
+                        ]}
+                    />
                 </div>
 
             </div>
