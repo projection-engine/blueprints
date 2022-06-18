@@ -10,15 +10,9 @@ import useMaterialView from "./hooks/useMaterialView"
 import CompilationStatus from "./components/CompilationStatus"
 import options from "./utils/options"
 import compileShaders from "./utils/compileShaders"
-import {Tab, Tabs} from "@f-ui/core"
 import FileOptions from "./components/FileOptions"
 import useShortcuts from "./hooks/useShortcuts"
 import VerticalTabs from "../../../components/vertical-tab/VerticalTabs"
-import CameraTab from "../viewport/components/CameraTab"
-import ViewportTab from "../viewport/components/ViewportTab"
-import Transform from "../component/components/Transform"
-import COMPONENTS from "../../engine/templates/COMPONENTS"
-import {updateTransform} from "../component/hooks/useForm"
 
 export default function ShaderEditor(props) {
     const {registryID, name} = props
@@ -28,8 +22,7 @@ export default function ShaderEditor(props) {
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof ShaderEditor), [hook.nodes])
     const [init, setInit] = useState(false)
     const [mat, setMat] = useState()
-    const [open, setOpen] = useState(0)
-    const [openSideBar, setOpenSideBar] = useState(false)
+    const [openSideBar, setOpenSideBar] = useState(true)
 
     useEffect(() => {
         if(props.engine.selectedEntity && mat && !status.hasError)
@@ -69,7 +62,7 @@ export default function ShaderEditor(props) {
                         selected={hook.selected}
                         setSelected={hook.setSelected}
                     />
-
+               
                     <VerticalTabs
                         open={openSideBar}
                         setOpen={setOpenSideBar}
@@ -92,6 +85,7 @@ export default function ShaderEditor(props) {
                             }
                         ]}
                     />
+                  
                 </div>
 
             </div>

@@ -5,7 +5,7 @@ import TextureSample from "../nodes/TextureSample"
 import getNewInstance from "../utils/getNewInstance"
 import FileSystem from "../../../utils/files/FileSystem"
 import GPUContextProvider from "../../viewport/hooks/GPUContextProvider"
-import QuickAccessProvider from "../../../hooks/QuickAccessProvider"
+import QuickAccessProvider from "../../../providers/QuickAccessProvider"
 
 
 export default function useMaterialView(file) {
