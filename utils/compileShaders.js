@@ -3,7 +3,7 @@ import MaterialInstance from "../../../engine/instances/MaterialInstance"
 import {trimString} from "../../../engine/instances/ShaderInstance"
 import {v4} from "uuid"
 
-export default async function compileShaders(hook,setStatus, mat, setMat ){
+export default async function compileShaders(hook,mat, setMat ){
     alert.pushAlert("Compiling shaders", "info")
     hook.setImpactingChange(false)
     const {
@@ -32,7 +32,7 @@ export default async function compileShaders(hook,setStatus, mat, setMat ){
         const message = await promise
         const shaderSplit = trimString(shader).split(";")
         let parsed = []
-        setStatus({
+        hook.setStatus({
             ...{
                 ...message,
                 messages:

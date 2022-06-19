@@ -3,7 +3,7 @@
   height: 100%;
   width: 100%;
   overflow: hidden;
-  max-height: 50vh;
+  padding: 4px;
 }
 
 .boardAvailable {
@@ -29,4 +29,30 @@
   overflow: hidden;
   background: var(--pj-background-primary);
   min-width: 250px;
+}
+
+.icon {
+  transition: 150ms linear;
+  background: linear-gradient(to right bottom, white 25%, #333 75%);
+  min-width: 13px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+
+.button {
+  padding: 2px 4px !important;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 25px;
+}
+
+.options {
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  width: 100%;
 }

@@ -157,7 +157,6 @@ export default function Board(props) {
 
                     }}
                 >
-
                     {props.hook.groups?.map(group => (
                         <React.Fragment key={group.id}>
                             <Group
@@ -183,7 +182,6 @@ export default function Board(props) {
                     ))}
                     {links.map(l => (
                         <g key={l.target + "-" + l.source} className={styles.link}>
-
                             <path
                                 data-link={l.target + "-" + l.source}
                                 fill={"none"}

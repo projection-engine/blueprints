@@ -23,9 +23,12 @@ export default function useMaterialView(file) {
         impactingChange,
         setImpactingChange,
     } = useFlow()
-    const quickAccess = useContext(QuickAccessProvider)
+    const [status, setStatus] = useState({})
+    const [scale, setScale] = useState(1)
+    const [realTime, setRealTime] = useState(1)
+
+    const {images} = useContext(QuickAccessProvider)
     const {renderer} = useContext(GPUContextProvider)
-    const [realTime, setRealTime] = useState(true)
 
     useEffect(() => {
         parse(file, (d) => {
@@ -35,13 +38,14 @@ export default function useMaterialView(file) {
                 setNodes(d)
             else
                 setNodes([...d, new Material()])
-        }, setLinks, quickAccess).catch()
-    }, [])
+        }, setLinks, images).catch()
+    }, [file])
 
     return {
+        realTime, setRealTime,
+        scale, setScale,
+        status, setStatus,
         renderer,
-        realTime,
-        setRealTime,
         impactingChange,
         setImpactingChange,
         nodes,
@@ -57,7 +61,7 @@ export default function useMaterialView(file) {
     }
 }
 
-async function parse(file, setNodes, setLinks, quickAccess) {
+async function parse(file, setNodes, setLinks, images) {
     const res = await document.fileSystem.readRegistryFile(file.registryID)
     if (res) {
         const file = await document.fileSystem.readFile(document.fileSystem.path + FileSystem.sep + "assets" + FileSystem.sep + res.path, "json")
@@ -66,7 +70,7 @@ async function parse(file, setNodes, setLinks, quickAccess) {
                 const i = getNewInstance(f.instance)
                 if (i) Object.keys(f).forEach(o => {
                     if (o !== "inputs" && o !== "output") {
-                        if (o === "texture" && i instanceof TextureSample) i[o] = quickAccess.images.find(i => i.registryID === f[o].registryID)
+                        if (o === "texture" && i instanceof TextureSample) i[o] = images.find(i => i.registryID === f[o].registryID)
                         else i[o] = f[o]
                     }
                 })

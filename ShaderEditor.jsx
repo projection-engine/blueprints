@@ -1,6 +1,6 @@
 import Board from "./components/Board"
-import s from "./styles/MaterialView.module.css"
-import React, {useEffect, useMemo, useState} from "react"
+import styles from "./styles/MaterialView.module.css"
+import React, {useContext, useEffect, useId, useMemo, useRef, useState} from "react"
 import PropTypes from "prop-types"
 import ResizableBar from "../../../components/resizable/ResizableBar"
 import Available from "./components/Available"
@@ -8,95 +8,189 @@ import NodeEditor from "./components/NodeEditor"
 import {allNodes} from "./utils/AllNodes"
 import useMaterialView from "./hooks/useMaterialView"
 import CompilationStatus from "./components/CompilationStatus"
-import options from "./utils/options"
 import compileShaders from "./utils/compileShaders"
-import FileOptions from "./components/FileOptions"
 import useShortcuts from "./hooks/useShortcuts"
 import VerticalTabs from "../../../components/vertical-tab/VerticalTabs"
+import Make from "./utils/Make"
+import compiler from "./utils/compiler/compiler"
+import BlueprintProvider from "../../providers/BlueprintProvider"
+import ViewHeader from "../../../components/view/ViewHeader"
+import {Button, Dropdown, DropdownOption, DropdownOptions, Icon} from "@f-ui/core"
+import QuickAccessProvider from "../../providers/QuickAccessProvider"
+import COMPONENTS from "../../engine/templates/COMPONENTS"
 
+async function save(hook, submitPackage, registryID, currentMaterial){
+    const response = await Make(
+        hook,
+        await compiler(hook.nodes, hook.links, document.fileSystem)
+    )
+    submitPackage(
+        registryID,
+        response.data,
+        currentMaterial
+    )
+    hook.setChanged(false)
+    hook.setImpactingChange(false)
+}
 export default function ShaderEditor(props) {
-    const {registryID, name} = props
-    const [scale, setScale] = useState(1)
-    const [status, setStatus] = useState({})
-    const hook = useMaterialView({registryID, name})
-    const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof ShaderEditor), [hook.nodes])
-    const [init, setInit] = useState(false)
-    const [mat, setMat] = useState()
-    const [openSideBar, setOpenSideBar] = useState(true)
-
+    const [openFile, setOpenFile] = useState({})
+    const hook = useMaterialView(openFile)
+    const {
+        selectedEntity,
+        materials,
+        setMaterials,
+        submitPackage
+    } = useContext(BlueprintProvider)
+    const quickAccess = useContext(QuickAccessProvider)
     useEffect(() => {
-        if(props.engine.selectedEntity && mat && !status.hasError)
-            hook.renderer.overrideMaterial = mat
-        else
-            hook.renderer.overrideMaterial = undefined
-    }, [props.engine.selectedEntity, mat])
+        if(selectedEntity && selectedEntity.components[COMPONENTS.MATERIAL] && !openFile.registryID){
+            const mID = selectedEntity.components[COMPONENTS.MATERIAL].materialID
+            const found = quickAccess.materials.find(m => m.registryID === mID)
 
-
-    useEffect(() => setInit(false), [props.open])
-    useEffect(() => {
-        if ((!init && hook.links.length > 0 || hook.impactingChange && hook.realTime) && props.engine.renderer) {
-            compileShaders(hook, setStatus, mat, setMat).catch()
-            setInit(true)
+            alert.pushAlert("Editing " + found.name, "info")
+            if(found)
+                setOpenFile(found)
         }
-    }, [hook.impactingChange, hook.realTime, hook.links, init])
-    const optionsData = useMemo(() => options(() => compileShaders(hook, setStatus, mat, setMat).catch(), hook, props.submitPackage, mat), [hook.nodes, hook.links, props.engine.gpu, hook.changed, hook.impactingChange, hook.realTime])
+    }, [selectedEntity])
+    const currentMaterial = useMemo(() => {
+        return materials.find(m => m.id === openFile.registryID)
+    }, [materials, openFile.registryID])
 
-    useShortcuts(hook, optionsData, registryID)
+    const internalID=  useId()
 
     return (
-        <div style={{display: "flex", overflow: "hidden", height: "100%"}}>
-            <FileOptions options={optionsData}/>
-            <div className={s.wrapper} id={registryID + "-board"}>
-                <Available
-                    allNodes={allNodes}
-                    styles={{
-                        width: "250px"
-                    }}
-                />
-                <ResizableBar type={"width"}/>
-                <div className={s.boardAvailable}>
-                    <Board
-                        scale={scale} setScale={setScale}
-                        allNodes={allNodes}
-                        hook={hook}
-                        selected={hook.selected}
-                        setSelected={hook.setSelected}
-                    />
-               
-                    <VerticalTabs
-                        open={openSideBar}
-                        setOpen={setOpenSideBar}
-                        tabs={[
-                            {
-                                label: "Node",
-                                content: (
-                                    <NodeEditor
-                                        hook={hook}
-                                        engine={props.engine}
-                                        selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
-                                    />
-                                )
-                            },
-                            {
-                                label: "Status",
-                                content: (
-                                    <CompilationStatus status={status}/>
-                                )
-                            }
-                        ]}
-                    />
-                  
+        <>
+            <ViewHeader {...props} title={"Shader Editor"} icon={"texture"} orientation={"horizontal"}>
+                <div className={styles.options}>
+                    <Dropdown className={styles.button} variant={"outlined"} styles={{marginRight: "16px"}}>
+                        <div className={styles.icon}/>
+                        {openFile.name ? openFile.name : ""}
+                        <DropdownOptions>
+                            {quickAccess.materials.map((m, i) => (
+                                <React.Fragment key={internalID + "-material-" + i}>
+                                    <DropdownOption option={{
+                                        label: m.name,
+                                        onClick: () => setOpenFile(m)
+                                    }}/>
+                                </React.Fragment>
+                            ))}
+                        </DropdownOptions>
+                    </Dropdown>
+                    <Button disabled={!openFile.registryID || !hook.impactingChange} className={styles.button}  variant={"outlined"} onClick={() => save(hook, submitPackage, openFile.registryID, currentMaterial).catch()}>
+                        <Icon styles={{fontSize: "1rem"}}>save</Icon>
+                        Save
+                    </Button>
+                    <Button
+                        disabled={!openFile.registryID}
+                        className={styles.button}  variant={"outlined"} onClick={() => {
+                            compileShaders(hook,  currentMaterial, (newMat) => {
+                                setMaterials(prev => {
+                                    return [...prev].map(m => {
+                                        if(m.id === openFile.registryID)
+                                            return newMat
+                                        return m
+                                    })
+                                })
+                            }).catch()
+                        }}>
+                        <Icon styles={{fontSize: "1rem"}}>code</Icon>
+                        Compile
+                    </Button>
                 </div>
+            </ViewHeader>
+            {props.hidden ?
+                null :
+                <Editor currentMaterial={currentMaterial} hook={hook} submitPackage={submitPackage} registryID={openFile.registryID} materials={materials} setMaterials={setMaterials}/>
+            }
+        </>
+    )
+}
+
+ShaderEditor.propTypes={
+    hidden: PropTypes.bool,
+    switchView: PropTypes.func,
+    orientation: PropTypes.string,
+}
+
+
+
+
+function Editor(props){
+    const {currentMaterial, hook, submitPackage, registryID, materials, setMaterials} = props
+    const internalID = useId()
+    const [openSideBar, setOpenSideBar] = useState(true)
+    const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof ShaderEditor), [hook.nodes])
+
+    const init = useRef(false)
+
+    useEffect(() => {
+        if (hook.realTime && (!init.current && hook.links.length > 0 || hook.impactingChange)) {
+            compileShaders(hook,  currentMaterial, (newMat) => {
+                setMaterials(prev => {
+                    return [...prev].map(m => {
+                        if(m.id === registryID)
+                            return newMat
+                        return m
+                    })
+                })
+            }).catch()
+            init.current = true
+        }
+    }, [hook.impactingChange, hook.links, materials, hook.realTime])
+    useShortcuts(
+        hook,
+        () => save(hook, submitPackage, registryID, currentMaterial).catch(),
+        internalID
+    )
+
+
+    return (
+        <div className={styles.wrapper} id={internalID}>
+            <Available
+                allNodes={allNodes}
+                styles={{
+                    width: "250px"
+                }}
+            />
+            <ResizableBar type={"width"}/>
+            <div className={styles.boardAvailable}>
+                <Board
+                    scale={hook.scale} setScale={hook.setScale}
+                    allNodes={allNodes}
+                    hook={hook}
+                    selected={hook.selected}
+                    setSelected={hook.setSelected}
+                />
+
+                <VerticalTabs
+                    open={openSideBar}
+                    setOpen={setOpenSideBar}
+                    tabs={[
+                        {
+                            label: "Node",
+                            content: (
+                                <NodeEditor
+                                    hook={hook}
+                                    selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
+                                />
+                            )
+                        },
+                        {
+                            label: "Status",
+                            content: (
+                                <CompilationStatus status={hook.status}/>
+                            )
+                        }
+                    ]}
+                />
 
             </div>
         </div>
     )
 }
-
-ShaderEditor.propTypes = {
-    submitPackage: PropTypes.func.isRequired,
+Editor.propTypes={
+    currentMaterial: PropTypes.object,
+    hook: PropTypes.object, submitPackage: PropTypes.func,
     registryID: PropTypes.string,
-    name: PropTypes.string,
-    engine: PropTypes.object,
-    open: PropTypes.bool
+    materials: PropTypes.array, setMaterials: PropTypes.func
 }

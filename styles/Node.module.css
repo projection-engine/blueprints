@@ -89,7 +89,7 @@ cursor: default !important;
   font-size: 0.7rem;
   color: var(--pj-color-secondary);
   border-left: transparent 3px solid;
-  background: var(--pj-background-tertiary);
+  background: var(--pj-background-secondary);
   transition: color 150ms linear;
 }
 
