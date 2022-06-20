@@ -14,7 +14,7 @@ import VerticalTabs from "../../../components/vertical-tab/VerticalTabs"
 import Make from "./utils/Make"
 import compiler from "./utils/compiler/compiler"
 import BlueprintProvider from "../../providers/BlueprintProvider"
-import ViewHeader from "../../../components/view/ViewHeader"
+import Header from "../../../components/view/components/Header"
 import {Button, Dropdown, DropdownOption, DropdownOptions, Icon} from "@f-ui/core"
 import QuickAccessProvider from "../../providers/QuickAccessProvider"
 import COMPONENTS from "../../engine/templates/COMPONENTS"
@@ -60,7 +60,7 @@ export default function ShaderEditor(props) {
 
     return (
         <>
-            <ViewHeader {...props} title={"Shader Editor"} icon={"texture"} orientation={"horizontal"}>
+            <Header {...props} title={"Shader Editor"} icon={"texture"} orientation={"horizontal"}>
                 <div className={styles.options}>
                     <Dropdown className={styles.button} variant={"outlined"} styles={{marginRight: "16px"}}>
                         <div className={styles.icon}/>
@@ -97,7 +97,7 @@ export default function ShaderEditor(props) {
                         Compile
                     </Button>
                 </div>
-            </ViewHeader>
+            </Header>
             {props.hidden ?
                 null :
                 <Editor currentMaterial={currentMaterial} hook={hook} submitPackage={submitPackage} registryID={openFile.registryID} materials={materials} setMaterials={setMaterials}/>
