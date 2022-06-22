@@ -22,7 +22,7 @@ import COMPONENTS from "../../engine/templates/COMPONENTS"
 async function save(hook, submitPackage, registryID, currentMaterial){
     const response = await Make(
         hook,
-        await compiler(hook.nodes, hook.links, document.fileSystem)
+        await compiler(hook.nodes, hook.links, window.fileSystem)
     )
     submitPackage(
         registryID,
@@ -83,15 +83,18 @@ export default function ShaderEditor(props) {
                     <Button
                         disabled={!openFile.registryID}
                         className={styles.button}  variant={"outlined"} onClick={() => {
-                            compileShaders(hook,  currentMaterial, (newMat) => {
-                                setMaterials(prev => {
-                                    return [...prev].map(m => {
-                                        if(m.id === openFile.registryID)
-                                            return newMat
-                                        return m
+                            compileShaders(
+                                hook,  
+                                currentMaterial, 
+                                (newMat) => {
+                                    setMaterials(prev => {
+                                        return [...prev].map(m => {
+                                            if(m.id === openFile.registryID)
+                                                return newMat
+                                            return m
+                                        })
                                     })
-                                })
-                            }).catch()
+                                }).catch()
                         }}>
                         <Icon styles={{fontSize: "1rem"}}>code</Icon>
                         Compile
@@ -170,6 +173,7 @@ function Editor(props){
                             label: "Node",
                             content: (
                                 <NodeEditor
+                                    material={currentMaterial}
                                     hook={hook}
                                     selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
                                 />

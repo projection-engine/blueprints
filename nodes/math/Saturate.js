@@ -6,11 +6,11 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class Saturate extends Node {
     constructor() {
         super([
-            {label: 'In', key: 'a', accept: [DATA_TYPES.FLOAT]}
+            {label: "In", key: "a", accept: [DATA_TYPES.FLOAT]}
         ], [
-            {label: 'Result', key: 'saturateRes', type: DATA_TYPES.FLOAT}
-        ]);
-        this.name = 'Saturate'
+            {label: "Result", key: "saturateRes", type: DATA_TYPES.FLOAT}
+        ])
+        this.name = "Saturate"
         this.size = 2
     }
 
@@ -19,16 +19,16 @@ export default class Saturate extends Node {
     }
 
 
-     getFunctionInstance() {
-        return ''
+    getFunctionInstance() {
+        return ""
     }
 
-    async  getInputInstance(index) {
-        return ''
+    async  getInputInstance() {
+        return ""
     }
 
     getFunctionCall({a}, index) {
-        this.saturateRes = 'saturateRes' + index
+        this.saturateRes = "saturateRes" + index
         if(a)
             return `float ${this.saturateRes} = clamp(${a.name}, 0., 1.);`
         else

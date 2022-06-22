@@ -13,7 +13,5 @@ export default class Node{
 
         this.dynamicInputs = dynamicInputs
     }
-
-    expandInput(){}
     compile(){}
 }

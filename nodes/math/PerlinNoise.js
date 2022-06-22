@@ -13,40 +13,40 @@ export default class PerlinNoise extends Node {
     constructor() {
         super([
             {
-                label: 'Seed',
-                key: 'vec',
+                label: "Seed",
+                key: "vec",
                 accept: [DATA_TYPES.VEC2, DATA_TYPES.FLOAT]
             },
             {
-                label: 'Amplitude',
-                key: 'amplitude',
+                label: "Amplitude",
+                key: "amplitude",
                 type: DATA_TYPES.FLOAT
             },
             {
-                label: 'unitValue',
-                key: 'unitValue',
+                label: "unitValue",
+                key: "unitValue",
                 type: DATA_TYPES.FLOAT
             },
             {
-                label: 'Frequency',
-                key: 'frequency',
+                label: "Frequency",
+                key: "frequency",
                 type: DATA_TYPES.FLOAT
             },
             {
-                label: 'Persistence',
-                key: 'persistence',
+                label: "Persistence",
+                key: "persistence",
                 type: DATA_TYPES.FLOAT
             }, {
-                label: 'Samples',
+                label: "Samples",
                 max: 50,
                 min: 0,
-                key: 'samples',
+                key: "samples",
                 type: DATA_TYPES.INT
             }
         ], [
-            {label: 'Noise', key: 'res', type: DATA_TYPES.FLOAT}
-        ]);
-        this.name = 'PerlinNoise'
+            {label: "Noise", key: "res", type: DATA_TYPES.FLOAT}
+        ])
+        this.name = "PerlinNoise"
         this.size = 2
     }
 
@@ -98,8 +98,8 @@ export default class PerlinNoise extends Node {
         `
     }
 
-    async getInputInstance(index) {
-        return ''
+    async getInputInstance() {
+        return ""
     }
 
     getFunctionCall({vec}, index) {
@@ -109,7 +109,7 @@ export default class PerlinNoise extends Node {
             response.push(`float ${this.res} = pNoise(${vec.type === DATA_TYPES.FLOAT ? `vec2(${vec.name}, ${vec.name})` : vec.name}, ${this.samples}, ${checkFloat(this.persistence)}, ${checkFloat(this.frequency)}, ${checkFloat(this.amplitude)}, ${checkFloat(this.unitValue)});`)
         }
 
-        return response.join('\n')
+        return response.join("\n")
     }
 
 }

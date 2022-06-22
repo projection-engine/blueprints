@@ -24,7 +24,7 @@ export default class CosineH extends Node {
         return ''
     }
 
-    async  getInputInstance(index) {
+    async  getInputInstance() {
         return ''
     }
 

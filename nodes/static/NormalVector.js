@@ -8,10 +8,10 @@ export default class NormalVector extends Node {
 
     constructor() {
         super([], [
-            {label: 'Normal', key: 'normalVec', type: DATA_TYPES.VEC3}
-        ]);
+            {label: "Normal", key: "normalVec", type: DATA_TYPES.VEC3}
+        ])
 
-        this.name = 'NormalVector'
+        this.name = "NormalVector"
         this.size = 2
     }
 
@@ -20,15 +20,15 @@ export default class NormalVector extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async    getInputInstance(index) {
-        return ''
+    async getInputInstance() {
+        return ""
     }
     // texture and uv = {name: variable name, value: variable value if static}
     getFunctionCall() {
-        this.normalVec = 'normalVec'
-        return ''
+        this.normalVec = "normalVec"
+        return ""
     }
 }

@@ -4,7 +4,6 @@ import Material from "../nodes/Material"
 import TextureSample from "../nodes/TextureSample"
 import getNewInstance from "../utils/getNewInstance"
 import FileSystem from "../../../utils/files/FileSystem"
-import GPUContextProvider from "../../viewport/hooks/GPUContextProvider"
 import QuickAccessProvider from "../../../providers/QuickAccessProvider"
 
 
@@ -28,7 +27,6 @@ export default function useMaterialView(file) {
     const [realTime, setRealTime] = useState(1)
 
     const {images} = useContext(QuickAccessProvider)
-    const {renderer} = useContext(GPUContextProvider)
 
     useEffect(() => {
         parse(file, (d) => {
@@ -45,7 +43,6 @@ export default function useMaterialView(file) {
         realTime, setRealTime,
         scale, setScale,
         status, setStatus,
-        renderer,
         impactingChange,
         setImpactingChange,
         nodes,
@@ -62,9 +59,9 @@ export default function useMaterialView(file) {
 }
 
 async function parse(file, setNodes, setLinks, images) {
-    const res = await document.fileSystem.readRegistryFile(file.registryID)
+    const res = await window.fileSystem.readRegistryFile(file.registryID)
     if (res) {
-        const file = await document.fileSystem.readFile(document.fileSystem.path + FileSystem.sep + "assets" + FileSystem.sep + res.path, "json")
+        const file = await window.fileSystem.readFile(window.fileSystem.path + FileSystem.sep + "assets" + FileSystem.sep + res.path, "json")
         if (file && Object.keys(file).length > 0) {
             const newNodes = file.nodes.map(f => {
                 const i = getNewInstance(f.instance)

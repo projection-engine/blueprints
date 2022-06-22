@@ -23,7 +23,7 @@ export default class DDX extends Node {
         return ""
     }
 
-    async  getInputInstance(index) {
+    async  getInputInstance() {
         return ""
     }
 

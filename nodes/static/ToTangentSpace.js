@@ -7,10 +7,10 @@ export default class ToTangentSpace extends Node {
 
     constructor() {
         super([], [
-            {label: 'Matrix', key: 'toTangentSpace', type: DATA_TYPES.MAT3}
-        ]);
+            {label: "Matrix", key: "toTangentSpace", type: DATA_TYPES.MAT3}
+        ])
 
-        this.name = 'ToTangentSpace'
+        this.name = "ToTangentSpace"
         this.size = 2
     }
 
@@ -19,14 +19,14 @@ export default class ToTangentSpace extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async getInputInstance(index) {
-        return ''
+    async getInputInstance() {
+        return ""
     }
     getFunctionCall() {
-        this.toTangentSpace = 'toTangentSpace'
-        return ''
+        this.toTangentSpace = "toTangentSpace"
+        return ""
     }
 }

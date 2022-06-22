@@ -25,7 +25,7 @@ export default class LerpVec4 extends Node {
         return ''
     }
 
-    async  getInputInstance(index) {
+    async  getInputInstance() {
         return ''
     }
 

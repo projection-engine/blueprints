@@ -6,13 +6,13 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class Refract extends Node {
     constructor() {
         super([
-            {label: 'Vector', key: 'a', accept: [DATA_TYPES.VEC3]},
-            {label: 'Normal', key: 'n', accept: [DATA_TYPES.VEC3]},
-            {label: 'Ratio', key: 'r', accept: [DATA_TYPES.FLOAT]}
+            {label: "Vector", key: "a", accept: [DATA_TYPES.VEC3]},
+            {label: "Normal", key: "n", accept: [DATA_TYPES.VEC3]},
+            {label: "Ratio", key: "r", accept: [DATA_TYPES.FLOAT]}
         ], [
-            {label: 'Result', key: 'refractRes', type: DATA_TYPES.VEC3}
-        ]);
-        this.name = 'Refract'
+            {label: "Result", key: "refractRes", type: DATA_TYPES.VEC3}
+        ])
+        this.name = "Refract"
         this.size = 2
     }
 
@@ -22,19 +22,19 @@ export default class Refract extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async  getInputInstance(index) {
-        return ''
+    async  getInputInstance() {
+        return ""
     }
 
     getFunctionCall({n, a, r}, index) {
-        this.refractRes = 'refractRes' + index
+        this.refractRes = "refractRes" + index
 
         if(a)
             return `vec3 ${this.refractRes} = refract(${a.name}, ${n.name}, ${r.name});`
         else
-            return ''
+            return ""
     }
 }

@@ -7,13 +7,13 @@ export default class ViewDirection extends Node {
 
     constructor() {
         super([], [
-            {label: 'Coordinates', key: 'viewDirection', type: DATA_TYPES.VEC3},
-            {label: 'X', key: 'r', type: DATA_TYPES.FLOAT, color: 'red'},
-            {label: 'Y', key: 'g', type: DATA_TYPES.FLOAT, color: 'green'},
-            {label: 'Z', key: 'b', type: DATA_TYPES.FLOAT, color: 'blue'}
-        ]);
+            {label: "Coordinates", key: "viewDirection", type: DATA_TYPES.VEC3},
+            {label: "X", key: "r", type: DATA_TYPES.FLOAT, color: "red"},
+            {label: "Y", key: "g", type: DATA_TYPES.FLOAT, color: "green"},
+            {label: "Z", key: "b", type: DATA_TYPES.FLOAT, color: "blue"}
+        ])
 
-        this.name = 'ViewDirection'
+        this.name = "ViewDirection"
         this.size = 1
     }
 
@@ -22,28 +22,28 @@ export default class ViewDirection extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async getInputInstance(index) {
-        return ''
+    async getInputInstance() {
+        return ""
     }
 
     getFunctionCall(_, index, outputs) {
         let response = []
 
         outputs.forEach(o => {
-            if(o === 'viewDirection'){
-                this.viewDirection = 'viewDirection'
+            if(o === "viewDirection"){
+                this.viewDirection = "viewDirection"
             }
             else if (!this[o]) {
 
-                    this[o] = o + `${index}`
-                    response.push(`float ${this[o]} = viewDirection.${o};`)
-                }
+                this[o] = o + `${index}`
+                response.push(`float ${this[o]} = viewDirection.${o};`)
+            }
         })
 
-        return response.join('\n')
+        return response.join("\n")
     }
 
 }

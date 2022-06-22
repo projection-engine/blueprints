@@ -76,9 +76,9 @@ export default function NodeEditor(props) {
                 selected[attr.key] = event
         } else {
             if (attr.key === "tilingX")
-                props.hook.renderer.overrideMaterial.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
+                props.material.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
             if (attr.key === "tilingY")
-                props.hook.renderer.overrideMaterial.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
+                props.material.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
             selected[attr.key] = event
         }
     }
@@ -276,6 +276,7 @@ export default function NodeEditor(props) {
 }
 
 NodeEditor.propTypes = {
+    material: PropTypes.object.isRequired,
     selected: PropTypes.string,
     hook: PropTypes.object
 }

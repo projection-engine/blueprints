@@ -26,7 +26,7 @@ export default class DotVec2 extends Node {
         return ''
     }
 
-    async getInputInstance(index) {
+    async getInputInstance() {
         return ''
     }
 

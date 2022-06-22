@@ -6,12 +6,12 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class Normalize extends Node {
     constructor() {
         super([
-            {label: 'Vector', key: 'a', accept: [DATA_TYPES.VEC2,DATA_TYPES.VEC3,DATA_TYPES.VEC4]}
+            {label: "Vector", key: "a", accept: [DATA_TYPES.VEC2,DATA_TYPES.VEC3,DATA_TYPES.VEC4]}
         ], [
-            {label: 'Result', key: 'normalizeRes', type: DATA_TYPES.UNDEFINED}
-        ]);
+            {label: "Result", key: "normalizeRes", type: DATA_TYPES.UNDEFINED}
+        ])
         this.equalTypeInputs = true
-        this.name = 'Normalize'
+        this.name = "Normalize"
         this.size = 2
     }
 
@@ -21,19 +21,19 @@ export default class Normalize extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async  getInputInstance(index) {
-        return ''
+    async  getInputInstance() {
+        return ""
     }
 
     getFunctionCall({a}, index) {
-        this.normalizeRes = 'normalizeRes' + index
+        this.normalizeRes = "normalizeRes" + index
 
         if(a)
             return `${a.type} ${this.normalizeRes} = normalize(${a.name});`
         else
-            return ''
+            return ""
     }
 }

@@ -6,12 +6,12 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class Saturation extends Node {
     constructor() {
         super([
-            {label: 'RGB', key: 'a', accept: [DATA_TYPES.VEC3]},
-            {label: 'Adjustment', key: 'x', accept: [DATA_TYPES.FLOAT]}
+            {label: "RGB", key: "a", accept: [DATA_TYPES.VEC3]},
+            {label: "Adjustment", key: "x", accept: [DATA_TYPES.FLOAT]}
         ], [
-            {label: 'Result', key: 'saturationRes', type: DATA_TYPES.VEC3}
-        ]);
-        this.name = 'Saturation'
+            {label: "Result", key: "saturationRes", type: DATA_TYPES.VEC3}
+        ])
+        this.name = "Saturation"
         this.size = 2
     }
 
@@ -31,14 +31,14 @@ vec3 saturation(vec3 rgb, float adjustment)
         `
     }
 
-    async getInputInstance(index) {
-        return ''
+    async getInputInstance() {
+        return ""
     }
 
 
 
     getFunctionCall({a, x}, index) {
-        this.saturationRes = 'saturationRes' + index
+        this.saturationRes = "saturationRes" + index
         if(a)
             return `vec3 ${this.saturationRes} = saturation( ${a.name},  ${x.name});`
         else

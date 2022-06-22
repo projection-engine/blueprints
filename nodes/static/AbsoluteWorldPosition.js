@@ -22,7 +22,7 @@ export default class AbsoluteWorldPosition extends Node {
         return ''
     }
 
-    async getInputInstance(index) {
+    async getInputInstance() {
         return ''
     }
 

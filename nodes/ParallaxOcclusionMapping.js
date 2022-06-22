@@ -12,49 +12,49 @@ export default class ParallaxOcclusionMapping extends Node {
     constructor() {
         super([
             {
-                label: 'Discard off-pixels',
-                key: 'discard',
+                label: "Discard off-pixels",
+                key: "discard",
                 type: DATA_TYPES.OPTIONS,
                 options: [
                     {
-                        label: 'Yes', data: true
+                        label: "Yes", data: true
                     },
                     {
-                        label: 'No', data: false
+                        label: "No", data: false
                     },
                 ]
             },
             {
-                label: 'Height scale',
-                key: 'heightScale',
+                label: "Height scale",
+                key: "heightScale",
                 type: DATA_TYPES.FLOAT
             },
             {
-                label: 'Layers',
-                key: 'layers',
+                label: "Layers",
+                key: "layers",
                 type: DATA_TYPES.INT
             },
 
             {
-                label: 'Texture Coords',
-                key: 'texCoord',
+                label: "Texture Coords",
+                key: "texCoord",
                 accept: [DATA_TYPES.VEC2]
             },
             {
-                label: 'View direction',
-                key: 'viewDirection',
+                label: "View direction",
+                key: "viewDirection",
                 accept: [DATA_TYPES.VEC3]
             },
             {
-                label: 'Height Map',
-                key: 'heightMap',
+                label: "Height Map",
+                key: "heightMap",
                 accept: [DATA_TYPES.TEXTURE]
             }
             ,
         ], [
-            {label: 'UVs', key: 'UVs', type: DATA_TYPES.VEC2}
-        ]);
-        this.name = 'ParallaxOcclusionMapping'
+            {label: "UVs", key: "UVs", type: DATA_TYPES.VEC2}
+        ])
+        this.name = "ParallaxOcclusionMapping"
 
     }
 
@@ -89,19 +89,19 @@ export default class ParallaxOcclusionMapping extends Node {
                    ${this.discard ? `
                    if (UVs.x > 1.0 || UVs.y > 1.0 || UVs.x < 0.0 || UVs.y < 0.0)
                        discard;
-                   ` : ''}
+                   ` : ""}
                    
                    return UVs;
                 }
         `
     }
 
-    async getInputInstance(index) {
-        return ''
+    async getInputInstance() {
+        return ""
     }
 
     getFunctionCall({heightMap, viewDirection, texCoord}, index) {
-        this.UVs = 'UVs' + index
+        this.UVs = "UVs" + index
         return `vec2 ${this.UVs} = parallaxMapping( ${texCoord.name},  ${viewDirection.name},  ${heightMap.name},  ${checkFloat(this.heightScale)},  ${checkFloat(this.layers)} );`
 
     }

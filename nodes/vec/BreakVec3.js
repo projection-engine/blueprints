@@ -29,7 +29,7 @@ export default class BreakVec3 extends Node {
         return ''
     }
 
-    async getInputInstance(index) {
+    async getInputInstance() {
         return ''
     }
 

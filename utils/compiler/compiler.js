@@ -77,13 +77,13 @@ export default async function compiler(n, links) {
     } else return {}
 }
 
-
-function compileVertex(startPoint, n, links) {
-    let vertexBody = []
-    const nodes = n.map(nn => cloneClass(nn))
-    resolveStructure(startPoint, [], links.filter(l => l.target.id !== startPoint.id || l.target.id === startPoint.id && l.target.attribute.key === "worldOffset"), nodes, vertexBody, true)
-    return vertexBody.join("\n")
-}
+//
+// function compileVertex(startPoint, n, links) {
+//     let vertexBody = []
+//     const nodes = n.map(nn => cloneClass(nn))
+//     resolveStructure(startPoint, [], links.filter(l => l.target.id !== startPoint.id || l.target.id === startPoint.id && l.target.attribute.key === "worldOffset"), nodes, vertexBody, true)
+//     return vertexBody.join("\n")
+// }
 
 async function compileFrag(n, links,  shadingType, discardedLinks=["worldOffset"], noAmbient) {
     const nodes = n.map(nn => cloneClass(nn))
@@ -109,7 +109,7 @@ async function compileFrag(n, links,  shadingType, discardedLinks=["worldOffset"
     typesInstantiated = {}
     await Promise.all(nodes.map((n, i) => new Promise(async resolve => {
         if (typeof n.getInputInstance === "function" && !typesInstantiated[n.id]) {
-            const res = await n.getInputInstance(i, uniforms, uniformData, document.fileSystem)
+            const res = await n.getInputInstance(i, uniforms, uniformData, window.fileSystem)
             toJoin.push(res)
             resolve()
             typesInstantiated[n.id] = true

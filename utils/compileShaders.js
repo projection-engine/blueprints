@@ -13,14 +13,14 @@ export default async function compileShaders(hook,mat, setMat ){
         settings,
         info,
         cubeMapShader
-    } = await compiler(hook.nodes, hook.links, document.fileSystem)
+    } = await compiler(hook.nodes, hook.links, window.fileSystem)
 
     if (shader) {
         const onOverride = mat
         let promise, newMat
         if (!onOverride)
             promise = new Promise(resolve => {
-                newMat = new MaterialInstance(hook.renderer.gpu, vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), v4().toString(), cubeMapShader.code)
+                newMat = new MaterialInstance( vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), v4().toString(), cubeMapShader.code)
             })
         else {
             newMat = onOverride

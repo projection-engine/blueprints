@@ -25,7 +25,7 @@ export default class Clamp extends Node {
         return ''
     }
 
-    async  getInputInstance(index) {
+    async  getInputInstance() {
         return ''
     }
 

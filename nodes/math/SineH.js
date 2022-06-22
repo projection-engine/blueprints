@@ -6,12 +6,12 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class SineH extends Node {
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [DATA_TYPES.FLOAT]}
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]}
         ], [
-            {label: 'Result', key: 'sineHRes', type: DATA_TYPES.FLOAT}
-        ]);
+            {label: "Result", key: "sineHRes", type: DATA_TYPES.FLOAT}
+        ])
         this.equalTypeInputs = true
-        this.name = 'SineH'
+        this.name = "SineH"
         this.size = 2
     }
 
@@ -21,15 +21,15 @@ export default class SineH extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async  getInputInstance(index) {
-        return ''
+    async  getInputInstance() {
+        return ""
     }
 
     getFunctionCall({a}, index) {
-        this.sineHRes = 'sineHRes' + index
+        this.sineHRes = "sineHRes" + index
 
         if(a)
             return `float ${this.sineHRes} = sinh(${a.name});`

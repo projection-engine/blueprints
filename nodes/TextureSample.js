@@ -123,9 +123,9 @@ export default class TextureSample extends Node {
         this.uniformName = `sampler${index}`
         if (this.texture?.registryID) {
             try {
-                const res = await document.fileSystem.readRegistryFile(this.texture?.registryID)
+                const res = await window.fileSystem.readRegistryFile(this.texture?.registryID)
                 if (res) {
-                    const file = await document.fileSystem.readFile(document.fileSystem.path + FileSystem.sep + "assets" +FileSystem.sep +  res.path, true)
+                    const file = await window.fileSystem.readFile(window.fileSystem.path + FileSystem.sep + "assets" +FileSystem.sep +  res.path, true)
                     uniforms.push({
                         label: this.name,
                         key: this.uniformName,

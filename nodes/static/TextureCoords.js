@@ -8,10 +8,10 @@ export default class TextureCoords extends Node {
 
     constructor() {
         super([], [
-            {label: 'Coordinates', key: 'texCoord', type: DATA_TYPES.VEC2}
-        ]);
+            {label: "Coordinates", key: "texCoord", type: DATA_TYPES.VEC2}
+        ])
 
-        this.name = 'TextureCoords'
+        this.name = "TextureCoords"
         this.size = 2
     }
 
@@ -20,15 +20,15 @@ export default class TextureCoords extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
-    async    getInputInstance(index) {
-        return ''
+    async    getInputInstance() {
+        return ""
     }
     // texture and uv = {name: variable name, value: variable value if static}
     getFunctionCall() {
-        this.texCoord = 'texCoord'
-        return ''
+        this.texCoord = "texCoord"
+        return ""
     }
 }
