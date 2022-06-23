@@ -76,7 +76,7 @@ export default function ShaderEditor(props) {
                             ))}
                         </DropdownOptions>
                     </Dropdown>
-                    <Button disabled={!openFile.registryID || !hook.impactingChange} className={styles.button}  variant={"outlined"} onClick={() => save(hook, submitPackage, openFile.registryID, currentMaterial).catch()}>
+                    <Button disabled={!openFile.registryID || !hook.changed} className={styles.button}  variant={"outlined"} onClick={() => save(hook, submitPackage, openFile.registryID, currentMaterial).catch()}>
                         <Icon styles={{fontSize: "1rem"}}>save</Icon>
                         Save
                     </Button>

@@ -68,7 +68,7 @@ export default function EmbeddedInput(props) {
                     <TextField
                         value={bundledVariable}
                         placeholder={props.data.label}
-                        handleChange={v => setBundledVariable(v.target.value)}
+                        handleChange={v => setBundledVariable(v)}
                         height={"15px"}
                         width={" 50px"}
                         onEnter={() => props.submit(bundledVariable)}

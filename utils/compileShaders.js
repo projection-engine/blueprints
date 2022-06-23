@@ -1,7 +1,6 @@
 import compiler from "./compiler/compiler"
 import MaterialInstance from "../../../engine/instances/MaterialInstance"
 import {trimString} from "../../../engine/instances/ShaderInstance"
-import {v4} from "uuid"
 
 export default async function compileShaders(hook,mat, setMat ){
     alert.pushAlert("Compiling shaders", "info")
@@ -20,7 +19,15 @@ export default async function compileShaders(hook,mat, setMat ){
         let promise, newMat
         if (!onOverride)
             promise = new Promise(resolve => {
-                newMat = new MaterialInstance( vertexShader, shader, uniformData, settings, (shaderMessage) => resolve(shaderMessage), v4().toString(), cubeMapShader.code)
+                newMat = new MaterialInstance({
+                    vertex: vertexShader,
+                    fragment: shader,
+                    uniformData,
+                    settings,
+                        
+                    onCompiled: (shaderMessage) => resolve(shaderMessage),
+                    cubeMapShaderCode: cubeMapShader.code
+                })
             })
         else {
             newMat = onOverride

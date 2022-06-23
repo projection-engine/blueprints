@@ -241,7 +241,7 @@ export default function NodeEditor(props) {
                                     classLocation = n.findIndex(e => e.id === selected.id),
                                     clone = cloneClass(prev[classLocation])
 
-                                clone.name = ev.target.value
+                                clone.name = ev
                                 n[classLocation] = clone
                                 return n
                             })
