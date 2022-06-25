@@ -30,7 +30,7 @@ export default function useNode(props, selected, hidden) {
                 y1: (event.clientY + bounding.y + 7.5) / props.scale
             })
 
-        pathRef.current?.setAttribute('d', curve)
+        pathRef.current?.setAttribute("d", curve)
     }
 
 
@@ -42,9 +42,9 @@ export default function useNode(props, selected, hidden) {
         let isFirst, alreadyFound = false
         document.elementsFromPoint(event.clientX, event.clientY)
             .forEach(e => {
-                if (e.id?.includes('-node') && !alreadyFound && e.id === (props.node.id + '-node'))
+                if (e.id?.includes("-node") && !alreadyFound && e.id === (props.node.id + "-node"))
                     isFirst = true
-                else if (e.id?.includes('-node') && !alreadyFound)
+                else if (e.id?.includes("-node") && !alreadyFound)
                     alreadyFound = true
             })
 
@@ -94,7 +94,7 @@ export default function useNode(props, selected, hidden) {
 
 
 
-                    ref.current?.setAttribute('transform', `translate(${current.x} ${current.y})`)
+                    ref.current?.setAttribute("transform", `translate(${current.x} ${current.y})`)
                 }
             }
 
@@ -112,12 +112,12 @@ export default function useNode(props, selected, hidden) {
                 if (bBox.left - parentBBox.left > parentBBox.width)
                     fixedPlacement.x = parentBBox.width - bBox.width
 
-                ref.current?.setAttribute('transform', `translate(${fixedPlacement.x} ${fixedPlacement.y})`)
+                ref.current?.setAttribute("transform", `translate(${fixedPlacement.x} ${fixedPlacement.y})`)
 
-                document.removeEventListener('mousemove', handleMouseMove)
+                document.removeEventListener("mousemove", handleMouseMove)
             }
-            document.addEventListener('mousemove', handleMouseMove)
-            document.addEventListener('mouseup', handleMouseUp, {once: true})
+            document.addEventListener("mousemove", handleMouseMove)
+            document.addEventListener("mouseup", handleMouseUp, {once: true})
         }
 
     }

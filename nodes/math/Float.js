@@ -11,20 +11,20 @@ export default class Float extends Node {
     constructor() {
         super([
             {
-                label: 'As uniform',
-                key: 'uniform',
+                label: "As uniform",
+                key: "uniform",
                 type: DATA_TYPES.OPTIONS,
                 options: [
-                    {label: 'Yes', data: true},
-                    {label: 'No', data: false}
+                    {label: "Yes", data: true},
+                    {label: "No", data: false}
                 ]
             },
-            {label: 'Value', key: 'v', type: DATA_TYPES.FLOAT},
+            {label: "Value", key: "v", type: DATA_TYPES.FLOAT},
         ], [
-            {label: 'Value', key: 'FLOAT_VAR', type: DATA_TYPES.FLOAT},
-        ]);
+            {label: "Value", key: "FLOAT_VAR", type: DATA_TYPES.FLOAT},
+        ])
 
-        this.name = 'Float'
+        this.name = "Float"
         this.size = 2
     }
 
@@ -36,7 +36,7 @@ export default class Float extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance(index, uniforms, uniformData) {
@@ -64,7 +64,7 @@ export default class Float extends Node {
     }
 
     getFunctionCall(_, index) {
-        this.FLOAT_VAR = 'FLOAT_VAR' + index
-        return ''
+        this.FLOAT_VAR = "FLOAT_VAR" + index
+        return ""
     }
 }

@@ -9,12 +9,12 @@ export default class BreakVec2 extends Node {
 
     constructor() {
         super([
-            {label: 'Vector', key: 'v', accept: [DATA_TYPES.VEC2]}
+            {label: "Vector", key: "v", accept: [DATA_TYPES.VEC2]}
         ], [
-            {label: 'X', key: 'xR', type: DATA_TYPES.FLOAT, color: 'red'},
-            {label: 'Y', key: 'yR', type: DATA_TYPES.FLOAT, color: 'green'}
-        ]);
-        this.name = 'BreakVec2'
+            {label: "X", key: "xR", type: DATA_TYPES.FLOAT, color: "red"},
+            {label: "Y", key: "yR", type: DATA_TYPES.FLOAT, color: "green"}
+        ])
+        this.name = "BreakVec2"
         this.size = 1
     }
 
@@ -24,11 +24,11 @@ export default class BreakVec2 extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall({v}, index, outputs) {
@@ -36,11 +36,11 @@ export default class BreakVec2 extends Node {
         outputs.forEach(o => {
             if (!this[o]) {
                 this[o] = o + `${index}`
-                response.push(`float ${this[o]} = ${v.name}.${o.replace('R', '')};`)
+                response.push(`float ${this[o]} = ${v.name}.${o.replace("R", "")};`)
             }
         })
 
-        return response.join('\n')
+        return response.join("\n")
     }
 
 }

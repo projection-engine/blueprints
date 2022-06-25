@@ -6,13 +6,13 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class LerpVec4 extends Node {
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [DATA_TYPES.VEC4]},
-            {label: 'B', key: 'b', accept: [DATA_TYPES.VEC4]},
-            {label: 'Percentage', key: 'c', accept: [DATA_TYPES.FLOAT]},
+            {label: "A", key: "a", accept: [DATA_TYPES.VEC4]},
+            {label: "B", key: "b", accept: [DATA_TYPES.VEC4]},
+            {label: "Percentage", key: "c", accept: [DATA_TYPES.FLOAT]},
         ], [
-            {label: 'Result', key: 'resLerp', type: DATA_TYPES.VEC4}
-        ]);
-        this.name = 'LerpVec4'
+            {label: "Result", key: "resLerp", type: DATA_TYPES.VEC4}
+        ])
+        this.name = "LerpVec4"
         this.size = 1
     }
 
@@ -22,15 +22,15 @@ export default class LerpVec4 extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async  getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall({a,b, c}, index) {
-        this.resLerp = 'resLerp' + index
+        this.resLerp = "resLerp" + index
         if(b && a)
             return `vec4 ${this.resLerp} = mix(${a.name}, ${b.name}, ${c.name});`
         else

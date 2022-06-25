@@ -39,8 +39,8 @@ void main(){
     finalColor = vec4(color, opacity);
 }
         `,
-    inputs: ``,
-    functions: ``
+    inputs: "",
+    functions: ""
 }
 
 export const vertex = (bodyOperations, inputs, functions) => {

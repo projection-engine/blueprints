@@ -17,14 +17,6 @@
   gap: 8px;
 }
 
-.formFieldWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  width: 100%;
-}
-
 .label {
   color: var(--pj-color-secondary);
   font-weight: 600;

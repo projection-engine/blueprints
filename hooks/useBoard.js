@@ -34,8 +34,6 @@ export default function useBoard(hook, scale, setScale) {
 
                 if (biggestY)
                     ref.current.parentNode.scrollTop = biggestY - ref.current.parentNode.offsetHeight / 2
-
-
                 setScrolled(true)
             })
 
@@ -75,7 +73,7 @@ export default function useBoard(hook, scale, setScale) {
     }
     const links = useMemo(() => {
         return hook.links.map(l => {
-            let key = (Object.entries(DATA_TYPES).find(([_, value]) => value === l.source.attribute.type))
+            let key = (Object.entries(DATA_TYPES).find(([, value]) => value === l.source.attribute.type))
             if (key)
                 key = key[0]
 
@@ -90,14 +88,6 @@ export default function useBoard(hook, scale, setScale) {
             }
         })
     }, [hook.links])
-
-    let currentFrame = 0
-
-    const updateLinks = () => {
-        if (hook.changed || hook.impactingChange)
-
-            currentFrame = requestAnimationFrame(updateLinks)
-    }
 
     let mappedLinks = []
     useEffect(() => {
@@ -147,21 +137,17 @@ export default function useBoard(hook, scale, setScale) {
                 }
 
             } catch (error) {
+                console.error(error)
             }
         }
 
         callback()
         const mt = new MutationObserver(callback)
-
         mt.observe(ref.current, {subtree: true, childList: true, attributes: true})
-
-        return () => {
-            mt.disconnect()
-        }
+        return () => mt.disconnect()
     }, [links, scale])
 
     return {
-
         links,
         ref,
         handleLink

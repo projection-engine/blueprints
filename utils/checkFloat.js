@@ -1,3 +1,3 @@
 export default function checkFloat(v){
-    return `${v}${v % 1 !== 0 ? '' : '.'}`
+    return `${v}${v % 1 !== 0 ? "" : "."}`
 }

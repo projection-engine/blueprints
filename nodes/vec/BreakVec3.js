@@ -10,13 +10,13 @@ export default class BreakVec3 extends Node {
 
     constructor() {
         super([
-            {label: 'Vector', key: 'v', accept: [DATA_TYPES.VEC3]}
+            {label: "Vector", key: "v", accept: [DATA_TYPES.VEC3]}
         ], [
-            {label: 'X', key: 'x', type: DATA_TYPES.FLOAT, color: 'red'},
-            {label: 'Y', key: 'y', type: DATA_TYPES.FLOAT, color: 'green'},
-            {label: 'Z', key: 'z', type: DATA_TYPES.FLOAT, color: 'blue'}
-        ]);
-        this.name = 'BreakVec3'
+            {label: "X", key: "x", type: DATA_TYPES.FLOAT, color: "red"},
+            {label: "Y", key: "y", type: DATA_TYPES.FLOAT, color: "green"},
+            {label: "Z", key: "z", type: DATA_TYPES.FLOAT, color: "blue"}
+        ])
+        this.name = "BreakVec3"
         this.size = 1
     }
 
@@ -26,11 +26,11 @@ export default class BreakVec3 extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall({v}, index, outputs) {
@@ -42,7 +42,7 @@ export default class BreakVec3 extends Node {
             }
         })
 
-        return response.join('\n')
+        return response.join("\n")
     }
 
 }

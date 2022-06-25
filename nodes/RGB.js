@@ -5,26 +5,26 @@ import checkFloat from "../utils/checkFloat"
 
 
 export default class RGB extends Node {
-    v = 'rgb(0,0,0)'
+    v = "rgb(0,0,0)"
     uniform = false
 
     constructor() {
         super([
             {
-                label: 'As uniform',
-                key: 'uniform',
+                label: "As uniform",
+                key: "uniform",
                 type: DATA_TYPES.OPTIONS,
                 options: [
-                    {label: 'Yes', data: true},
-                    {label: 'No', data: false}
+                    {label: "Yes", data: true},
+                    {label: "No", data: false}
                 ]
             },
-            {label: 'Value', key: 'v', type: DATA_TYPES.COLOR},
+            {label: "Value", key: "v", type: DATA_TYPES.COLOR},
         ], [
-            {label: 'Value', key: 'COLOR_RGB', type: DATA_TYPES.VEC3},
-        ]);
+            {label: "Value", key: "COLOR_RGB", type: DATA_TYPES.VEC3},
+        ])
 
-        this.name = 'RGB'
+        this.name = "RGB"
     }
 
     get type() {
@@ -35,7 +35,7 @@ export default class RGB extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance(index, uniforms, uniformData) {
@@ -66,7 +66,7 @@ export default class RGB extends Node {
     }
 
     getFunctionCall(_, index) {
-        this.COLOR_RGB = 'COLOR_RGB' + index
-        return ''
+        this.COLOR_RGB = "COLOR_RGB" + index
+        return ""
     }
 }

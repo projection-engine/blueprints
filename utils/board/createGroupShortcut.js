@@ -6,23 +6,23 @@ export default function createGroupShortcut(hook) {
         smallestY,
         width = 0,
         height = 0,
-         biggestX,
-         biggestY
+        biggestX,
+        biggestY
 
     const nodesG = hook.selected.map(h => document.getElementById(h)?.parentNode).filter(n => n)
     nodesG
         .forEach(n => {
             const transformation = n
-                .getAttribute('transform')
-                .replace('translate(', '')
-                .replace(')', '')
-                .split(' ')
+                .getAttribute("transform")
+                .replace("translate(", "")
+                .replace(")", "")
+                .split(" ")
 
 
             const cX = parseFloat(transformation[0])
             const cY = parseFloat(transformation[1])
-            const cW = parseFloat(n.firstChild.style.width.replace('px', ''))
-            const cH = parseFloat(n.firstChild.style.height.replace('px', ''))
+            const cW = parseFloat(n.firstChild.style.width.replace("px", ""))
+            const cH = parseFloat(n.firstChild.style.height.replace("px", ""))
             if (!smallestX || cX < smallestX)
                 smallestX = cX
             if (!smallestY || cY < smallestY)
@@ -48,7 +48,7 @@ export default function createGroupShortcut(hook) {
 
     hook.setGroups(prev => {
         return [...prev, {
-            name: 'New comment',
+            name: "New comment",
             id: uuidv4(),
             x: smallestX,
             y: smallestY,

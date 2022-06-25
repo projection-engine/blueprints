@@ -6,13 +6,13 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class Divide extends Node {
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [DATA_TYPES.FLOAT, DATA_TYPES.INT, DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2 ]},
-            {label: 'B', key: 'b', accept: [DATA_TYPES.FLOAT, DATA_TYPES.INT, DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2 ] }
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT, DATA_TYPES.INT, DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2 ]},
+            {label: "B", key: "b", accept: [DATA_TYPES.FLOAT, DATA_TYPES.INT, DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2 ] }
         ], [
-            {label: 'Result', key: 'divideRes', type: DATA_TYPES.UNDEFINED}
-        ]);
+            {label: "Result", key: "divideRes", type: DATA_TYPES.UNDEFINED}
+        ])
         this.equalTypeInputs = true
-        this.name = 'Divide'
+        this.name = "Divide"
         this.size = 2
     }
 
@@ -21,16 +21,16 @@ export default class Divide extends Node {
     }
 
 
-     getFunctionInstance() {
-        return ''
+    getFunctionInstance() {
+        return ""
     }
 
     async  getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall({a,b}, index) {
-        this.divideRes = 'divideRes' + index
+        this.divideRes = "divideRes" + index
         if(b && a)
             return `${a.type} ${this.divideRes} = ${a.name} / ${b.name};`
         else

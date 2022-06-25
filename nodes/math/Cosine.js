@@ -6,12 +6,12 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class Cosine extends Node {
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [DATA_TYPES.FLOAT]}
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]}
         ], [
-            {label: 'Result', key: 'cosRes', type: DATA_TYPES.FLOAT}
-        ]);
+            {label: "Result", key: "cosRes", type: DATA_TYPES.FLOAT}
+        ])
         this.equalTypeInputs = true
-        this.name = 'Cosine'
+        this.name = "Cosine"
         this.size = 2
     }
 
@@ -21,15 +21,15 @@ export default class Cosine extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async  getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall({a}, index) {
-        this.cosRes = 'cosRes' + index
+        this.cosRes = "cosRes" + index
 
         if(a)
             return `float ${this.cosRes} = cos(${a.name});`

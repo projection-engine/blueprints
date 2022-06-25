@@ -11,20 +11,20 @@ export default class Vec2 extends Node {
     constructor() {
         super([
             {
-                label: 'As uniform',
-                key: 'uniform',
+                label: "As uniform",
+                key: "uniform",
                 type: DATA_TYPES.OPTIONS,
                 options: [
-                    {label: 'Yes', data: true},
-                    {label: 'No', data: false}
+                    {label: "Yes", data: true},
+                    {label: "No", data: false}
                 ]
             },
-            {label: 'Vector', key: 'v', type: DATA_TYPES.VEC2},
+            {label: "Vector", key: "v", type: DATA_TYPES.VEC2},
         ], [
-            {label: 'Value', key: 'VEC2_VAR', type: DATA_TYPES.VEC2},
-        ]);
+            {label: "Value", key: "VEC2_VAR", type: DATA_TYPES.VEC2},
+        ])
 
-        this.name = 'Vec2'
+        this.name = "Vec2"
         this.size = 2
     }
 
@@ -36,7 +36,7 @@ export default class Vec2 extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance(index, uniforms, uniformData) {
@@ -64,7 +64,7 @@ export default class Vec2 extends Node {
     }
 
     getFunctionCall(_, index) {
-        this.VEC2_VAR = 'VEC2_VAR' + index
-        return ''
+        this.VEC2_VAR = "VEC2_VAR" + index
+        return ""
     }
 }

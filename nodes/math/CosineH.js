@@ -6,12 +6,12 @@ import NODE_TYPES from "../../templates/NODE_TYPES"
 export default class CosineH extends Node {
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [DATA_TYPES.FLOAT]}
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]}
         ], [
-            {label: 'Result', key: 'cosHRes', type: DATA_TYPES.FLOAT}
-        ]);
+            {label: "Result", key: "cosHRes", type: DATA_TYPES.FLOAT}
+        ])
         this.equalTypeInputs = true
-        this.name = 'CosineH'
+        this.name = "CosineH"
         this.size = 2
     }
 
@@ -21,15 +21,15 @@ export default class CosineH extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async  getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall({a}, index) {
-        this.cosHRes = 'cosHRes' + index
+        this.cosHRes = "cosHRes" + index
 
         if(a)
             return `float ${this.cosHRes} = cosh(${a.name});`

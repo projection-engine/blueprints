@@ -7,10 +7,10 @@ export default class CameraCoords extends Node {
 
     constructor() {
         super([], [
-            {label: 'Coordinates', key: 'cameraVec', type: DATA_TYPES.VEC3}
-        ]);
+            {label: "Coordinates", key: "cameraVec", type: DATA_TYPES.VEC3}
+        ])
 
-        this.name = 'CameraCoords'
+        this.name = "CameraCoords"
         this.size = 2
     }
 
@@ -19,14 +19,14 @@ export default class CameraCoords extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance() {
-        return ''
+        return ""
     }
     getFunctionCall() {
-        this.cameraVec = 'cameraVec'
-        return ''
+        this.cameraVec = "cameraVec"
+        return ""
     }
 }

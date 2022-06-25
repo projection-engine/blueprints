@@ -7,10 +7,10 @@ export default class AbsoluteWorldPosition extends Node {
 
     constructor() {
         super([], [
-            {label: 'Coordinates', key: 'vPosition', type: DATA_TYPES.VEC4}
-        ]);
+            {label: "Coordinates", key: "vPosition", type: DATA_TYPES.VEC4}
+        ])
 
-        this.name = 'AbsoluteWorldPosition'
+        this.name = "AbsoluteWorldPosition"
         this.size = 2
     }
 
@@ -19,15 +19,15 @@ export default class AbsoluteWorldPosition extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall( ) {
-        this.vPosition = 'vPosition'
-        return ''
+        this.vPosition = "vPosition"
+        return ""
     }
 }

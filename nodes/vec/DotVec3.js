@@ -7,13 +7,13 @@ export default class DotVec3 extends Node {
 
     constructor() {
         super([
-            {label: 'A', key: 'a', accept: [DATA_TYPES.VEC3]},
-            {label: 'B', key: 'b', accept: [DATA_TYPES.VEC3]},
+            {label: "A", key: "a", accept: [DATA_TYPES.VEC3]},
+            {label: "B", key: "b", accept: [DATA_TYPES.VEC3]},
         ], [
-            {label: 'Result', key: 'resDot', type: DATA_TYPES.FLOAT}
-        ]);
+            {label: "Result", key: "resDot", type: DATA_TYPES.FLOAT}
+        ])
 
-        this.name = 'DotVec3'
+        this.name = "DotVec3"
         this.size = 2
     }
 
@@ -23,15 +23,15 @@ export default class DotVec3 extends Node {
 
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance() {
-        return ''
+        return ""
     }
 
     getFunctionCall({a, b}, index) {
-        this.resDot = 'resDot' + index
+        this.resDot = "resDot" + index
         if (b && a)
             return `float ${this.resDot} = dot(${a.name}, ${b.name});`
         else

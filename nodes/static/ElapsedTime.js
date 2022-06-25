@@ -7,10 +7,10 @@ export default class ElapsedTime extends Node {
 
     constructor() {
         super([], [
-            {label: 'Elapsed', key: 'elapsedTime', type: DATA_TYPES.FLOAT}
-        ]);
+            {label: "Elapsed", key: "elapsedTime", type: DATA_TYPES.FLOAT}
+        ])
 
-        this.name = 'ElapsedTime'
+        this.name = "ElapsedTime"
         this.size = 2
     }
 
@@ -19,14 +19,14 @@ export default class ElapsedTime extends Node {
     }
 
     getFunctionInstance() {
-        return ''
+        return ""
     }
 
     async getInputInstance() {
-        return ''
+        return ""
     }
     getFunctionCall() {
-        this.elapsedTime = 'elapsedTime'
-        return ''
+        this.elapsedTime = "elapsedTime"
+        return ""
     }
 }
