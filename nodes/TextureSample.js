@@ -96,7 +96,6 @@ export default class TextureSample extends Node {
             {label: "Alpha", key: "a", type: DATA_TYPES.FLOAT, color: "white", disabled: true}
         ])
         this.inputs.find(i => i.key === "texture").onChange = (v) => {
-            console.log(v)
             if(!v || Object.keys(v).length === 0)
                 this.output = this.output.map(o => {
                     o.disabled = true

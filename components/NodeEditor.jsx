@@ -63,7 +63,6 @@ export default function NodeEditor(props) {
                     const classLocation = n.findIndex(e => e.id === selected.id)
                     const clone = cloneClass(prev[classLocation])
                     clone[attr.key] = event
-                    console.log(clone, event)
                     const input = clone.inputs.find(i => i.key === attr.key)
 
                     if (input.onChange)
@@ -173,7 +172,6 @@ export default function NodeEditor(props) {
                 <Selector
                     type={"image"}
                     handleChange={(src) => {
-                        console.log(src)
                         props.hook.setChanged(true)
                         props.hook.setImpactingChange(true)
 
