@@ -19,14 +19,13 @@ const TRIGGERS = [
     "data-group"
 ]
 export default function Board(props) {
-    const {scale, setScale} = props
+    const {scale, setScale, grid} = props
     const {
         links,
         ref,
         handleLink
     } = useBoard(props.hook, scale, setScale)
     const handleDropNode = (dataToPush, e) => {
-
         const doIt=  (n, e) => {
             if (n.unique && !props.hook.nodes.find(node => node.constructor.name === n.constructor.name) || !n.unique) {
                 const bounding = {
@@ -61,6 +60,7 @@ export default function Board(props) {
             })
         }
     }
+
     const boardOptions = useMemo(() => {
         return getBoardOptions(
             (n, mouseInfo) => handleDropNode(n, mouseInfo),
@@ -101,21 +101,23 @@ export default function Board(props) {
                 return copy
             })
     }
-
-    const coords = useRef({clientX: 0, clientY: 0})
     useContextTarget(
         {ref: ref.current},
         boardOptions,
         TRIGGERS
     )
+
     return (
         <OnDragProvider.Provider value={{setDragType, dragType}}>
             <div
                 style={{display: props.hide ? "none" : undefined}}
                 className={styles.context}
             >
-                <SelectBox nodes={[...props.hook.groups, ...props.hook.nodes]} selected={props.selected}
-                    setSelected={props.setSelected}/>
+                <SelectBox
+                    nodes={[...props.hook.groups, ...props.hook.nodes]}
+                    selected={props.selected}
+                    setSelected={props.setSelected}
+                />
                 <svg
                     onDragOver={e => e.preventDefault()}
                     data-board={"BOARD"}
@@ -129,7 +131,6 @@ export default function Board(props) {
                     onDrop={e => {
                         e.preventDefault()
                         let allow = true, newEntities
-
                         if (props.onDrop) {
                             const res = props.onDrop(e)
                             allow = res.allow
@@ -144,38 +145,33 @@ export default function Board(props) {
                     ref={ref}
                     className={[styles.wrapper, styles.background].join(" ")}
                     onMouseDown={e => {
-                        if (e.button === 2) {
+                        if (e.button === 2)
                             handleBoardScroll(ref.current.parentNode, e)
-                            coords.current = {clientX: e.clientX, clientY: e.clientY }
-                        }
-
                         if (e.target === ref.current) {
                             props.setSelected([])
                             if (props.onEmptyClick)
                                 props.onEmptyClick()
                         }
-
                     }}
                 >
-                    {props.hook.groups?.map(group => (
-                        <React.Fragment key={group.id}>
+                    {props.hook.groups?.map(node => (
+                        <React.Fragment key={node.id}>
                             <Group
-                                setSelected={(i) => {
-                                    props.setSelected([i])
-                                }}
+                                setSelected={(i) => props.setSelected([i])}
                                 submitName={newName => {
                                     props.hook.setGroups(prev => {
                                         return prev.map(p => {
-                                            if (p.id === group.id)
+                                            if (p.id === node.id)
                                                 p.name = newName
 
                                             return p
                                         })
                                     })
                                 }}
+                                grid={grid}
                                 onDragStart={() => props.hook.setChanged(true)}
                                 selected={props.selected}
-                                group={group}
+                                node={node}
                                 scale={scale}
                             />
                         </React.Fragment>
@@ -199,6 +195,7 @@ export default function Board(props) {
                     {props.hook.nodes.map(node => (
                         <React.Fragment key={node.id}>
                             <Node
+                                grid={grid}
                                 links={links} path={window.fileSystem.path}
                                 hidden={props.hide}
                                 submitBundledVariable={(key, value) => {
@@ -230,6 +227,8 @@ export default function Board(props) {
     )
 }
 Board.propTypes = {
+    grid: PropTypes.number.isRequired,
+
     id: PropTypes.any,
     onDrop: PropTypes.func,
     allNodes: PropTypes.arrayOf(PropTypes.shape({

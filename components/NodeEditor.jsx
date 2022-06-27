@@ -215,7 +215,7 @@ export default function NodeEditor(props) {
                         props.hook.setImpactingChange(true)
                         submitNodeVariable(!selected[obj.key], true, obj)
                     }}
-                    height={"35px"}
+                    height={"25px"}
                     noMargin={true}
                 />
             )
@@ -227,8 +227,8 @@ export default function NodeEditor(props) {
 
 
     return (
-        <div className={styles.wrapper} style={{width: "250px"}}>
-            <div className={styles.form}>
+        <div className={styles.contentWrapper}>
+            <div className={styles.wrapper}>
                 {selected instanceof Float ?
                     <TextField
                         value={selected.name} width={"100%"}

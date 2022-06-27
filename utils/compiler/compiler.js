@@ -1,10 +1,8 @@
 import cloneClass from "../../../../engine/utils/cloneClass"
-
 import NODE_TYPES from "../../templates/NODE_TYPES"
 import deferredTemplate from "./deferredTemplate"
 import forwardTemplate from "./forwardTemplate"
 import resolveStructure from "./resolveStructure"
-import TextureSample from "../../nodes/TextureSample"
 import {vertex} from "../../../../engine/shaders/mesh/FALLBACK.glsl"
 import MATERIAL_RENDERING_TYPES from "../../../../engine/templates/MATERIAL_RENDERING_TYPES"
 import unlitTemplate from "./unlitTemplate"
@@ -27,7 +25,7 @@ export default async function compiler(n, links) {
         return n.type === NODE_TYPES.OUTPUT
     })
     if (startPoint) {
-        const samplers = n.filter(e => e instanceof TextureSample), uniformNodes = n.filter(e => e.uniform)
+        const samplers = n.filter(e => typeof e.format === "object"), uniformNodes = n.filter(e => e.uniform)
         const {
             code,
             uniforms,
@@ -109,7 +107,7 @@ async function compileFrag(n, links,  shadingType, discardedLinks=["worldOffset"
     typesInstantiated = {}
     await Promise.all(nodes.map((n, i) => new Promise(async resolve => {
         if (typeof n.getInputInstance === "function" && !typesInstantiated[n.id]) {
-            const res = await n.getInputInstance(i, uniforms, uniformData, window.fileSystem)
+            const res = await n.getInputInstance(i, uniforms, uniformData)
             toJoin.push(res)
             resolve()
             typesInstantiated[n.id] = true

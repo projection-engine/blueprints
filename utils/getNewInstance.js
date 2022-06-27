@@ -45,6 +45,7 @@ import Normalize from "../nodes/math/Normalize"
 import Reflect from "../nodes/math/Reflect"
 import Refract from "../nodes/math/Refract"
 import Tan from "../nodes/math/Tan"
+import EmbeddedTextureSample from "../nodes/EmbeddedTextureSample"
 
 export default function getNewInstance(name) {
 
@@ -144,6 +145,8 @@ export default function getNewInstance(name) {
         return new Pow()
     case MakeVector.name:
         return new MakeVector()
+    case EmbeddedTextureSample.name:
+        return new EmbeddedTextureSample()
     default:
         return null
     }

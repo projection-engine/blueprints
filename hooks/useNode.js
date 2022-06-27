@@ -1,7 +1,15 @@
 import {useEffect, useMemo, useRef, useState} from "react"
 import getBezierCurve from "../utils/board/bezierCurve"
+import NODE_TYPES from "../templates/NODE_TYPES"
+import NODE_INFO from "../templates/NODE_INFO"
+import dragNode from "../utils/dragNode"
 
-export default function useNode(props, selected, hidden) {
+export default function useNode({
+    selected, setSelected, node, hidden, scale, grid,
+    onDragStart,  links
+}) {
+
+    const isSelected = useMemo(() => selected.indexOf(node.id) > -1, [selected])
     const ref = useRef()
     const pathRef = useRef()
 
@@ -22,124 +30,72 @@ export default function useNode(props, selected, hidden) {
 
         const curve = getBezierCurve(
             {
-                x: (bBox.x + bounding.x + 7.5) / props.scale,
-                y: (bBox.y + bounding.y + 7.5) / props.scale
+                x: (bBox.x + bounding.x + 7.5) / scale,
+                y: (bBox.y + bounding.y + 7.5) / scale
             },
             {
-                x1: (event.clientX + bounding.x + 7.5) / props.scale,
-                y1: (event.clientY + bounding.y + 7.5) / props.scale
+                x1: (event.clientX + bounding.x + 7.5) / scale,
+                y1: (event.clientY + bounding.y + 7.5) / scale
             })
 
         pathRef.current?.setAttribute("d", curve)
     }
 
-
-    let lastPlacement = {
-        x: 0,
-        y: 0
-    }
+ 
     const handleDragStart = (event) => {
         let isFirst, alreadyFound = false
         document.elementsFromPoint(event.clientX, event.clientY)
             .forEach(e => {
-                if (e.id?.includes("-node") && !alreadyFound && e.id === (props.node.id + "-node"))
+                if (e.id?.includes("-node") && !alreadyFound && e.id === (node.id + "-node"))
                     isFirst = true
                 else if (e.id?.includes("-node") && !alreadyFound)
                     alreadyFound = true
             })
 
-        if (event.button === 0 && isFirst && !selected)
-            props.setSelected(props.node.id, event.ctrlKey)
-        if (event.button === 0 && ((selected && event.ctrlKey) || isFirst)) {
+        if (event.button === 0 && isFirst && !isSelected)
+            setSelected(node.id, event.ctrlKey)
+        if (event.button === 0 && ((isSelected && event.ctrlKey) || isFirst)) {
             if(isFirst)
-                props.onDragStart()
-            const parent = ref.current?.parentNode.parentNode
-            let parentBBox = parent.getBoundingClientRect()
-            let bounding = {
-                x: parent.scrollLeft - parentBBox.left,
-                y: parent.scrollTop - parentBBox.top
-            }
-            lastPlacement = {
-                x: event.clientX + bounding.x,
-                y: event.clientY + bounding.y
-            }
-            let nodeBbox = ref.current?.getBoundingClientRect()
-            let current = {
-                x: (nodeBbox.left + bounding.x) / props.scale,
-                y: (nodeBbox.top + bounding.y) / props.scale
-            }
-
-            const handleMouseMove = (ev) => {
-                parentBBox = parent.getBoundingClientRect()
-                bounding = {
-                    x: parent.scrollLeft - parentBBox.left,
-                    y: parent.scrollTop - parentBBox.top
-                }
-                const mousePlacement = {
-                    x: ev.clientX + bounding.x,
-                    y: ev.clientY + bounding.y
-                }
-                const toBeApplied = {
-                    x: lastPlacement.x - mousePlacement.x,
-                    y: lastPlacement.y - mousePlacement.y
-                }
-
-                lastPlacement = mousePlacement
-                nodeBbox = ref.current?.getBoundingClientRect()
-                if (nodeBbox) {
-                    current = {
-                        x: ((nodeBbox.left + bounding.x) - toBeApplied.x) / props.scale,
-                        y: ((nodeBbox.top + bounding.y) - toBeApplied.y) / props.scale
-                    }
-
-
-
-                    ref.current?.setAttribute("transform", `translate(${current.x} ${current.y})`)
-                }
-            }
-
-            const handleMouseUp = () => {
-
-                const bBox = ref.current.getBoundingClientRect()
-                let fixedPlacement = current
-                if (bBox.top - parentBBox.top < 0)
-                    fixedPlacement.y = 0
-                if (bBox.left - parentBBox.left < 0)
-                    fixedPlacement.x = 0
-
-                if (bBox.top - parentBBox.top > parentBBox.height)
-                    fixedPlacement.y = parentBBox.height - bBox.height
-                if (bBox.left - parentBBox.left > parentBBox.width)
-                    fixedPlacement.x = parentBBox.width - bBox.width
-
-                ref.current?.setAttribute("transform", `translate(${fixedPlacement.x} ${fixedPlacement.y})`)
-
-                document.removeEventListener("mousemove", handleMouseMove)
-            }
-            document.addEventListener("mousemove", handleMouseMove)
-            document.addEventListener("mouseup", handleMouseUp, {once: true})
+                onDragStart()
+            dragNode(event, ref.current, ref.current.parentNode.parentNode, grid, scale)
         }
-
     }
 
-    const outputLinks = useMemo(() => {
-        return props.links.filter(l => {
-            return l.source.includes(props.node.id)
-        })
-    }, [props.links])
+    const outputLinks = useMemo(() => links.filter(l => l.source.includes(node.id)), [links])
+    const inputLinks = useMemo(() => links.filter(l => l.target.includes(node.id)), [links])
 
-    const inputLinks = useMemo(() => {
-        return props.links.filter(l => {
-            return l.target.includes(props.node.id)
-        })
-    }, [props.links])
+    useEffect(() => {
+        document.addEventListener("mousedown", handleDragStart)
+        return () => document.removeEventListener("mousedown", handleDragStart)
+    }, [node,  selected, isSelected, scale, grid])
+
+
+    const nodeInfo = useMemo(() => {
+        let key = (Object.entries(NODE_TYPES).find(([, value]) => value === node.type))
+        if (key)
+            key = key[0]
+
+        return NODE_INFO[key] ? NODE_INFO[key] : {}
+
+    }, [])
+
+    const width = useMemo(() => {
+        switch (node.size){
+        case 0:
+            return "225px"
+        case 1:
+            return "150px"
+        default:
+            return "135px"
+        }
+    }, [])
 
     return {
+        nodeInfo, width,
+        selected: isSelected,
         outputLinks,
         inputLinks,
-
         ref,
-        handleDragStart,
         handleLinkDrag,
         height,
         pathRef

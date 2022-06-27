@@ -18,6 +18,7 @@ import Header from "../../../components/view/components/Header"
 import {Button, Dropdown, DropdownOption, DropdownOptions, Icon} from "@f-ui/core"
 import QuickAccessProvider from "../../providers/QuickAccessProvider"
 import COMPONENTS from "../../engine/templates/COMPONENTS"
+import BoardSettings from "./components/BoardSettings"
 
 async function save(hook, submitPackage, registryID, currentMaterial){
     const response = await Make(
@@ -56,6 +57,10 @@ export default function ShaderEditor(props) {
         return materials.find(m => m.id === openFile.registryID)
     }, [materials, openFile.registryID])
 
+    useEffect(() => {
+        if(Object.values(openFile).length === 0 && quickAccess.materials[0])
+            setOpenFile(quickAccess.materials[0])
+    }, [])
     const internalID=  useId()
 
     return (
@@ -101,10 +106,7 @@ export default function ShaderEditor(props) {
                     </Button>
                 </div>
             </Header>
-            {props.hidden ?
-                null :
-                <Editor currentMaterial={currentMaterial} hook={hook} submitPackage={submitPackage} registryID={openFile.registryID} materials={materials} setMaterials={setMaterials}/>
-            }
+            {props.hidden ? null : <Editor currentMaterial={currentMaterial} hook={hook} submitPackage={submitPackage} registryID={openFile.registryID} materials={materials} setMaterials={setMaterials}/>}
         </>
     )
 }
@@ -123,7 +125,7 @@ function Editor(props){
     const internalID = useId()
     const [openSideBar, setOpenSideBar] = useState(true)
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof ShaderEditor), [hook.nodes])
-
+    const [grid, setGrid] = useState(1)
     const init = useRef(false)
 
     useEffect(() => {
@@ -158,6 +160,7 @@ function Editor(props){
             <ResizableBar type={"width"}/>
             <div className={styles.boardAvailable}>
                 <Board
+                    grid={grid}
                     scale={hook.scale} setScale={hook.setScale}
                     allNodes={allNodes}
                     hook={hook}
@@ -169,6 +172,17 @@ function Editor(props){
                     open={openSideBar}
                     setOpen={setOpenSideBar}
                     tabs={[
+                        {
+                            label: "Board",
+                            content: (
+                                <BoardSettings
+                                    setScale={hook.setScale}
+                                    scale={hook.scale}
+                                    setGrid={setGrid}
+                                    grid={grid}
+                                />
+                            )
+                        },
                         {
                             label: "Node",
                             content: (

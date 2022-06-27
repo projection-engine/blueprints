@@ -9,47 +9,15 @@ import NODE_INFO from "../templates/NODE_INFO"
 import {Icon} from "@f-ui/core"
 
 export default function Node(props) {
-    const selected = useMemo(() => {
-        return props.selected.indexOf(props.node.id) > -1
-    }, [props.selected])
-
     const {
-        ref,
-        handleDragStart,
-        handleLinkDrag,
-        height,
-        pathRef,
-        outputLinks,
-        inputLinks
-    } = useNode(props, selected, props.hidden)
+        nodeInfo, width,
+        ref, handleLinkDrag,
+        height, pathRef,
+        outputLinks, inputLinks,
+        selected
+    } = useNode(props)
 
 
-    useEffect(() => {
-        document.addEventListener("mousedown", handleDragStart)
-        return () => {
-            document.removeEventListener("mousedown", handleDragStart)
-        }
-    }, [props.node, props.selected, selected, props.scale])
-
-    const nodeInfo = useMemo(() => {
-        let key = (Object.entries(NODE_TYPES).find(([, value]) => value === props.node.type))
-        if (key)
-            key = key[0]
-
-        return NODE_INFO[key] ? NODE_INFO[key] : {}
-
-    }, [])
-
-    const width = useMemo(() => {
-        switch (props.node.size){
-        case 0:
-            return "225px"
-        case 1:
-            return "150px"
-        case 2:
-            return "135px"
-        }
-    }, [])
     return (
         <g>
             <g
@@ -135,6 +103,7 @@ export default function Node(props) {
     )
 }
 Node.propTypes = {
+    grid: PropTypes.number,
     submitBundledVariable: PropTypes.func,
     links: PropTypes.array,
     node: PropTypes.object.isRequired,
