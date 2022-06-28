@@ -6,7 +6,7 @@ import ResizableBar from "../../../components/resizable/ResizableBar"
 import Available from "./components/Available"
 import NodeEditor from "./components/NodeEditor"
 import {allNodes} from "./utils/AllNodes"
-import useMaterialView from "./hooks/useMaterialView"
+import useShaderEditor from "./hooks/useShaderEditor"
 import CompilationStatus from "./components/CompilationStatus"
 import compileShaders from "./utils/compileShaders"
 import useShortcuts from "./hooks/useShortcuts"
@@ -35,7 +35,7 @@ async function save(hook, submitPackage, registryID, currentMaterial){
 }
 export default function ShaderEditor(props) {
     const [openFile, setOpenFile] = useState({})
-    const hook = useMaterialView(openFile)
+    const hook = useShaderEditor(openFile)
     const {
         selectedEntity,
         materials,

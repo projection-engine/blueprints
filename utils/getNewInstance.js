@@ -146,7 +146,7 @@ export default function getNewInstance(name) {
     case MakeVector.name:
         return new MakeVector()
     case EmbeddedTextureSample.name:
-        return new EmbeddedTextureSample()
+        return new TextureSample()
     default:
         return null
     }
