@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import React, {useMemo, useRef, useState} from "react"
+import React, {useMemo, useState} from "react"
 import Node from "./Node"
 import styles from "../styles/Board.module.css"
 import handleDropBoard from "../utils/board/handleDropBoard"

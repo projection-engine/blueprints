@@ -1,11 +1,9 @@
 import PropTypes from "prop-types"
 import styles from "../styles/Node.module.css"
-import React, {useEffect, useMemo} from "react"
+import React from "react"
 import useNode from "../hooks/useNode"
 import NodeIO from "./NodeIO"
 import NodeShowcase from "./NodeShowcase"
-import NODE_TYPES from "../templates/NODE_TYPES"
-import NODE_INFO from "../templates/NODE_INFO"
 import {Icon} from "@f-ui/core"
 
 export default function Node(props) {

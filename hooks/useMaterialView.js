@@ -62,6 +62,7 @@ async function parse(file, setNodes, setLinks, images) {
     const res = await window.fileSystem.readRegistryFile(file.registryID)
     if (res) {
         const file = await window.fileSystem.readFile(window.fileSystem.path + FileSystem.sep + "assets" + FileSystem.sep + res.path, "json")
+        console.log(file)
         if (file && Object.keys(file).length > 0) {
             const newNodes = file.nodes.map(f => {
                 const i = getNewInstance(f.instance)

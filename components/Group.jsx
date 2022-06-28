@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import styles from "../styles/Group.module.css"
-import React, {useEffect, useMemo, useState} from "react"
+import React, {useMemo, useState} from "react"
 import useGroup from "../hooks/useGroup"
 import KEYS from "../../../engine/templates/KEYS"
 

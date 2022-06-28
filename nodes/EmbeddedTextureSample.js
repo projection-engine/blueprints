@@ -1,6 +1,7 @@
 import Node from "../templates/Node"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import NODE_TYPES from "../templates/NODE_TYPES"
+
 export const TEXTURE_TYPES = {
     RGB: "RGB",
     RGBA: "RGBA",

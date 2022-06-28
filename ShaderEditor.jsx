@@ -48,7 +48,7 @@ export default function ShaderEditor(props) {
             const mID = selectedEntity.components[COMPONENTS.MATERIAL].materialID
             const found = quickAccess.materials.find(m => m.registryID === mID)
 
-            alert.pushAlert("Editing " + found.name, "info")
+            alert.pushAlert("Editing " + found.name, "warning")
             if(found)
                 setOpenFile(found)
         }
