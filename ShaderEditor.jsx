@@ -1,6 +1,6 @@
 import Board from "./components/Board"
 import styles from "./styles/MaterialView.module.css"
-import React, {useContext, useEffect, useId, useMemo, useRef, useState} from "react"
+import React, {useContext, useEffect, useId, useMemo, useState} from "react"
 import PropTypes from "prop-types"
 import ResizableBar from "../../../components/resizable/ResizableBar"
 import Available from "./components/Available"
@@ -48,7 +48,7 @@ export default function ShaderEditor(props) {
             const mID = selectedEntity.components[COMPONENTS.MATERIAL].materialID
             const found = quickAccess.materials.find(m => m.registryID === mID)
 
-            alert.pushAlert("Editing " + found.name, "warning")
+            alert.pushAlert("Editing " + found.name, "info")
             if(found)
                 setOpenFile(found)
         }
@@ -121,33 +121,17 @@ ShaderEditor.propTypes={
 
 
 function Editor(props){
-    const {currentMaterial, hook, submitPackage, registryID, materials, setMaterials} = props
+    const {currentMaterial, hook, submitPackage, registryID} = props
     const internalID = useId()
     const [openSideBar, setOpenSideBar] = useState(true)
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof ShaderEditor), [hook.nodes])
     const [grid, setGrid] = useState(1)
-    const init = useRef(false)
 
-    useEffect(() => {
-        if (hook.realTime && (!init.current && hook.links.length > 0 || hook.impactingChange)) {
-            compileShaders(hook,  currentMaterial, (newMat) => {
-                setMaterials(prev => {
-                    return [...prev].map(m => {
-                        if(m.id === registryID)
-                            return newMat
-                        return m
-                    })
-                })
-            }).catch()
-            init.current = true
-        }
-    }, [hook.impactingChange, hook.links, materials, hook.realTime])
     useShortcuts(
         hook,
         () => save(hook, submitPackage, registryID, currentMaterial).catch(),
         internalID
     )
-
 
     return (
         <div className={styles.wrapper} id={internalID}>

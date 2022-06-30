@@ -24,7 +24,6 @@ export default function useShaderEditor(file) {
     } = useFlow()
     const [status, setStatus] = useState({})
     const [scale, setScale] = useState(1)
-    const [realTime, setRealTime] = useState(1)
 
     const {images} = useContext(QuickAccessProvider)
 
@@ -40,7 +39,6 @@ export default function useShaderEditor(file) {
     }, [file])
 
     return {
-        realTime, setRealTime,
         scale, setScale,
         status, setStatus,
         impactingChange,
