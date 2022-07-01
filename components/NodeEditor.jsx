@@ -274,7 +274,7 @@ export default function NodeEditor(props) {
 }
 
 NodeEditor.propTypes = {
-    material: PropTypes.object.isRequired,
+    material: PropTypes.object,
     selected: PropTypes.string,
     hook: PropTypes.object
 }
