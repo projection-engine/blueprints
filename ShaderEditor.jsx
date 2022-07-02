@@ -42,11 +42,11 @@ export default function ShaderEditor(props) {
         setMaterials,
         submitPackage
     } = useContext(BlueprintProvider)
-    const quickAccess = useContext(QuickAccessProvider)
+    const {materials: quickAccessMaterials} = useContext(QuickAccessProvider)
     useEffect(() => {
         if(selectedEntity && selectedEntity.components[COMPONENTS.MATERIAL] && !openFile.registryID){
             const mID = selectedEntity.components[COMPONENTS.MATERIAL].materialID
-            const found = quickAccess.materials.find(m => m.registryID === mID)
+            const found = quickAccessMaterials.find(m => m.registryID === mID)
 
             alert.pushAlert("Editing " + found.name, "info")
             if(found)
@@ -58,8 +58,8 @@ export default function ShaderEditor(props) {
     }, [materials, openFile.registryID])
 
     useEffect(() => {
-        if(Object.values(openFile).length === 0 && quickAccess.materials[0])
-            setOpenFile(quickAccess.materials[0])
+        if(Object.values(openFile).length === 0 && quickAccessMaterials[0])
+            setOpenFile(quickAccessMaterials[0])
     }, [])
     const internalID=  useId()
 
@@ -67,11 +67,11 @@ export default function ShaderEditor(props) {
         <>
             <Header {...props} title={"Shader Editor"} icon={"texture"} orientation={"horizontal"}>
                 <div className={styles.options}>
-                    <Dropdown className={styles.button} variant={"outlined"} styles={{marginRight: "16px"}}>
+                    <Dropdown className={styles.button} disabled={quickAccessMaterials.length === 0} variant={"outlined"} styles={{marginRight: "16px"}}>
                         <div className={styles.icon}/>
                         {openFile.name ? openFile.name : ""}
                         <DropdownOptions>
-                            {quickAccess.materials.map((m, i) => (
+                            {quickAccessMaterials.map((m, i) => (
                                 <React.Fragment key={internalID + "-material-" + i}>
                                     <DropdownOption option={{
                                         label: m.name,
@@ -145,7 +145,8 @@ function Editor(props){
             <div className={styles.boardAvailable}>
                 <Board
                     grid={grid}
-                    scale={hook.scale} setScale={hook.setScale}
+                    scale={hook.scale}
+                    setScale={hook.setScale}
                     allNodes={allNodes}
                     hook={hook}
                     selected={hook.selected}
