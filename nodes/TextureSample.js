@@ -1,8 +1,8 @@
 import Node from "../templates/Node"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import NODE_TYPES from "../templates/NODE_TYPES"
-import ImageProcessor from "../../../engine/utils/image/ImageProcessor"
 import FileSystem from "../../../utils/files/FileSystem"
+import IMAGE_WORKER_ACTIONS from "../../../engine/templates/IMAGE_WORKER_ACTIONS"
 
 export const TEXTURE_TYPES = {
     RGB: "RGB",
@@ -143,7 +143,12 @@ export default class TextureSample extends Node {
                 } else
                     uniformData.push({
                         key: this.uniformName,
-                        data: await ImageProcessor.colorToImage("rgba(255, 128, 128, 1)", 32),
+                        data: await window.imageWorker(
+                            IMAGE_WORKER_ACTIONS.COLOR_TO_IMAGE,
+                            {
+                                color: "rgba(128, 128, 128, 1)",
+                                resolution: 16
+                            }),
                         type: DATA_TYPES.TEXTURE,
                         format: this.format
                     })
@@ -153,7 +158,12 @@ export default class TextureSample extends Node {
         } else
             uniformData.push({
                 key: this.uniformName,
-                data: await ImageProcessor.colorToImage("rgba(255, 128, 128, 1)", 32),
+                data: await window.imageWorker(
+                    IMAGE_WORKER_ACTIONS.COLOR_TO_IMAGE,
+                    {
+                        color: "rgba(128, 128, 128, 1)",
+                        resolution: 16
+                    }),
                 type: DATA_TYPES.TEXTURE,
                 format: this.format
             })

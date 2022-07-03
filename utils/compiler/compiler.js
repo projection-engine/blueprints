@@ -20,6 +20,7 @@ function getShadingTemplate(type) {
 
 export default async function compiler(n, links) {
     let nodes = n.map(nn => cloneClass(nn))
+    console.log(nodes, links)
 
     const startPoint = nodes.find(n => {
         return n.type === NODE_TYPES.OUTPUT
