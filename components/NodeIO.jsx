@@ -3,8 +3,6 @@ import PropTypes from "prop-types"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import React, {useContext, useMemo, useRef} from "react"
 import OnDragProvider from "../hooks/DragProvider"
-
-import EmbeddedInput from "./EmbeddedInput"
 import {Icon} from "@f-ui/core"
 
 export default function NodeIO(props) {
@@ -85,9 +83,9 @@ export default function NodeIO(props) {
                             if (props.type === "input")
                                 asInput(e)
                             else
-                                alert.pushAlert( 
-                                    "error",
-                                    "Can't link with output."
+                                alert.pushAlert(
+                                    "Can't link with output.",
+                                    "error"
                                 )
                         }
                     }}
@@ -130,10 +128,6 @@ export default function NodeIO(props) {
                                 {props.data.label}
                             </div>
                         )}
-                        <EmbeddedInput
-                            canRender={props.data.bundled && !isLinked}
-                            type={props.type} node={props.node}
-                            data={props.data} submit={props.submitBundledVariable}/>
                     </div>
                 ) : null}
             </div>
