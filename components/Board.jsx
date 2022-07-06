@@ -122,7 +122,6 @@ export default function Board(props) {
                     onDragOver={e => e.preventDefault()}
                     data-board={"BOARD"}
                     style={{
-                        transform: `scale(${scale})`,
                         transformOrigin: "top left",
                         height: "10000px",
                         width: "10000px",

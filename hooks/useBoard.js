@@ -3,53 +3,61 @@ import getBezierCurve from "../utils/board/bezierCurve"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import TYPES_INFO from "../templates/DATA_INFO"
 
-
-export default function useBoard(hook, scale, setScale) {
+const DELAY = 250
+export default function useBoard(hook) {
     const ref = useRef()
+    const [scale, setScale] = useState(1)
+    let currentScale = 1, timeout
     const handleWheel = (e) => {
         e.preventDefault()
-        if (e.wheelDelta > 0 && scale < 3)
-            setScale(scale + scale * .1)
-        else if (e.wheelDelta < 0 && scale >= .5)
-            setScale(scale - scale * .1)
+        if (e.wheelDelta > 0 && currentScale < 3)
+            currentScale += currentScale * .1
+        else if (e.wheelDelta < 0 && currentScale >= .5)
+            currentScale -= currentScale * .1
 
+        ref.current.style.transform = "scale(" + currentScale + ")"
+        console.log(currentScale)
+        clearTimeout(timeout)
+
+        // TODO - SMOOTHER TRANSITION
+        timeout = setTimeout(() => setScale(currentScale), DELAY)
     }
-    const [scrolled, setScrolled] = useState(false)
-    useEffect(() => {
-        let resize
-        if (!scrolled && hook.nodes.length > 0) {
-            resize = new ResizeObserver(() => {
-                let biggestX, biggestY
-                hook.nodes.forEach(n => {
-                    const cX = n.x
-                    const cY = n.y
-
-                    if (!biggestX || cX > biggestX)
-                        biggestX = cX
-                    if (!biggestY || cY > biggestY)
-                        biggestY = cY
-                })
-                if (biggestX)
-                    ref.current.parentNode.scrollLeft = biggestX - ref.current.parentNode.offsetWidth / 2
-
-                if (biggestY)
-                    ref.current.parentNode.scrollTop = biggestY - ref.current.parentNode.offsetHeight / 2
-                setScrolled(true)
-            })
-
-            resize.observe(ref.current.parentNode)
-        }
-        return () => {
-            if (resize)
-                resize.disconnect()
-        }
-    }, [scrolled, hook.nodes])
     useEffect(() => {
         ref.current?.parentNode.addEventListener("wheel", handleWheel, {passive: false})
-        return () => {
-            ref.current?.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
-        }
-    }, [scale])
+        return () => ref.current?.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
+    }, [])
+
+
+    // const [scrolled, setScrolled] = useState(false)
+    // useEffect(() => {
+    //     let resize
+    //     if (!scrolled && hook.nodes.length > 0) {
+    //         resize = new ResizeObserver(() => {
+    //             let biggestX, biggestY
+    //             hook.nodes.forEach(n => {
+    //                 const cX = n.x
+    //                 const cY = n.y
+    //
+    //                 if (!biggestX || cX > biggestX)
+    //                     biggestX = cX
+    //                 if (!biggestY || cY > biggestY)
+    //                     biggestY = cY
+    //             })
+    //             if (biggestX)
+    //                 ref.current.parentNode.scrollLeft = biggestX - ref.current.parentNode.offsetWidth / 2
+    //
+    //             if (biggestY)
+    //                 ref.current.parentNode.scrollTop = biggestY - ref.current.parentNode.offsetHeight / 2
+    //             setScrolled(true)
+    //         })
+    //
+    //         resize.observe(ref.current.parentNode)
+    //     }
+    //     return () => {
+    //         if (resize)
+    //             resize.disconnect()
+    //     }
+    // }, [scrolled, hook.nodes])
 
 
     const handleLink = (src, target, isExecution) => {
