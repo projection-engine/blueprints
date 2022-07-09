@@ -180,20 +180,13 @@ export default function Board(props) {
                         </React.Fragment>
                     ))}
                     {links.map(l => (
-                        <g key={l.target + "-" + l.source} className={styles.link}>
-                            <path
-                                data-link={l.target + "-" + l.source}
-                                fill={"none"}
-                                stroke={l.color}
-                                id={l.target + "-" + l.source}/>
-                            <path
-                                data-link={l.target + "-" + l.source}
-                                fill={"none"}
-                                stroke={"transparent"}
-                                strokeWidth={"10"}
-
-                                id={l.target + "-" + l.source + "-supplementary"}/>
-                        </g>
+                        <path
+                            data-link={l.target + "-" + l.source}
+                            fill={"none"}
+                            stroke={l.color}
+                            key={l.target + "-" + l.source}
+                            id={l.target + "-" + l.source}
+                        />
                     ))}
                     {props.hook.nodes.map(node => (
                         <React.Fragment key={node.id}>

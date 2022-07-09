@@ -30,17 +30,7 @@
   overflow: hidden;
 }
 
-.link > * {
-  transition: opacity 150ms linear, stroke-width 150ms linear;
-  stroke-width: 2;
-  opacity: 0.7;
-  pointer-events: all;
-}
 
-.link:hover > * {
-  opacity: 1;
-  stroke-width: 10 !important;
-}
 
 .label {
   font-weight: 550;

@@ -37,8 +37,7 @@ export default function useBoard(hook) {
                 const {
                     target,
                     source,
-                    linkPath,
-                    supplementary
+                    linkPath
                 } = mappedLinks.current[i]
 
                 if (target && source && linkPath) {
@@ -53,8 +52,7 @@ export default function useBoard(hook) {
                             x1: (targetBBox.x + bounding.x + 7.5) / scale,
                             y1: (targetBBox.y + bounding.y + 7.5) / scale
                         })
-                    if (supplementary.getAttribute("d") !== curve)
-                        supplementary.setAttribute("d", curve)
+
                     if (linkPath.getAttribute("d") !== curve)
                         linkPath.setAttribute("d", curve)
                 }
@@ -112,8 +110,7 @@ export default function useBoard(hook) {
                 return {
                     target: document.getElementById(l.target),
                     source: document.getElementById(l.source),
-                    linkPath,
-                    supplementary: linkPath.nextSibling
+                    linkPath
                 }
             })
         updateLinks()
