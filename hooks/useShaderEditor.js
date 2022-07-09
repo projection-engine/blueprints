@@ -5,6 +5,7 @@ import TextureSample from "../nodes/TextureSample"
 import getNewInstance from "../utils/getNewInstance"
 import FileSystem from "../../../utils/files/FileSystem"
 import QuickAccessProvider from "../../../providers/QuickAccessProvider"
+import BOARD_SIZE from "../templates/BOARD_SIZE"
 
 
 export default function useShaderEditor(file) {
@@ -23,14 +24,11 @@ export default function useShaderEditor(file) {
         setImpactingChange,
     } = useFlow()
     const [status, setStatus] = useState({})
-    const [scale, setScale] = useState(1)
-
     const {images} = useContext(QuickAccessProvider)
 
     useEffect(() => {
         parse(file, (d) => {
             const found = d.find(dd => dd instanceof Material)
-
             if (found)
                 setNodes(d)
             else
@@ -39,7 +37,6 @@ export default function useShaderEditor(file) {
     }, [file])
 
     return {
-        scale, setScale,
         status, setStatus,
         impactingChange,
         setImpactingChange,
@@ -70,6 +67,8 @@ async function parse(file, setNodes, setLinks, images) {
                         else i[o] = f[o]
                     }
                 })
+                i.x = i.x + BOARD_SIZE/2
+                i.y = i.y + BOARD_SIZE/2
                 return i
             }).filter(e => e !== null && e !== undefined)
             setNodes(newNodes)

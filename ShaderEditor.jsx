@@ -145,8 +145,6 @@ function Editor(props){
             <div className={styles.boardAvailable}>
                 <Board
                     grid={grid}
-                    scale={hook.scale}
-                    setScale={hook.setScale}
                     allNodes={allNodes}
                     hook={hook}
                     selected={hook.selected}
@@ -161,8 +159,6 @@ function Editor(props){
                             label: "Board",
                             content: (
                                 <BoardSettings
-                                    setScale={hook.setScale}
-                                    scale={hook.scale}
                                     setGrid={setGrid}
                                     grid={grid}
                                 />

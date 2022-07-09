@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import React, {useMemo, useState} from "react"
+import React, {useEffect, useMemo, useState} from "react"
 import Node from "./Node"
 import styles from "../styles/Board.module.css"
 import handleDropBoard from "../utils/board/handleDropBoard"
@@ -11,6 +11,7 @@ import OnDragProvider from "../hooks/DragProvider"
 import SelectBox from "../../../../components/select-box/SelectBox"
 import Group from "./Group"
 import useContextTarget from "../../../../components/context/hooks/useContextTarget"
+import BOARD_SIZE from "../templates/BOARD_SIZE"
 
 const TRIGGERS = [
     "data-node",
@@ -19,12 +20,16 @@ const TRIGGERS = [
     "data-group"
 ]
 export default function Board(props) {
-    const {scale, setScale, grid} = props
+    const {grid} = props
     const {
         links,
         ref,
         handleLink
-    } = useBoard(props.hook, scale, setScale)
+    } = useBoard(props.hook)
+    useEffect(() => {
+        ref.current.parentNode.scrollTop = BOARD_SIZE/2
+        ref.current.parentNode.scrollLeft = BOARD_SIZE/2
+    }, [])
     const handleDropNode = (dataToPush, e) => {
         const doIt=  (n, e) => {
             if (n.unique && !props.hook.nodes.find(node => node.constructor.name === n.constructor.name) || !n.unique) {
@@ -40,8 +45,8 @@ export default function Board(props) {
                     x: mousePlacement.x,
                     y: mousePlacement.y
                 }
-                n.x = (current.x - 100) / scale
-                n.y = (current.y - 25) / scale
+                n.x = (current.x - 100) /  window.blueprints.scale
+                n.y = (current.y - 25) /  window.blueprints.scale
                 return n
             } else
                 alert.pushAlert( "Cannot add two instances of " + n.name, "error")
@@ -122,9 +127,9 @@ export default function Board(props) {
                     onDragOver={e => e.preventDefault()}
                     data-board={"BOARD"}
                     style={{
-                        transformOrigin: "top left",
-                        height: "10000px",
-                        width: "10000px",
+                        transformOrigin: "center center",
+                        height: BOARD_SIZE + "px",
+                        width:  BOARD_SIZE + "px",
                     }}
                     onContextMenu={e => e.preventDefault()}
                     onDrop={e => {
@@ -145,7 +150,7 @@ export default function Board(props) {
                     className={[styles.wrapper, styles.background].join(" ")}
                     onMouseDown={e => {
                         if (e.button === 2)
-                            handleBoardScroll(ref.current.parentNode, e)
+                            handleBoardScroll(ref.current.parentNode)
                         if (e.target === ref.current) {
                             props.setSelected([])
                             if (props.onEmptyClick)
@@ -171,7 +176,6 @@ export default function Board(props) {
                                 onDragStart={() => props.hook.setChanged(true)}
                                 selected={props.selected}
                                 node={node}
-                                scale={scale}
                             />
                         </React.Fragment>
                     ))}
@@ -216,7 +220,6 @@ export default function Board(props) {
                                 onDragStart={() => props.hook.setChanged(true)}
                                 selected={props.selected}
                                 node={node}
-                                scale={scale}
                                 handleLink={handleLink}/>
                         </React.Fragment>
                     ))}
@@ -241,7 +244,5 @@ Board.propTypes = {
     hook: PropTypes.object,
     selected: PropTypes.arrayOf(PropTypes.string).isRequired,
     setSelected: PropTypes.func,
-    hide: PropTypes.bool,
-    scale: PropTypes.number,
-    setScale: PropTypes.func
+    hide: PropTypes.bool
 }

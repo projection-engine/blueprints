@@ -66,7 +66,6 @@ Group.propTypes = {
     grid: PropTypes.number,
     submitName: PropTypes.func,
     node: PropTypes.object.isRequired,
-    scale: PropTypes.number,
 
     selected: PropTypes.array,
     setSelected: PropTypes.func,

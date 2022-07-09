@@ -3,61 +3,81 @@ import getBezierCurve from "../utils/board/bezierCurve"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import TYPES_INFO from "../templates/DATA_INFO"
 
-const DELAY = 250
 export default function useBoard(hook) {
     const ref = useRef()
-    const [scale, setScale] = useState(1)
-    let currentScale = 1, timeout
+    const mappedLinks = useRef([])
+    const links = useMemo(() => {
+        return hook.links.map(l => {
+            let key = (Object.entries(DATA_TYPES).find(([, value]) => value === l.source.attribute.type))
+            if (key)
+                key = key[0]
+
+            return {
+                target: l.target.id + l.target.attribute.key,
+                source: l.source.id + l.source.attribute.key,
+                targetKey: l.target.attribute.key,
+                sourceKey: l.source.attribute.key,
+                color: TYPES_INFO[key],
+                sourceType: l.source.attribute.type,
+                targetType: l.target.attribute.type
+            }
+        })
+    }, [hook.links])
+
+    const updateLinks = () => {
+        const scale = window.blueprints.scale
+        try {
+            let parentBBox = ref.current?.getBoundingClientRect()
+            const bounding = {
+                x: ref.current?.scrollLeft - parentBBox.left,
+                y: ref.current?.scrollTop - parentBBox.top
+            }
+
+            for (let i = 0; i < mappedLinks.current.length; i++) {
+                const {
+                    target,
+                    source,
+                    linkPath,
+                    supplementary
+                } = mappedLinks.current[i]
+
+                if (target && source && linkPath) {
+                    const sourceBBox = source.getBoundingClientRect(),
+                        targetBBox = target.getBoundingClientRect()
+                    const curve = getBezierCurve(
+                        {
+                            x: (sourceBBox.x + bounding.x + 7.5) / scale,
+                            y: (sourceBBox.y + bounding.y + 7.5) / scale
+                        },
+                        {
+                            x1: (targetBBox.x + bounding.x + 7.5) / scale,
+                            y1: (targetBBox.y + bounding.y + 7.5) / scale
+                        })
+                    if (supplementary.getAttribute("d") !== curve)
+                        supplementary.setAttribute("d", curve)
+                    if (linkPath.getAttribute("d") !== curve)
+                        linkPath.setAttribute("d", curve)
+                }
+            }
+
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const handleWheel = (e) => {
         e.preventDefault()
-        if (e.wheelDelta > 0 && currentScale < 3)
-            currentScale += currentScale * .1
-        else if (e.wheelDelta < 0 && currentScale >= .5)
-            currentScale -= currentScale * .1
+        let s = window.blueprints.scale
+        if (e.wheelDelta > 0 && s < 3)
+            s += s * .1
+        else if (e.wheelDelta < 0 && s >= .5)
+            s -= s * .1
 
-        ref.current.style.transform = "scale(" + currentScale + ")"
-        console.log(currentScale)
-        clearTimeout(timeout)
-
-        // TODO - SMOOTHER TRANSITION
-        timeout = setTimeout(() => setScale(currentScale), DELAY)
+        ref.current.style.transform = "scale(" + s + ")"
+        window.blueprints.scale = s
+        updateLinks()
     }
-    useEffect(() => {
-        ref.current?.parentNode.addEventListener("wheel", handleWheel, {passive: false})
-        return () => ref.current?.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
-    }, [])
 
-
-    // const [scrolled, setScrolled] = useState(false)
-    // useEffect(() => {
-    //     let resize
-    //     if (!scrolled && hook.nodes.length > 0) {
-    //         resize = new ResizeObserver(() => {
-    //             let biggestX, biggestY
-    //             hook.nodes.forEach(n => {
-    //                 const cX = n.x
-    //                 const cY = n.y
-    //
-    //                 if (!biggestX || cX > biggestX)
-    //                     biggestX = cX
-    //                 if (!biggestY || cY > biggestY)
-    //                     biggestY = cY
-    //             })
-    //             if (biggestX)
-    //                 ref.current.parentNode.scrollLeft = biggestX - ref.current.parentNode.offsetWidth / 2
-    //
-    //             if (biggestY)
-    //                 ref.current.parentNode.scrollTop = biggestY - ref.current.parentNode.offsetHeight / 2
-    //             setScrolled(true)
-    //         })
-    //
-    //         resize.observe(ref.current.parentNode)
-    //     }
-    //     return () => {
-    //         if (resize)
-    //             resize.disconnect()
-    //     }
-    // }, [scrolled, hook.nodes])
 
 
     const handleLink = (src, target, isExecution) => {
@@ -79,28 +99,15 @@ export default function useBoard(hook) {
             return c
         })
     }
-    const links = useMemo(() => {
-        return hook.links.map(l => {
-            let key = (Object.entries(DATA_TYPES).find(([, value]) => value === l.source.attribute.type))
-            if (key)
-                key = key[0]
 
-            return {
-                target: l.target.id + l.target.attribute.key,
-                source: l.source.id + l.source.attribute.key,
-                targetKey: l.target.attribute.key,
-                sourceKey: l.source.attribute.key,
-                color: TYPES_INFO[key],
-                sourceType: l.source.attribute.type,
-                targetType: l.target.attribute.type
-            }
-        })
-    }, [hook.links])
-
-    let mappedLinks = []
     useEffect(() => {
-        if (mappedLinks.length !== links.length)
-            mappedLinks = links.map(l => {
+        ref.current?.parentNode.addEventListener("wheel", handleWheel, {passive: false})
+        return () => ref.current?.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
+    }, [])
+
+    useEffect(() => {
+        if (mappedLinks.current.length !== links.length)
+            mappedLinks.current = links.map(l => {
                 const linkPath = document.getElementById(l.target + "-" + l.source)
                 return {
                     target: document.getElementById(l.target),
@@ -109,51 +116,11 @@ export default function useBoard(hook) {
                     supplementary: linkPath.nextSibling
                 }
             })
-        const callback = () => {
-            try {
-                let parentBBox = ref.current?.getBoundingClientRect()
-                const bounding = {
-                    x: ref.current?.scrollLeft - parentBBox.left,
-                    y: ref.current?.scrollTop - parentBBox.top
-                }
-
-                for (let i = 0; i < mappedLinks.length; i++) {
-                    const {
-                        target,
-                        source,
-                        linkPath,
-                        supplementary
-                    } = mappedLinks[i]
-
-                    if (target && source && linkPath) {
-                        const sourceBBox = source.getBoundingClientRect(),
-                            targetBBox = target.getBoundingClientRect()
-                        const curve = getBezierCurve(
-                            {
-                                x: (sourceBBox.x + bounding.x + 7.5) / scale,
-                                y: (sourceBBox.y + bounding.y + 7.5) / scale
-                            },
-                            {
-                                x1: (targetBBox.x + bounding.x + 7.5) / scale,
-                                y1: (targetBBox.y + bounding.y + 7.5) / scale
-                            })
-                        if (supplementary.getAttribute("d") !== curve)
-                            supplementary.setAttribute("d", curve)
-                        if (linkPath.getAttribute("d") !== curve)
-                            linkPath.setAttribute("d", curve)
-                    }
-                }
-
-            } catch (error) {
-                console.error(error)
-            }
-        }
-
-        callback()
-        const mt = new MutationObserver(callback)
+        updateLinks()
+        const mt = new MutationObserver(updateLinks)
         mt.observe(ref.current, {subtree: true, childList: true, attributes: true})
         return () => mt.disconnect()
-    }, [links, scale])
+    }, [links])
 
     return {
         links,

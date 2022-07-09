@@ -5,22 +5,14 @@ import KEYS from "../../../engine/templates/KEYS"
 import useHotKeys from "../../shortcuts/hooks/useHotKeys"
 
 
-export default function useShortcuts(hook,  save, internalID, scriptView) {
+export default function useShortcuts(hook,  save, internalID) {
     const [toCopy, setToCopy] = useState([])
     const actions = useMemo(() => {
-        if(!scriptView)
-            return [
-                ...getHotKeys(hook,  toCopy, setToCopy, save),
-                {
-                    label: "Preview material (select mesh on viewport)",
-                    require: [KEYS.Mouse0]
-                },
-            ]
-        return getHotKeys(hook, toCopy, setToCopy, save)
+        return getHotKeys(hook,  toCopy, setToCopy, save)
     }, [hook.nodes, hook.links, toCopy, hook.selected, hook.changed])
     useHotKeys({
-        focusTargetLabel: scriptView ? "Script editor" : "Material editor",
-        focusTargetIcon: scriptView ? "code" : "texture",
+        focusTargetLabel:  "Material editor",
+        focusTargetIcon:  "texture",
         focusTarget: internalID,
         actions
     })

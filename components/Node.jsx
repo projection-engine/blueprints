@@ -105,7 +105,6 @@ Node.propTypes = {
     submitBundledVariable: PropTypes.func,
     links: PropTypes.array,
     node: PropTypes.object.isRequired,
-    scale: PropTypes.number,
     handleLink: PropTypes.func,
     selected: PropTypes.array,
     setSelected: PropTypes.func,

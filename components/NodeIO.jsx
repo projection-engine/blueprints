@@ -34,15 +34,14 @@ export default function NodeIO(props) {
     }
 
     const onDragContext = useContext(OnDragProvider)
-    const isLinked = useMemo(() => {
+    const link = useMemo(() => {
         if (props.type === "input")
-            return props.inputLinks.find(o => o.targetKey === props.data.key) !== undefined
-        else
-            return props.outputLinks.find(o => o.sourceKey === props.data.key) !== undefined
+            return props.inputLinks.find(o => o.targetKey === props.data.key)
+
+        return props.outputLinks.find(o => o.sourceKey === props.data.key)
     }, [props.inputLinks, props.outputLinks])
     const linkColor = useMemo(() => {
-
-        if (isLinked) {
+        if (link) {
             if (props.type === "input")
                 return props.inputLinks.find(o => o.targetKey === props.data.key)?.color
             else
@@ -54,7 +53,9 @@ export default function NodeIO(props) {
 
     return (
         <>
-            <div className={styles.attribute} ref={wrapperRef}
+            <div
+                data-link={link ? (link.target + "-" + link.source) : null}
+                className={styles.attribute} ref={wrapperRef}
                 data-dtype={props.type}
                 data-disabled={`${props.data.disabled || props.data.type === DATA_TYPES.UNDEFINED && (props.inputLinks.length === 0 && props.node.inputs.length > 0)}`}
                 style={{justifyContent: props.type === "input" ? "flex-start" : "flex-end"}}>
@@ -122,7 +123,7 @@ export default function NodeIO(props) {
                     <div data-disabled={`${props.data.disabled}`} className={styles.wrapperInput}
                         style={{fontWeight: "normal"}}>
 
-                        {props.data.bundled && !isLinked ? null : (
+                        {props.data.bundled && !link ? null : (
                             <div className={styles.overflow}
                                 style={{color: props.data.color}}>
                                 {props.data.label}

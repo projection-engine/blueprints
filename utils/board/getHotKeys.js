@@ -5,10 +5,7 @@ import KEYS from "../../../../engine/templates/KEYS"
 
 export default function getHotKeys(hook, toCopy, setToCopy, save) {
     return [
-        {
-            label: "Select",
-            require: [KEYS.Mouse0]
-        },
+
         {
             label: "Select multiple",
             require: [KEYS.ControlLeft, KEYS.Mouse0]
@@ -62,8 +59,7 @@ export default function getHotKeys(hook, toCopy, setToCopy, save) {
             callback: () => {
                 setToCopy(hook.selected)
                 if (hook.selected.length > 0)
-                    alert.pushAlert( "success",
-                        "Entities copied." )
+                    alert.pushAlert("Copied", "success",)
             }
         },
         {

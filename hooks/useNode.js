@@ -5,7 +5,8 @@ import NODE_INFO from "../templates/NODE_INFO"
 import dragNode from "../utils/dragNode"
 
 export default function useNode({
-    selected, setSelected, node, hidden, scale, grid,
+    selected, setSelected,
+    node, hidden, grid,
     onDragStart,  links
 }) {
 
@@ -20,6 +21,7 @@ export default function useNode({
     }, [hidden])
 
     const handleLinkDrag = (event) => {
+        const scale =  window.blueprints.scale
         const parent = ref.current?.parentNode.parentNode
         const bBox = event.currentTarget.getBoundingClientRect()
         let parentBBox = parent.getBoundingClientRect()
@@ -57,7 +59,7 @@ export default function useNode({
         if (event.button === 0 && ((isSelected && event.ctrlKey) || isFirst)) {
             if(isFirst)
                 onDragStart()
-            dragNode(event, ref.current, ref.current.parentNode.parentNode, grid, scale)
+            dragNode(event, ref.current, ref.current.parentNode.parentNode, grid)
         }
     }
 
@@ -67,7 +69,7 @@ export default function useNode({
     useEffect(() => {
         document.addEventListener("mousedown", handleDragStart)
         return () => document.removeEventListener("mousedown", handleDragStart)
-    }, [node,  selected, isSelected, scale, grid])
+    }, [node,  selected, isSelected, grid])
 
 
     const nodeInfo = useMemo(() => {
