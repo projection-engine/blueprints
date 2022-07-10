@@ -107,7 +107,7 @@ export default function Board(props) {
             })
     }
     useContextTarget(
-        {ref: ref.current},
+        ref.current,
         boardOptions,
         TRIGGERS
     )
