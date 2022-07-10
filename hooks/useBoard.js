@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useRef, useState} from "react"
+import {useEffect, useMemo, useRef} from "react"
 import getBezierCurve from "../utils/board/bezierCurve"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import TYPES_INFO from "../templates/DATA_INFO"

@@ -1,7 +1,5 @@
 import {useMemo, useState} from "react"
 import getHotKeys from "../utils/board/getHotKeys"
-
-import KEYS from "../../../engine/templates/KEYS"
 import useHotKeys from "../../shortcuts/hooks/useHotKeys"
 
 
