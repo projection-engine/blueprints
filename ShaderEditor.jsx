@@ -44,8 +44,8 @@ export default function ShaderEditor(props) {
     } = useContext(BlueprintProvider)
     const {materials: quickAccessMaterials} = useContext(QuickAccessProvider)
     useEffect(() => {
-        if(selectedEntity && selectedEntity.components[COMPONENTS.MATERIAL] && !openFile.registryID){
-            const mID = selectedEntity.components[COMPONENTS.MATERIAL].materialID
+        if(selectedEntity && selectedEntity.components[COMPONENTS.MESH] && !openFile.registryID){
+            const mID = selectedEntity.components[COMPONENTS.MESH].materialID
             const found = quickAccessMaterials.find(m => m.registryID === mID)
 
             alert.pushAlert("Editing " + found.name, "info")
