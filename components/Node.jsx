@@ -101,7 +101,6 @@ export default function Node(props) {
     )
 }
 Node.propTypes = {
-    grid: PropTypes.number,
     submitBundledVariable: PropTypes.func,
     links: PropTypes.array,
     node: PropTypes.object.isRequired,

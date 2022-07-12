@@ -8,18 +8,14 @@ export default function Group(props) {
     const [onEdit, setOnEdit] = useState(false)
     const [nameCache, setNameCache] = useState(props.node.name)
     const {ref, selected} = useGroup(props)
-    const rgb = useMemo(() => {
-        return props.node.color.slice(0, 3).join(", ")
-    }, [props.node.color])
+    const rgb = useMemo(() => props.node.color.slice(0, 3).join(", "), [props.node.color])
     return (
         <g
             ref={ref}
             transform={`translate(${props.node.x} ${props.node.y})`}
         >
             <foreignObject
-                onContextMenu={() => {
-                    props.setSelected(props.node.id)
-                }}
+                onContextMenu={() => props.setSelected(props.node.id)}
                 data-group={props.node.id}
                 id={props.node.id}
 
@@ -30,43 +26,34 @@ export default function Group(props) {
                     width: props.node.width + "px",
                     height: props.node.height + "px"
                 }}>
-                {onEdit ?
-                    <input
-                        style={{background: `rgb(${rgb})`}}
-                        value={nameCache}
-                        onChange={v => setNameCache(v.target.value)}
-                        className={styles.input}
-                        onBlur={() => {
+                {onEdit ? <input
+                    style={{background: `rgb(${rgb})`}}
+                    value={nameCache}
+                    onChange={v => setNameCache(v.target.value)}
+                    className={styles.input}
+                    onBlur={() => {
+                        props.submitName(nameCache)
+                        setOnEdit(false)
+                    }}
+                    onKeyDown={(e) => {
+                        if (e.key === KEYS.Enter) {
                             props.submitName(nameCache)
                             setOnEdit(false)
-                        }}
-                        onKeyDown={(e) => {
-                            if (e.key === KEYS.Enter) {
-                                props.submitName(nameCache)
-                                setOnEdit(false)
-                            }
-                        }}
-                    />
-                    :
-                    <div
-                        className={styles.header}
-                        style={{background: `rgb(${rgb})`}}
-                        id={props.node.id + "-node"}
-                        onDoubleClick={() => setOnEdit(true)}
-                    >
-                        {props.node.name}
-                    </div>
-                }
+                        }
+                    }}
+                /> : <div
+                    className={styles.header}
+                    style={{background: `rgb(${rgb})`}}
+                    id={props.node.id + "-node"}
+                    onDoubleClick={() => setOnEdit(true)}
+                >
+                    {props.node.name}
+                </div>}
             </foreignObject>
         </g>
-
     )
 }
 Group.propTypes = {
-    grid: PropTypes.number,
-    submitName: PropTypes.func,
-    node: PropTypes.object.isRequired,
-
-    selected: PropTypes.array,
-    setSelected: PropTypes.func,
+    submitName: PropTypes.func, node: PropTypes.object.isRequired,
+    selected: PropTypes.array, setSelected: PropTypes.func,
 }

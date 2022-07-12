@@ -1,4 +1,4 @@
-export default function dragNode(event, target, parent, grid){
+export default function dragNode(event, target, parent){
     const nodeBbox = target.getBoundingClientRect(),
         parentBBox = parent.getBoundingClientRect(),
         bounding = {
@@ -7,8 +7,8 @@ export default function dragNode(event, target, parent, grid){
         },
         current = {}
     const handleMouseMove = (ev) => {
-        current.x = Math.round(((ev.clientX + bounding.x)/  window.blueprints.scale )/ grid) * grid
-        current.y = Math.round(((ev.clientY + bounding.y) /  window.blueprints.scale) / grid) * grid
+        current.x = Math.round(((ev.clientX + bounding.x)/  window.blueprints.scale )/ window.blueprints.grid) * window.blueprints.grid
+        current.y = Math.round(((ev.clientY + bounding.y) /  window.blueprints.scale) / window.blueprints.grid) * window.blueprints.grid
         target?.setAttribute("transform", `translate(${current.x} ${current.y})`)
     }
 

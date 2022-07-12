@@ -1,7 +1,9 @@
-export default function handleBoardScroll(ref, ) {
+export default function handleBoardScroll(ref) {
 
-    ref.requestPointerLock()
     const handleMouseMove = (event) => {
+        if(!document.pointerLockElement)
+            ref.requestPointerLock()
+
         ref.scrollTop -= event.movementY
         ref.scrollLeft -= event.movementX
     }

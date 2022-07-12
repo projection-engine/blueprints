@@ -20,7 +20,6 @@ const TRIGGERS = [
     "data-group"
 ]
 export default function Board(props) {
-    const {grid} = props
     const {
         links,
         ref,
@@ -114,10 +113,7 @@ export default function Board(props) {
 
     return (
         <OnDragProvider.Provider value={{setDragType, dragType}}>
-            <div
-                style={{display: props.hide ? "none" : undefined}}
-                className={styles.context}
-            >
+            <div className={styles.context}>
                 <SelectBox
                     nodes={[...props.hook.groups, ...props.hook.nodes]}
                     selected={props.selected}
@@ -135,11 +131,6 @@ export default function Board(props) {
                     onDrop={e => {
                         e.preventDefault()
                         let allow = true, newEntities
-                        if (props.onDrop) {
-                            const res = props.onDrop(e)
-                            allow = res.allow
-                            newEntities = res.entities
-                        }
                         if (allow) {
                             const n = newEntities ? newEntities : handleDropBoard(e.dataTransfer.getData("text"), props.allNodes)
                             if(n)
@@ -151,11 +142,9 @@ export default function Board(props) {
                     onMouseDown={e => {
                         if (e.button === 2)
                             handleBoardScroll(ref.current.parentNode)
-                        if (e.target === ref.current) {
+                        if (e.target === ref.current)
                             props.setSelected([])
-                            if (props.onEmptyClick)
-                                props.onEmptyClick()
-                        }
+
                     }}
                 >
                     {props.hook.groups?.map(node => (
@@ -172,7 +161,6 @@ export default function Board(props) {
                                         })
                                     })
                                 }}
-                                grid={grid}
                                 onDragStart={() => props.hook.setChanged(true)}
                                 selected={props.selected}
                                 node={node}
@@ -191,9 +179,7 @@ export default function Board(props) {
                     {props.hook.nodes.map(node => (
                         <React.Fragment key={node.id}>
                             <Node
-                                grid={grid}
                                 links={links} path={window.fileSystem.path}
-                                hidden={props.hide}
                                 submitBundledVariable={(key, value) => {
                                     props.hook.setChanged(true)
                                     props.hook.setNodes(prev => {
@@ -222,10 +208,6 @@ export default function Board(props) {
     )
 }
 Board.propTypes = {
-    grid: PropTypes.number.isRequired,
-
-    id: PropTypes.any,
-    onDrop: PropTypes.func,
     allNodes: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.any,
         dataTransfer: PropTypes.string,
@@ -233,9 +215,7 @@ Board.propTypes = {
         icon: PropTypes.node,
         getNewInstance: PropTypes.func
     })).isRequired,
-    onEmptyClick: PropTypes.func,
     hook: PropTypes.object,
     selected: PropTypes.arrayOf(PropTypes.string).isRequired,
-    setSelected: PropTypes.func,
-    hide: PropTypes.bool
+    setSelected: PropTypes.func
 }

@@ -6,7 +6,7 @@ import dragNode from "../utils/dragNode"
 
 export default function useNode({
     selected, setSelected,
-    node, hidden, grid,
+    node, hidden,
     onDragStart,  links
 }) {
 
@@ -59,7 +59,7 @@ export default function useNode({
         if (event.button === 0 && ((isSelected && event.ctrlKey) || isFirst)) {
             if(isFirst)
                 onDragStart()
-            dragNode(event, ref.current, ref.current.parentNode.parentNode, grid)
+            dragNode(event, ref.current, ref.current.parentNode.parentNode)
         }
     }
 
@@ -69,7 +69,7 @@ export default function useNode({
     useEffect(() => {
         document.addEventListener("mousedown", handleDragStart)
         return () => document.removeEventListener("mousedown", handleDragStart)
-    }, [node,  selected, isSelected, grid])
+    }, [node,  selected, isSelected])
 
 
     const nodeInfo = useMemo(() => {

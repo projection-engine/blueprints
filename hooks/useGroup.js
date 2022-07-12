@@ -2,7 +2,6 @@ import {useEffect, useMemo, useRef} from "react"
 import dragNode from "../utils/dragNode"
 
 export default function useGroup({
-    grid,
     setSelected,
     node,
     selected,
@@ -27,13 +26,13 @@ export default function useGroup({
         if (event.button === 0 && ((isSelected && event.ctrlKey) || isFirst)) {
             if(isFirst)
                 onDragStart()
-            dragNode(event, ref.current, ref.current.parentNode, grid)
+            dragNode(event, ref.current, ref.current.parentNode)
         }
     }
     useEffect(() => {
         document.addEventListener("mousedown", handleDragStart)
         return () => document.removeEventListener("mousedown", handleDragStart)
-    }, [node,  selected, isSelected, grid])
+    }, [node,  selected, isSelected])
 
     return {
         selected: isSelected,
