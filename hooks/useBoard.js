@@ -94,10 +94,15 @@ export default function useBoard(hook) {
     }
 
     useEffect(() => {
-        ref.current.parentNode.scrollTop = BOARD_SIZE/2
-        ref.current.parentNode.scrollLeft = BOARD_SIZE/2
-        ref.current.parentNode.addEventListener("wheel", handleWheel, {passive: false})
-        return () => ref.current.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
+        if(ref.current && ref.current.parentNode) {
+            ref.current.parentNode.scrollTop = BOARD_SIZE / 2
+            ref.current.parentNode.scrollLeft = BOARD_SIZE / 2
+            ref.current.parentNode.addEventListener("wheel", handleWheel, {passive: false})
+        }
+        return () => {
+            if(ref.current && ref.current.parentNode)
+                ref.current.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
+        }
     }, [])
 
     useEffect(() => {

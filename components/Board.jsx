@@ -9,7 +9,7 @@ import useBoard from "../hooks/useBoard"
 import getBoardOptions from "../utils/getBoardOptions"
 import OnDragProvider from "../context/DragProvider"
 import SelectBox from "../../../../components/select-box/SelectBox"
-import Group from "./Group"
+import Comment from "./Comment"
 import useContextTarget from "../../../../components/context/hooks/useContextTarget"
 import BOARD_SIZE from "../data/BOARD_SIZE"
 import handleDropNode from "../utils/handleDropNode"
@@ -31,9 +31,9 @@ export default function Board(props) {
 
     const boardOptions = useMemo(() => {
         return getBoardOptions(
-            (nodes, event) => handleDropNode(nodes, event, ref, props.hook) ,
-            props.setSelected, 
-            props.hook, 
+            (nodes, event) => handleDropNode(nodes, event, ref, props.hook),
+            props.setSelected,
+            props.hook,
             links,
             props.allNodes,
             (t) => {
@@ -93,16 +93,15 @@ export default function Board(props) {
                     style={{
                         transformOrigin: "center center",
                         height: BOARD_SIZE + "px",
-                        width:  BOARD_SIZE + "px",
+                        width: BOARD_SIZE + "px",
                     }}
 
                     onDrop={event => {
                         event.preventDefault()
-                        let allow = true, newEntities
-                        if (allow) {
-                            const nodes = newEntities ? newEntities : handleDropBoard(event.dataTransfer.getData("text"), props.allNodes)
+                        const nodes = handleDropBoard(event.dataTransfer.getData("text"), props.allNodes)
+                        if (nodes)
                             handleDropNode(nodes, event, ref, props.hook)
-                        }
+
                     }}
                     ref={ref}
                     className={[styles.wrapper, styles.background].join(" ")}
@@ -116,7 +115,7 @@ export default function Board(props) {
                 >
                     {props.hook.nodes?.map(node => node.isComment ? (
                         <React.Fragment key={node.id}>
-                            <Group
+                            <Comment
                                 setSelected={(i) => props.setSelected([i])}
                                 submitName={newName => {
                                     props.hook.setNodes(prev => {
@@ -144,7 +143,7 @@ export default function Board(props) {
                             id={l.target + "-" + l.source}
                         />
                     ))}
-                    {props.hook.nodes.map(node => !node.isComment ?(
+                    {props.hook.nodes.map(node => !node.isComment ? (
                         <React.Fragment key={node.id}>
                             <Node
                                 links={links} path={window.fileSystem.path}

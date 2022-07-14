@@ -41,18 +41,29 @@
 }
 
 .button {
-  padding: 2px 4px !important;
   display: flex;
   align-items: center;
-  gap: 2px;
-  height: 25px;
+  gap: 4px;
+  height: 23px;
+  background: var(--pj-border-primary);
 }
 
 .options {
-  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 4px;
+  gap: 6px;
   width: 100%;
+  padding-left: 4px;
+}
+
+.options > button{
+  border-radius: 3px !important;
+  padding: 2px 8px !important;
+}
+.divider{
+  height: 20px;
+  background: var(--pj-background-tertiary);
+  width: 2px;
+
 }

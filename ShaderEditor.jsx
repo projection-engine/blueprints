@@ -8,117 +8,56 @@ import Header from "../../../components/view/components/Header"
 import {Button, Dropdown, DropdownOption, DropdownOptions, Icon} from "@f-ui/core"
 import COMPONENTS from "../../engine/templates/COMPONENTS"
 import Editor from "./components/Editor"
-import save from "./utils/save"
-import MaterialInstance from "../../engine/instances/MaterialInstance"
-import * as shaderCode from "../../engine/shaders/mesh/FALLBACK.glsl"
-import FALLBACK_MATERIAL from "../../../static/misc/FALLBACK_MATERIAL"
-
 
 export default function ShaderEditor(props) {
-    const [openFile, setOpenFile] = useState({})
-    const hook = useShaderEditor(openFile)
-    const {
-        selectedEntity,
-        materials,
-        setMaterials,
-        submitPackage,
-        quickAccessMaterials
-    } = useContext(BlueprintProvider)
-
-    useEffect(() => {
-        if (selectedEntity && selectedEntity.components[COMPONENTS.MESH] && !openFile.registryID) {
-            const mID = selectedEntity.components[COMPONENTS.MESH].materialID
-            const found = quickAccessMaterials.find(m => m.registryID === mID)
-
-            alert.pushAlert("Editing " + found.name, "info")
-            if (found)
-                setOpenFile(found)
-        }
-    }, [selectedEntity])
-
-    const [currentMaterial, setCurrentMaterial] = useState()
-    useEffect(() => {
-        const found = materials.find(m => m.id === openFile.registryID)
-        if (found)
-            setCurrentMaterial(found)
-        else
-            setCurrentMaterial(new MaterialInstance({
-                vertex: shaderCode.fallbackVertex,
-                fragment: shaderCode.fragment,
-                settings: {isForward: false},
-                cubeMapShaderCode: shaderCode.cubeMapShader,
-                id: FALLBACK_MATERIAL
-            }))
-    }, [openFile])
-
-    useEffect(() => {
-        if (Object.values(openFile).length === 0 && quickAccessMaterials[0])
-            setOpenFile(quickAccessMaterials[0])
-    }, [])
-    const internalID = useId()
-
+    const hook = useShaderEditor()
     return (
         <>
-            <Header {...props} title={"Shader Editor"} icon={"texture"} orientation={"horizontal"}>
+            <Header
+                {...props}
+                title={"Shader Editor"}
+                icon={"texture"}
+                orientation={"horizontal"}
+            >
                 <div className={styles.options}>
+                    <div className={styles.divider}/>
+                    <Button
+                        disabled={!hook.openFile?.registryID || !hook.changed} className={styles.button}
+                        onClick={() => window.blueprints.save(hook).catch()}>
+                        <Icon styles={{fontSize: "1rem"}}>save</Icon>
+						Save
+                    </Button>
+                    <Button
+                        disabled={!hook.openFile?.registryID}
+                        className={styles.button}
+                        onClick={() => compileShaders(hook).catch()}
+                    >
+                        <Icon styles={{fontSize: "1rem"}}>code</Icon>
+						Compile
+                    </Button>
+                    <div className={styles.divider}/>
                     <Dropdown
                         className={styles.button}
-                        disabled={quickAccessMaterials.length === 0}
-                        variant={"outlined"}
-                        styles={{marginRight: "16px"}}
+                        hideArrow={true}
+                        disabled={hook.quickAccessMaterials.length === 0}
                     >
                         <div className={styles.icon}/>
-                        {openFile.name ? openFile.name : ""}
+                        {hook.openFile?.name ? hook.openFile.name : ""}
                         <DropdownOptions>
-                            {quickAccessMaterials.map((m, i) => (
-                                <React.Fragment key={internalID + "-material-" + i}>
+                            {hook.quickAccessMaterials.map((m, i) => (
+                                <React.Fragment key={hook.internalID + "-material-" + i}>
                                     <DropdownOption option={{
                                         label: m.name,
-                                        onClick: () => setOpenFile(m)
+                                        onClick: () => hook.setOpenFile(m)
                                     }}/>
                                 </React.Fragment>
                             ))}
                         </DropdownOptions>
                     </Dropdown>
-                    <Button disabled={!openFile.registryID || !hook.changed} className={styles.button}
-                        variant={"outlined"}
-                        onClick={() => save(hook, submitPackage, openFile.registryID, currentMaterial).catch()}>
-                        <Icon styles={{fontSize: "1rem"}}>save</Icon>
-						Save
-                    </Button>
-                    <Button
-                        disabled={!openFile.registryID}
-                        className={styles.button} variant={"outlined"} onClick={() => {
-                            compileShaders(
-                                hook,
-                                currentMaterial,
-                                (newMat) => {
-                                    setMaterials(prev => {
-                                        return [...prev].map(m => {
-                                            if (m.id === openFile.registryID)
-                                                return newMat
-                                            return m
-                                        })
-                                    })
-                                }).catch()
-                        }}>
-                        <Icon styles={{fontSize: "1rem"}}>code</Icon>
-						Compile
-                    </Button>
+
                 </div>
             </Header>
-            {props.hidden ?
-                null
-                :
-                <Editor
-                    currentMaterial={currentMaterial}
-                    hook={hook}
-                    submitPackage={submitPackage}
-                    registryID={openFile.registryID}
-                    materials={materials}
-                    setMaterials={setMaterials}
-                />
-            }
+            {props.hidden ? null : <Editor hook={hook}/>}
         </>
     )
 }

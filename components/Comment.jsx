@@ -4,7 +4,7 @@ import React, {useMemo, useState} from "react"
 import useGroup from "../hooks/useGroup"
 import KEYS from "../../../engine/templates/KEYS"
 
-export default function Group(props) {
+export default function Comment(props) {
     const [onEdit, setOnEdit] = useState(false)
     const [nameCache, setNameCache] = useState(props.node.name)
     const {ref, selected} = useGroup(props)
@@ -53,7 +53,7 @@ export default function Group(props) {
         </g>
     )
 }
-Group.propTypes = {
+Comment.propTypes = {
     submitName: PropTypes.func, node: PropTypes.object.isRequired,
     selected: PropTypes.array, setSelected: PropTypes.func,
 }

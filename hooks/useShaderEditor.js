@@ -1,13 +1,24 @@
-import {useContext, useEffect, useRef, useState} from "react"
+import {useContext, useEffect, useId, useRef, useState} from "react"
 import Material from "../templates/nodes/Material"
 import TextureSample from "../templates/nodes/TextureSample"
 import getNewInstance from "../utils/getNewInstance"
 import FileSystem from "../../../libs/FileSystem"
 import QuickAccessProvider from "../../../context/QuickAccessProvider"
 import BOARD_SIZE from "../data/BOARD_SIZE"
+import BlueprintProvider from "../../../context/BlueprintProvider"
+import COMPONENTS from "../../../engine/templates/COMPONENTS"
 
 
-export default function useShaderEditor(file) {
+export default function useShaderEditor() {
+    const {
+        selectedEntity,
+        materials,
+        setMaterials,
+        quickAccessMaterials
+    } = useContext(BlueprintProvider)
+
+    const internalID = useId()
+    const [openFile, setOpenFile] = useState({})
     const [nodes, setNodes] = useState([])
     const [links, setLinks] = useState([])
     const [changed, setChanged] = useState(false)
@@ -16,26 +27,48 @@ export default function useShaderEditor(file) {
     const [status, setStatus] = useState({})
     const {images} = useContext(QuickAccessProvider)
     const initialized = useRef(false)
+
     useEffect(() => {
-        if(initialized.current){
+        if (selectedEntity && selectedEntity.components[COMPONENTS.MESH] && !openFile.registryID) {
+            const mID = selectedEntity.components[COMPONENTS.MESH].materialID
+            const found = quickAccessMaterials.find(m => m.registryID === mID)
+            if (found) {
+                alert.pushAlert("Editing " + found.name, "info")
+                setOpenFile(found)
+            }
+        }
+    }, [selectedEntity])
+
+    useEffect(() => {
+        if (initialized.current) {
             setNodes([])
             setLinks([])
             setStatus({})
             setSelected([])
             setImpactingChange(false)
             setChanged(false)
-        }
+        } else if (Object.values(openFile).length === 0 && quickAccessMaterials[0])
+            setOpenFile(quickAccessMaterials[0])
+
         initialized.current = true
-        parse(file, (d) => {
+        parse(openFile, (d) => {
             const found = d.find(dd => dd instanceof Material)
             if (found)
                 setNodes(d)
             else
                 setNodes([...d, new Material()])
         }, setLinks, images).catch()
-    }, [file])
+    }, [openFile])
+
 
     return {
+        openFile, setOpenFile,
+        internalID,
+        selectedEntity,
+        materials,
+        setMaterials,
+        quickAccessMaterials,
+
         status, setStatus,
         impactingChange,
         setImpactingChange,

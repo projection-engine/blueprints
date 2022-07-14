@@ -11,18 +11,16 @@ import NodeEditor from "./NodeEditor"
 import CompilationStatus from "./CompilationStatus"
 import PropTypes from "prop-types"
 import ShaderEditor from "../ShaderEditor"
-import save from "../utils/save"
-
 
 export default function Editor(props) {
-    const {currentMaterial, hook, submitPackage, registryID} = props
+    const hook = props.hook
     const internalID = useId()
     const [openSideBar, setOpenSideBar] = useState(true)
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof ShaderEditor), [hook.nodes])
 
     useShortcuts(
         hook,
-        () => save(hook, submitPackage, registryID, currentMaterial).catch(),
+        () => window.blueprints.save(hook,  hook.openFile.registryID).catch(),
         internalID
     )
 
@@ -55,7 +53,6 @@ export default function Editor(props) {
                             label: "Node",
                             content: (
                                 <NodeEditor
-                                    material={currentMaterial}
                                     hook={hook}
                                     selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
                                 />
@@ -75,8 +72,5 @@ export default function Editor(props) {
     )
 }
 Editor.propTypes = {
-    currentMaterial: PropTypes.object,
-    hook: PropTypes.object, submitPackage: PropTypes.func,
-    registryID: PropTypes.string,
-    materials: PropTypes.array, setMaterials: PropTypes.func
+    hook: PropTypes.object,
 }

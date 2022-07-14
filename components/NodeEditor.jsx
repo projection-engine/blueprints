@@ -11,7 +11,7 @@ import ColorPicker from "../../../../components/color/ColorPicker"
 
 import cloneClass from "../../../engine/utils/cloneClass"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
-import AccordionTemplate from "../../../../components/templates/AccordionTemplate"
+import AccordionTemplate from "../../../../components/accordion/AccordionTemplate"
 import Float from "../templates/nodes/math/Float"
 
 export default function NodeEditor(props) {
@@ -74,10 +74,13 @@ export default function NodeEditor(props) {
             else
                 selected[attr.key] = event
         } else {
-            if (attr.key === "tilingX")
-                props.material.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
-            if (attr.key === "tilingY")
-                props.material.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
+            const currentMaterial = window.renderer.materials.find(m => m.id === props.hook.openFile.registryID)
+            if(currentMaterial) {
+                if (attr.key === "tilingX")
+                    currentMaterial.uvScale = [event, selected[attr.key].tilingY ? selected[attr.key].tilingY : 1]
+                if (attr.key === "tilingY")
+                    currentMaterial.uvScale = [selected[attr.key].tilingX ? selected[attr.key].tilingX : 1, event]
+            }
             selected[attr.key] = event
         }
     }
@@ -274,7 +277,6 @@ export default function NodeEditor(props) {
 }
 
 NodeEditor.propTypes = {
-    material: PropTypes.object,
     selected: PropTypes.string,
     hook: PropTypes.object
 }

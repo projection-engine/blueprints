@@ -1,8 +1,7 @@
 import compiler from "./compiler"
-import MaterialInstance from "../../../../engine/instances/MaterialInstance"
 import {trimString} from "../../../../engine/instances/ShaderInstance"
 
-export default async function compileShaders(hook,mat, setMat ){
+export default async function compileShaders(hook){
     alert.pushAlert("Compiling shaders", "info")
     hook.setImpactingChange(false)
     const {
@@ -15,25 +14,15 @@ export default async function compileShaders(hook,mat, setMat ){
     } = await compiler(hook.nodes.filter(n => !n.isComment), hook.links)
 
     if (shader) {
-        const onOverride = mat
-        let promise, newMat
-        if (!onOverride)
-            promise = new Promise(resolve => {
-                newMat = new MaterialInstance({
-                    vertex: vertexShader,
-                    fragment: shader,
-                    uniformData,
-                    settings,
-                        
-                    onCompiled: (shaderMessage) => resolve(shaderMessage),
-                    cubeMapShaderCode: cubeMapShader.code
-                })
-            })
+        const currentMaterial = window.renderer.materials.find(m => m.id === hook.openFile.registryID)
+        let promise
+        if (!currentMaterial)
+            alert.pushAlert("Material doesnt seem to be applied to a mesh.", "alert")
         else {
-            newMat = onOverride
+
             promise = new Promise(resolve => {
-                newMat.shader = [shader, vertexShader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
-                newMat.cubeMapShader = [cubeMapShader.code, vertexShader]
+                currentMaterial.shader = [shader, vertexShader, uniformData, (shaderMessage) => resolve(shaderMessage), settings]
+                currentMaterial.cubeMapShader = [cubeMapShader.code, vertexShader]
             })
         }
         const m = await promise
@@ -66,7 +55,5 @@ export default async function compileShaders(hook,mat, setMat ){
                 }).filter(e => e),
             info
         })
-        setMat(newMat)
-
     }
 }
