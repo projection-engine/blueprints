@@ -1,7 +1,7 @@
 import React, {useMemo} from "react"
 import styles from "../styles/NodeEditor.module.css"
 import PropTypes from "prop-types"
-import Material from "../nodes/Material"
+import Material from "../templates/nodes/Material"
 
 import {Checkbox, Dropdown, DropdownOption, DropdownOptions, Icon, TextField} from "@f-ui/core"
 import Range from "../../../../components/range/Range"
@@ -12,7 +12,7 @@ import ColorPicker from "../../../../components/color/ColorPicker"
 import cloneClass from "../../../engine/utils/cloneClass"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import AccordionTemplate from "../../../../components/templates/AccordionTemplate"
-import Float from "../nodes/math/Float"
+import Float from "../templates/nodes/math/Float"
 
 export default function NodeEditor(props) {
     const selected = useMemo(() => {

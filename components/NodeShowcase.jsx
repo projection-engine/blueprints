@@ -3,7 +3,7 @@ import React, {useMemo} from "react"
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import styles from "../styles/Node.module.css"
 import Preview from "../../../../components/preview/Preview"
-import FileSystem from "../../../utils/files/FileSystem"
+import FileSystem from "../../../libs/FileSystem"
 
 export default function NodeShowcase(props) {
     const attributesToRender = useMemo(() => {

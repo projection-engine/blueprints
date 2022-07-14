@@ -1,10 +1,10 @@
 import {useContext, useEffect, useState} from "react"
 import useFlow from "./useFlow"
-import Material from "../nodes/Material"
-import TextureSample from "../nodes/TextureSample"
+import Material from "../templates/nodes/Material"
+import TextureSample from "../templates/nodes/TextureSample"
 import getNewInstance from "../utils/getNewInstance"
-import FileSystem from "../../../utils/files/FileSystem"
-import QuickAccessProvider from "../../../providers/QuickAccessProvider"
+import FileSystem from "../../../libs/FileSystem"
+import QuickAccessProvider from "../../../context/QuickAccessProvider"
 import BOARD_SIZE from "../templates/BOARD_SIZE"
 
 
