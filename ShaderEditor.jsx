@@ -1,14 +1,16 @@
-import styles from "./styles/MaterialView.module.css"
+import styles from "./styles/ShaderEditor.module.css"
 import React, {useContext, useEffect, useId, useState} from "react"
 import PropTypes from "prop-types"
 import useShaderEditor from "./hooks/useShaderEditor"
 import compileShaders from "./libs/compiler/compileShaders"
 import BlueprintProvider from "../../context/BlueprintProvider"
 import Header from "../../../components/view/components/Header"
-import {Button, Dropdown, DropdownOption, DropdownOptions, Icon} from "@f-ui/core"
+import {Button, Dropdown, DropdownOption, DropdownOptions, Icon, ToolTip} from "@f-ui/core"
 import COMPONENTS from "../../engine/templates/COMPONENTS"
 import Editor from "./components/Editor"
+import Available from "./components/Available"
 
+const GRID_SIZE = 20
 export default function ShaderEditor(props) {
     const hook = useShaderEditor()
     return (
@@ -38,7 +40,8 @@ export default function ShaderEditor(props) {
                     <div className={styles.divider}/>
                     <Dropdown
                         className={styles.button}
-                        hideArrow={true}
+                        styles={{paddingRight: "2px"}}
+
                         disabled={hook.quickAccessMaterials.length === 0}
                     >
                         <div className={styles.icon}/>
@@ -54,7 +57,25 @@ export default function ShaderEditor(props) {
                             ))}
                         </DropdownOptions>
                     </Dropdown>
-
+                    <Available disabled={!hook.openFile.registryID}/>
+                    <Button
+                        className={styles.button}
+                        styles={{padding: "4px"}}
+                        onClick={e => {
+                            if (window.blueprints.grid === GRID_SIZE) {
+                                window.blueprints.grid = 1
+                                e.currentTarget.classList.remove(styles.highlightButton)
+                            } else {
+                                window.blueprints.grid = GRID_SIZE
+                                e.currentTarget.classList.add(styles.highlightButton)
+                            }
+                        }}
+                    >
+                        <Icon styles={{fontSize: "1rem"}}>
+							grid_4x4
+                        </Icon>
+                        <ToolTip content={"Toggle movement grid"}/>
+                    </Button>
                 </div>
             </Header>
             {props.hidden ? null : <Editor hook={hook}/>}

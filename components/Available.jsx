@@ -1,57 +1,58 @@
-import styles from "../styles/Available.module.css"
-
+import styles from "../styles/ShaderEditor.module.css"
 import Search from "../../../../components/search/Search"
 import React, {useDeferredValue, useMemo, useState} from "react"
 import PropTypes from "prop-types"
-import {Icon} from "@f-ui/core"
+import {Dropdown, DropdownOptions, Icon} from "@f-ui/core"
+import {availableNodes} from "../templates/availableNodes"
 
 const parseStr = (str) => {
-    return str.toLowerCase().replace(/\s/g,"")
+    return str.toLowerCase().replace(/\s/g, "")
 }
 export default function Available(props) {
     const [searchString, setSearchString] = useState("")
     const search = useDeferredValue(searchString)
     const nodes = useMemo(() => {
         const s = parseStr(search)
-        if(!s)
-            return props.allNodes
-        return props.allNodes.filter(i => parseStr(i.label).includes(s))
+        if (!s)
+            return availableNodes
+        return availableNodes.filter(i => parseStr(i.label).includes(s))
     }, [search])
 
     return (
-        <div className={styles.wrapper} style={props.styles}>
-            <div className={styles.header} style={{justifyItems: "flex-start"}}>
-                Nodes
-                <Search
-                    width={"100%"}
-                    noPadding={true}
-                    height={"20px"}
-                    searchString={searchString}
-                    setSearchString={setSearchString}
-                />
-            </div>
-            <div className={styles.content}>
-                {nodes.map((d, i) => (
-                    <div
-                        className={styles.option}
-                        draggable={true}
-                        title={d.tooltip}
-                        style={{background: i % 2 === 0 ? "var(--pj-background-secondary)" : undefined}}
-                        onDragStart={e => e.dataTransfer.setData("text", d.dataTransfer)}
-                        key={d.dataTransfer + "-" + i}
-                    >
-                        <div className={styles.icon}>
-                            <Icon >drag_indicator</Icon>
+        <Dropdown
+            className={styles.button}
+            styles={{paddingRight: "2px"}}
+            disabled={props.disabled}
+            modalClassName={styles.modalAvailableNodes}
+        >
+			Add
+            <DropdownOptions>
+                <div className={styles.contentAvailableNodes}>
+                    {nodes.map((d, i) => (
+                        <div
+                            className={styles.optionAvailableNodes}
+                            draggable={true}
+                            // title={d.tooltip}
+                            onDragStart={e => e.dataTransfer.setData("text", d.dataTransfer)}
+                            key={d.dataTransfer + "-" + i}
+                        >
+                            <Icon>drag_indicator</Icon>
+                            {d.label}
                         </div>
-                        {d.label}
-                    </div>
-                ))}
-            </div>
-        </div>
+                    ))}
+                </div>
+                <div className={styles.headerAvailableNodes}>
+                    <Search
+                        width={"100%"}
+                        searchString={searchString}
+                        setSearchString={setSearchString}
+                    />
+                </div>
+            </DropdownOptions>
+        </Dropdown>
     )
 }
 
 Available.propTypes = {
-    allNodes: PropTypes.array,
-    styles: PropTypes.object
+    disabled: PropTypes.bool
 }

@@ -60,7 +60,6 @@ export default class Material extends Node {
             {label: "Depth test", key: "depthTest", type: DATA_TYPES.CHECKBOX},
             {label: "Blend", key: "blend", type: DATA_TYPES.CHECKBOX},
 
-
             {
                 label: "Rendering type",
                 key: "shadingType",
@@ -70,10 +69,7 @@ export default class Material extends Node {
                     {label: "Deferred lit", data: MATERIAL_RENDERING_TYPES.DEFERRED},
                     {label: "Unlit", data: MATERIAL_RENDERING_TYPES.UNLIT}
                 ]
-            },
-            {label: "Blend function target", key: "blendFuncTarget", type: DATA_TYPES.OPTIONS, options: blendOptions.filter(f =>  f.data.includes("DST") || !f.data.includes("SRC"))},
-            {label: "Blend function source", key: "blendFuncSource", type: DATA_TYPES.OPTIONS, options: blendOptions.filter(f => f.data.includes("SRC") || !f.data.includes("DST"))},
-
+            }
         ], [])
         this.inputs.find(i => i.key === "shadingType").onChange = (v) => {
             switch (v){

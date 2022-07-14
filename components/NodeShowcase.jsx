@@ -53,7 +53,6 @@ function TexturePreview(props) {
     )
 }
 
-// props.node[props.attribute.key]
 TexturePreview.propTypes = {
     node: PropTypes.object,
     attribute: PropTypes.object,

@@ -37,18 +37,7 @@ export default function NodeIO(props) {
     const link = useMemo(() => {
         if (props.type === "input")
             return props.inputLinks.find(o => o.targetKey === props.data.key)
-
         return props.outputLinks.find(o => o.sourceKey === props.data.key)
-    }, [props.inputLinks, props.outputLinks])
-    const linkColor = useMemo(() => {
-        if (link) {
-            if (props.type === "input")
-                return props.inputLinks.find(o => o.targetKey === props.data.key)?.color
-            else
-                return props.outputLinks.find(o => o.sourceKey === props.data.key)?.color
-        } else
-            return undefined
-
     }, [props.inputLinks, props.outputLinks])
 
     return (
@@ -61,23 +50,21 @@ export default function NodeIO(props) {
                 style={{justifyContent: props.type === "input" ? "flex-start" : "flex-end"}}>
 
                 {props.type === "output" && (!isExecution || props.data.showTitle) ? (
-                    <div className={styles.overflow}
-                        style={{color: props.data.disabled ? "#999" : props.data.color, fontWeight: "bold"}}>
+                    <div
+                        className={styles.overflow}
+                        style={{color: props.data.disabled ? "#999" : props.data.color, fontWeight: "bold"}}
+                    >
                         {props.data.label}
                     </div>
                 ) : null}
                 <div
 
                     id={props.nodeID + props.data.key}
-                    className={isExecution ? styles.executionConnection : styles.connection}
+                    className={styles.connection}
                     draggable={!(props.data.type === DATA_TYPES.UNDEFINED && (props.inputLinks.length === 0 && props.node.inputs.length > 0))}
                     data-dtype={props.type}
-                    data-disabled={`${ props.data.disabled || props.data.type === DATA_TYPES.UNDEFINED && (props.inputLinks.length === 0 && props.node.inputs.length > 0)}`}
-                    style={{
-                        "--pj-accent-color": isExecution ? "#0095ff" : "#999999",
-                        background: linkColor && !props.data.disabled ? linkColor : undefined,
-                        display: props.data.bundled && !props.data.accept ? "none" : undefined,
-                    }}
+                    data-disabled={`${props.data.disabled || props.data.type === DATA_TYPES.UNDEFINED && (props.inputLinks.length === 0 && props.node.inputs.length > 0)}`}
+                    data-highlight={link ? "-" : undefined}
                     onDrop={e => {
                         onDragContext.setDragType(undefined)
                         if (!props.data.disabled) {
@@ -95,7 +82,7 @@ export default function NodeIO(props) {
                     onDrag={props.handleLinkDrag}
                     onDragStart={e => {
                         if (props.type !== "input" && !props.data.disabled) {
-                            const nType = props.data.type === DATA_TYPES.UNDEFINED ? (props.inputLinks.length === 1 ? props.inputLinks[0]?.sourceType : getPredominant(props.inputLinks) ): undefined
+                            const nType = props.data.type === DATA_TYPES.UNDEFINED ? (props.inputLinks.length === 1 ? props.inputLinks[0]?.sourceType : getPredominant(props.inputLinks)) : undefined
                             const attribute = props.data.type === DATA_TYPES.UNDEFINED ? {
                                 ...props.data,
                                 type: nType
@@ -110,25 +97,26 @@ export default function NodeIO(props) {
                                     })
                                 )
 
-
                             onDragContext.setDragType(attribute.type)
                         } else
                             e.preventDefault()
                     }}>
                     {isExecution ?
-                        <Icon >navigate_next</Icon> : null}
+                        <Icon>navigate_next</Icon> : null}
                 </div>
 
                 {props.type === "input" && (!isExecution || props.data.showTitle) ? (
-                    <div data-disabled={`${props.data.disabled}`} className={styles.wrapperInput}
-                        style={{fontWeight: "normal"}}>
-
-                        {props.data.bundled && !link ? null : (
-                            <div className={styles.overflow}
-                                style={{color: props.data.color}}>
-                                {props.data.label}
-                            </div>
-                        )}
+                    <div
+                        data-disabled={`${props.data.disabled}`}
+                        className={styles.wrapperInput}
+                        style={{fontWeight: "normal"}}
+                    >
+                        <div
+                            className={styles.overflow}
+                            style={{color: props.data.color}}
+                        >
+                            {props.data.label}
+                        </div>
                     </div>
                 ) : null}
             </div>

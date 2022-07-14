@@ -3,7 +3,6 @@
   box-shadow: var(--pj-boxshadow);
   transition: outline 150ms linear;
   outline: transparent 2px solid;
-  cursor: pointer;
   position: relative;
   border-radius: 3px;
   min-height: 35px;
@@ -30,27 +29,10 @@
 
 .attribute[data-dtype="input"] {
   cursor: default;
-
   --direction: -10px;
-
   transform: translateX(var(--direction));
 }
 
-.executionConnection {
-  width: 20px;
-  height: 20px;
-  background-color: var(--pj-background-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: var(--pj-border-primary) 1px solid;
-  transition: 150ms linear;
-  border-radius: 3px;
-}
-
-.executionConnection > * {
-  font-size: 1rem !important;
-}
 
 .connection {
   width: 12px;
@@ -60,21 +42,21 @@
   position: relative;
   cursor: grab;
 }
-
-.connection[data-dtype="input"],
-.executionConnection[data-dtype="input"] {
+.connection[data-highlight="-"]{
+  background-color: orangered;
+}
+.connection[data-dtype="input"] {
   cursor: default;
 }
-.connection[data-disabled="true"]{
-cursor: default !important;
-}
-.executionConnection:hover {
-  border-color: var(--pj-accent-color);
+.connection[data-disabled="true"], .connection[data-disabled="true"]:hover {
+  cursor: default !important;
+  width: 12px;
+  height: 12px;
 }
 
-.connection:hover,
-.executionConnection:hover {
-  border-color: var(--pj-accent-color);
+.connection:hover{
+  width: 15px;
+  height: 15px;
 }
 
 .label {

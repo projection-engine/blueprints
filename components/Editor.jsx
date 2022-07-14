@@ -1,12 +1,12 @@
 import React, {useId, useMemo, useState} from "react"
 import useShortcuts from "../hooks/useShortcuts"
-import styles from "../styles/MaterialView.module.css"
+import styles from "../styles/ShaderEditor.module.css"
 import Available from "./Available"
 import {availableNodes} from "../templates/availableNodes"
 import ResizableBar from "../../../../components/resizable/ResizableBar"
 import Board from "./Board"
 import VerticalTabs from "../../../../components/vertical-tab/VerticalTabs"
-import BoardSettings from "./BoardSettings"
+
 import NodeEditor from "./NodeEditor"
 import CompilationStatus from "./CompilationStatus"
 import PropTypes from "prop-types"
@@ -20,54 +20,42 @@ export default function Editor(props) {
 
     useShortcuts(
         hook,
-        () => window.blueprints.save(hook,  hook.openFile.registryID).catch(),
+        () => window.blueprints.save(hook, hook.openFile.registryID).catch(),
         internalID
     )
 
     return (
         <div className={styles.wrapper} id={internalID}>
-            <Available
+
+            <Board
                 allNodes={availableNodes}
-                styles={{
-                    width: "250px"
-                }}
+                hook={hook}
+                selected={hook.selected}
+                setSelected={hook.setSelected}
             />
-            <ResizableBar type={"width"}/>
-            <div className={styles.boardAvailable}>
-                <Board
-                    allNodes={availableNodes}
-                    hook={hook}
-                    selected={hook.selected}
-                    setSelected={hook.setSelected}
-                />
 
-                <VerticalTabs
-                    open={openSideBar}
-                    setOpen={setOpenSideBar}
-                    tabs={[
-                        {
-                            label: "Board",
-                            content: <BoardSettings/>
-                        },
-                        {
-                            label: "Node",
-                            content: (
-                                <NodeEditor
-                                    hook={hook}
-                                    selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
-                                />
-                            )
-                        },
-                        {
-                            label: "Status",
-                            content: (
-                                <CompilationStatus status={hook.status}/>
-                            )
-                        }
-                    ]}
-                />
+            <VerticalTabs
+                open={openSideBar}
+                setOpen={setOpenSideBar}
+                tabs={[
 
-            </div>
+                    {
+                        label: "Node",
+                        content: (
+                            <NodeEditor
+                                hook={hook}
+                                selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
+                            />
+                        )
+                    },
+                    {
+                        label: "Status",
+                        content: (
+                            <CompilationStatus status={hook.status}/>
+                        )
+                    }
+                ]}
+            />
         </div>
     )
 }

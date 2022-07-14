@@ -111,7 +111,7 @@ export default function useShortcuts(hook,  save, internalID) {
         ]
     }, [hook.nodes, hook.links, toCopy, hook.selected, hook.changed])
     useHotKeys({
-        focusTargetLabel:  "Material editor",
+        focusTargetLabel:  "Shader Editor",
         focusTargetIcon:  "texture",
         focusTarget: internalID,
         actions

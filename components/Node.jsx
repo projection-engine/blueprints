@@ -5,6 +5,7 @@ import useNode from "../hooks/useNode"
 import NodeIO from "./NodeIO"
 import NodeShowcase from "./NodeShowcase"
 import {Icon} from "@f-ui/core"
+import LINK_WIDTH from "../data/LINK_WIDTH"
 
 export default function Node(props) {
     const {
@@ -15,7 +16,6 @@ export default function Node(props) {
         selected
     } = useNode(props)
 
-
     return (
         <g>
             <g
@@ -25,24 +25,20 @@ export default function Node(props) {
                 <foreignObject
                     data-node={props.node.canBeDeleted ? props.node.id : undefined}
                     id={props.node.id}
-                    onContextMenu={() => {
-                        props.setSelected(props.node.id)
-                    }}
-
+                    onMouseDown={(e) => props.setSelected(props.node.id, e.ctrlKey)}
                     className={styles.wrapper}
-
                     style={{
                         width: width,
                         height: height + "px",
                         outline: selected ? "yellow 2px solid" : undefined
-                    }}>
+                    }}
+                >
                     <div
                         className={styles.label}
                         style={{borderColor: nodeInfo.COLOR}}
                         id={props.node.id + "-node"}
                         title={nodeInfo.LABEL}
                     >
-                        <Icon styles={{fontSize: "1rem", transform: nodeInfo.ROTATE ? `rotate(${nodeInfo.ROTATE}`: undefined}}>{nodeInfo.ICON}</Icon>
                         {props.node.name}
                     </div>
                     <div className={styles.content}>
@@ -94,7 +90,7 @@ export default function Node(props) {
                 ref={pathRef}
                 fill={"none"}
                 stroke={"var(--pj-accent-color)"}
-                strokeWidth={"2"}
+                strokeWidth={LINK_WIDTH}
                 strokeDasharray={"3,3"}
             />
         </g>
