@@ -1,32 +1,31 @@
-import {useContext, useEffect, useState} from "react"
-import useFlow from "./useFlow"
+import {useContext, useEffect, useRef, useState} from "react"
 import Material from "../templates/nodes/Material"
 import TextureSample from "../templates/nodes/TextureSample"
 import getNewInstance from "../utils/getNewInstance"
 import FileSystem from "../../../libs/FileSystem"
 import QuickAccessProvider from "../../../context/QuickAccessProvider"
-import BOARD_SIZE from "../templates/BOARD_SIZE"
+import BOARD_SIZE from "../data/BOARD_SIZE"
 
 
 export default function useShaderEditor(file) {
-    const {
-        nodes,
-        setNodes,
-        links,
-        setLinks,
-        groups,
-        setGroups,
-        changed,
-        setChanged,
-        selected,
-        setSelected,
-        impactingChange,
-        setImpactingChange,
-    } = useFlow()
+    const [nodes, setNodes] = useState([])
+    const [links, setLinks] = useState([])
+    const [changed, setChanged] = useState(false)
+    const [impactingChange, setImpactingChange] = useState(false)
+    const [selected, setSelected] = useState([])
     const [status, setStatus] = useState({})
     const {images} = useContext(QuickAccessProvider)
-
+    const initialized = useRef(false)
     useEffect(() => {
+        if(initialized.current){
+            setNodes([])
+            setLinks([])
+            setStatus({})
+            setSelected([])
+            setImpactingChange(false)
+            setChanged(false)
+        }
+        initialized.current = true
         parse(file, (d) => {
             const found = d.find(dd => dd instanceof Material)
             if (found)
@@ -44,8 +43,7 @@ export default function useShaderEditor(file) {
         setNodes,
         links,
         setLinks,
-        groups,
-        setGroups,
+
         changed,
         setChanged,
         selected,
@@ -59,18 +57,24 @@ async function parse(file, setNodes, setLinks, images) {
         const file = await window.fileSystem.readFile(window.fileSystem.path + FileSystem.sep + "assets" + FileSystem.sep + res.path, "json")
 
         if (file && Object.keys(file).length > 0) {
-            const newNodes = file.nodes.map(f => {
-                const i = getNewInstance(f.instance)
-                if (i) Object.keys(f).forEach(o => {
+            const newNodes = []
+            for (let i = 0; i < file.nodes.length; i++) {
+                const node = file.nodes[i]
+                if (!node)
+                    continue
+                const nodeInstance = getNewInstance(node.instance)
+                if (!nodeInstance)
+                    continue
+                Object.keys(node).forEach(o => {
                     if (o !== "inputs" && o !== "output") {
-                        if (o === "texture" && i instanceof TextureSample) i[o] = images.find(i => i.registryID === f[o].registryID)
-                        else i[o] = f[o]
+                        if (o === "texture" && i instanceof TextureSample) i[o] = images.find(i => i.registryID === node[o].registryID)
+                        else nodeInstance[o] = node[o]
                     }
                 })
-                i.x = i.x + BOARD_SIZE/2
-                i.y = i.y + BOARD_SIZE/2
-                return i
-            }).filter(e => e !== null && e !== undefined)
+                nodeInstance.x = node.x + BOARD_SIZE / 2
+                nodeInstance.y = node.y + BOARD_SIZE / 2
+                newNodes.push(nodeInstance)
+            }
             setNodes(newNodes)
             setLinks(file.links)
         } else

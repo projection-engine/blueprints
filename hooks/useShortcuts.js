@@ -1,7 +1,7 @@
 import {useMemo, useState} from "react"
 import useHotKeys from "../../shortcuts/hooks/useHotKeys"
 import KEYS from "../../../engine/templates/KEYS"
-import createGroupShortcut from "../utils/board/createGroupShortcut"
+import addComment from "../utils/addComment"
 import cloneClass from "../../../engine/utils/cloneClass"
 import {v4 as uuidv4} from "uuid"
 
@@ -43,12 +43,12 @@ export default function useShortcuts(hook,  save, internalID) {
                 require: [KEYS.ControlLeft, KEYS.Mouse0]
             },
             {
-                label: "Group",
+                label: "Comment",
                 disabled: hook.selected.length === 0,
                 require: [KEYS.KeyG],
                 callback: () => {
                     if (hook.selected.length > 0)
-                        createGroupShortcut(hook)
+                        addComment(hook)
                 }
             },
             {

@@ -1,6 +1,6 @@
 import {v4 as uuidv4} from "uuid"
 
-export default function createGroupShortcut(hook) {
+export default function addComment(hook) {
 
     let smallestX,
         smallestY,
@@ -46,8 +46,9 @@ export default function createGroupShortcut(hook) {
 
 
 
-    hook.setGroups(prev => {
+    hook.setNodes(prev => {
         return [...prev, {
+            isComment: true,
             name: "New comment",
             id: uuidv4(),
             x: smallestX,

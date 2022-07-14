@@ -1,10 +1,10 @@
-import Make from "./Make"
-import compiler from "./compiler/compiler"
+import Make from "../libs/compiler/Make"
+import compiler from "../libs/compiler/compiler"
 
 export default async function save(hook, submitPackage, registryID, currentMaterial){
     const response = await Make(
         hook,
-        await compiler(hook.nodes, hook.links, window.fileSystem)
+        await compiler(hook.nodes.filter(n => !n.isComment), hook.links)
     )
     submitPackage(
         registryID,

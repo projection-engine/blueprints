@@ -1,8 +1,9 @@
 import {useEffect, useMemo, useRef, useState} from "react"
-import getBezierCurve from "../utils/board/bezierCurve"
-import NODE_TYPES from "../templates/NODE_TYPES"
-import NODE_INFO from "../templates/NODE_INFO"
+import getBezierCurve from "../utils/bezierCurve"
+import NODE_TYPES from "../data/NODE_TYPES"
+import NODE_INFO from "../data/NODE_INFO"
 import dragNode from "../utils/dragNode"
+import LINK_WIDTH from "../data/LINK_WIDTH"
 
 export default function useNode({
     selected, setSelected,
@@ -33,11 +34,11 @@ export default function useNode({
         const curve = getBezierCurve(
             {
                 x: (bBox.x + bounding.x + 7.5) / scale,
-                y: (bBox.y + bounding.y + 7.5) / scale
+                y: (bBox.y + bounding.y + 7.5 + LINK_WIDTH * 2) / scale
             },
             {
                 x1: (event.clientX + bounding.x + 7.5) / scale,
-                y1: (event.clientY + bounding.y + 7.5) / scale
+                y1: (event.clientY + bounding.y + 7.5+ LINK_WIDTH * 2) / scale
             })
 
         pathRef.current?.setAttribute("d", curve)

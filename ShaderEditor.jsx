@@ -2,7 +2,7 @@ import styles from "./styles/MaterialView.module.css"
 import React, {useContext, useEffect, useId, useState} from "react"
 import PropTypes from "prop-types"
 import useShaderEditor from "./hooks/useShaderEditor"
-import compileShaders from "./utils/compileShaders"
+import compileShaders from "./libs/compiler/compileShaders"
 import BlueprintProvider from "../../context/BlueprintProvider"
 import Header from "../../../components/view/components/Header"
 import {Button, Dropdown, DropdownOption, DropdownOptions, Icon} from "@f-ui/core"
@@ -59,7 +59,7 @@ export default function ShaderEditor(props) {
 
     return (
         <>
-            <Header {...props} title={"Shader EditorCamera"} icon={"texture"} orientation={"horizontal"}>
+            <Header {...props} title={"Shader Editor"} icon={"texture"} orientation={"horizontal"}>
                 <div className={styles.options}>
                     <Dropdown
                         className={styles.button}

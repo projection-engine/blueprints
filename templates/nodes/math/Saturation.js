@@ -1,6 +1,6 @@
-import Node from "../../Node"
+import Node from "../Node"
 import {DATA_TYPES} from "../../../../../engine/templates/DATA_TYPES"
-import NODE_TYPES from "../../NODE_TYPES"
+import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Saturation extends Node {

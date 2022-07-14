@@ -1,17 +1,19 @@
 import PropTypes from "prop-types"
-import React, {useEffect, useMemo, useState} from "react"
+import React, {useMemo, useState} from "react"
 import Node from "./Node"
 import styles from "../styles/Board.module.css"
-import handleDropBoard from "../utils/board/handleDropBoard"
+import handleDropBoard from "../utils/handleDropBoard"
 
-import handleBoardScroll from "../utils/board/handleBoardScroll"
+import handleBoardScroll from "../utils/handleBoardScroll"
 import useBoard from "../hooks/useBoard"
-import getBoardOptions from "../utils/board/getBoardOptions"
-import OnDragProvider from "../hooks/DragProvider"
+import getBoardOptions from "../utils/getBoardOptions"
+import OnDragProvider from "../context/DragProvider"
 import SelectBox from "../../../../components/select-box/SelectBox"
 import Group from "./Group"
 import useContextTarget from "../../../../components/context/hooks/useContextTarget"
-import BOARD_SIZE from "../templates/BOARD_SIZE"
+import BOARD_SIZE from "../data/BOARD_SIZE"
+import handleDropNode from "../utils/handleDropNode"
+import LINK_WIDTH from "../data/LINK_WIDTH"
 
 const TRIGGERS = [
     "data-node",
@@ -23,51 +25,13 @@ export default function Board(props) {
     const {
         links,
         ref,
-        handleLink
+        handleLink,
+        internalID
     } = useBoard(props.hook)
-    useEffect(() => {
-        ref.current.parentNode.scrollTop = BOARD_SIZE/2
-        ref.current.parentNode.scrollLeft = BOARD_SIZE/2
-    }, [])
-    const handleDropNode = (dataToPush, e) => {
-        const doIt=  (n, e) => {
-            if (n.unique && !props.hook.nodes.find(node => node.constructor.name === n.constructor.name) || !n.unique) {
-                const bounding = {
-                    x: ref.current.scrollLeft - ref.current.getBoundingClientRect().left,
-                    y: ref.current.scrollTop - ref.current.getBoundingClientRect().top
-                }
-                const mousePlacement = {
-                    x: e.clientX + bounding.x,
-                    y: e.clientY + bounding.y
-                }
-                const current = {
-                    x: mousePlacement.x,
-                    y: mousePlacement.y
-                }
-                n.x = (current.x - 100) /  window.blueprints.scale
-                n.y = (current.y - 25) /  window.blueprints.scale
-                return n
-            } else
-                alert.pushAlert( "Cannot add two instances of " + n.name, "error")
-        }
-        if(Array.isArray(dataToPush)) {
-            const result = dataToPush.map(d => doIt(d, e)).flat()
-            props.hook.setChanged(true)
-            props.hook.setNodes(prev => {
-                return [...prev, ...result]
-            })
-        }
-        else {
-            props.hook.setChanged(true)
-            props.hook.setNodes(prev => {
-                return [...prev,  doIt(dataToPush, e)]
-            })
-        }
-    }
 
     const boardOptions = useMemo(() => {
         return getBoardOptions(
-            (n, mouseInfo) => handleDropNode(n, mouseInfo),
+            (nodes, event) => handleDropNode(nodes, event, ref, props.hook) ,
             props.setSelected, 
             props.hook, 
             links,
@@ -87,7 +51,7 @@ export default function Board(props) {
             },
             (attr) => {
                 props.hook.setChanged(true)
-                props.hook.setGroups(prev => prev.filter(pr => pr.id !== attr))
+                props.hook.setNodes(prev => prev.filter(pr => pr.id !== attr))
             }
         )
     }, [props.hook.nodes, props.hook.links, links])
@@ -106,7 +70,7 @@ export default function Board(props) {
             })
     }
     useContextTarget(
-        ref.current,
+        internalID,
         boardOptions,
         TRIGGERS
     )
@@ -115,26 +79,29 @@ export default function Board(props) {
         <OnDragProvider.Provider value={{setDragType, dragType}}>
             <div className={styles.context}>
                 <SelectBox
-                    nodes={[...props.hook.groups, ...props.hook.nodes]}
+                    nodes={props.hook.nodes}
                     selected={props.selected}
+                    targetElementID={internalID}
                     setSelected={props.setSelected}
                 />
                 <svg
+                    id={internalID}
                     onDragOver={e => e.preventDefault()}
+                    onContextMenu={e => e.preventDefault()}
+
                     data-board={"BOARD"}
                     style={{
                         transformOrigin: "center center",
                         height: BOARD_SIZE + "px",
                         width:  BOARD_SIZE + "px",
                     }}
-                    onContextMenu={e => e.preventDefault()}
-                    onDrop={e => {
-                        e.preventDefault()
+
+                    onDrop={event => {
+                        event.preventDefault()
                         let allow = true, newEntities
                         if (allow) {
-                            const n = newEntities ? newEntities : handleDropBoard(e.dataTransfer.getData("text"), props.allNodes)
-                            if(n)
-                                handleDropNode(n, e)
+                            const nodes = newEntities ? newEntities : handleDropBoard(event.dataTransfer.getData("text"), props.allNodes)
+                            handleDropNode(nodes, event, ref, props.hook)
                         }
                     }}
                     ref={ref}
@@ -147,12 +114,12 @@ export default function Board(props) {
 
                     }}
                 >
-                    {props.hook.groups?.map(node => (
+                    {props.hook.nodes?.map(node => node.isComment ? (
                         <React.Fragment key={node.id}>
                             <Group
                                 setSelected={(i) => props.setSelected([i])}
                                 submitName={newName => {
-                                    props.hook.setGroups(prev => {
+                                    props.hook.setNodes(prev => {
                                         return prev.map(p => {
                                             if (p.id === node.id)
                                                 p.name = newName
@@ -166,17 +133,18 @@ export default function Board(props) {
                                 node={node}
                             />
                         </React.Fragment>
-                    ))}
+                    ) : null)}
                     {links.map(l => (
                         <path
                             data-link={l.target + "-" + l.source}
                             fill={"none"}
-                            stroke={l.color}
+                            stroke={"#fff"}
+                            strokeWidth={LINK_WIDTH}
                             key={l.target + "-" + l.source}
                             id={l.target + "-" + l.source}
                         />
                     ))}
-                    {props.hook.nodes.map(node => (
+                    {props.hook.nodes.map(node => !node.isComment ?(
                         <React.Fragment key={node.id}>
                             <Node
                                 links={links} path={window.fileSystem.path}
@@ -201,7 +169,7 @@ export default function Board(props) {
                                 node={node}
                                 handleLink={handleLink}/>
                         </React.Fragment>
-                    ))}
+                    ) : null)}
                 </svg>
             </div>
         </OnDragProvider.Provider>

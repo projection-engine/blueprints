@@ -2,7 +2,7 @@ import React, {useId, useMemo, useState} from "react"
 import useShortcuts from "../hooks/useShortcuts"
 import styles from "../styles/MaterialView.module.css"
 import Available from "./Available"
-import {allNodes} from "../templates/AllNodes"
+import {availableNodes} from "../templates/availableNodes"
 import ResizableBar from "../../../../components/resizable/ResizableBar"
 import Board from "./Board"
 import VerticalTabs from "../../../../components/vertical-tab/VerticalTabs"
@@ -20,7 +20,6 @@ export default function Editor(props) {
     const [openSideBar, setOpenSideBar] = useState(true)
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof ShaderEditor), [hook.nodes])
 
-
     useShortcuts(
         hook,
         () => save(hook, submitPackage, registryID, currentMaterial).catch(),
@@ -30,7 +29,7 @@ export default function Editor(props) {
     return (
         <div className={styles.wrapper} id={internalID}>
             <Available
-                allNodes={allNodes}
+                allNodes={availableNodes}
                 styles={{
                     width: "250px"
                 }}
@@ -38,7 +37,7 @@ export default function Editor(props) {
             <ResizableBar type={"width"}/>
             <div className={styles.boardAvailable}>
                 <Board
-                    allNodes={allNodes}
+                    allNodes={availableNodes}
                     hook={hook}
                     selected={hook.selected}
                     setSelected={hook.setSelected}
@@ -50,9 +49,7 @@ export default function Editor(props) {
                     tabs={[
                         {
                             label: "Board",
-                            content: (
-                                <BoardSettings/>
-                            )
+                            content: <BoardSettings/>
                         },
                         {
                             label: "Node",

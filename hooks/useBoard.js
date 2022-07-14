@@ -1,23 +1,21 @@
-import {useEffect, useMemo, useRef} from "react"
-import getBezierCurve from "../utils/board/bezierCurve"
-import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
-import TYPES_INFO from "../templates/DATA_INFO"
+import {useEffect, useId, useMemo, useRef} from "react"
+import getBezierCurve from "../utils/bezierCurve"
+import BOARD_SIZE from "../data/BOARD_SIZE"
+import LINK_WIDTH from "../data/LINK_WIDTH"
 
 export default function useBoard(hook) {
     const ref = useRef()
     const mappedLinks = useRef([])
+    const internalID = useId()
+
     const links = useMemo(() => {
         return hook.links.map(l => {
-            let key = (Object.entries(DATA_TYPES).find(([, value]) => value === l.source.attribute.type))
-            if (key)
-                key = key[0]
-
             return {
                 target: l.target.id + l.target.attribute.key,
                 source: l.source.id + l.source.attribute.key,
                 targetKey: l.target.attribute.key,
                 sourceKey: l.source.attribute.key,
-                color: TYPES_INFO[key],
+
                 sourceType: l.source.attribute.type,
                 targetType: l.target.attribute.type
             }
@@ -43,14 +41,15 @@ export default function useBoard(hook) {
                 if (target && source && linkPath) {
                     const sourceBBox = source.getBoundingClientRect(),
                         targetBBox = target.getBoundingClientRect()
+                    const OFFSET = 7.5
                     const curve = getBezierCurve(
                         {
-                            x: (sourceBBox.x + bounding.x + 7.5) / scale,
-                            y: (sourceBBox.y + bounding.y + 7.5) / scale
+                            x: (sourceBBox.x + bounding.x + OFFSET) / scale,
+                            y: (sourceBBox.y + bounding.y + OFFSET + LINK_WIDTH * 2) / scale
                         },
                         {
-                            x1: (targetBBox.x + bounding.x + 7.5) / scale,
-                            y1: (targetBBox.y + bounding.y + 7.5) / scale
+                            x1: (targetBBox.x + bounding.x + OFFSET) / scale,
+                            y1: (targetBBox.y + bounding.y + OFFSET + LINK_WIDTH * 2) / scale
                         })
 
                     if (linkPath.getAttribute("d") !== curve)
@@ -76,15 +75,11 @@ export default function useBoard(hook) {
         updateLinks()
     }
 
-
-
     const handleLink = (src, target, isExecution) => {
         hook.setLinks(prev => {
             let c = [...prev]
             const existing = c.filter(c => (c.target.id === target.id && c.target.attribute.key === target.attribute.key) || (isExecution && c.source.id === src.id && c.source.attribute.key === src.attribute.key))
-            c = c.filter(cc => {
-                return !existing.find(e => e === cc)
-            })
+            c = c.filter(cc => !existing.find(e => e === cc))
             if (!target.attribute.componentRequired || src.attribute.components.includes(target.attribute.componentRequired)) {
                 hook.setChanged(true)
                 hook.setImpactingChange(true)
@@ -99,8 +94,10 @@ export default function useBoard(hook) {
     }
 
     useEffect(() => {
-        ref.current?.parentNode.addEventListener("wheel", handleWheel, {passive: false})
-        return () => ref.current?.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
+        ref.current.parentNode.scrollTop = BOARD_SIZE/2
+        ref.current.parentNode.scrollLeft = BOARD_SIZE/2
+        ref.current.parentNode.addEventListener("wheel", handleWheel, {passive: false})
+        return () => ref.current.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
     }, [])
 
     useEffect(() => {
@@ -114,12 +111,13 @@ export default function useBoard(hook) {
                 }
             })
         updateLinks()
-        const mt = new MutationObserver(updateLinks)
-        mt.observe(ref.current, {subtree: true, childList: true, attributes: true})
-        return () => mt.disconnect()
+        const mutationObserver = new MutationObserver(updateLinks)
+        mutationObserver.observe(ref.current, {subtree: true, childList: true, attributes: true})
+        return () => mutationObserver.disconnect()
     }, [links])
 
     return {
+        internalID,
         links,
         ref,
         handleLink

@@ -1,4 +1,4 @@
-import BOARD_SIZE from "../templates/BOARD_SIZE"
+import BOARD_SIZE from "../../data/BOARD_SIZE"
 
 export default async function Make(hook, result) {
     const parsedNodes = hook.nodes.map(n => {

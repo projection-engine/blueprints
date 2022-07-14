@@ -1,6 +1,6 @@
-import compiler from "./compiler/compiler"
-import MaterialInstance from "../../../engine/instances/MaterialInstance"
-import {trimString} from "../../../engine/instances/ShaderInstance"
+import compiler from "./compiler"
+import MaterialInstance from "../../../../engine/instances/MaterialInstance"
+import {trimString} from "../../../../engine/instances/ShaderInstance"
 
 export default async function compileShaders(hook,mat, setMat ){
     alert.pushAlert("Compiling shaders", "info")
@@ -12,7 +12,7 @@ export default async function compileShaders(hook,mat, setMat ){
         settings,
         info,
         cubeMapShader
-    } = await compiler(hook.nodes, hook.links, window.fileSystem)
+    } = await compiler(hook.nodes.filter(n => !n.isComment), hook.links)
 
     if (shader) {
         const onOverride = mat
