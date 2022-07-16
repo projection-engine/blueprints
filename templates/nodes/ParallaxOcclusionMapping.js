@@ -14,15 +14,7 @@ export default class ParallaxOcclusionMapping extends Node {
             {
                 label: "Discard off-pixels",
                 key: "discard",
-                type: DATA_TYPES.OPTIONS,
-                options: [
-                    {
-                        label: "Yes", data: true
-                    },
-                    {
-                        label: "No", data: false
-                    },
-                ]
+                type: DATA_TYPES.CHECKBOX
             },
             {
                 label: "Height scale",
@@ -50,7 +42,6 @@ export default class ParallaxOcclusionMapping extends Node {
                 key: "heightMap",
                 accept: [DATA_TYPES.TEXTURE]
             }
-            ,
         ], [
             {label: "UVs", key: "UVs", type: DATA_TYPES.VEC2}
         ])
@@ -61,7 +52,6 @@ export default class ParallaxOcclusionMapping extends Node {
     get type() {
         return NODE_TYPES.FUNCTION
     }
-
 
     getFunctionInstance() {
         return `
@@ -101,7 +91,6 @@ export default class ParallaxOcclusionMapping extends Node {
     getFunctionCall({heightMap, viewDirection, texCoord}, index) {
         this.UVs = "UVs" + index
         return `vec2 ${this.UVs} = parallaxMapping( ${texCoord.name},  ${viewDirection.name},  ${heightMap.name},  ${checkFloat(this.heightScale)},  ${checkFloat(this.layers)} );`
-
     }
 
 }

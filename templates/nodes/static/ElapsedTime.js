@@ -17,9 +17,6 @@ export default class ElapsedTime extends Node {
     get type() {
         return NODE_TYPES.STATIC
     }
-
-     
-
      
     getFunctionCall() {
         this.elapsedTime = "elapsedTime"

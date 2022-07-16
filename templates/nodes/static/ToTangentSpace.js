@@ -18,9 +18,6 @@ export default class ToTangentSpace extends Node {
         return NODE_TYPES.STATIC
     }
 
-     
-
-     
     getFunctionCall() {
         this.toTangentSpace = "toTangentSpace"
         return ""

@@ -21,10 +21,6 @@ export default class ViewDirection extends Node {
         return NODE_TYPES.STATIC
     }
 
-     
-
-     
-
     getFunctionCall(_, index, outputs) {
         let response = []
 

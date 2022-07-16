@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from "uuid"
 import Comment from "../templates/nodes/Comment"
 
 export default function addComment(hook) {

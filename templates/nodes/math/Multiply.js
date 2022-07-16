@@ -4,6 +4,8 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Multiply extends Node {
+    a = 0
+    b = 0
     constructor() {
         super([
             {label: "A", key: "a", accept: [DATA_TYPES.FLOAT, DATA_TYPES.INT, DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2 ]},
@@ -11,7 +13,6 @@ export default class Multiply extends Node {
         ], [
             {label: "Result", key: "multRes", type: DATA_TYPES.UNDEFINED}
         ])
-        this.equalTypeInputs = true
         this.name = "Multiply"
         this.size = 2
     }
@@ -19,15 +20,7 @@ export default class Multiply extends Node {
     get type() {
         return NODE_TYPES.FUNCTION
     }
-
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({a,b}, index) {
+    getFunctionCall({a={name: this.a},b={name: this.b}}, index) {
         this.multRes = "multRes" + index
         if(b && a)
             return `${a.type} ${this.multRes} = ${a.name} * ${b.name};`

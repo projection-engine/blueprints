@@ -4,11 +4,12 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Refract extends Node {
+    r = 0
     constructor() {
         super([
             {label: "Vector", key: "a", accept: [DATA_TYPES.VEC3]},
             {label: "Normal", key: "n", accept: [DATA_TYPES.VEC3]},
-            {label: "Ratio", key: "r", accept: [DATA_TYPES.FLOAT]}
+            {label: "Ratio", key: "r", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "refractRes", type: DATA_TYPES.VEC3}
         ])
@@ -20,19 +21,11 @@ export default class Refract extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({n, a, r}, index) {
+    getFunctionCall({n, a, r={name: this.r}}, index) {
         this.refractRes = "refractRes" + index
 
         if(a)
             return `vec3 ${this.refractRes} = refract(${a.name}, ${n.name}, ${r.name});`
-        else
-            return ""
+        return `vec3 ${this.refractRes} = vec3(0.);`
     }
 }

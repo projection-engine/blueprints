@@ -15,7 +15,8 @@ export default class PerlinNoise extends Node {
             {
                 label: "Seed",
                 key: "vec",
-                accept: [DATA_TYPES.VEC2, DATA_TYPES.FLOAT]
+                accept: [DATA_TYPES.VEC2, DATA_TYPES.FLOAT],
+                type: DATA_TYPES.FLOAT
             },
             {
                 label: "Amplitude",

@@ -14,17 +14,12 @@ export default class SceneColor extends Node {
             {label: "B", key: "b", type: DATA_TYPES.FLOAT, color: "blue"},
             {label: "Alpha", key: "a", type: DATA_TYPES.FLOAT, color: "white"}
         ])
-
         this.name = "SceneColor"
     }
 
     get type() {
         return NODE_TYPES.STATIC
     }
-
-     
-
-     
 
     getFunctionCall({uv}, index, outputs) {
         let response = [

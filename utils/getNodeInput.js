@@ -1,6 +1,5 @@
 import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
 import Range from "../../../../components/range/Range"
-import Material from "../templates/nodes/Material"
 import styles from "../styles/Attribute.module.css"
 import ColorPicker from "../../../../components/color/ColorPicker"
 import Selector from "../../../../components/selector/Selector"

@@ -1,18 +1,19 @@
 import styles from "./styles/ShaderEditor.module.css"
-import React, {useContext, useEffect, useId, useState} from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import useShaderEditor from "./hooks/useShaderEditor"
 import compileShaders from "./libs/compileShaders"
-import BlueprintProvider from "../../context/BlueprintProvider"
 import Header from "../../../components/view/components/Header"
 import {Button, Dropdown, DropdownOption, DropdownOptions, Icon, ToolTip} from "@f-ui/core"
-import COMPONENTS from "../../engine/templates/COMPONENTS"
 import Editor from "./components/Editor"
 import Available from "./components/Available"
+import selection from "./utils/selection"
+import SELECTION_TYPES from "./templates/SELECTION_TYPES"
 
 const GRID_SIZE = 20
 export default function ShaderEditor(props) {
     const hook = useShaderEditor()
+
     return (
         <>
             <Header
@@ -57,6 +58,37 @@ export default function ShaderEditor(props) {
                         </DropdownOptions>
                     </Dropdown>
                     <Available disabled={!hook.openFile.registryID}/>
+                </div>
+                <div className={styles.options} style={{justifyContent: "flex-end"}}>
+                    <Dropdown
+                        className={styles.button}
+                        styles={{paddingRight: "2px"}}
+                    >
+                        Select
+                        <DropdownOptions>
+                            <DropdownOption
+                                option={{
+                                    label: "All",
+                                    onClick: () => selection(SELECTION_TYPES.ALL, hook),
+                                    shortcut: "A"
+                                }}
+                            />
+                            <DropdownOption
+                                option={{
+                                    label: "None",
+                                    onClick: () => selection(SELECTION_TYPES.NONE, hook),
+                                    shortcut: "Alt + A"
+                                }}
+                            />
+                            <DropdownOption
+                                option={{
+                                    label: "Invert",
+                                    onClick: () => selection(SELECTION_TYPES.INVERT, hook),
+                                    shortcut: "Ctrl + i"
+                                }}
+                            />
+                        </DropdownOptions>
+                    </Dropdown>
                     <Button
                         className={styles.button}
                         styles={{padding: "4px"}}
@@ -70,9 +102,7 @@ export default function ShaderEditor(props) {
                             }
                         }}
                     >
-                        <Icon styles={{fontSize: "1rem"}}>
-							grid_4x4
-                        </Icon>
+                        <Icon styles={{fontSize: "1rem"}}>grid_4x4</Icon>
                         <ToolTip content={"Toggle movement grid"}/>
                     </Button>
                 </div>

@@ -11,7 +11,7 @@ export default class Float extends Node {
     constructor() {
         super([
             {
-                label: " Dynamic",
+                label: "Dynamic",
                 key: "uniform",
                 type: DATA_TYPES.CHECKBOX,
             },
@@ -25,18 +25,11 @@ export default class Float extends Node {
     }
 
     get type() {
-        if (this.uniform)
-            return NODE_TYPES.VARIABLE
-        else
-            return NODE_TYPES.STATIC
+        return NODE_TYPES.STATIC
     }
 
-     
-
     async getInputInstance(index, uniforms, uniformData) {
-
         if (this.uniform) {
-
             this.uniformName = `FLOAT_VAR${index}`
             uniformData.push({
                 key: this.uniformName,

@@ -4,9 +4,10 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class DDX extends Node {
+    a = 0
     constructor() {
         super([
-            {label: "X", key: "a", accept: [DATA_TYPES.FLOAT]}
+            {label: "X", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "ddxRes", type: DATA_TYPES.FLOAT}
         ])
@@ -19,13 +20,7 @@ export default class DDX extends Node {
     }
 
 
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({a}, index) {
+    getFunctionCall({a={name: this.a}}, index) {
         this.ddxRes = "ddxRes" + index
 
         if(a)

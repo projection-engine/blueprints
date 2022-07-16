@@ -1,12 +1,11 @@
 import PropTypes from "prop-types"
-import React, {useMemo, useState} from "react"
+import React from "react"
 import Node from "./node/Node"
 import styles from "../styles/Board.module.css"
 import handleDropBoard from "../utils/handleDropBoard"
 
 import handleBoardScroll from "../utils/handleBoardScroll"
 import useBoard from "../hooks/useBoard"
-import getBoardOptions from "../utils/getBoardOptions"
 import OnDragProvider from "../context/DragProvider"
 import SelectBox from "../../../../components/select-box/SelectBox"
 import Comment from "./node/Comment"
@@ -23,16 +22,15 @@ const TRIGGERS = [
     "data-group"
 ]
 export default function Board(props) {
+    const {hook} = props
     const {
         links,
         ref,
         handleLink,
         internalID,
         dragType, setDragType,
-
-
         setSelected,  boardOptions
-    } = useBoard(props.hook)
+    } = useBoard(hook)
 
 
     useContextTarget(
@@ -40,15 +38,14 @@ export default function Board(props) {
         boardOptions,
         TRIGGERS
     )
-
     return (
         <OnDragProvider.Provider value={{setDragType, dragType}}>
             <div className={styles.context}>
                 <SelectBox
-                    nodes={props.hook.nodes}
-                    selected={props.selected}
+                    nodes={hook.nodes}
+                    selected={hook.selected}
                     targetElementID={internalID}
-                    setSelected={props.setSelected}
+                    setSelected={hook.setSelected}
                 />
                 <svg
                     id={internalID}
@@ -66,7 +63,7 @@ export default function Board(props) {
                         event.preventDefault()
                         const nodes = handleDropBoard(event.dataTransfer.getData("text"), availableNodes)
                         if (nodes)
-                            handleDropNode(nodes, event, ref, props.hook)
+                            handleDropNode(nodes, event, ref, hook)
 
                     }}
                     ref={ref}
@@ -75,16 +72,16 @@ export default function Board(props) {
                         if (e.button === 2)
                             handleBoardScroll(ref.current.parentNode)
                         if (e.target === ref.current)
-                            props.setSelected([])
+                            hook.setSelected([])
 
                     }}
                 >
-                    {props.hook.nodes?.map(node => node.isComment ? (
+                    {hook.nodes.map(node => node.isComment ? (
                         <React.Fragment key={node.id}>
                             <Comment
-                                setSelected={(i) => props.setSelected([i])}
+                                setSelected={(i) => hook.setSelected([i])}
                                 submitName={newName => {
-                                    props.hook.setNodes(prev => {
+                                    hook.setNodes(prev => {
                                         return prev.map(p => {
                                             if (p.id === node.id)
                                                 p.name = newName
@@ -93,8 +90,8 @@ export default function Board(props) {
                                         })
                                     })
                                 }}
-                                onDragStart={() => props.hook.setChanged(true)}
-                                selected={props.selected}
+                                onDragStart={() => hook.setChanged(true)}
+                                selected={hook.selected}
                                 node={node}
                             />
                         </React.Fragment>
@@ -109,13 +106,13 @@ export default function Board(props) {
                             id={l.target + "-" + l.source}
                         />
                     ))}
-                    {props.hook.nodes.map(node => !node.isComment ? (
+                    {hook.nodes.map(node => !node.isComment ? (
                         <React.Fragment key={node.id}>
                             <Node
                                 links={links}
                                 submitBundledVariable={(key, value) => {
-                                    props.hook.setChanged(true)
-                                    props.hook.setNodes(prev => {
+                                    hook.setChanged(true)
+                                    hook.setNodes(prev => {
                                         return prev.map(p => {
                                             if (p.id === node.id)
                                                 p[key] = value
@@ -127,10 +124,9 @@ export default function Board(props) {
                                     if (multi)
                                         setSelected(i)
                                     else
-                                        props.setSelected([i])
+                                        hook.setSelected([i])
                                 }}
-                                onDragStart={() => props.hook.setChanged(true)}
-                                selected={props.selected}
+                                selected={hook.selected}
                                 node={node}
                                 handleLink={handleLink}/>
                         </React.Fragment>
@@ -141,7 +137,5 @@ export default function Board(props) {
     )
 }
 Board.propTypes = {
-    hook: PropTypes.object,
-    selected: PropTypes.arrayOf(PropTypes.string).isRequired,
-    setSelected: PropTypes.func
+    hook: PropTypes.object
 }

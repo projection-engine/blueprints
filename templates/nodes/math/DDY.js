@@ -4,9 +4,10 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class DDY extends Node {
+    a = 0
     constructor() {
         super([
-            {label: "Y", key: "a", accept: [DATA_TYPES.FLOAT]}
+            {label: "Y", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "ddyRes", type: DATA_TYPES.FLOAT}
         ])
@@ -18,14 +19,7 @@ export default class DDY extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({a}, index) {
+    getFunctionCall({a={name: this.a}}, index) {
         this.ddyRes = "ddyRes" + index
 
         if(a)

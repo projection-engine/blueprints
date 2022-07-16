@@ -17,10 +17,6 @@ export default class CameraCoords extends Node {
     get type() {
         return NODE_TYPES.STATIC
     }
-
-     
-
-     
     getFunctionCall() {
         this.cameraVec = "cameraVec"
         return ""

@@ -4,9 +4,10 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Saturate extends Node {
+    a = 0
     constructor() {
         super([
-            {label: "In", key: "a", accept: [DATA_TYPES.FLOAT]}
+            {label: "In", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "saturateRes", type: DATA_TYPES.FLOAT}
         ])
@@ -25,12 +26,11 @@ export default class Saturate extends Node {
         return ""
     }
 
-    getFunctionCall({a}, index) {
+    getFunctionCall({a={name: this.a}}, index) {
         this.saturateRes = "saturateRes" + index
         if(a)
             return `float ${this.saturateRes} = clamp(${a.name}, 0., 1.);`
-        else
-            return `float ${this.saturateRes};`
+        return `float ${this.saturateRes} = 0.;`
     }
 
 }

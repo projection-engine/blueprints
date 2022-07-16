@@ -4,13 +4,13 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Sine extends Node {
+    a = 0
     constructor() {
         super([
-            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]}
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "sineRes", type: DATA_TYPES.FLOAT}
         ])
-        this.equalTypeInputs = true
         this.name = "Sine"
         this.size = 2
     }
@@ -19,20 +19,12 @@ export default class Sine extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({a}, index) {
+    getFunctionCall({a={name: this.a}}, index) {
         this.sineRes = "sineRes" + index
 
         if(a)
             return `float ${this.sineRes} = sin(${a.name});`
-        else
-            return `float ${this.sineRes} = 0.;`
+        return `float ${this.sineRes} = 0.;`
     }
 
 }

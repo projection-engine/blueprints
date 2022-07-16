@@ -17,12 +17,8 @@ import ElapsedTime from "../templates/nodes/static/ElapsedTime"
 import Multiply from "../templates/nodes/math/Multiply"
 import PerlinNoise from "../templates/nodes/math/PerlinNoise"
 import BreakVector from "../templates/nodes/vec/BreakVector"
-import DotVec2 from "../templates/nodes/vec/DotVec2"
-import DotVec3 from "../templates/nodes/vec/DotVec3"
-import DotVec4 from "../templates/nodes/vec/DotVec4"
-import LerpVec2 from "../templates/nodes/vec/LerpVec2"
-import LerpVec3 from "../templates/nodes/vec/LerpVec3"
-import LerpVec4 from "../templates/nodes/vec/LerpVec4"
+import DotProduct from "../templates/nodes/vec/DotProduct"
+import LinearInterpolate from "../templates/nodes/vec/LinearInterpolate"
 import Max from "../templates/nodes/math/Max"
 import Min from "../templates/nodes/math/Min"
 import Vec2 from "../templates/nodes/vec/Vec2"
@@ -106,18 +102,11 @@ export default function getNewInstance(name) {
         return new PerlinNoise()
     case BreakVector.name:
         return new BreakVector()
-    case DotVec2.name:
-        return new DotVec2()
-    case DotVec3.name:
-        return new DotVec3()
-    case DotVec4.name:
-        return new DotVec4()
-    case LerpVec2.name:
-        return new LerpVec2()
-    case LerpVec3.name:
-        return new LerpVec3()
-    case LerpVec4.name:
-        return new LerpVec4()
+    case DotProduct.name:
+        return new DotProduct()
+    case LinearInterpolate.name:
+        return new LinearInterpolate()
+
     case Max.name:
         return new Max()
     case Min.name:

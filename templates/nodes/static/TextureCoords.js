@@ -18,13 +18,6 @@ export default class TextureCoords extends Node {
     get type() {
         return NODE_TYPES.STATIC
     }
-
-     
-
-    async    getInputInstance() {
-        return ""
-    }
-    // texture and uv = {name: variable name, value: variable value if static}
     getFunctionCall() {
         this.texCoord = "texCoord"
         return ""

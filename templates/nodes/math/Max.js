@@ -4,14 +4,15 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Max extends Node {
+    a = 0
+    b = 0
     constructor() {
         super([
-            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]},
-            {label: "B", key: "b", accept: [DATA_TYPES.FLOAT] }
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT},
+            {label: "B", key: "b", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "maxRes", type: DATA_TYPES.FLOAT}
         ])
-        this.equalTypeInputs = true
         this.name = "Max"
         this.size = 2
     }
@@ -20,19 +21,15 @@ export default class Max extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
     async  getInputInstance() {
         return ""
     }
 
-    getFunctionCall({a,b}, index) {
+    getFunctionCall({a={name: this.a},b={name: this.b}}, index) {
         this.maxRes = "maxRes" + index
         if(b && a)
             return `float ${this.maxRes} = max(${a.name}, ${b.name});`
-        else
-            return `float ${this.maxRes};`
+        return `float ${this.maxRes};`
     }
 
 }

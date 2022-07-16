@@ -11,7 +11,7 @@ export default class Vec4 extends Node {
     constructor() {
         super([
             {
-                label: " Dynamic",
+                label: "Dynamic",
                 key: "uniform",
                 type: DATA_TYPES.CHECKBOX,
             },

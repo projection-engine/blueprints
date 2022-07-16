@@ -55,7 +55,7 @@ export default class Material extends Node {
             {label: "Opacity", key: "opacity", accept: allTypes, disabled: true, type: DATA_TYPES.FLOAT, max: 1, min: 0},
             {label: "Refraction", key: "refraction", accept: allTypes, disabled: true},
 
-            {label: "Ambient influence", key: "ambientInfluence", type: DATA_TYPES.CHECKBOX},
+            {label: "Probe influence", key: "ambientInfluence", type: DATA_TYPES.CHECKBOX},
 
             {label: "Face culling", key: "faceCulling", type: DATA_TYPES.CHECKBOX},
             {label: "Depth test", key: "depthTest", type: DATA_TYPES.CHECKBOX},

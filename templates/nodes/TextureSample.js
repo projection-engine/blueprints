@@ -13,13 +13,13 @@ export default class TextureSample extends Node {
     uniform = true
     _texture = {}
     yFlip = false
-    
-    
-    
-    get texture(){
+
+
+    get texture() {
         return this._texture
     }
-    set texture(data){
+
+    set texture(data) {
         this._texture = data
         this.output = this.output.map(o => {
             o.disabled = false
@@ -67,37 +67,38 @@ export default class TextureSample extends Node {
     }
 
     constructor() {
-        super([
-            {label: "UV", key: "uv", accept: [DATA_TYPES.VEC2]},
-            {
-                label: "Flip Y axis",
-                key: "yFlip",
-                type: DATA_TYPES.CHECKBOX
-            },
-            {
-                label: "Format",
-                key: "ft",
-                type: DATA_TYPES.OPTIONS,
-                options: [
-                    {label: "RGB", data: "RGB"},
-                    {label: "RGBA", data: "RGBA"},
-                    {label: "sRGBA", data: "SRGBA"}
-                ]
-            },
+        super(
+            [
+                {label: "UV", key: "uv", accept: [DATA_TYPES.VEC2]},
+                {
+                    label: "Flip Y axis",
+                    key: "yFlip",
+                    type: DATA_TYPES.CHECKBOX
+                },
+                {
+                    label: "Format",
+                    key: "ft",
+                    type: DATA_TYPES.OPTIONS,
+                    options: [
+                        {label: "RGB", data: "RGB"},
+                        {label: "RGBA", data: "RGBA"},
+                        {label: "sRGBA", data: "SRGBA"}
+                    ]
+                },
 
-
-
-            {label: "Sampler", key: "texture", type: DATA_TYPES.TEXTURE}
-        ], [
-            {label: "Sampler", key: "sampler", type: DATA_TYPES.TEXTURE, disabled: true},
-            {label: "RGB", key: "rgb", type: DATA_TYPES.VEC3, disabled: true},
-            {label: "R", key: "r", type: DATA_TYPES.FLOAT, color: "red", disabled: true},
-            {label: "G", key: "g", type: DATA_TYPES.FLOAT, color: "green", disabled: true},
-            {label: "B", key: "b", type: DATA_TYPES.FLOAT, color: "blue", disabled: true},
-            {label: "Alpha", key: "a", type: DATA_TYPES.FLOAT, color: "white", disabled: true}
-        ])
+                {label: "Sampler", key: "texture", type: DATA_TYPES.TEXTURE}
+            ],
+            [
+                {label: "Sampler", key: "sampler", type: DATA_TYPES.TEXTURE, disabled: true},
+                {label: "RGB", key: "rgb", type: DATA_TYPES.VEC3, disabled: true},
+                {label: "R", key: "r", type: DATA_TYPES.FLOAT, color: "red", disabled: true},
+                {label: "G", key: "g", type: DATA_TYPES.FLOAT, color: "green", disabled: true},
+                {label: "B", key: "b", type: DATA_TYPES.FLOAT, color: "blue", disabled: true},
+                {label: "Alpha", key: "a", type: DATA_TYPES.FLOAT, color: "white", disabled: true}
+            ]
+        )
         this.inputs.find(i => i.key === "texture").onChange = (v) => {
-            if(!v || Object.keys(v).length === 0)
+            if (!v || Object.keys(v).length === 0)
                 this.output = this.output.map(o => {
                     o.disabled = true
                     return o
@@ -115,7 +116,6 @@ export default class TextureSample extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-     
 
     async getInputInstance(index, uniforms, uniformData) {
         this.uniformName = `sampler${index}`
@@ -123,7 +123,7 @@ export default class TextureSample extends Node {
             try {
                 const res = await window.fileSystem.readRegistryFile(this.texture?.registryID)
                 if (res) {
-                    const file = await window.fileSystem.readFile(window.fileSystem.path + FileSystem.sep + "assets" +FileSystem.sep +  res.path, true)
+                    const file = await window.fileSystem.readFile(window.fileSystem.path + FileSystem.sep + "assets" + FileSystem.sep + res.path, true)
                     uniforms.push({
                         label: this.name,
                         key: this.uniformName,

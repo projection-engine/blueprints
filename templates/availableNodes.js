@@ -17,12 +17,8 @@ import ViewDirection from "./nodes/static/ViewDirection"
 import ParallaxOcclusionMapping from "./nodes/ParallaxOcclusionMapping"
 import PerlinNoise from "./nodes/math/PerlinNoise"
 import BreakVector from "./nodes/vec/BreakVector"
-import DotVec2 from "./nodes/vec/DotVec2"
-import DotVec3 from "./nodes/vec/DotVec3"
-import DotVec4 from "./nodes/vec/DotVec4"
-import LerpVec2 from "./nodes/vec/LerpVec2"
-import LerpVec3 from "./nodes/vec/LerpVec3"
-import LerpVec4 from "./nodes/vec/LerpVec4"
+import DotProduct from "./nodes/vec/DotProduct"
+import LinearInterpolate from "./nodes/vec/LinearInterpolate"
 import Vec4 from "./nodes/vec/Vec4"
 import Vec3 from "./nodes/vec/Vec3"
 import Vec2 from "./nodes/vec/Vec2"
@@ -195,11 +191,11 @@ export const availableNodes = [
         getNewInstance: () => new DotVec3()
     },
     {
-        label: "DotVec4",
-        dataTransfer: "DotVec4",
+        label: "DotProduct",
+        dataTransfer: "DotProduct",
         tooltip: "Dot product vec4",
         
-        getNewInstance: () => new DotVec4()
+        getNewInstance: () => new DotProduct()
     },
 
     {
@@ -210,11 +206,11 @@ export const availableNodes = [
         getNewInstance: () => new LerpVec2()
     },
     {
-        label: "LerpVec3",
-        dataTransfer: "LerpVec3",
+        label: "LinearInterpolate",
+        dataTransfer: "LinearInterpolate",
         tooltip: "Linear interpolate vec3.",
         
-        getNewInstance: () => new LerpVec3()
+        getNewInstance: () => new LinearInterpolate()
     },
     {
         label: "LerpVec4",

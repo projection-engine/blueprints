@@ -5,7 +5,7 @@ import checkFloat from "../../utils/checkFloat"
 
 
 export default class RGB extends Node {
-    v = [0,0,0]
+    v = [0, 0, 0]
     uniform = false
 
     constructor() {
@@ -20,18 +20,12 @@ export default class RGB extends Node {
         ], [
             {label: "Value", key: "COLOR_RGB", type: DATA_TYPES.VEC3},
         ])
-
         this.name = "RGB"
     }
 
     get type() {
-        if (this.uniform)
-            return NODE_TYPES.VARIABLE
-        else
-            return NODE_TYPES.STATIC
+        return NODE_TYPES.STATIC
     }
-
-     
 
     async getInputInstance(index, uniforms, uniformData) {
         const v = this.v
@@ -39,14 +33,14 @@ export default class RGB extends Node {
             this.uniformName = `COLOR_RGB${index}`
             uniformData.push({
                 key: this.uniformName,
-                data: v.map(i => i/255),
+                data: v.map(i => i / 255),
                 type: DATA_TYPES.VEC3
             })
             uniforms.push({
                 label: this.name,
                 key: this.uniformName,
                 type: DATA_TYPES.VEC3,
-                value: v.map(i => i/255),
+                value: v.map(i => i / 255),
                 normalized: true
             })
 
@@ -54,7 +48,7 @@ export default class RGB extends Node {
         } else {
             this.uniformName = `COLOR_RGB${index}`
 
-            return `#define ${this.uniformName} vec3(${checkFloat(v[0]/255)}, ${checkFloat(v[1]/255)}, ${checkFloat(v[2]/255)})`
+            return `#define ${this.uniformName} vec3(${checkFloat(v[0] / 255)}, ${checkFloat(v[1] / 255)}, ${checkFloat(v[2] / 255)})`
         }
     }
 

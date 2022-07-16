@@ -4,14 +4,14 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Tan extends Node {
+    a = 0
     constructor() {
         super([
-            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]}
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "tanRes", type: DATA_TYPES.FLOAT}
         ])
-        this.equalTypeInputs = true
-        this.name = "Cosine"
+        this.name = "Tangent"
         this.size = 2
     }
 
@@ -19,19 +19,10 @@ export default class Tan extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({a}, index) {
+    getFunctionCall({a={name: this.a}}, index) {
         this.tanRes = "tanRes" + index
-
         if(a)
             return `float ${this.tanRes} = tan(${a.name});`
-        else
-            return `float ${this.tanRes} = 0.;`
+        return `float ${this.tanRes} = 0.;`
     }
 }

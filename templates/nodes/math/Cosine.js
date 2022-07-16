@@ -4,13 +4,13 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Cosine extends Node {
+    a = 0
     constructor() {
         super([
-            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]}
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "cosRes", type: DATA_TYPES.FLOAT}
         ])
-        this.equalTypeInputs = true
         this.name = "Cosine"
         this.size = 2
     }
@@ -19,14 +19,7 @@ export default class Cosine extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({a}, index) {
+    getFunctionCall({a={name: this.a}}, index) {
         this.cosRes = "cosRes" + index
 
         if(a)

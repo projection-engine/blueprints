@@ -27,7 +27,6 @@ export default class BreakVector extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
     getFunctionCall({v}, index, outputs) {
         let response = []
         outputs.forEach(o => {

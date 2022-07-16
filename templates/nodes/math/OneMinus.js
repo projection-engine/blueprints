@@ -4,9 +4,10 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class OneMinus extends Node {
+    a = 0
     constructor() {
         super([
-            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]}
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "oneMinusRes", type: DATA_TYPES.FLOAT}
         ])
@@ -18,14 +19,7 @@ export default class OneMinus extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({a}, index) {
+    getFunctionCall({a={name: this.a}}, index) {
         this.oneMinusRes = "oneMinusRes" + index
         if( a)
             return `float ${this.oneMinusRes} = 1. - ${a.name};`

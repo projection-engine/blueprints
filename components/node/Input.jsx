@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
 import React, {useContext, useMemo, useRef} from "react"
 import OnDragProvider from "../../context/DragProvider"
-import {Icon} from "@f-ui/core"
 import NodeProvider from "../../context/NodeProvider"
 import linkNodes from "../../utils/linkNodes"
 import getNodeInput from "../../utils/getNodeInput"
@@ -11,6 +10,7 @@ import UpdateNodeProvider from "../../context/UpdateNodeProvider"
 
 export default function Input(props) {
     const {handleLink, inputLinks, attribute} = props
+
     const node = useContext(NodeProvider)
     const wrapperRef = useRef()
     const onDragContext = useContext(OnDragProvider)
@@ -44,7 +44,7 @@ export default function Input(props) {
                     }}
                 />
             ) : null}
-            {getNodeInput(attribute, node, (...attrData) => submitNodeVariable(...attrData, node), true)}
+            {link ? attribute.label : getNodeInput(attribute, node, (...attrData) => submitNodeVariable(...attrData, node), true)}
         </div>
     )
 }

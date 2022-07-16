@@ -5,11 +5,12 @@ import NODE_INFO from "../data/NODE_INFO"
 import dragNode from "../utils/dragNode"
 import LINK_WIDTH from "../data/LINK_WIDTH"
 
-export default function useNode({
-    selected, setSelected,
-    node, hidden,
-    onDragStart, links
-}) {
+export default function useNode(
+    selected,
+    setSelected,
+    node,
+    links
+) {
 
     const isSelected = useMemo(() => selected.indexOf(node.id) > -1, [selected])
     const ref = useRef()
@@ -66,8 +67,6 @@ export default function useNode({
         if (event.button === 0 && isFirst && !isSelected)
             setSelected(node.id, event.ctrlKey)
         if (event.button === 0 && ((isSelected && event.ctrlKey) || isFirst)) {
-            if (isFirst)
-                onDragStart()
             dragNode(event, ref.current, ref.current.parentNode.parentNode)
         }
     }

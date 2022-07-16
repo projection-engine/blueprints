@@ -4,7 +4,6 @@ import BOARD_SIZE from "../data/BOARD_SIZE"
 import LINK_WIDTH from "../data/LINK_WIDTH"
 import getBoardOptions from "../utils/getBoardOptions"
 import handleDropNode from "../utils/handleDropNode"
-import {availableNodes} from "../templates/availableNodes"
 
 export default function useBoard(hook) {
     const ref = useRef()
@@ -99,7 +98,6 @@ export default function useBoard(hook) {
     const boardOptions = useMemo(() => {
         return getBoardOptions(
             (nodes, event) => handleDropNode(nodes, event, ref, hook),
-
             hook,
             links,
             (t) => {

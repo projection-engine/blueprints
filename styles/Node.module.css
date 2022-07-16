@@ -42,7 +42,7 @@
   cursor: grab;
 }
 .connection[data-highlight="-"]{
-  background-color: orangered;
+  background-color: orangered !important;
 }
 .connection[data-dtype="input"] {
   cursor: default;
@@ -51,11 +51,6 @@
   cursor: default !important;
   width: 12px;
   height: 12px;
-}
-
-.connection:hover{
-  width: 15px;
-  height: 15px;
 }
 
 .label {

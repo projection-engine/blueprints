@@ -17,11 +17,6 @@ export default class AbsoluteWorldPosition extends Node {
     get type() {
         return NODE_TYPES.STATIC
     }
-
-     
-
-     
-
     getFunctionCall( ) {
         this.vPosition = "vPosition"
         return ""

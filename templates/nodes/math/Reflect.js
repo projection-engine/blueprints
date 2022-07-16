@@ -19,19 +19,11 @@ export default class Reflect extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
     getFunctionCall({n, a}, index) {
         this.reflectRes = "reflectRes" + index
 
         if(a)
             return `vec3 ${this.reflectRes} = reflect(${a.name}, ${n.name});`
-        else
-            return ""
+        return `vec3 ${this.reflectRes} = vec3(0.);`
     }
 }

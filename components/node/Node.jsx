@@ -2,8 +2,6 @@ import PropTypes from "prop-types"
 import styles from "../../styles/Node.module.css"
 import React from "react"
 import useNode from "../../hooks/useNode"
-import NodeShowcase from "./NodeShowcase"
-import {Icon} from "@f-ui/core"
 import LINK_WIDTH from "../../data/LINK_WIDTH"
 import Input from "./Input"
 import Output from "./Output"
@@ -17,7 +15,13 @@ export default function Node(props) {
         outputLinks,
         inputLinks,
         selected
-    } = useNode(props)
+    } = useNode(
+        props.selected,
+        props.setSelected,
+        props.node,
+        props.links
+    )
+
 
     return (
         <NodeProvider.Provider value={props.node}>

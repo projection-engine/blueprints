@@ -1,8 +1,25 @@
-import handleDropBoard from "./handleDropBoard"
 import deleteNode from "./deleteNode"
+import SELECTION_TYPES from "../templates/SELECTION_TYPES"
+import selection from "./selection"
 
 export default function getBoardOptions(pushNode, hook, links, deleteLink) {
     return [
+        {
+            label: "Select all",
+            requiredTrigger: "data-board",
+            onClick: () => selection(SELECTION_TYPES.ALL, hook)
+        },
+        // {
+        //     label: "Select none",
+        //     requiredTrigger: "data-board",
+        //     onClick: () => selection(SELECTION_TYPES.NONE, hook)
+        // },
+        // {
+        //     label: "Invert selection",
+        //     requiredTrigger: "data-board",
+        //     onClick: () => selection(SELECTION_TYPES.INVERT, hook)
+        // },
+
         {
             requiredTrigger: "data-node",
             label: "Delete",

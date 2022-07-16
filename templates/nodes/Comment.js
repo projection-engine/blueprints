@@ -1,5 +1,4 @@
 import Node from "./Node"
-import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
 
 export default class Comment extends Node {
     name = "New Comment"

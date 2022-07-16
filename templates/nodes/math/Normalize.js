@@ -19,13 +19,6 @@ export default class Normalize extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
     getFunctionCall({a}, index) {
         this.normalizeRes = "normalizeRes" + index
 

@@ -3,16 +3,9 @@ import styles from "../styles/Attribute.module.css"
 import PropTypes from "prop-types"
 import Material from "../templates/nodes/Material"
 
-import {Checkbox, Dropdown, DropdownOption, DropdownOptions, Icon, TextField} from "@f-ui/core"
-import Range from "../../../../components/range/Range"
-import Selector from "../../../../components/selector/Selector"
+import {TextField} from "@f-ui/core"
 
 import ColorPicker from "../../../../components/color/ColorPicker"
-
-import cloneClass from "../../../engine/utils/cloneClass"
-import {DATA_TYPES} from "../../../engine/templates/DATA_TYPES"
-import AccordionTemplate from "../../../../components/accordion/AccordionTemplate"
-import Float from "../templates/nodes/math/Float"
 import getNodeInput from "../utils/getNodeInput"
 import UpdateNodeProvider from "../context/UpdateNodeProvider"
 

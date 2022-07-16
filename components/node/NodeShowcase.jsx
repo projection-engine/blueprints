@@ -1,9 +1,6 @@
-import PropTypes from "prop-types"
 import React, {useContext, useMemo} from "react"
 import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
 import styles from "../../styles/Node.module.css"
-import Preview from "../../../../../components/preview/Preview"
-import FileSystem from "../../../../libs/FileSystem"
 import TexturePreview from "./TexturePreview"
 import NodeProvider from "../../context/NodeProvider"
 

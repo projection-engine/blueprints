@@ -4,6 +4,7 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Divide extends Node {
+
     constructor() {
         super([
             {label: "A", key: "a", accept: [DATA_TYPES.FLOAT, DATA_TYPES.INT, DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2 ]},
@@ -11,20 +12,12 @@ export default class Divide extends Node {
         ], [
             {label: "Result", key: "divideRes", type: DATA_TYPES.UNDEFINED}
         ])
-        this.equalTypeInputs = true
         this.name = "Divide"
         this.size = 2
     }
 
     get type() {
         return NODE_TYPES.FUNCTION
-    }
-
-
-     
-
-    async  getInputInstance() {
-        return ""
     }
 
     getFunctionCall({a,b}, index) {

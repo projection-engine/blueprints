@@ -1,9 +1,6 @@
 import React, {useCallback, useId, useMemo, useState} from "react"
 import useShortcuts from "../hooks/useShortcuts"
 import styles from "../styles/ShaderEditor.module.css"
-import Available from "./Available"
-import {availableNodes} from "../templates/availableNodes"
-import ResizableBar from "../../../../components/resizable/ResizableBar"
 import Board from "./Board"
 import VerticalTabs from "../../../../components/vertical-tab/VerticalTabs"
 
@@ -15,7 +12,7 @@ import cloneClass from "../../../engine/utils/cloneClass"
 import UpdateNodeProvider from "../context/UpdateNodeProvider"
 
 export default function Editor(props) {
-    const hook = props.hook
+    const {hook} = props
     const internalID = useId()
     const [openSideBar, setOpenSideBar] = useState(true)
     const fallbackSelected = useMemo(() => hook.nodes.find(n => n instanceof ShaderEditor), [hook.nodes])
@@ -25,7 +22,6 @@ export default function Editor(props) {
         () => window.blueprints.save(hook, hook.openFile.registryID).catch(),
         internalID
     )
-
 
     const submitNodeVariable = useCallback((event, attr, node) => {
         hook.setNodes(prev => {
@@ -64,7 +60,6 @@ export default function Editor(props) {
         >
             <div className={styles.wrapper} id={internalID}>
                 <Board
-                    allNodes={availableNodes}
                     hook={hook}
                     selected={hook.selected}
                     setSelected={hook.setSelected}

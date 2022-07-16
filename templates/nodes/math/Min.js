@@ -4,14 +4,15 @@ import NODE_TYPES from "../../../data/NODE_TYPES"
 
 
 export default class Min extends Node {
+    a = 0
+    b = 0
     constructor() {
         super([
-            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT]},
-            {label: "B", key: "b", accept: [DATA_TYPES.FLOAT] }
+            {label: "A", key: "a", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT},
+            {label: "B", key: "b", accept: [DATA_TYPES.FLOAT], type: DATA_TYPES.FLOAT}
         ], [
             {label: "Result", key: "minRes", type: DATA_TYPES.FLOAT}
         ])
-        this.equalTypeInputs = true
         this.name = "Min"
         this.size = 2
     }
@@ -20,19 +21,11 @@ export default class Min extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-
-     
-
-    async  getInputInstance() {
-        return ""
-    }
-
-    getFunctionCall({a,b}, index) {
+    getFunctionCall({a={name: this.a},b={name: this.b}}, index) {
         this.minRes = "minRes" + index
         if(b && a)
             return `float ${this.minRes} = min(${a.name}, ${b.name});`
-        else
-            return `float ${this.minRes};`
+        return `float ${this.minRes};`
     }
 
 }
