@@ -1,8 +1,6 @@
-export default function deleteNode(node, hook, setSelected) {
+export default function deleteNode(node, hook) {
     const target = node
-
-    if (setSelected)
-        setSelected([])
+    hook.setSelected([])
     let found = hook.links.filter(el => el.target.id === target || el.source.id === target)
     if (found.length > 0) {
         hook.setChanged(true)

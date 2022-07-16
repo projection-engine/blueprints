@@ -21,9 +21,7 @@ export default class LerpVec3 extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async  getInputInstance() {
         return ""

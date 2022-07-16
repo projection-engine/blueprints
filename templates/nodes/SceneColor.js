@@ -22,13 +22,9 @@ export default class SceneColor extends Node {
         return NODE_TYPES.STATIC
     }
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
-    async getInputInstance() {
-        return ""
-    }
+     
 
     getFunctionCall({uv}, index, outputs) {
         let response = [

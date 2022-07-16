@@ -26,7 +26,7 @@ export default function useNode({
     const nodeInfo = useMemo(() => {
         let key = (Object.entries(NODE_TYPES).find(([, value]) => value === node.type))
         if (key)
-            key = key[0]
+            return key[0]
         return NODE_INFO[key] ? NODE_INFO[key] : {}
     }, [])
 
@@ -53,7 +53,6 @@ export default function useNode({
         pathRef.current?.setAttribute("d", curve)
     }
 
-
     const handleDragStart = (event) => {
         let isFirst, alreadyFound = false
         document.elementsFromPoint(event.clientX, event.clientY)
@@ -73,12 +72,11 @@ export default function useNode({
         }
     }
 
-
     useEffect(() => {
-        const h = ref.current.firstChild.scrollHeight
-        setHeight(h >= 35 ? h : 55)
-    }, [hidden])
-    useEffect(() => {
+        if(!height){
+            const h = ref.current.firstChild.scrollHeight + 4
+            setHeight(h >= 35 ? h : 55)
+        }
         document.addEventListener("mousedown", handleDragStart)
         return () => document.removeEventListener("mousedown", handleDragStart)
     }, [node, selected, isSelected])

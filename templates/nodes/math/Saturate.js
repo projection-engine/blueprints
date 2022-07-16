@@ -19,9 +19,7 @@ export default class Saturate extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async  getInputInstance() {
         return ""

@@ -1,4 +1,4 @@
-import shared from "../styles/NodeEditor.module.css"
+import shared from "../styles/Attribute.module.css"
 import styles from "../styles/Compilation.module.css"
 import PropTypes from "prop-types"
 import {Icon, Tab, Tabs} from "@f-ui/core"

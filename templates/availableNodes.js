@@ -16,9 +16,7 @@ import ToTangentSpace from "./nodes/static/ToTangentSpace"
 import ViewDirection from "./nodes/static/ViewDirection"
 import ParallaxOcclusionMapping from "./nodes/ParallaxOcclusionMapping"
 import PerlinNoise from "./nodes/math/PerlinNoise"
-import BreakVec2 from "./nodes/vec/BreakVec2"
-import BreakVec3 from "./nodes/vec/BreakVec3"
-import BreakVec4 from "./nodes/vec/BreakVec4"
+import BreakVector from "./nodes/vec/BreakVector"
 import DotVec2 from "./nodes/vec/DotVec2"
 import DotVec3 from "./nodes/vec/DotVec3"
 import DotVec4 from "./nodes/vec/DotVec4"
@@ -175,28 +173,12 @@ export const availableNodes = [
         
         getNewInstance: () => new Vec4()
     },
-
-
     {
-        label: "BreakVec2",
-        dataTransfer: "BreakVec2",
+        label: "BreakVector",
+        dataTransfer: "BreakVector",
         tooltip: "Break vector.",
         
-        getNewInstance: () => new BreakVec2()
-    },
-    {
-        label: "BreakVec3",
-        dataTransfer: "BreakVec3",
-        tooltip: "Break vector.",
-        
-        getNewInstance: () => new BreakVec3()
-    },
-    {
-        label: "BreakVec4",
-        dataTransfer: "BreakVec4",
-        tooltip: "Break vector.",
-        
-        getNewInstance: () => new BreakVec4()
+        getNewInstance: () => new BreakVector()
     },
     {
         label: "DotVec2",

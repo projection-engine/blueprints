@@ -16,9 +16,7 @@ import CameraCoords from "../templates/nodes/static/CameraCoords"
 import ElapsedTime from "../templates/nodes/static/ElapsedTime"
 import Multiply from "../templates/nodes/math/Multiply"
 import PerlinNoise from "../templates/nodes/math/PerlinNoise"
-import BreakVec2 from "../templates/nodes/vec/BreakVec2"
-import BreakVec3 from "../templates/nodes/vec/BreakVec3"
-import BreakVec4 from "../templates/nodes/vec/BreakVec4"
+import BreakVector from "../templates/nodes/vec/BreakVector"
 import DotVec2 from "../templates/nodes/vec/DotVec2"
 import DotVec3 from "../templates/nodes/vec/DotVec3"
 import DotVec4 from "../templates/nodes/vec/DotVec4"
@@ -46,6 +44,7 @@ import Reflect from "../templates/nodes/math/Reflect"
 import Refract from "../templates/nodes/math/Refract"
 import Tan from "../templates/nodes/math/Tan"
 import EmbeddedTextureSample from "../templates/nodes/EmbeddedTextureSample"
+import Comment from "../templates/nodes/Comment"
 
 export default function getNewInstance(name) {
 
@@ -105,12 +104,8 @@ export default function getNewInstance(name) {
         return new Multiply()
     case PerlinNoise.name:
         return new PerlinNoise()
-    case BreakVec2.name:
-        return new BreakVec2()
-    case BreakVec3.name:
-        return new BreakVec3()
-    case BreakVec4.name:
-        return new BreakVec4()
+    case BreakVector.name:
+        return new BreakVector()
     case DotVec2.name:
         return new DotVec2()
     case DotVec3.name:
@@ -147,6 +142,8 @@ export default function getNewInstance(name) {
         return new MakeVector()
     case EmbeddedTextureSample.name:
         return new TextureSample()
+    case Comment.name:
+        return new Comment()
     default:
         return null
     }

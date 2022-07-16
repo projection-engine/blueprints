@@ -21,9 +21,7 @@ export default class Add extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async  getInputInstance() {
         return ""

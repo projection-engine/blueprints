@@ -1,14 +1,14 @@
 import PropTypes from "prop-types"
-import styles from "../../styles/Group.module.css"
+import styles from "../../styles/Comment.module.css"
 import React, {useMemo, useState} from "react"
-import useGroup from "../../hooks/useGroup"
+import useComment from "../../hooks/useComment"
 import KEYS from "../../../../engine/templates/KEYS"
 
 export default function Comment(props) {
     const [onEdit, setOnEdit] = useState(false)
     const [nameCache, setNameCache] = useState(props.node.name)
-    const {ref, selected} = useGroup(props)
-    const rgb = useMemo(() => props.node.color.slice(0, 3).join(", "), [props.node.color])
+    const {ref, selected} = useComment(props)
+    const rgb = useMemo(() => props.node.color.slice(0, 3).join(", "), [props.node])
     return (
         <g
             ref={ref}

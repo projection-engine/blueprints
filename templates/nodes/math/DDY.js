@@ -19,9 +19,7 @@ export default class DDY extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async  getInputInstance() {
         return ""

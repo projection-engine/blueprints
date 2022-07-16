@@ -1,11 +1,11 @@
-import cloneClass from "../../../../engine/utils/cloneClass"
-import NODE_TYPES from "../../data/NODE_TYPES"
-import deferredTemplate from "../../templates/deferredTemplate"
-import forwardTemplate from "../../templates/forwardTemplate"
+import cloneClass from "../../../engine/utils/cloneClass"
+import NODE_TYPES from "../data/NODE_TYPES"
+import deferredTemplate from "../templates/deferredTemplate"
+import forwardTemplate from "../templates/forwardTemplate"
 import resolveStructure from "./resolveStructure"
-import {vertex} from "../../../../engine/shaders/mesh/FALLBACK.glsl"
-import MATERIAL_RENDERING_TYPES from "../../../../engine/templates/MATERIAL_RENDERING_TYPES"
-import unlitTemplate from "../../templates/unlitTemplate"
+import {vertex} from "../../../engine/shaders/mesh/FALLBACK.glsl"
+import MATERIAL_RENDERING_TYPES from "../../../engine/templates/MATERIAL_RENDERING_TYPES"
+import unlitTemplate from "../templates/unlitTemplate"
 
 function getShadingTemplate(type) {
     switch (type) {
@@ -19,7 +19,8 @@ function getShadingTemplate(type) {
 }
 
 export default async function compiler(n, links) {
-    let nodes = n.map(nn => cloneClass(nn))
+    const nodes = n.map(nn => cloneClass(nn))
+    console.log(nodes)
     const startPoint = nodes.find(n => {
         return n.type === NODE_TYPES.OUTPUT
     })
@@ -42,7 +43,7 @@ export default async function compiler(n, links) {
                 "roughness",
                 "metallic",
                 "opacity",
-                "emissive",
+                "emission",
                 "worldOffset"
             ], false)
 

@@ -32,10 +32,10 @@ void main(){
     vec3 albedo = vec3(gAlbedo) * gBehaviour.r;
     albedo = albedo / (albedo + vec3(1.0));
     vec3 color;
-    if(length(gEmissive) <= 1.)
-        color = albedo + gEmissive.rgb;
+    if(length(gEmission) <= 1.)
+        color = albedo + gEmission.rgb;
     else
-        color = gEmissive.rgb;
+        color = gEmission.rgb;
     finalColor = vec4(color, opacity);
 }
         `,

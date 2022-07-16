@@ -35,28 +35,29 @@ export default class Material extends Node {
     blendFuncSource = "ONE_MINUS_SRC_COLOR"
     blendFuncTarget = "ONE_MINUS_DST_ALPHA"
 
+    roughness = 1
+    metallic = 0
+    opacity = 1
+    emission = [0,0,0]
+    al = [0,0,0]
     constructor() {
         const allTypes = [DATA_TYPES.VEC4, DATA_TYPES.VEC3, DATA_TYPES.VEC2, DATA_TYPES.FLOAT, DATA_TYPES.INT]
         super([
-            {label: "Albedo", key: "al", accept: allTypes},
+            {label: "Albedo", key: "al", accept: allTypes, type: DATA_TYPES.COLOR},
             {label: "Normal", key: "normal", accept: allTypes},
 
             {label: "Ambient Occlusion", key: "ao", accept: allTypes},
-            {label: "Roughness", key: "roughness", accept: allTypes},
-            {label: "Metallic", key: "metallic", accept: allTypes},
-            {label: "Opacity", key: "opacity", accept: allTypes, disabled: true},
+            {label: "Roughness", key: "roughness", accept: allTypes, type: DATA_TYPES.FLOAT, max: 1, min: 0},
+            {label: "Metallic", key: "metallic", accept: allTypes, type: DATA_TYPES.FLOAT, max: 1, min: 0},
+            {label: "Emission", key: "emission", accept: allTypes, type: DATA_TYPES.COLOR},
+            // {label: "World Offset", key: "worldOffset", accept: [DATA_TYPES.VEC4]},
+
+            {label: "Opacity", key: "opacity", accept: allTypes, disabled: true, type: DATA_TYPES.FLOAT, max: 1, min: 0},
             {label: "Refraction", key: "refraction", accept: allTypes, disabled: true},
-            {label: "Emissive", key: "emissive", accept: allTypes},
-            {label: "World Offset", key: "worldOffset", accept: [DATA_TYPES.VEC4]},
-
-
 
             {label: "Ambient influence", key: "ambientInfluence", type: DATA_TYPES.CHECKBOX},
 
             {label: "Face culling", key: "faceCulling", type: DATA_TYPES.CHECKBOX},
-            {label: "Cull backface", key: "cullBackFace", type: DATA_TYPES.CHECKBOX},
-
-            {label: "Depth mask", key: "depthMask", type: DATA_TYPES.CHECKBOX},
             {label: "Depth test", key: "depthTest", type: DATA_TYPES.CHECKBOX},
             {label: "Blend", key: "blend", type: DATA_TYPES.CHECKBOX},
 
@@ -99,10 +100,6 @@ export default class Material extends Node {
         this.inputs.find(i => i.key === "depthTest").onChange = (v) => {
             this.inputs.find(i => i.key === "depthMask").disabled = v
         }
-        this.inputs.find(i => i.key === "faceCulling").onChange = (v) => {
-            this.inputs.find(i => i.key === "cullBackFace").disabled = !v
-        }
-
         this.name = "Material"
     }
 
@@ -110,11 +107,7 @@ export default class Material extends Node {
         return NODE_TYPES.OUTPUT
     }
 
-    getFunctionInstance() {
-        return ""
-    }
-
-    _getData(field) {
+    getData(field) {
         switch (field.type) {
         case DATA_TYPES.VEC2:
             return `vec3(${field.name}, 0.)`
@@ -129,7 +122,8 @@ export default class Material extends Node {
         }
     }
 
-    _getDataBehaviour(field) {
+    getDataBehaviour(field) {
+
         switch (field.type) {
         case DATA_TYPES.VEC2:
         case DATA_TYPES.VEC4:
@@ -144,29 +138,44 @@ export default class Material extends Node {
 
 
     getFunctionCall({
-        al,
+        al={
+            name: this.al,
+            type: DATA_TYPES.VEC3
+        },
         normal,
         ao,
-        roughness,
-        metallic,
-        opacity,
+        roughness={
+            name: this.roughness,
+            type: DATA_TYPES.FLOAT
+        },
+        metallic={
+            name: this.metallic,
+            type: DATA_TYPES.FLOAT
+        },
+        opacity={
+            name: this.opacity,
+            type: DATA_TYPES.FLOAT
+        },
         refraction,
-        emissive,
-        worldOffset
+        emission={
+            name: this.emission,
+            type: DATA_TYPES.VEC3
+        },
+        // worldOffset
     }, n1, n2, n3, isVertex) {
 
         if (!isVertex)
             return `
-                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? "vec4" : ""} gAlbedo = vec4(${al ? this._getData(al) : "vec3(.5, .5, .5)"}, 1.) + vec4(${emissive ? this._getData(emissive) : "vec3(.0)"}, 0.);
-                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? "vec4" : ""} gNormal = ${normal ? `vec4(normalize(toTangentSpace * ((${this._getData(normal)} * 2.0)- 1.0)), 1.)` : "vec4(normalVec, 1.)"};
-                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? "vec4" : ""} gBehaviour =  vec4(${ao ? this._getDataBehaviour(ao) : "1."},${roughness ? this._getDataBehaviour(roughness) : "1."},${metallic ? this._getDataBehaviour(metallic) : "0."}, 1.);
-                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `float opacity = ${opacity ? this._getDataBehaviour(opacity) : "1."};` : ""}
-                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `float refraction = ${refraction ? this._getDataBehaviour(refraction) : "0."};` : ""}
+                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? "vec4" : ""} gAlbedo = vec4(${al ? this.getData(al) : "vec3(.5, .5, .5)"}, 1.) + vec4(${emission ? this.getData(emission) : "vec3(.0)"}, 0.);
+                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? "vec4" : ""} gNormal = ${normal ? `vec4(normalize(toTangentSpace * ((${this.getData(normal)} * 2.0)- 1.0)), 1.)` : "vec4(normalVec, 1.)"};
+                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? "vec4" : ""} gBehaviour =  vec4(${ao ? this.getDataBehaviour(ao) : "1."},${roughness !== undefined ? this.getDataBehaviour(roughness) : "1."},${roughness !== undefined ? this.getDataBehaviour(metallic) : "0."}, 1.);
+                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `float opacity = ${roughness !== undefined ? this.getDataBehaviour(opacity) : "1."};` : ""}
+                ${this.shadingType !== MATERIAL_RENDERING_TYPES.DEFERRED ? `float refraction = ${refraction ? this.getDataBehaviour(refraction) : "0."};` : ""}
             `
-        else if (worldOffset)
-            return `
-                gl_Position += ${worldOffset.name}; 
-            `
+        // else if (worldOffset)
+        //     return `
+        //         gl_Position += ${worldOffset.name};
+        //     `
         else
             return ""
     }

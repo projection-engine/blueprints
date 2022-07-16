@@ -21,9 +21,7 @@ export default class Multiply extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async  getInputInstance() {
         return ""

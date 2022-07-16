@@ -19,13 +19,9 @@ export default class NormalVector extends Node {
         return NODE_TYPES.STATIC
     }
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
-    async getInputInstance() {
-        return ""
-    }
+     
     // texture and uv = {name: variable name, value: variable value if static}
     getFunctionCall() {
         this.normalVec = "normalVec"

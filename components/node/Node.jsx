@@ -47,30 +47,36 @@ export default function Node(props) {
                         </div>
                         <div className={styles.content}>
                             <div className={styles.column}>
-                                {props.node.inputs?.filter(a => Array.isArray(a.accept) || a.bundled).map((a, i) => (
+                                {props.node.inputs.map((a, i) => (
                                     <React.Fragment key={a.key + "-input-" + i}>
                                         <Input
                                             handleLink={props.handleLink}
-                                            data={a}
+                                            attribute={a}
                                             inputLinks={inputLinks}
                                         />
                                     </React.Fragment>
                                 ))}
-                                <NodeShowcase/>
                             </div>
-                            <div className={styles.column} style={{justifyContent: "flex-end"}}>
-                                {props.node.output.map((a, i) => (
-                                    <React.Fragment key={a.key + "-output-" + i}>
-                                        <Output
-                                            onDragEnd={() => pathRef.current.setAttribute("d", undefined)}
-                                            data={a}
-                                            handleLinkDrag={handleLinkDrag}
-                                            inputLinks={inputLinks}
-                                            outputLinks={outputLinks}
-                                        />
-                                    </React.Fragment>
-                                ))}
-                            </div>
+                            {props.node.output.length > 0 ?
+                                <div
+                                    className={styles.column}
+                                    style={{justifyContent: "flex-end", width: "fit-content"}}
+                                >
+                                    {props.node.output.map((a, i) => (
+                                        <React.Fragment key={a.key + "-output-" + i}>
+                                            <Output
+                                                onDragEnd={() => pathRef.current.setAttribute("d", undefined)}
+                                                data={a}
+                                                handleLinkDrag={handleLinkDrag}
+                                                inputLinks={inputLinks}
+                                                outputLinks={outputLinks}
+                                            />
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                                :
+                                null
+                            }
                         </div>
                     </foreignObject>
                 </g>

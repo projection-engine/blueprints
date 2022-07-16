@@ -26,13 +26,9 @@ export default class MakeVector extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
-    async getInputInstance() {
-        return ""
-    }
+     
 
     getFunctionCall({x, y, z, w}, index, outputs) {
 

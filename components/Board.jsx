@@ -14,6 +14,7 @@ import useContextTarget from "../../../../components/context/hooks/useContextTar
 import BOARD_SIZE from "../data/BOARD_SIZE"
 import handleDropNode from "../utils/handleDropNode"
 import LINK_WIDTH from "../data/LINK_WIDTH"
+import {availableNodes} from "../templates/availableNodes"
 
 const TRIGGERS = [
     "data-node",
@@ -26,49 +27,14 @@ export default function Board(props) {
         links,
         ref,
         handleLink,
-        internalID
+        internalID,
+        dragType, setDragType,
+
+
+        setSelected,  boardOptions
     } = useBoard(props.hook)
 
-    const boardOptions = useMemo(() => {
-        return getBoardOptions(
-            (nodes, event) => handleDropNode(nodes, event, ref, props.hook),
-            props.setSelected,
-            props.hook,
-            links,
-            props.allNodes,
-            (t) => {
-                props.hook.setChanged(true)
-                props.hook.setImpactingChange(true)
-                props.hook.setLinks(prev => {
-                    return prev.filter(l => {
-                        const test = {
-                            t: l.target.id + l.target.attribute.key,
-                            s: l.source.id + l.source.attribute.key,
-                        }
-                        return (test.t + "-" + test.s) !== t
-                    })
-                })
-            },
-            (attr) => {
-                props.hook.setChanged(true)
-                props.hook.setNodes(prev => prev.filter(pr => pr.id !== attr))
-            }
-        )
-    }, [props.hook.nodes, props.hook.links, links])
 
-    const [dragType, setDragType] = useState()
-    const setSelected = (i) => {
-        if (i && !props.selected.find(e => e === i))
-            props.setSelected(prev => {
-                return [...prev, i]
-            })
-        else if (props.selected.find(e => e === i))
-            props.setSelected(prev => {
-                const copy = [...prev]
-                copy.splice(copy.indexOf(i), 1)
-                return copy
-            })
-    }
     useContextTarget(
         internalID,
         boardOptions,
@@ -98,7 +64,7 @@ export default function Board(props) {
 
                     onDrop={event => {
                         event.preventDefault()
-                        const nodes = handleDropBoard(event.dataTransfer.getData("text"), props.allNodes)
+                        const nodes = handleDropBoard(event.dataTransfer.getData("text"), availableNodes)
                         if (nodes)
                             handleDropNode(nodes, event, ref, props.hook)
 
@@ -175,13 +141,6 @@ export default function Board(props) {
     )
 }
 Board.propTypes = {
-    allNodes: PropTypes.arrayOf(PropTypes.shape({
-        label: PropTypes.any,
-        dataTransfer: PropTypes.string,
-        tooltip: PropTypes.string,
-        icon: PropTypes.node,
-        getNewInstance: PropTypes.func
-    })).isRequired,
     hook: PropTypes.object,
     selected: PropTypes.arrayOf(PropTypes.string).isRequired,
     setSelected: PropTypes.func

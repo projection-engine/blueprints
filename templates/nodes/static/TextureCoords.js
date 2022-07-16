@@ -19,9 +19,7 @@ export default class TextureCoords extends Node {
         return NODE_TYPES.STATIC
     }
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async    getInputInstance() {
         return ""

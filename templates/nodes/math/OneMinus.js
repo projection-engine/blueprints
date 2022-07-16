@@ -19,9 +19,7 @@ export default class OneMinus extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async  getInputInstance() {
         return ""

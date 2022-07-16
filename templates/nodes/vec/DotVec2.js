@@ -22,13 +22,9 @@ export default class DotVec2 extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
-    async getInputInstance() {
-        return ""
-    }
+     
 
     getFunctionCall({a, b}, index) {
         this.resDot = "resDot" + index

@@ -2,7 +2,7 @@ import styles from "./styles/ShaderEditor.module.css"
 import React, {useContext, useEffect, useId, useState} from "react"
 import PropTypes from "prop-types"
 import useShaderEditor from "./hooks/useShaderEditor"
-import compileShaders from "./libs/compiler/compileShaders"
+import compileShaders from "./libs/compileShaders"
 import BlueprintProvider from "../../context/BlueprintProvider"
 import Header from "../../../components/view/components/Header"
 import {Button, Dropdown, DropdownOption, DropdownOptions, Icon, ToolTip} from "@f-ui/core"
@@ -41,7 +41,6 @@ export default function ShaderEditor(props) {
                     <Dropdown
                         className={styles.button}
                         styles={{paddingRight: "2px"}}
-
                         disabled={hook.quickAccessMaterials.length === 0}
                     >
                         <div className={styles.icon}/>

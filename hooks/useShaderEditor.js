@@ -95,6 +95,8 @@ async function parse(file, setNodes, setLinks, images) {
                 const node = file.nodes[i]
                 if (!node)
                     continue
+
+                console.log(node.instance)
                 const nodeInstance = getNewInstance(node.instance)
                 if (!nodeInstance)
                     continue

@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useRef} from "react"
 import dragNode from "../utils/dragNode"
 
-export default function useGroup({
+export default function useComment({
     setSelected,
     node,
     selected,

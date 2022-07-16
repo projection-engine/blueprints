@@ -1,4 +1,5 @@
 import {v4 as uuidv4} from "uuid"
+import Comment from "../templates/nodes/Comment"
 
 export default function addComment(hook) {
 
@@ -47,16 +48,10 @@ export default function addComment(hook) {
 
 
     hook.setNodes(prev => {
-        return [...prev, {
-            isComment: true,
-            name: "New comment",
-            id: uuidv4(),
-            x: smallestX,
-            y: smallestY,
-            color: [150, 150, 150, .5],
-            width,
-            height
-        }]
+        return [
+            ...prev,
+            new Comment(width, height, smallestX, smallestY)
+        ]
     })
 
 }

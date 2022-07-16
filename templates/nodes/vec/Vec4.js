@@ -11,13 +11,9 @@ export default class Vec4 extends Node {
     constructor() {
         super([
             {
-                label: "As uniform",
+                label: " Dynamic",
                 key: "uniform",
-                type: DATA_TYPES.OPTIONS,
-                options: [
-                    {label: "Yes", data: true},
-                    {label: "No", data: false}
-                ]
+                type: DATA_TYPES.CHECKBOX,
             },
             {label: "Vector", key: "v", type: DATA_TYPES.VEC4},
         ], [
@@ -35,9 +31,7 @@ export default class Vec4 extends Node {
             return NODE_TYPES.STATIC
     }
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async getInputInstance(index, uniforms, uniformData) {
         if (this.uniform) {

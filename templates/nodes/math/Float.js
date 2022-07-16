@@ -11,13 +11,9 @@ export default class Float extends Node {
     constructor() {
         super([
             {
-                label: "As uniform",
+                label: " Dynamic",
                 key: "uniform",
-                type: DATA_TYPES.OPTIONS,
-                options: [
-                    {label: "Yes", data: true},
-                    {label: "No", data: false}
-                ]
+                type: DATA_TYPES.CHECKBOX,
             },
             {label: "Value", key: "v", type: DATA_TYPES.FLOAT},
         ], [
@@ -35,9 +31,7 @@ export default class Float extends Node {
             return NODE_TYPES.STATIC
     }
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async getInputInstance(index, uniforms, uniformData) {
 

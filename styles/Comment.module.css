@@ -1,6 +1,5 @@
 .wrapper {
-
-    border-radius: 5px;
+    border-radius: 3px;
     outline: transparent 2px solid;
     resize: both;
 }
@@ -35,8 +34,5 @@
     border: none;
     outline: none;
 
-
     color: var(--pj-color-secondary);
-
-
 }

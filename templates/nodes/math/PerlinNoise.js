@@ -98,9 +98,7 @@ export default class PerlinNoise extends Node {
         `
     }
 
-    async getInputInstance() {
-        return ""
-    }
+     
 
     getFunctionCall({vec}, index) {
         let response = []

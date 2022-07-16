@@ -31,9 +31,7 @@ vec3 saturation(vec3 rgb, float adjustment)
         `
     }
 
-    async getInputInstance() {
-        return ""
-    }
+     
 
 
 

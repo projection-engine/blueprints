@@ -14,5 +14,8 @@ export default class Node{
 
         this.dynamicInputs = dynamicInputs
     }
-    compile(){}
+
+    getFunctionInstance() {
+        return ""
+    }
 }

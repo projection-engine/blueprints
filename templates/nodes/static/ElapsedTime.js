@@ -18,13 +18,9 @@ export default class ElapsedTime extends Node {
         return NODE_TYPES.STATIC
     }
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
-    async getInputInstance() {
-        return ""
-    }
+     
     getFunctionCall() {
         this.elapsedTime = "elapsedTime"
         return ""

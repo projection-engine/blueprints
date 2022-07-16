@@ -15,9 +15,9 @@
   color: var(--pj-color-secondary);
   display: flex;
   align-items: center;
-  padding: 4px;
+  padding: 4px 0 4px 4px;
   gap: 4px;
-  height: 25px;
+  height: 27px;
 
   --direction: 10px;
 }
@@ -30,7 +30,6 @@
 .attribute[data-dtype="input"] {
   cursor: default;
   --direction: -10px;
-  transform: translateX(var(--direction));
 }
 
 
@@ -84,6 +83,7 @@
   height: 100%;
   display: grid;
   overflow: visible;
+  align-content: flex-start;
 }
 
 .content {

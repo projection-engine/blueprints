@@ -68,8 +68,14 @@ export default class TextureSample extends Node {
 
     constructor() {
         super([
+            {label: "UV", key: "uv", accept: [DATA_TYPES.VEC2]},
             {
-                label: "Texture format",
+                label: "Flip Y axis",
+                key: "yFlip",
+                type: DATA_TYPES.CHECKBOX
+            },
+            {
+                label: "Format",
                 key: "ft",
                 type: DATA_TYPES.OPTIONS,
                 options: [
@@ -79,14 +85,9 @@ export default class TextureSample extends Node {
                 ]
             },
 
-            {
-                label: "Flip texture Y axis",
-                key: "yFlip",
-                type: DATA_TYPES.CHECKBOX
-            },
 
-            {label: "Texture", key: "texture", type: DATA_TYPES.TEXTURE},
-            {label: "UV", key: "uv", accept: [DATA_TYPES.VEC2]},
+
+            {label: "Sampler", key: "texture", type: DATA_TYPES.TEXTURE}
         ], [
             {label: "Sampler", key: "sampler", type: DATA_TYPES.TEXTURE, disabled: true},
             {label: "RGB", key: "rgb", type: DATA_TYPES.VEC3, disabled: true},
@@ -114,9 +115,7 @@ export default class TextureSample extends Node {
         return NODE_TYPES.FUNCTION
     }
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async getInputInstance(index, uniforms, uniformData) {
         this.uniformName = `sampler${index}`

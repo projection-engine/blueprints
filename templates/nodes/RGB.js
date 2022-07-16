@@ -5,21 +5,18 @@ import checkFloat from "../../utils/checkFloat"
 
 
 export default class RGB extends Node {
-    v = "rgb(0,0,0)"
+    v = [0,0,0]
     uniform = false
 
     constructor() {
         super([
             {
-                label: "As uniform",
+                label: "Dynamic",
                 key: "uniform",
-                type: DATA_TYPES.OPTIONS,
-                options: [
-                    {label: "Yes", data: true},
-                    {label: "No", data: false}
-                ]
+                type: DATA_TYPES.CHECKBOX,
+                info: "Allow node to be set dynamically"
             },
-            {label: "Value", key: "v", type: DATA_TYPES.COLOR},
+            {label: "Color", key: "v", type: DATA_TYPES.COLOR},
         ], [
             {label: "Value", key: "COLOR_RGB", type: DATA_TYPES.VEC3},
         ])
@@ -34,14 +31,10 @@ export default class RGB extends Node {
             return NODE_TYPES.STATIC
     }
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
     async getInputInstance(index, uniforms, uniformData) {
-        const split = this.v.match(/[\d.]+/g)
-        const v = split.map(v => parseFloat(v))
-
+        const v = this.v
         if (this.uniform) {
             this.uniformName = `COLOR_RGB${index}`
             uniformData.push({

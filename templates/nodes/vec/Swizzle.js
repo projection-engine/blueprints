@@ -54,13 +54,9 @@ export default class Swizzle extends Node {
     }
 
 
-    getFunctionInstance() {
-        return ""
-    }
+     
 
-    async getInputInstance() {
-        return ""
-    }
+     
 
     getFunctionCall({v}, index, outputs) {
         let response = []

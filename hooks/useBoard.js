@@ -1,12 +1,16 @@
-import {useEffect, useId, useMemo, useRef} from "react"
+import {useEffect, useId, useMemo, useRef, useState} from "react"
 import getBezierCurve from "../utils/bezierCurve"
 import BOARD_SIZE from "../data/BOARD_SIZE"
 import LINK_WIDTH from "../data/LINK_WIDTH"
+import getBoardOptions from "../utils/getBoardOptions"
+import handleDropNode from "../utils/handleDropNode"
+import {availableNodes} from "../templates/availableNodes"
 
 export default function useBoard(hook) {
     const ref = useRef()
     const mappedLinks = useRef([])
     const internalID = useId()
+    const [dragType, setDragType] = useState()
 
     const links = useMemo(() => {
         return hook.links.map(l => {
@@ -92,15 +96,49 @@ export default function useBoard(hook) {
             return c
         })
     }
+    const boardOptions = useMemo(() => {
+        return getBoardOptions(
+            (nodes, event) => handleDropNode(nodes, event, ref, hook),
 
+            hook,
+            links,
+            (t) => {
+                hook.setChanged(true)
+                hook.setImpactingChange(true)
+                hook.setLinks(prev => {
+                    return prev.filter(l => {
+                        const test = {
+                            t: l.target.id + l.target.attribute.key,
+                            s: l.source.id + l.source.attribute.key,
+                        }
+                        return (test.t + "-" + test.s) !== t
+                    })
+                })
+            }
+        )
+    }, [hook.nodes, links])
+
+
+    const setSelected = (i) => {
+        if (i && !hook.selected.find(e => e === i))
+            hook.setSelected(prev => {
+                return [...prev, i]
+            })
+        else if (hook.selected.find(e => e === i))
+            hook.setSelected(prev => {
+                const copy = [...prev]
+                copy.splice(copy.indexOf(i), 1)
+                return copy
+            })
+    }
     useEffect(() => {
-        if(ref.current && ref.current.parentNode) {
+        if (ref.current && ref.current.parentNode) {
             ref.current.parentNode.scrollTop = BOARD_SIZE / 2
             ref.current.parentNode.scrollLeft = BOARD_SIZE / 2
             ref.current.parentNode.addEventListener("wheel", handleWheel, {passive: false})
         }
         return () => {
-            if(ref.current && ref.current.parentNode)
+            if (ref.current && ref.current.parentNode)
                 ref.current.parentNode.removeEventListener("wheel", handleWheel, {passive: false})
         }
     }, [])
@@ -122,6 +160,8 @@ export default function useBoard(hook) {
     }, [links])
 
     return {
+        setSelected, boardOptions,
+        dragType, setDragType,
         internalID,
         links,
         ref,

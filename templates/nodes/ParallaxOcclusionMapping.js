@@ -96,9 +96,7 @@ export default class ParallaxOcclusionMapping extends Node {
         `
     }
 
-    async getInputInstance() {
-        return ""
-    }
+     
 
     getFunctionCall({heightMap, viewDirection, texCoord}, index) {
         this.UVs = "UVs" + index
