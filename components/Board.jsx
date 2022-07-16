@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import React, {useMemo, useState} from "react"
-import Node from "./Node"
+import Node from "./node/Node"
 import styles from "../styles/Board.module.css"
 import handleDropBoard from "../utils/handleDropBoard"
 
@@ -9,7 +9,7 @@ import useBoard from "../hooks/useBoard"
 import getBoardOptions from "../utils/getBoardOptions"
 import OnDragProvider from "../context/DragProvider"
 import SelectBox from "../../../../components/select-box/SelectBox"
-import Comment from "./Comment"
+import Comment from "./node/Comment"
 import useContextTarget from "../../../../components/context/hooks/useContextTarget"
 import BOARD_SIZE from "../data/BOARD_SIZE"
 import handleDropNode from "../utils/handleDropNode"
@@ -146,7 +146,7 @@ export default function Board(props) {
                     {props.hook.nodes.map(node => !node.isComment ? (
                         <React.Fragment key={node.id}>
                             <Node
-                                links={links} path={window.fileSystem.path}
+                                links={links}
                                 submitBundledVariable={(key, value) => {
                                     props.hook.setChanged(true)
                                     props.hook.setNodes(prev => {

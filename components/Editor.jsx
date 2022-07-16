@@ -7,7 +7,7 @@ import ResizableBar from "../../../../components/resizable/ResizableBar"
 import Board from "./Board"
 import VerticalTabs from "../../../../components/vertical-tab/VerticalTabs"
 
-import NodeEditor from "./NodeEditor"
+import AttributeEditor from "./AttributeEditor"
 import CompilationStatus from "./CompilationStatus"
 import PropTypes from "prop-types"
 import ShaderEditor from "../ShaderEditor"
@@ -26,14 +26,12 @@ export default function Editor(props) {
 
     return (
         <div className={styles.wrapper} id={internalID}>
-
             <Board
                 allNodes={availableNodes}
                 hook={hook}
                 selected={hook.selected}
                 setSelected={hook.setSelected}
             />
-
             <VerticalTabs
                 open={openSideBar}
                 setOpen={setOpenSideBar}
@@ -42,7 +40,7 @@ export default function Editor(props) {
                     {
                         label: "Node",
                         content: (
-                            <NodeEditor
+                            <AttributeEditor
                                 hook={hook}
                                 selected={hook.selected.length === 0 && fallbackSelected ? fallbackSelected.id : hook.selected[0]}
                             />

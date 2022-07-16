@@ -1,4 +1,4 @@
-import Node from "../../../components/Node"
+import Node from "../../../components/node/Node"
 import {DATA_TYPES} from "../../../../../engine/templates/DATA_TYPES"
 import NODE_TYPES from "../../../data/NODE_TYPES"
 

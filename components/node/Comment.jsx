@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
-import styles from "../styles/Group.module.css"
+import styles from "../../styles/Group.module.css"
 import React, {useMemo, useState} from "react"
-import useGroup from "../hooks/useGroup"
-import KEYS from "../../../engine/templates/KEYS"
+import useGroup from "../../hooks/useGroup"
+import KEYS from "../../../../engine/templates/KEYS"
 
 export default function Comment(props) {
     const [onEdit, setOnEdit] = useState(false)
@@ -54,6 +54,8 @@ export default function Comment(props) {
     )
 }
 Comment.propTypes = {
-    submitName: PropTypes.func, node: PropTypes.object.isRequired,
-    selected: PropTypes.array, setSelected: PropTypes.func,
+    submitName: PropTypes.func,
+    node: PropTypes.object.isRequired,
+    selected: PropTypes.array,
+    setSelected: PropTypes.func,
 }
