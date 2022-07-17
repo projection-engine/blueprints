@@ -50,7 +50,7 @@ export default function Node(props) {
                             {props.node.name}
                         </div>
                         <div className={styles.content}>
-                            <div className={styles.column}>
+                            <div className={styles.column} style={{maxWidth: props.node.output.length > 0  ? `calc(${width} - 75px)` : undefined}}>
                                 {props.node.inputs.map((a, i) => (
                                     <React.Fragment key={a.key + "-input-" + i}>
                                         <Input
@@ -64,7 +64,7 @@ export default function Node(props) {
                             {props.node.output.length > 0 ?
                                 <div
                                     className={styles.column}
-                                    style={{justifyContent: "flex-end", width: "fit-content"}}
+                                    style={{justifyContent: "flex-end", width: "50%"}}
                                 >
                                     {props.node.output.map((a, i) => (
                                         <React.Fragment key={a.key + "-output-" + i}>

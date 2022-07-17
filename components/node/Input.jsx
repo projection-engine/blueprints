@@ -10,15 +10,16 @@ import UpdateNodeProvider from "../../context/UpdateNodeProvider"
 
 export default function Input(props) {
     const {handleLink, inputLinks, attribute} = props
-
+    const {submitNodeVariable} = useContext(UpdateNodeProvider)
     const node = useContext(NodeProvider)
-    const wrapperRef = useRef()
     const onDragContext = useContext(OnDragProvider)
+
+    const wrapperRef = useRef()
     const link = useMemo(
         () => attribute.accept ? inputLinks.find(o => o.targetKey === attribute.key) : undefined,
         [inputLinks]
     )
-    const {submitNodeVariable} = useContext(UpdateNodeProvider)
+
 
     return (
         <div

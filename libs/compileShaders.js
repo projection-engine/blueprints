@@ -17,7 +17,7 @@ export default async function compileShaders(hook){
         const currentMaterial = window.renderer.materials.find(m => m.id === hook.openFile.registryID)
         let promise
         if (!currentMaterial)
-            alert.pushAlert("Material doesnt seem to be applied to a mesh.", "alert")
+            alert.pushAlert("Mesh doesnt seem to be applied to a mesh.", "alert")
         else {
 
             promise = new Promise(resolve => {

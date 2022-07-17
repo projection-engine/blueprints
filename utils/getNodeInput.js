@@ -92,7 +92,7 @@ export default function getNodeInput(attribute, node, handleChange, returnDefaul
                 <label>{label}</label>
                 <ColorPicker
                     submit={(_,arr) => handleChange(arr.map(a => a/255), attribute)}
-                    value={value}
+                    value={value.map(v => v * 255)}
                     size={"small"}
                 />
             </div>
