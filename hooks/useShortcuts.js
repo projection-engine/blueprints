@@ -1,6 +1,6 @@
 import {useMemo, useState} from "react"
 import useHotKeys from "../../shortcuts/hooks/useHotKeys"
-import KEYS from "../../../engine/templates/KEYS"
+import KEYS from "../../../engine/data/KEYS"
 import addComment from "../utils/addComment"
 import cloneClass from "../../../engine/utils/cloneClass"
 import {v4 as uuidv4} from "uuid"

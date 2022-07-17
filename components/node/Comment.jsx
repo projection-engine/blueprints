@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import styles from "../../styles/Comment.module.css"
 import React, {useMemo, useState} from "react"
 import useComment from "../../hooks/useComment"
-import KEYS from "../../../../engine/templates/KEYS"
+import KEYS from "../../../../engine/data/KEYS"
 
 export default function Comment(props) {
     const [onEdit, setOnEdit] = useState(false)

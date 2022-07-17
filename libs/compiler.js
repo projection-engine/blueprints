@@ -4,7 +4,7 @@ import deferredTemplate from "../templates/deferredTemplate"
 import forwardTemplate from "../templates/forwardTemplate"
 import resolveStructure from "./resolveStructure"
 import {vertex} from "../../../engine/shaders/mesh/FALLBACK.glsl"
-import MATERIAL_RENDERING_TYPES from "../../../engine/templates/MATERIAL_RENDERING_TYPES"
+import MATERIAL_RENDERING_TYPES from "../../../engine/data/MATERIAL_RENDERING_TYPES"
 import unlitTemplate from "../templates/unlitTemplate"
 
 function getShadingTemplate(type) {

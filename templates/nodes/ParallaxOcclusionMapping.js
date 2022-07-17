@@ -1,5 +1,5 @@
 import Node from "./Node"
-import {DATA_TYPES} from "../../../../engine/templates/DATA_TYPES"
+import {DATA_TYPES} from "../../../../engine/data/DATA_TYPES"
 import NODE_TYPES from "../../data/NODE_TYPES"
 import checkFloat from "../../utils/checkFloat"
 

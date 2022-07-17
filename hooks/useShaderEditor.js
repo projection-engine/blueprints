@@ -6,7 +6,7 @@ import FileSystem from "../../../libs/FileSystem"
 import QuickAccessProvider from "../../../context/QuickAccessProvider"
 import BOARD_SIZE from "../data/BOARD_SIZE"
 import BlueprintProvider from "../../../context/BlueprintProvider"
-import COMPONENTS from "../../../engine/templates/COMPONENTS"
+import COMPONENTS from "../../../engine/data/COMPONENTS"
 
 
 export default function useShaderEditor() {
