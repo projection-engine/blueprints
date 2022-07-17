@@ -55,8 +55,12 @@ export default function useShaderEditor() {
             const found = d.find(dd => dd instanceof Material)
             if (found)
                 setNodes(d)
-            else
-                setNodes([...d, new Material()])
+            else {
+                const newMat = new Material()
+                newMat.x = newMat.x + BOARD_SIZE / 2
+                newMat.y = newMat.y + BOARD_SIZE / 2
+                setNodes([...d, newMat])
+            }
         }, setLinks, images).catch()
     }, [openFile])
 

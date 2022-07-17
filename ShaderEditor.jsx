@@ -10,8 +10,12 @@ import Available from "./components/Available"
 import selection from "./utils/selection"
 import SELECTION_TYPES from "./templates/SELECTION_TYPES"
 import useLocalization from "../../../global/useLocalization"
+import FileSystem from "../../libs/FileSystem"
+import compiler from "./libs/compiler"
 
 const GRID_SIZE = 20
+
+const {shell} = window.require("electron")
 export default function ShaderEditor(props) {
     const hook = useShaderEditor()
     const translate = useLocalization("PROJECT", "SHADER_EDITOR")
@@ -27,7 +31,8 @@ export default function ShaderEditor(props) {
                 <div className={styles.options}>
                     <div className={styles.divider}/>
                     <Button
-                        disabled={!hook.openFile?.registryID || !hook.changed} className={styles.button}
+                        disabled={!hook.openFile?.registryID || !hook.changed}
+                        className={styles.button}
                         onClick={() => window.blueprints.save(hook).catch()}>
                         <Icon styles={{fontSize: "1rem"}}>save</Icon>
                         {translate("SAVE")}
@@ -91,6 +96,7 @@ export default function ShaderEditor(props) {
                             />
                         </DropdownOptions>
                     </Dropdown>
+
                     <Button
                         className={styles.button}
                         styles={{padding: "4px"}}
@@ -106,6 +112,20 @@ export default function ShaderEditor(props) {
                     >
                         <Icon styles={{fontSize: "1rem"}}>grid_4x4</Icon>
                         <ToolTip content={translate("GRID")}/>
+                    </Button>
+                    <Button
+                        className={styles.button}
+                        styles={{padding: "4px"}}
+                        disabled={!hook.openFile?.registryID}
+                        onClick={async () => {
+                            const {shader} = await compiler(hook.nodes, hook.links)
+                            const newFile = window.fileSystem.temp + FileSystem.sep + hook.openFile.registryID + ".log"
+                            await window.fileSystem.writeFile(newFile, shader, true)
+                            shell.openPath(newFile).catch()
+                        }}
+                    >
+                        <Icon styles={{fontSize: "1rem"}}>code</Icon>
+                        <ToolTip content={translate("SOURCE")}/>
                     </Button>
                 </div>
             </Header>

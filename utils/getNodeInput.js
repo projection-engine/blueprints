@@ -91,7 +91,7 @@ export default function getNodeInput(attribute, node, handleChange, returnDefaul
             <div className={styles.colorInput}>
                 <label>{label}</label>
                 <ColorPicker
-                    submit={(_,arr) => handleChange(arr, attribute)}
+                    submit={(_,arr) => handleChange(arr.map(a => a/255), attribute)}
                     value={value}
                     size={"small"}
                 />
