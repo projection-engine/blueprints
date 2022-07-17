@@ -10,6 +10,7 @@ import PropTypes from "prop-types"
 import ShaderEditor from "../ShaderEditor"
 import cloneClass from "../../../engine/utils/cloneClass"
 import UpdateNodeProvider from "../context/UpdateNodeProvider"
+import useLocalization from "../../../../global/useLocalization"
 
 export default function Editor(props) {
     const {hook} = props
@@ -52,6 +53,8 @@ export default function Editor(props) {
         })
     }, [hook.nodes])
 
+    const translate = useLocalization("PROJECT", "SHADER_EDITOR")
+
     return (
         <UpdateNodeProvider.Provider
             value={{
@@ -69,7 +72,7 @@ export default function Editor(props) {
                     setOpen={setOpenSideBar}
                     tabs={[
                         {
-                            label: "Node",
+                            label: translate("NODE"),
                             content: (
                                 <AttributeEditor
                                     hook={hook}
@@ -78,7 +81,7 @@ export default function Editor(props) {
                             )
                         },
                         {
-                            label: "Status",
+                            label:translate("STATUS"),
                             content: (
                                 <CompilationStatus status={hook.status}/>
                             )

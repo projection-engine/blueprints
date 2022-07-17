@@ -4,15 +4,18 @@ import PropTypes from "prop-types"
 import {Icon, Tab, Tabs} from "@f-ui/core"
 import React, {useState} from "react"
 import AccordionTemplate from "../../../../components/accordion/AccordionTemplate"
+import useLocalization from "../../../../global/useLocalization"
 
 export default function CompilationStatus(props) {
     const {status} = props
     const [open, setOpen] = useState(0)
+
+    const translate = useLocalization("PROJECT", "SHADER_EDITOR")
     return (
         <div className={shared.contentWrapper}>
             <div className={shared.wrapper}>
                 <Tabs open={open} setOpen={setOpen} styles={{padding: "4px"}}>
-                    <Tab label={"Information"} className={styles.content}>
+                    <Tab label={translate("INFORMATION")} className={styles.content}>
                         {status.info && status.info.length > 0 ? status.info.map((s, i) => (
                             <React.Fragment key={"line-status-data" + i}>
                                 <AccordionTemplate title={s?.label}>
@@ -23,11 +26,11 @@ export default function CompilationStatus(props) {
                             :
                             <div className={styles.empty}>
                                 <Icon styles={{fontSize: "90px"}} >code</Icon>
-                            Please compile the shader.
+                                {translate("NEEDS_COMPILATION")}
                             </div>
                         }
                     </Tab>
-                    <Tab label={"Errors"} className={styles.content}>
+                    <Tab label={translate("ERRORS")} className={styles.content}>
                         {status.messages && status.messages.length > 0 ? status.messages.map((s, i) => (
                             <React.Fragment key={"status-" + s.label + i}>
                                 <AccordionTemplate title={s?.label}>
@@ -47,7 +50,7 @@ export default function CompilationStatus(props) {
                             <div className={styles.empty}>
                                 <Icon styles={{fontSize: "90px"}}
                                 >{status.messages ? "check" : "code"}</Icon>
-                                {!status.messages ? "Please compile the shader." : "No errors were found."}
+                                {!status.messages ? translate("NEEDS_COMPILATION") : translate("NO_ERRORS")}
                             </div>
                         }
                     </Tab>

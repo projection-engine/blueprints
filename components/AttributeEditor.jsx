@@ -8,6 +8,7 @@ import {TextField} from "@f-ui/core"
 import ColorPicker from "../../../../components/color/ColorPicker"
 import getNodeInput from "../utils/getNodeInput"
 import UpdateNodeProvider from "../context/UpdateNodeProvider"
+import useLocalization from "../../../../global/useLocalization"
 
 export default function AttributeEditor(props) {
     const selected = useMemo(() => {
@@ -16,6 +17,8 @@ export default function AttributeEditor(props) {
     }, [props.hook.selected, props.selected, props.hook.nodes])
 
     const {updateNode, submitNodeVariable} = useContext(UpdateNodeProvider)
+    const translate = useLocalization("PROJECT", "SHADER_EDITOR")
+
     return (
         <div className={styles.contentWrapper}>
             <div className={styles.wrapper}>
@@ -23,8 +26,8 @@ export default function AttributeEditor(props) {
                     value={selected.name} width={"100%"}
                     height={"30px"}
                     handleChange={ev => updateNode("name", ev, selected)}
-                    label={"Name"}
-                    placeholder={"Name"}
+                    label={translate("NAME")}
+                    placeholder={translate("NAME")}
                 />
 
                 {selected.inputs

@@ -9,16 +9,18 @@ import Editor from "./components/Editor"
 import Available from "./components/Available"
 import selection from "./utils/selection"
 import SELECTION_TYPES from "./templates/SELECTION_TYPES"
+import useLocalization from "../../../global/useLocalization"
 
 const GRID_SIZE = 20
 export default function ShaderEditor(props) {
     const hook = useShaderEditor()
+    const translate = useLocalization("PROJECT", "SHADER_EDITOR")
 
     return (
         <>
             <Header
                 {...props}
-                title={"Shader Editor"}
+                title={translate("TITLE")}
                 icon={"texture"}
                 orientation={"horizontal"}
             >
@@ -28,7 +30,7 @@ export default function ShaderEditor(props) {
                         disabled={!hook.openFile?.registryID || !hook.changed} className={styles.button}
                         onClick={() => window.blueprints.save(hook).catch()}>
                         <Icon styles={{fontSize: "1rem"}}>save</Icon>
-						Save
+                        {translate("SAVE")}
                     </Button>
                     <Button
                         disabled={!hook.openFile?.registryID}
@@ -36,7 +38,7 @@ export default function ShaderEditor(props) {
                         onClick={() => compileShaders(hook).catch()}
                     >
                         <Icon styles={{fontSize: "1rem"}}>code</Icon>
-						Compile
+                        {translate("COMPILE")}
                     </Button>
                     <div className={styles.divider}/>
                     <Dropdown
@@ -64,25 +66,25 @@ export default function ShaderEditor(props) {
                         className={styles.button}
                         styles={{paddingRight: "2px"}}
                     >
-                        Select
+                        {translate("SELECT")}
                         <DropdownOptions>
                             <DropdownOption
                                 option={{
-                                    label: "All",
+                                    label: translate("ALL"),
                                     onClick: () => selection(SELECTION_TYPES.ALL, hook),
                                     shortcut: "A"
                                 }}
                             />
                             <DropdownOption
                                 option={{
-                                    label: "None",
+                                    label: translate("NONE"),
                                     onClick: () => selection(SELECTION_TYPES.NONE, hook),
                                     shortcut: "Alt + A"
                                 }}
                             />
                             <DropdownOption
                                 option={{
-                                    label: "Invert",
+                                    label: translate("INVERT"),
                                     onClick: () => selection(SELECTION_TYPES.INVERT, hook),
                                     shortcut: "Ctrl + i"
                                 }}
@@ -103,7 +105,7 @@ export default function ShaderEditor(props) {
                         }}
                     >
                         <Icon styles={{fontSize: "1rem"}}>grid_4x4</Icon>
-                        <ToolTip content={"Toggle movement grid"}/>
+                        <ToolTip content={translate("GRID")}/>
                     </Button>
                 </div>
             </Header>
